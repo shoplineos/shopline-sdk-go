@@ -1,0 +1,32 @@
+Copyright (c) 2025 Shopline Commerce Pte. Ltd.
+
+PERMISSION GRANT
+
+Subject to the terms of this License, permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to use, copy, modify, merge, publish, distribute, sublicense, create derivative works, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so.
+
+FIELD OF USE: SHOPLINE-RELATED PRODUCTS ONLY
+
+The rights granted under this License may be exercised solely to develop, enhance, and support code functionality used in or presented by SHOPLINE-related products.
+For purposes of this License, "SHOPLINE-related products" means:
+(a) products, services, applications, plugins, modules, themes, templates, or scripts that run within or are distributed in the SHOPLINE ecosystem, including but not limited to the SHOPLINE Open Platform, Developer Console, Merchant Admin, Merchant Storefront, Shopper App, and any official SHOPLINE APIs/SDKs/tools or other official platforms; and
+(b) products that provide functionality, services, or user experiences for SHOPLINE merchants or their users via official SHOPLINE APIs/SDKs/integration capabilities.
+Any use or purpose that is unrelated to SHOPLINE is strictly prohibited under this License.
+
+PLATFORM TERMS
+
+If any new work based on the Software is submitted to or integrated with a SHOPLINE-related platform (including but not limited to the SHOPLINE Open Platform, Merchant Admin, and the Shopper App), the submitter agrees to comply with the SHOPLINE Open Platform Developer Agreement:
+https://developer.shopline.com/docsv2/ec20/3cv5d7wpfgr6a8z5/mq9aah59bp3tc3td
+
+ATTRIBUTION REQUIREMENTS
+
+Any person who modifies, merges, or otherwise creates derivative works based on the Software must include a readable and conspicuous attribution in the new work.
+Any person who redistributes such new work must retain the original copyright notice in all copies or substantial portions of the Software, add their own copyright notice, and include a prominent statement indicating that they made changes to the Software.
+
+REDISTRIBUTION WITH THIS LICENSE
+
+Any person who redistributes the new work must provide a copy of this License to recipients of the new work.
+Additional or different license terms and conditions may be provided for the new work only to the extent they do not conflict with the conditions set out in this License.
+
+DISCLAIMER OF WARRANTY
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND NON-INFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES, OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT, OR OTHERWISE, ARISING FROM, OUT OF, OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
