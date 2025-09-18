@@ -1,10 +1,12 @@
-# shopline sdk go demo
+# shopline sdk go
 
 ## Getting Started
 
 [中文](#zh)、[English](#en)
 
 ### <span id="en">English</span>
+
+**Note**: This is an unstable SDK for developers using https://developer.shopline.com, we are still improving. The library does not have implementations of all shopline resources. PRs for new resources and endpoints are welcome, or you can simply implement some yourself as-you-go. See the section "Using your own models" for more info.
 
 #### OAuth
 
@@ -308,6 +310,8 @@ accessToken, err := oauth.RefreshAccessToken(appKey, storeHandle)
 ```
 
 ### <span id="zh">中文</span>
+
+**注意**：对于使用 https://developer.shopline.com 的开发者来说，目前这是一个不稳定的 SDK，我们还在不断完善中。该库并未包含所有 Shopline 资源的实现。欢迎提交新资源和端点的 Pull Request，或者您也可以自行实现一些。更多信息，请参阅“使用您自己的数据模型对象”部分。
 
 #### OAuth 认证
 
