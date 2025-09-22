@@ -2,8 +2,8 @@ package oauth
 
 import (
 	"fmt"
+	"github.com/shoplineos/shopline-sdk-go/config"
 	"log"
-	"shoplineapp/config"
 	"testing"
 
 	"github.com/stretchr/testify/assert"

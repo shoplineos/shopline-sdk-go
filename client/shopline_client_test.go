@@ -4,9 +4,9 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"github.com/shoplineos/shopline-sdk-go/config"
 	"log"
 	"net/http"
-	"shoplineapp/config"
 	"testing"
 
 	"github.com/jarcoal/httpmock"

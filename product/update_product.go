@@ -3,9 +3,9 @@ package product
 import (
 	"context"
 	"fmt"
+	"github.com/shoplineos/shopline-sdk-go/client"
+	"github.com/shoplineos/shopline-sdk-go/manager"
 	"log"
-	"shoplineapp/client"
-	"shoplineapp/manager"
 )
 
 type ProductUpdateAPIReq struct {

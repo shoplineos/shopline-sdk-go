@@ -3,10 +3,10 @@ package oauth
 import (
 	"context"
 	"fmt"
+	"github.com/shoplineos/shopline-sdk-go/client"
+	"github.com/shoplineos/shopline-sdk-go/manager"
 	"log"
 	"net/url"
-	"shoplineapp/client"
-	"shoplineapp/manager"
 )
 
 // RefreshAccessToken

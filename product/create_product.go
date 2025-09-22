@@ -2,9 +2,9 @@ package product
 
 import (
 	"context"
+	"github.com/shoplineos/shopline-sdk-go/client"
+	"github.com/shoplineos/shopline-sdk-go/manager"
 	"log"
-	"shoplineapp/client"
-	"shoplineapp/manager"
 )
 
 // CreateProductAPIReq Create Product Request Params

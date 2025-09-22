@@ -2,9 +2,9 @@ package manager
 
 import (
 	"fmt"
+	"github.com/shoplineos/shopline-sdk-go/client"
+	"github.com/shoplineos/shopline-sdk-go/config"
 	"log"
-	"shoplineapp/client"
-	"shoplineapp/config"
 	"sync"
 )
 

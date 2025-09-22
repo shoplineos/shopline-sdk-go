@@ -3,8 +3,8 @@ package product
 import (
 	"context"
 	"fmt"
-	"shoplineapp/client"
-	"shoplineapp/manager"
+	"github.com/shoplineos/shopline-sdk-go/client"
+	"github.com/shoplineos/shopline-sdk-go/manager"
 )
 
 type GetProductDetailAPIReq struct {

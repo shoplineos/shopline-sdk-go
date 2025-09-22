@@ -2,8 +2,8 @@ package product
 
 import (
 	"context"
-	"shoplineapp/client"
-	"shoplineapp/manager"
+	"github.com/shoplineos/shopline-sdk-go/client"
+	"github.com/shoplineos/shopline-sdk-go/manager"
 )
 
 type GetProductCountAPIReq struct {

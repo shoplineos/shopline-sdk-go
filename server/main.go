@@ -1,11 +1,11 @@
 package main
 
 import (
+	"github.com/shoplineos/shopline-sdk-go/client"
+	"github.com/shoplineos/shopline-sdk-go/manager"
+	"github.com/shoplineos/shopline-sdk-go/oauth"
 	"log"
 	"net/http"
-	"shoplineapp/client"
-	"shoplineapp/manager"
-	"shoplineapp/oauth"
 )
 
 // Process App install request，https://developer.myshopline.com/app/store-test?appKey=72a6746a3607e3cb26b336899b172403f0c1ba6c

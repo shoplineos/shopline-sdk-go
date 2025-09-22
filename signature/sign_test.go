@@ -3,9 +3,9 @@ package signature
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/shoplineos/shopline-sdk-go/config"
 	"github.com/stretchr/testify/assert"
 	"log"
-	"shoplineapp/config"
 	"testing"
 )
 

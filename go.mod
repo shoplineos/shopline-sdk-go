@@ -1,6 +1,6 @@
-module shoplineapp
+module github.com/shoplineos/shopline-sdk-go
 
-go 1.24
+go 1.24.5
 
 require github.com/stretchr/testify v1.11.1
 
