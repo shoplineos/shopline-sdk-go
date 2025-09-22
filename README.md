@@ -73,12 +73,13 @@ With a access token, you can make API calls like this:
 ```
 // Init app_config.go
 const (
-    DefaultAppKey            = ""                        // DefaultAppKey, replace real AppKey
-    DefaultAppSecret         = ""                        // DefaultAppSecret, replace real AppSecret
-    DefaultAppScope          = ""                        // DefaultAppScope, replace real AppScope
-    DefaultRedirectUrlFormat = "http://%s/auth/callback" // DefaultRedirectUrlFormat, replace real RedirectUrlFormat
-    DefaultStoreHandle = "" // replace real store handle
-    DefaultAccessToken = "" // DefaultAccessToken for test
+    DefaultRedirectUrl       = "http://appdemo.myshopline.com/auth/callback" // DefaultRedirectUrl, replace real DefaultRedirectUrl for OAuth
+
+    DefaultAppKey            = ""  // DefaultAppKey, replace real AppKey
+    DefaultAppSecret         = ""  // DefaultAppSecret, replace real AppSecret
+    DefaultAppScope          = ""  // DefaultAppScope, replace real AppScope
+    DefaultStoreHandle       = ""  // replace real store handle
+    DefaultAccessToken       = ""  // DefaultAccessToken for test
 )
 
 // see create_product.go
@@ -224,12 +225,13 @@ Find "app_config.go" and replace the variable data inside.
 ```
 // Init app_config.go
 const (
-    DefaultAppKey            = ""                        // DefaultAppKey, replace real AppKey
-    DefaultAppSecret         = ""                        // DefaultAppSecret, replace real AppSecret
-    DefaultAppScope          = ""                        // DefaultAppScope, replace real AppScope
-    DefaultRedirectUrlFormat = "http://%s/auth/callback" // DefaultRedirectUrlFormat, replace real RedirectUrlFormat
-    DefaultStoreHandle = "" // replace real store handle
-    DefaultAccessToken = "" // DefaultAccessToken for test
+    DefaultRedirectUrl       = "http://appdemo.myshopline.com/auth/callback" // DefaultRedirectUrl, replace real DefaultRedirectUrl for OAuth
+
+    DefaultAppKey            = ""  // DefaultAppKey, replace real AppKey
+    DefaultAppSecret         = ""  // DefaultAppSecret, replace real AppSecret
+    DefaultAppScope          = ""  // DefaultAppScope, replace real AppScope
+    DefaultStoreHandle       = ""  // replace real store handle
+    DefaultAccessToken       = ""  // DefaultAccessToken for test
 )
 
 ```
@@ -378,12 +380,13 @@ func CallbackHandler(w http.ResponseWriter, r *http.Request) {
 ```
 // Init app_config.go
 const (
-    DefaultAppKey            = ""                        // DefaultAppKey, replace real AppKey
-    DefaultAppSecret         = ""                        // DefaultAppSecret, replace real AppSecret
-    DefaultAppScope          = ""                        // DefaultAppScope, replace real AppScope
-    DefaultRedirectUrlFormat = "http://%s/auth/callback" // DefaultRedirectUrlFormat, replace real RedirectUrlFormat
-    DefaultStoreHandle = "" // replace real store handle
-    DefaultAccessToken = "" // DefaultAccessToken for test
+    DefaultRedirectUrl       = "http://appdemo.myshopline.com/auth/callback" // DefaultRedirectUrl, replace real DefaultRedirectUrl for OAuth
+
+    DefaultAppKey            = ""  // DefaultAppKey, replace real AppKey
+    DefaultAppSecret         = ""  // DefaultAppSecret, replace real AppSecret
+    DefaultAppScope          = ""  // DefaultAppScope, replace real AppScope
+    DefaultStoreHandle       = ""  // replace real store handle
+    DefaultAccessToken       = ""  // DefaultAccessToken for test
 )
 
 // create_product.go
@@ -525,12 +528,13 @@ server端例子仅仅作为本地测试 demo 使用。如要在生产使用，�
 ```
 // Init app_config.go
 const (
-    DefaultAppKey            = ""                        // DefaultAppKey, replace real AppKey
-    DefaultAppSecret         = ""                        // DefaultAppSecret, replace real AppSecret
-    DefaultAppScope          = ""                        // DefaultAppScope, replace real AppScope
-    DefaultRedirectUrlFormat = "http://%s/auth/callback" // DefaultRedirectUrlFormat, replace real RedirectUrlFormat
-    DefaultStoreHandle = "" // replace real store handle
-    DefaultAccessToken = "" // DefaultAccessToken for test
+    DefaultRedirectUrl       = "http://appdemo.myshopline.com/auth/callback" // DefaultRedirectUrl, replace real DefaultRedirectUrl for OAuth
+
+    DefaultAppKey            = ""  // DefaultAppKey, replace real AppKey
+    DefaultAppSecret         = ""  // DefaultAppSecret, replace real AppSecret
+    DefaultAppScope          = ""  // DefaultAppScope, replace real AppScope
+    DefaultStoreHandle       = ""  // replace real store handle
+    DefaultAccessToken       = ""  // DefaultAccessToken for test
 )
 
 ```
