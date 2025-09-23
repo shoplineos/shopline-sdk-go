@@ -2,6 +2,7 @@ package order
 
 import (
 	"fmt"
+	"github.com/shoplineos/shopline-sdk-go/manager"
 	"github.com/stretchr/testify/assert"
 	"log"
 	"testing"
@@ -13,7 +14,8 @@ func TestQueryOrdersCount(t *testing.T) {
 		Status: "any",
 	}
 
-	apiResp, err := QueryOrdersCount(apiReq)
+	c := manager.GetDefaultClient()
+	apiResp, err := QueryOrdersCount(c, apiReq)
 
 	fmt.Printf("Count: %v\n", apiResp)
 	if err != nil {

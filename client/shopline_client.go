@@ -53,8 +53,8 @@ type Client struct {
 type App struct {
 	AppKey      string
 	AppSecret   string `json:"-"`
-	RedirectUrl string // oauth redirect Url
 	Scope       string // app scope
+	RedirectUrl string // oauth redirect Url
 
 	Client *Client // API Client
 }

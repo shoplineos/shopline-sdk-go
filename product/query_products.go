@@ -3,7 +3,6 @@ package product
 import (
 	"context"
 	"github.com/shoplineos/shopline-sdk-go/client"
-	"github.com/shoplineos/shopline-sdk-go/manager"
 )
 
 type QueryProductsAPIResp struct {
@@ -35,14 +34,7 @@ type QueryProductsAPIReq struct {
 // QueryProducts
 // 中文: https://developer.shopline.com/zh-hans-cn/docs/admin-rest-api/product/product/get-products?version=v20251201
 // en: https://developer.shopline.com/docs/admin-rest-api/product/product/get-products?version=v20251201
-func QueryProducts(apiReq *QueryProductsAPIReq) (*QueryProductsAPIResp, error) {
-	return QueryProductsV2(manager.GetDefaultClient().GetAppKey(), manager.GetDefaultClient().StoreHandle, apiReq)
-}
-
-// QueryProductsV2
-// 中文: https://developer.shopline.com/zh-hans-cn/docs/admin-rest-api/product/product/get-products?version=v20251201
-// en: https://developer.shopline.com/docs/admin-rest-api/product/product/get-products?version=v20251201
-func QueryProductsV2(appKey, storeHandle string, apiReq *QueryProductsAPIReq) (*QueryProductsAPIResp, error) {
+func QueryProducts(c *client.Client, apiReq *QueryProductsAPIReq) (*QueryProductsAPIResp, error) {
 
 	// 1. API request
 	shopLineReq := &client.ShopLineRequest{
@@ -56,7 +48,7 @@ func QueryProductsV2(appKey, storeHandle string, apiReq *QueryProductsAPIReq) (*
 	apiResp := &QueryProductsAPIResp{}
 
 	// 4. Invoke API
-	shopLineResp, err := manager.GetClient(appKey, storeHandle).Get(context.Background(), endpoint, shopLineReq, apiResp)
+	shopLineResp, err := c.Get(context.Background(), endpoint, shopLineReq, apiResp)
 	if err != nil {
 		return nil, err
 	}

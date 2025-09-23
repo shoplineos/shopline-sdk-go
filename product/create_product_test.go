@@ -1,6 +1,7 @@
 package product
 
 import (
+	"github.com/shoplineos/shopline-sdk-go/manager"
 	"log"
 	"testing"
 	"time"
@@ -67,7 +68,8 @@ func TestCreateProduct(t *testing.T) {
 		},
 	}
 
-	apiResp, err := CreateProduct(apiReq)
+	c := manager.GetDefaultClient()
+	apiResp, err := CreateProduct(c, apiReq)
 	if err != nil {
 		log.Fatal(err)
 	}

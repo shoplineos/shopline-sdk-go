@@ -2,6 +2,7 @@ package order
 
 import (
 	"fmt"
+	"github.com/shoplineos/shopline-sdk-go/manager"
 	"testing"
 	"time"
 
@@ -119,7 +120,9 @@ func TestCreateOrder(t *testing.T) {
 		},
 	}
 
-	shopLineResp, err := CreateOrder(apiReq)
+	c := manager.GetDefaultClient()
+
+	shopLineResp, err := CreateOrder(c, apiReq)
 	if err != nil {
 		fmt.Println("Create order failed, err:", err)
 		return

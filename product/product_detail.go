@@ -4,7 +4,6 @@ import (
 	"context"
 	"fmt"
 	"github.com/shoplineos/shopline-sdk-go/client"
-	"github.com/shoplineos/shopline-sdk-go/manager"
 )
 
 type GetProductDetailAPIReq struct {
@@ -17,8 +16,10 @@ type GetProductDetailAPIResp struct {
 	client.CommonAPIRespData
 }
 
-func GetProductDetailV2(appkey, storeHandle string, apiReq *GetProductDetailAPIReq) (*GetProductDetailAPIResp, error) {
-
+// GetProductDetail
+// 中文: https://developer.shopline.com/zh-hans-cn/docs/admin-rest-api/product/product/query-single-product?version=v20251201
+// en: https://developer.shopline.com/docs/admin-rest-api/product/product/query-single-product?version=v20251201
+func GetProductDetail(c *client.Client, apiReq *GetProductDetailAPIReq) (*GetProductDetailAPIResp, error) {
 	// 1. API request
 	shoplineReq := &client.ShopLineRequest{}
 
@@ -29,7 +30,7 @@ func GetProductDetailV2(appkey, storeHandle string, apiReq *GetProductDetailAPIR
 	apiResp := &GetProductDetailAPIResp{}
 
 	// 4. Invoke API
-	_, err := manager.GetClient(appkey, storeHandle).Get(context.Background(), endpoint, shoplineReq, apiResp)
+	_, err := c.Get(context.Background(), endpoint, shoplineReq, apiResp)
 
 	if err != nil {
 		return apiResp, err
@@ -39,11 +40,4 @@ func GetProductDetailV2(appkey, storeHandle string, apiReq *GetProductDetailAPIR
 
 	//fmt.Println(shoplineResp)
 	return apiResp, nil
-}
-
-// GetProductDetail
-// 中文: https://developer.shopline.com/zh-hans-cn/docs/admin-rest-api/product/product/query-single-product?version=v20251201
-// en: https://developer.shopline.com/docs/admin-rest-api/product/product/query-single-product?version=v20251201
-func GetProductDetail(apiReq *GetProductDetailAPIReq) (*GetProductDetailAPIResp, error) {
-	return GetProductDetailV2(manager.GetDefaultClient().GetAppKey(), manager.GetDefaultClient().StoreHandle, apiReq)
 }

@@ -1,6 +1,7 @@
 package product
 
 import (
+	"github.com/shoplineos/shopline-sdk-go/manager"
 	"log"
 	"testing"
 )
@@ -17,7 +18,7 @@ func TestQueryProducts(t *testing.T) {
 		// Fields:         "id,title,status,vendor",
 	}
 
-	apiResp, err := QueryProducts(apiReq)
+	apiResp, err := QueryProducts(nil, apiReq)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -37,7 +38,7 @@ func TestQueryProductsTitle(t *testing.T) {
 		Fields: "title",
 	}
 
-	apiResp, err := QueryProducts(apiReq)
+	apiResp, err := QueryProducts(nil, apiReq)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -59,7 +60,8 @@ func TestQueryProductsPagination(t *testing.T) {
 		PageInfo: "eyJzaW5jZUlkIjoiMTYwNzA4MjgzODk5MzAwNDQzOTA0NTMzODAiLCJkaXJlY3Rpb24iOiJuZXh0IiwibGltaXQiOjR9",
 	}
 
-	products, err := QueryProducts(requestParams)
+	c := manager.GetDefaultClient()
+	products, err := QueryProducts(c, requestParams)
 	if err != nil {
 		log.Fatal(err)
 	}

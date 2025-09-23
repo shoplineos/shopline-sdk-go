@@ -3,7 +3,6 @@ package product
 import (
 	"context"
 	"github.com/shoplineos/shopline-sdk-go/client"
-	"github.com/shoplineos/shopline-sdk-go/manager"
 	"log"
 )
 
@@ -92,14 +91,7 @@ type Variant struct {
 // CreateProduct
 // 中文: https://developer.shopline.com/zh-hans-cn/docs/admin-rest-api/product/product/create-a-product?version=v20251201
 // en: https://developer.shopline.com/docs/admin-rest-api/product/product/create-a-product?version=v20251201
-func CreateProduct(apiReq *CreateProductAPIReq) (*CreateProductAPIResp, error) {
-	return CreateProductV2(manager.GetDefaultClient().GetAppKey(), manager.GetDefaultClient().StoreHandle, apiReq)
-}
-
-// CreateProductV2
-// 中文: https://developer.shopline.com/zh-hans-cn/docs/admin-rest-api/product/product/create-a-product?version=v20251201
-// en: https://developer.shopline.com/docs/admin-rest-api/product/product/create-a-product?version=v20251201
-func CreateProductV2(appKey, storeHandle string, apiReq *CreateProductAPIReq) (*CreateProductAPIResp, error) {
+func CreateProduct(c *client.Client, apiReq *CreateProductAPIReq) (*CreateProductAPIResp, error) {
 
 	// 1. API request
 	request := &client.ShopLineRequest{ // client request
@@ -113,7 +105,7 @@ func CreateProductV2(appKey, storeHandle string, apiReq *CreateProductAPIReq) (*
 	apiResp := &CreateProductAPIResp{}
 
 	// 4. Invoke API
-	_, err := manager.GetClient(appKey, storeHandle).Post(context.Background(), endpoint, request, apiResp)
+	_, err := c.Post(context.Background(), endpoint, request, apiResp)
 	if err != nil {
 		log.Printf("CreateProduct request failed: %v\n", err)
 		return nil, err

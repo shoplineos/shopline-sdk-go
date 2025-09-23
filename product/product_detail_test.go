@@ -1,6 +1,7 @@
 package product
 
 import (
+	"github.com/shoplineos/shopline-sdk-go/manager"
 	"github.com/stretchr/testify/assert"
 	"log"
 	"testing"
@@ -12,7 +13,9 @@ func TestProductDetail(t *testing.T) {
 		ProductId: productId,
 	}
 
-	apiResp, err := GetProductDetail(apiReq)
+	c := manager.GetDefaultClient()
+
+	apiResp, err := GetProductDetail(c, apiReq)
 	log.Printf("apiResp: %v, err:%v", apiResp, err)
 	assert.Nil(t, err, "err should be nil")
 }

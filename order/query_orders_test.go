@@ -2,6 +2,7 @@ package order
 
 import (
 	"fmt"
+	"github.com/shoplineos/shopline-sdk-go/manager"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -19,7 +20,9 @@ func TestQueryOrders(t *testing.T) {
 		//IDs: "21070984663426767352955294",
 	}
 
-	apiResp, err := QueryOrders(apiReq)
+	c := manager.GetDefaultClient()
+
+	apiResp, err := QueryOrders(c, apiReq)
 
 	if err != nil {
 		fmt.Println("Query orders failed, err:", err)

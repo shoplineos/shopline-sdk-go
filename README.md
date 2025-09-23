@@ -8,6 +8,44 @@
 
 **Note**: This is an unstable SDK for developers using https://developer.shopline.com, we are still improving. The library does not have implementations of all shopline resources. PRs for new resources and endpoints are welcome, or you can simply implement some yourself as-you-go. See the section "Using your own models" for more info.
 
+#### Init App and Client
+```
+  // 1. create app
+  appInstance := client.App{
+      AppKey:      "",              // replace your data
+      AppSecret:   "",              // replace your data
+      Scope:       "read_products,write_products,read_orders,write_orders", // replace your data
+      RedirectUrl: "http://appdemo.myshopline.com/auth/callback",           // replace your data
+  }
+  
+  handle := "zwapptest" // replace your data
+
+  // replace your data
+  accessToken := ""
+  
+  // 2. create client
+  c := client.MustNewClient(appInstance, handle, accessToken)
+  appInstance.Client = c
+    
+    
+  // 3. use client
+  // 3.1 API request
+  getProductCountAPIReq := &GetProductCountAPIReq{}
+  shoplineReq := &client.ShopLineRequest{
+      Query: getProductCountAPIReq,
+  }
+
+  // 3.2 API endpoint
+  endpoint := "products/count.json"
+
+  // 3.3 API response
+  apiResp := &GetProductCountAPIResp{}
+
+  // 3.4 Invoke API
+  shoplineResp, err := c.Get(context.Background(), endpoint, shoplineReq, apiResp)
+  fmt.Printf("count:%d", apiResp.Count)
+```
+
 #### OAuth
 
 If you don't have an access token yet, you can obtain one with the oauth flow. Something like this will work:
@@ -23,15 +61,17 @@ func InstallHandler(w http.ResponseWriter, r *http.Request) {
     timestampStr := r.URL.Query().Get("timestamp")
     sign := r.URL.Query().Get("sign")
     
+    app := manager.GetApp(appkey)
     // Verify the Sign
-    isSignValid := manager.GetApp(appkey).VerifySign(r.URL.Query(), sign)
+    isSignValid := app.VerifySign(r.URL.Query(), sign)
     if !isSignValid {
         log.Printf("sign verification failed, appkey: %s, sign: %s\n", appkey, sign)
         http.Error(w, "Invalid signature", http.StatusUnauthorized)
         return
     }
     
-    url, err := oauth.AuthorizeUrl(appkey, handle, "")
+  
+    url, err := oauth.AuthorizeUrl(app, handle, "")
     if err != nil {
         log.Printf("Authorize url error, appkey: %s, handle: %s, err: %v\n", appkey, handle, err)
         http.Error(w, "server error", http.StatusInternalServerError)
@@ -50,8 +90,10 @@ func CallbackHandler(w http.ResponseWriter, r *http.Request) {
     timestampStr := r.URL.Query().Get("timestamp")
     sign := r.URL.Query().Get("sign")
     
+    
+    app := manager.GetApp(appkey)
     // Check that the callback signature is valid
-    isSignValid := oauth.VerifySign(appkey, r.URL.Query(), sign)
+    isSignValid := oauth.VerifySign(app, r.URL.Query(), sign)
     if isSignValid {
         log.Println("sign verified successfully")
     } else {
@@ -60,7 +102,7 @@ func CallbackHandler(w http.ResponseWriter, r *http.Request) {
     }
     
     // create token
-    token, err := oauth.CreateAccessToken(appkey, code)
+    token, err := oauth.CreateAccessToken(app, code)
     
     // Do something with the token, like store it in a DB or Cache.
 }
@@ -82,7 +124,7 @@ const (
     DefaultAccessToken       = ""  // DefaultAccessToken for test
 )
 
-// see create_product.go
+// see create_product_test.go
 // create product
 // https://developer.shopline.com/docs/admin-rest-api/product/product/create-a-product/?version=v20251201
 apiReq := &CreateProductAPIReq{
@@ -142,7 +184,8 @@ apiReq := &CreateProductAPIReq{
     },
 }
 
-apiResp, err := CreateProduct(apiReq)
+apiResp, err := CreateProduct(c, apiReq)
+
 ```
 
 #### Using your own models
@@ -169,7 +212,7 @@ type GetProductCountAPIResp struct {
 
 }
 
-func GetProductsCountV2(appKey, storeHandle string, apiReq *GetProductCountAPIReq) (*GetProductCountAPIResp, error) {
+func GetProductsCount(c *client.Client, apiReq *GetProductCountAPIReq) (*GetProductCountAPIResp, error) {
 
     // 1. API request
     shoplineReq := &client.ShopLineRequest{
@@ -183,7 +226,7 @@ func GetProductsCountV2(appKey, storeHandle string, apiReq *GetProductCountAPIRe
     apiResp := &GetProductCountAPIResp{}
     
     // 4. Invoke API
-    shoplineResp, err := manager.GetClient(appKey, storeHandle).Get(context.Background(), endpoint, shoplineReq, apiResp)
+    shoplineResp, err := c.Get(context.Background(), endpoint, shoplineReq, apiResp)
     
     // option
     // apiResp.TraceId = shoplineResp.TraceId
@@ -315,6 +358,44 @@ accessToken, err := oauth.RefreshAccessToken(appKey, storeHandle)
 
 **注意**：对于使用 https://developer.shopline.com 的开发者来说，目前这是一个不稳定的 SDK，我们还在不断完善中。该库并未包含所有 Shopline 资源的实现。欢迎提交新资源和端点的 Pull Request，或者您也可以自行实现一些。更多信息，请参阅“使用您自己的数据模型对象”部分。
 
+#### 初始化 App 和 Client
+```
+  // 1. create app
+  appInstance := client.App{
+      AppKey:      "72a6746a3607e3cb26b336899b172403f0c1ba6c",              // replace your data
+      AppSecret:   "f8cd5bf33238e4323885203d7540634032736544",              // replace your data
+      Scope:       "read_products,write_products,read_orders,write_orders", // replace your data
+      RedirectUrl: "http://appdemo.myshopline.com/auth/callback",           // replace your data
+  }
+  
+  handle := "zwapptest" // replace your data
+
+  // replace your data
+  accessToken := ""
+  
+  // 2. create client
+  c := client.MustNewClient(appInstance, handle, accessToken)
+  appInstance.Client = c
+
+  // 3. use client
+  // 3.1 API request
+  getProductCountAPIReq := &GetProductCountAPIReq{}
+  shoplineReq := &client.ShopLineRequest{
+      Query: getProductCountAPIReq,
+  }
+
+  // 3.2 API endpoint
+  endpoint := "products/count.json"
+
+  // 3.3 API response
+  apiResp := &GetProductCountAPIResp{}
+
+  // 3.4 Invoke API
+  shoplineResp, err := c.Get(context.Background(), endpoint, shoplineReq, apiResp)
+  fmt.Printf("count:%d", apiResp.Count)
+    
+```
+
 #### OAuth 认证
 
 如果还没有 access token，可以通过 OAuth 流程来获取 access token，如下：
@@ -324,28 +405,59 @@ accessToken, err := oauth.RefreshAccessToken(appKey, storeHandle)
 // Create an oauth-authorize url for the App and redirect to it.
 // In some request handler, you probably want something like this:
 func InstallHandler(w http.ResponseWriter, r *http.Request) {
-    appkey := r.URL.Query().Get("appkey")
-    handle := r.URL.Query().Get("handle")
-    lang := r.URL.Query().Get("lang")
-    timestampStr := r.URL.Query().Get("timestamp")
-    sign := r.URL.Query().Get("sign")
-    
-    // Verify the Sign
-    isSignValid := manager.GetApp(appkey).VerifySign(r.URL.Query(), sign)
-    if !isSignValid {
-        log.Printf("sign verification failed, appkey: %s, sign: %s\n", appkey, sign)
-        http.Error(w, "Invalid signature", http.StatusUnauthorized)
-        return
-    }
-    
-    url, err := oauth.AuthorizeUrl(appkey, handle, "")
-    if err != nil {
-        log.Printf("Authorize url error, appkey: %s, handle: %s, err: %v\n", appkey, handle, err)
-        http.Error(w, "server error", http.StatusInternalServerError)
-        return
-    }
-    
-    http.Redirect(w, r, url, http.StatusTemporaryRedirect)
+    // 1. verify http method
+	if r.Method != http.MethodGet {
+		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+		return
+	}
+
+	// 2. parse request params
+	appkey := r.URL.Query().Get("appkey")
+	handle := r.URL.Query().Get("handle")
+	lang := r.URL.Query().Get("lang")
+	timestampStr := r.URL.Query().Get("timestamp")
+	sign := r.URL.Query().Get("sign")
+
+	// 3. verify params
+	if appkey == "" || timestampStr == "" || sign == "" {
+		http.Error(w, "Missing required parameters", http.StatusBadRequest)
+		return
+	}
+
+	// 4. TODO Verify the timestamp
+	//timestamp, err := strconv.ParseInt(timestampStr, 10, 64)
+	//if err != nil || time.Now().Unix()-timestamp > 6000 {
+	//	http.Error(w, "Invalid timestamp", http.StatusBadRequest)
+	//	return
+	//}
+
+	// 5. Verify the Sign
+	isSignValid := manager.GetApp(appkey).VerifySign(r.URL.Query(), sign)
+	if !isSignValid {
+		log.Printf("sign verification failed, appkey: %s, sign: %s\n", appkey, sign)
+		http.Error(w, "Invalid signature", http.StatusUnauthorized)
+		return
+	}
+
+	// 6. TODO process biz logic
+	log.Printf("install received - appkey: %s, handle: %s, lang: %s", appkey, handle, lang)
+
+	w.Header().Set("Content-Type", "application/json")
+
+	// App Request an authorization code
+	// 中文: https://developer.shopline.com/zh-hans-cn/docs/apps/api-instructions-for-use/app-authorization?version=v20260301#%E7%AC%AC%E4%B8%89%E6%AD%A5app-%E8%AF%B7%E6%B1%82%E6%8E%88%E6%9D%83%E7%A0%81
+	// en: https://developer.shopline.com/docs/apps/api-instructions-for-use/app-authorization?version=v20260301#step2
+	// url := fmt.Sprintf("https://%s.myshopline.com/admin/oauth-web/#/oauth/authorize?appKey=%s&responseType=code&scope=%s&redirectUri=%s", storeHandle, appKey, scope, redirectUri)
+
+	app := manager.GetApp(appkey)
+	url, err := oauth.AuthorizeUrl(app, handle, "")
+	if err != nil {
+		log.Printf("Authorize url error, appkey: %s, handle: %s, err: %v\n", appkey, handle, err)
+		http.Error(w, "server error", http.StatusInternalServerError)
+		return
+	}
+
+	http.Redirect(w, r, url, http.StatusTemporaryRedirect)
 }
 
 // Fetch a access token in the callback
@@ -358,7 +470,9 @@ func CallbackHandler(w http.ResponseWriter, r *http.Request) {
     sign := r.URL.Query().Get("sign")
     
     // Check that the callback signature is valid
-    isSignValid := oauth.VerifySign(appkey, r.URL.Query(), sign)
+    app := manager.GetApp(appkey)
+	isSignValid := oauth.VerifySign(app, r.URL.Query(), sign)
+    
     if isSignValid {
         log.Println("sign verified successfully")
     } else {
@@ -367,7 +481,7 @@ func CallbackHandler(w http.ResponseWriter, r *http.Request) {
     }
     
     // create token
-    token, err := oauth.CreateAccessToken(appkey, code)
+    token, err := oauth.CreateAccessToken(app, code)
     
     // Do something with the token, like store it in a DB or Cache.
 }
@@ -389,7 +503,7 @@ const (
     DefaultAccessToken       = ""  // DefaultAccessToken for test
 )
 
-// create_product.go
+// see create_product_test.go
 // create product
 // https://developer.shopline.com/docs/admin-rest-api/product/product/create-a-product/?version=v20251201
 apiReq := &CreateProductAPIReq{
@@ -450,7 +564,7 @@ apiReq := &CreateProductAPIReq{
     },
 }
 
-apiResp, err := CreateProduct(apiReq)
+apiResp, err := CreateProduct(c, apiReq)
 ```
 
 #### 使用您自己的数据模型对象
@@ -473,7 +587,7 @@ type GetProductCountAPIResp struct {
 
 }
 
-func GetProductsCountV2(appKey, storeHandle string, apiReq *GetProductCountAPIReq) (*GetProductCountAPIResp, error) {
+func GetProductsCount(c *client.Client, apiReq *GetProductCountAPIReq) (*GetProductCountAPIResp, error) {
 
     // 1. API request
     shoplineReq := &client.ShopLineRequest{
@@ -487,7 +601,7 @@ func GetProductsCountV2(appKey, storeHandle string, apiReq *GetProductCountAPIRe
     apiResp := &GetProductCountAPIResp{}
     
     // 4. Invoke API
-    shoplineResp, err := manager.GetClient(appKey, storeHandle).Get(context.Background(), endpoint, shoplineReq, apiResp)
+    shoplineResp, err := c.Get(context.Background(), endpoint, shoplineReq, apiResp)
     
     // option
     // apiResp.TraceId = shoplineResp.TraceId

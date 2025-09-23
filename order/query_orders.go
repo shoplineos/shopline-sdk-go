@@ -4,7 +4,6 @@ import (
 	"context"
 	"fmt"
 	"github.com/shoplineos/shopline-sdk-go/client"
-	"github.com/shoplineos/shopline-sdk-go/manager"
 )
 
 type QueryOrdersAPIReq struct {
@@ -37,11 +36,10 @@ type QueryOrdersAPIResp struct {
 	Pagination *client.Pagination
 }
 
-// QueryOrdersV2
+// QueryOrders
 // 中文: https://developer.shopline.com/zh-hans-cn/docs/admin-rest-api/order/order-management/get-orders?version=v20251201
 // en: https://developer.shopline.com/docs/admin-rest-api/order/order-management/get-orders?version=v20251201
-func QueryOrdersV2(appkey, storeHandle string, apiReq *QueryOrdersAPIReq) (*QueryOrdersAPIResp, error) {
-
+func QueryOrders(c *client.Client, apiReq *QueryOrdersAPIReq) (*QueryOrdersAPIResp, error) {
 	// 1. API request
 	shoplineReq := &client.ShopLineRequest{
 		Query: apiReq,
@@ -54,7 +52,7 @@ func QueryOrdersV2(appkey, storeHandle string, apiReq *QueryOrdersAPIReq) (*Quer
 	apiResp := &QueryOrdersAPIResp{}
 
 	// 4. Invoke API
-	shoplineResp, err := manager.GetClient(appkey, storeHandle).Get(context.Background(), endpoint, shoplineReq, apiResp)
+	shoplineResp, err := c.Get(context.Background(), endpoint, shoplineReq, apiResp)
 	if err != nil {
 		fmt.Printf("Execute request failed: %v\n", err)
 		return nil, err
@@ -63,11 +61,4 @@ func QueryOrdersV2(appkey, storeHandle string, apiReq *QueryOrdersAPIReq) (*Quer
 	apiResp.Pagination = shoplineResp.Pagination
 
 	return apiResp, err
-}
-
-// QueryOrders
-// 中文: https://developer.shopline.com/zh-hans-cn/docs/admin-rest-api/order/order-management/get-orders?version=v20251201
-// en: https://developer.shopline.com/docs/admin-rest-api/order/order-management/get-orders?version=v20251201
-func QueryOrders(apiReq *QueryOrdersAPIReq) (*QueryOrdersAPIResp, error) {
-	return QueryOrdersV2(manager.GetDefaultClient().GetAppKey(), manager.GetDefaultClient().StoreHandle, apiReq)
 }

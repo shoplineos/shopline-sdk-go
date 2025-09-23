@@ -81,7 +81,9 @@ func InstallHandler(w http.ResponseWriter, r *http.Request) {
 	// 中文: https://developer.shopline.com/zh-hans-cn/docs/apps/api-instructions-for-use/app-authorization?version=v20260301#%E7%AC%AC%E4%B8%89%E6%AD%A5app-%E8%AF%B7%E6%B1%82%E6%8E%88%E6%9D%83%E7%A0%81
 	// en: https://developer.shopline.com/docs/apps/api-instructions-for-use/app-authorization?version=v20260301#step2
 	// url := fmt.Sprintf("https://%s.myshopline.com/admin/oauth-web/#/oauth/authorize?appKey=%s&responseType=code&scope=%s&redirectUri=%s", storeHandle, appKey, scope, redirectUri)
-	url, err := oauth.AuthorizeUrl(appkey, handle, "")
+
+	app := manager.GetApp(appkey)
+	url, err := oauth.AuthorizeUrl(app, handle, "")
 	if err != nil {
 		log.Printf("Authorize url error, appkey: %s, handle: %s, err: %v\n", appkey, handle, err)
 		http.Error(w, "server error", http.StatusInternalServerError)
@@ -105,7 +107,8 @@ func CallbackHandler(w http.ResponseWriter, r *http.Request) {
 	timestampStr := r.URL.Query().Get("timestamp")
 	sign := r.URL.Query().Get("sign")
 
-	isSignValid := oauth.VerifySign(appkey, r.URL.Query(), sign)
+	app := manager.GetApp(appkey)
+	isSignValid := oauth.VerifySign(app, r.URL.Query(), sign)
 	if isSignValid {
 		log.Println("sign verified successfully")
 	} else {
@@ -117,7 +120,7 @@ func CallbackHandler(w http.ResponseWriter, r *http.Request) {
 	log.Printf("Auth callback received - appkey: %s, handle: %s, code: %s, customField: %s, timestampStr: %s, sign: %s", appkey, handle, code, customField, timestampStr, sign)
 
 	// create token
-	token, err := oauth.CreateAccessToken(appkey, code)
+	token, err := oauth.CreateAccessToken(app, code)
 	if err != nil {
 		log.Printf("Create access token error, appkey: %s, handle: %s, code: %s, err: %v\n", appkey, handle, code, err)
 		http.Error(w, "server error", http.StatusInternalServerError)

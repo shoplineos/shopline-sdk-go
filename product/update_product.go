@@ -4,7 +4,6 @@ import (
 	"context"
 	"fmt"
 	"github.com/shoplineos/shopline-sdk-go/client"
-	"github.com/shoplineos/shopline-sdk-go/manager"
 	"log"
 )
 
@@ -69,14 +68,7 @@ type UpdateProductAPIResp struct {
 // UpdateProduct
 // 中文: https://developer.shopline.com/zh-hans-cn/docs/admin-rest-api/product/product/update-product?version=v20251201
 // en: https://developer.shopline.com/docs/admin-rest-api/product/product/update-product?version=v20251201
-func UpdateProduct(apiReq *ProductUpdateAPIReq) (*UpdateProductAPIResp, error) {
-	return UpdateProductV2(manager.GetDefaultClient().GetAppKey(), manager.GetDefaultClient().StoreHandle, apiReq)
-}
-
-// UpdateProductV2
-// 中文: https://developer.shopline.com/zh-hans-cn/docs/admin-rest-api/product/product/update-product?version=v20251201
-// en: https://developer.shopline.com/docs/admin-rest-api/product/product/update-product?version=v20251201
-func UpdateProductV2(appKey, storeHandle string, apiReq *ProductUpdateAPIReq) (*UpdateProductAPIResp, error) {
+func UpdateProduct(c *client.Client, apiReq *ProductUpdateAPIReq) (*UpdateProductAPIResp, error) {
 
 	productID := apiReq.Product.Id
 
@@ -92,7 +84,7 @@ func UpdateProductV2(appKey, storeHandle string, apiReq *ProductUpdateAPIReq) (*
 	apiResp := &UpdateProductAPIResp{}
 
 	// 4. Invoke API
-	shopLineResp, err := manager.GetClient(appKey, storeHandle).Put(context.Background(), endpoint, request, apiResp)
+	shopLineResp, err := c.Put(context.Background(), endpoint, request, apiResp)
 
 	if err != nil {
 		log.Printf("Update product failed，shopLineResp: %v, err: %v\n", shopLineResp, err)

@@ -3,7 +3,6 @@ package order
 import (
 	"context"
 	"github.com/shoplineos/shopline-sdk-go/client"
-	"github.com/shoplineos/shopline-sdk-go/manager"
 	"log"
 )
 
@@ -26,14 +25,7 @@ type GetOrdersCountAPIResp struct {
 // QueryOrdersCount
 // 中文: https://developer.shopline.com/zh-hans-cn/docs/admin-rest-api/order/order-management/order-quantity-query?version=v20251201
 // en: https://developer.shopline.com/docs/admin-rest-api/order/order-management/order-quantity-query/?version=v20251201
-func QueryOrdersCount(apiReq *GetOrdersCountAPIReq) (*GetOrdersCountAPIResp, error) {
-	return QueryOrdersCountV2(manager.GetDefaultClient().GetAppKey(), manager.GetDefaultClient().StoreHandle, apiReq)
-}
-
-// QueryOrdersCountV2
-// 中文: https://developer.shopline.com/zh-hans-cn/docs/admin-rest-api/order/order-management/order-quantity-query?version=v20251201
-// en: https://developer.shopline.com/docs/admin-rest-api/order/order-management/order-quantity-query/?version=v20251201
-func QueryOrdersCountV2(appKey, storeHandle string, apiReq *GetOrdersCountAPIReq) (*GetOrdersCountAPIResp, error) {
+func QueryOrdersCount(c *client.Client, apiReq *GetOrdersCountAPIReq) (*GetOrdersCountAPIResp, error) {
 
 	// 1. API request
 	shopLineReq := &client.ShopLineRequest{
@@ -47,7 +39,7 @@ func QueryOrdersCountV2(appKey, storeHandle string, apiReq *GetOrdersCountAPIReq
 	apiResp := &GetOrdersCountAPIResp{}
 
 	// 4. Invoke API
-	_, err := manager.GetClient(appKey, storeHandle).Get(context.Background(), endpoint, shopLineReq, apiResp)
+	_, err := c.Get(context.Background(), endpoint, shopLineReq, apiResp)
 	if err != nil {
 		log.Printf("Failed to Get: %v\n", err)
 		return apiResp, err

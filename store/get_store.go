@@ -3,7 +3,6 @@ package store
 import (
 	"context"
 	"github.com/shoplineos/shopline-sdk-go/client"
-	"github.com/shoplineos/shopline-sdk-go/manager"
 	"log"
 )
 
@@ -98,14 +97,7 @@ type BusinessReg struct {
 // GetStoreInfo
 // 中文: https://developer.shopline.com/zh-hans-cn/docs/admin-rest-api/store/query-store-information?version=v20251201
 // en: https://developer.shopline.com/docs/admin-rest-api/store/query-store-information?version=v20251201
-func GetStoreInfo(apiReq *GetStoreAPIReq) (*GetStoreAPIResponse, error) {
-	return GetStoreInfoV2(manager.GetDefaultClient().GetAppKey(), manager.GetDefaultClient().StoreHandle, apiReq)
-}
-
-// GetStoreInfoV2
-// 中文: https://developer.shopline.com/zh-hans-cn/docs/admin-rest-api/store/query-store-information?version=v20251201
-// en: https://developer.shopline.com/docs/admin-rest-api/store/query-store-information?version=v20251201
-func GetStoreInfoV2(appKey, storeHandle string, apiReq *GetStoreAPIReq) (*GetStoreAPIResponse, error) {
+func GetStoreInfo(c *client.Client, apiReq *GetStoreAPIReq) (*GetStoreAPIResponse, error) {
 
 	// 1. API request
 	shopLineReq := &client.ShopLineRequest{}
@@ -117,7 +109,7 @@ func GetStoreInfoV2(appKey, storeHandle string, apiReq *GetStoreAPIReq) (*GetSto
 	apiResp := &GetStoreAPIResponse{}
 
 	// 4. Invoke API
-	_, err := manager.GetClient(appKey, storeHandle).Get(context.Background(), endpoint, shopLineReq, apiResp)
+	_, err := c.Get(context.Background(), endpoint, shopLineReq, apiResp)
 	if err != nil {
 		log.Printf("Failed to send request: %v\n", err)
 		return nil, err
@@ -126,5 +118,4 @@ func GetStoreInfoV2(appKey, storeHandle string, apiReq *GetStoreAPIReq) (*GetSto
 	//apiResp.TraceId = shopLineResp.TraceId
 
 	return apiResp, nil
-
 }

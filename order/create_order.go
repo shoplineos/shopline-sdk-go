@@ -4,7 +4,6 @@ import (
 	"context"
 	"fmt"
 	"github.com/shoplineos/shopline-sdk-go/client"
-	"github.com/shoplineos/shopline-sdk-go/manager"
 )
 
 type CreateOrderAPIReq struct {
@@ -164,15 +163,7 @@ type BillingAddress struct {
 // CreateOrder
 // 中文: https://developer.shopline.com/zh-hans-cn/docs/admin-rest-api/order/order-management/create-an-order?version=v20251201
 // en: https://developer.shopline.com/docs/admin-rest-api/order/order-management/create-an-order?version=v20251201
-func CreateOrder(apiReq *CreateOrderAPIReq) (*CreateOrderAPIResp, error) {
-	return CreateOrderV2(manager.GetDefaultClient().GetAppKey(), manager.GetDefaultClient().StoreHandle, apiReq)
-}
-
-// CreateOrderV2
-// 中文: https://developer.shopline.com/zh-hans-cn/docs/admin-rest-api/order/order-management/create-an-order?version=v20251201
-// en: https://developer.shopline.com/docs/admin-rest-api/order/order-management/create-an-order?version=v20251201
-func CreateOrderV2(appKey, storeHandle string, apiReq *CreateOrderAPIReq) (*CreateOrderAPIResp, error) {
-
+func CreateOrder(c *client.Client, apiReq *CreateOrderAPIReq) (*CreateOrderAPIResp, error) {
 	// 1. API request
 	shopLineReq := &client.ShopLineRequest{
 		Body: apiReq,
@@ -185,7 +176,7 @@ func CreateOrderV2(appKey, storeHandle string, apiReq *CreateOrderAPIReq) (*Crea
 	apiResp := &CreateOrderAPIResp{}
 
 	// 4. Invoke API
-	_, err := manager.GetClient(appKey, storeHandle).Post(context.Background(), endpoint, shopLineReq, apiResp)
+	_, err := c.Post(context.Background(), endpoint, shopLineReq, apiResp)
 	if err != nil {
 		fmt.Printf("Execute Request failed，endpoint:%s, shopLineReq: %v, err: %v\n", endpoint, shopLineReq, err)
 		return nil, err

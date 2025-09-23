@@ -2,6 +2,7 @@ package product
 
 import (
 	"fmt"
+	"github.com/shoplineos/shopline-sdk-go/manager"
 	"github.com/stretchr/testify/assert"
 	"testing"
 )
@@ -67,7 +68,9 @@ func TestUpdateProduct(t *testing.T) {
 		},
 	}
 
-	resp, err := UpdateProduct(requestBody)
+	c := manager.GetDefaultClient()
+
+	resp, err := UpdateProduct(c, requestBody)
 	assert.Nil(t, err)
 	fmt.Printf("Update Product Resp: %v\n", resp)
 	// New Product Id: 16071506529459141648923380

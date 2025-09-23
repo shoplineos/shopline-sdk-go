@@ -3,6 +3,7 @@ package oauth
 import (
 	"fmt"
 	"github.com/shoplineos/shopline-sdk-go/config"
+	"github.com/shoplineos/shopline-sdk-go/manager"
 	"log"
 	"testing"
 
@@ -14,7 +15,8 @@ func TestCreateAccessToken(t *testing.T) {
 
 	code := "" // code
 
-	accessToken, err := CreateAccessToken(config.DefaultAppKey, code)
+	app := manager.GetApp(config.DefaultAppKey)
+	accessToken, err := CreateAccessToken(app, code)
 	if err != nil {
 		log.Fatalf("Failed to get access token: %v\n", err)
 	} else {
@@ -37,7 +39,9 @@ func TestRefreshAccessToken(t *testing.T) {
 	storeHandle := config.DefaultStoreHandle
 	appKey := config.DefaultAppKey
 
-	accessToken, err := RefreshAccessToken(appKey, storeHandle)
+	app := manager.GetApp(appKey)
+
+	accessToken, err := RefreshAccessToken(app, storeHandle)
 	if err != nil {
 		log.Fatalf("Failed to refresh access token: %v\n", err)
 	} else {
