@@ -32,16 +32,14 @@ import "github.com/shoplineos/shopline-sdk-go/client"
   }
   
   handle := "zwapptest" // replace your data
-
-  // replace your data
-  accessToken := ""
+  accessToken := "" // replace your data
   
   // 2. create client
   c := client.MustNewClient(appInstance, handle, accessToken)
   appInstance.Client = c
     
     
-  // 3. use client
+  // 3. use client to invoke API
   // 3.1 API request
   getProductCountAPIReq := &GetProductCountAPIReq{}
   shoplineReq := &client.ShopLineRequest{
@@ -126,21 +124,11 @@ func CallbackHandler(w http.ResponseWriter, r *http.Request) {
 With a access token, you can make API calls like this:
 
 ```
-// Init app_config.go
-const (
-    DefaultRedirectUrl       = "http://appdemo.myshopline.com/auth/callback" // DefaultRedirectUrl, replace real DefaultRedirectUrl for OAuth
-
-    DefaultAppKey            = ""  // DefaultAppKey, replace real AppKey
-    DefaultAppSecret         = ""  // DefaultAppSecret, replace real AppSecret
-    DefaultAppScope          = ""  // DefaultAppScope, replace real AppScope
-    DefaultStoreHandle       = ""  // replace real store handle
-    DefaultAccessToken       = ""  // DefaultAccessToken for test
-)
 
 // see create_product_test.go
 // create product
 // https://developer.shopline.com/docs/admin-rest-api/product/product/create-a-product/?version=v20251201
-apiReq := &CreateProductAPIReq{
+apiReq := &product.CreateProductAPIReq{
     Product: Product{
         Title:          "Test product - " + time.Now().Format("20060102150405"),
         BodyHTML:       "<p>This is a test product created via the API</p>",
@@ -197,7 +185,7 @@ apiReq := &CreateProductAPIReq{
     },
 }
 
-apiResp, err := CreateProduct(c, apiReq)
+apiResp, err := product.CreateProduct(c, apiReq)
 
 ```
 
@@ -259,7 +247,8 @@ For example:
 ```
 // see server/main.go
 func WebhookHandler(w http.ResponseWriter, r *http.Request) {
-    manager.GetDefaultApp().VerifyWebhookRequest(r)
+    app := manager.GetDefaultApp()
+    app.VerifyWebhookRequest(r)
     // do something
 }
 
@@ -331,9 +320,10 @@ App callback URL：http://appdemo.myshopline.com/auth/callback
 
 ```
 // Create Access Token
-appkey := "appkey"
 code := "code"
-accessToken, err := oauth.CreateAccessToken(appkey, code)
+appKey := ""
+app := manager.GetApp(appKey)
+accessToken, err := oauth.CreateAccessToken(app, code)
 // Do something with the token, like store it in a DB or Cache.
 
 ```
@@ -361,7 +351,8 @@ en: https://developer.shopline.com/docs/apps/api-instructions-for-use/app-author
 // Refresh Access Token
 storeHandle := ""
 appKey := ""
-accessToken, err := oauth.RefreshAccessToken(appKey, storeHandle)
+app := manager.GetApp(appKey)
+accessToken, err := oauth.RefreshAccessToken(app, storeHandle)
 
 // Do something with the token, like store it in a DB or Cache.
 
@@ -387,22 +378,20 @@ import "github.com/shoplineos/shopline-sdk-go/client"
 ```
   // 1. create app
   appInstance := client.App{
-      AppKey:      "72a6746a3607e3cb26b336899b172403f0c1ba6c",              // replace your data
-      AppSecret:   "f8cd5bf33238e4323885203d7540634032736544",              // replace your data
+      AppKey:      "",              // replace your data
+      AppSecret:   "",              // replace your data
       Scope:       "read_products,write_products,read_orders,write_orders", // replace your data
-      RedirectUrl: "http://appdemo.myshopline.com/auth/callback",           // replace your data
+      RedirectUrl: "http://appdemo.myshopline.com/auth/callback",           // for OAuth replace your data
   }
   
   handle := "zwapptest" // replace your data
-
-  // replace your data
-  accessToken := ""
+  accessToken := ""  // replace your data
   
   // 2. create client
   c := client.MustNewClient(appInstance, handle, accessToken)
   appInstance.Client = c
 
-  // 3. use client
+  // 3. use client to invoke API
   // 3.1 API request
   getProductCountAPIReq := &GetProductCountAPIReq{}
   shoplineReq := &client.ShopLineRequest{
@@ -516,24 +505,14 @@ func CallbackHandler(w http.ResponseWriter, r *http.Request) {
 
 #### 使用 access token 调用 APIs
 
-先配置好 app_config.go，然后调用API。
+调用 创建商品 API。
 
 ```
-// Init app_config.go
-const (
-    DefaultRedirectUrl       = "http://appdemo.myshopline.com/auth/callback" // DefaultRedirectUrl, replace real DefaultRedirectUrl for OAuth
-
-    DefaultAppKey            = ""  // DefaultAppKey, replace real AppKey
-    DefaultAppSecret         = ""  // DefaultAppSecret, replace real AppSecret
-    DefaultAppScope          = ""  // DefaultAppScope, replace real AppScope
-    DefaultStoreHandle       = ""  // replace real store handle
-    DefaultAccessToken       = ""  // DefaultAccessToken for test
-)
 
 // see create_product_test.go
 // create product
 // https://developer.shopline.com/docs/admin-rest-api/product/product/create-a-product/?version=v20251201
-apiReq := &CreateProductAPIReq{
+apiReq := &product.CreateProductAPIReq{
     Product: Product{
         Title:          "Test product - " + time.Now().Format("20060102150405"),
         BodyHTML:       "<p>This is a test product created via the API</p>",
@@ -591,7 +570,7 @@ apiReq := &CreateProductAPIReq{
     },
 }
 
-apiResp, err := CreateProduct(c, apiReq)
+apiResp, err := product.CreateProduct(c, apiReq)
 ```
 
 #### 使用您自己的数据模型对象
@@ -645,7 +624,8 @@ func GetProductsCount(c *client.Client, apiReq *GetProductCountAPIReq) (*GetProd
 ```
 // see server/main.go
 func WebhookHandler(w http.ResponseWriter, r *http.Request) {
-    manager.GetDefaultApp().VerifyWebhookRequest(r)
+    app := manager.GetDefaultApp()
+    app.VerifyWebhookRequest(r)
     // do something
 }
 ```
@@ -656,7 +636,7 @@ server端例子仅仅作为本地测试 demo 使用。如要在生产使用，�
 
 *
 
-如果尚未入驻，请先去入驻平台：https://developer.shopline.com/zh-hans-cn/docs/apps/get-started/onboarding-guidelines-for-shopline-developer-s?version=v20251201 <br>
+如果尚未入驻，请先去入驻：https://developer.shopline.com/zh-hans-cn/docs/apps/get-started/onboarding-guidelines-for-shopline-developer-s?version=v20251201 <br>
 
 *
 
@@ -716,7 +696,8 @@ Windows路径: C:\Windows\System32\drivers\etc\hosts
 // Create Access Token
 appkey := "appkey"
 code := "code"
-accessToken, err := oauth.CreateAccessToken(appkey, code)
+app := manager.GetApp(appKey)
+accessToken, err := oauth.CreateAccessToken(app, code)
 
 // Do something with the token, like store it in a DB or Cache.
 
@@ -744,7 +725,8 @@ Access Token 每隔一段时间会过期，因此我们需要定期刷新 Access
 // Refresh Access Token
 storeHandle := ""
 appKey := ""
-accessToken, err := oauth.RefreshAccessToken(appKey, storeHandle)
+app := manager.GetApp(appKey)
+accessToken, err := oauth.RefreshAccessToken(app, storeHandle)
 
 // Do something with the token, like store it in a DB or Cache.
 
