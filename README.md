@@ -8,6 +8,19 @@
 
 **Note**: This is an unstable SDK for developers using https://developer.shopline.com, we are still improving. The library does not have implementations of all shopline resources. PRs for new resources and endpoints are welcome, or you can simply implement some yourself as-you-go. See the section "Using your own models" for more info.
 
+
+
+#### Install
+```
+$ go get github.com/shoplineos/shopline-sdk-go
+```
+
+#### Use
+```
+import "github.com/shoplineos/shopline-sdk-go/client"
+```
+
+
 #### Init App and Client
 ```
   // 1. create app
@@ -358,6 +371,18 @@ accessToken, err := oauth.RefreshAccessToken(appKey, storeHandle)
 
 **注意**：对于使用 https://developer.shopline.com 的开发者来说，目前这是一个不稳定的 SDK，我们还在不断完善中。该库并未包含所有 Shopline 资源的实现。欢迎提交新资源和端点的 Pull Request，或者您也可以自行实现一些。更多信息，请参阅“使用您自己的数据模型对象”部分。
 
+
+#### Install
+```
+$ go get github.com/shoplineos/shopline-sdk-go
+```
+
+#### Use
+```
+import "github.com/shoplineos/shopline-sdk-go/client"
+```
+
+
 #### 初始化 App 和 Client
 ```
   // 1. create app
@@ -430,9 +455,12 @@ func InstallHandler(w http.ResponseWriter, r *http.Request) {
 	//	http.Error(w, "Invalid timestamp", http.StatusBadRequest)
 	//	return
 	//}
+	
+	
+	app := manager.GetApp(appkey)
 
 	// 5. Verify the Sign
-	isSignValid := manager.GetApp(appkey).VerifySign(r.URL.Query(), sign)
+	isSignValid := app.VerifySign(r.URL.Query(), sign)
 	if !isSignValid {
 		log.Printf("sign verification failed, appkey: %s, sign: %s\n", appkey, sign)
 		http.Error(w, "Invalid signature", http.StatusUnauthorized)
@@ -449,7 +477,6 @@ func InstallHandler(w http.ResponseWriter, r *http.Request) {
 	// en: https://developer.shopline.com/docs/apps/api-instructions-for-use/app-authorization?version=v20260301#step2
 	// url := fmt.Sprintf("https://%s.myshopline.com/admin/oauth-web/#/oauth/authorize?appKey=%s&responseType=code&scope=%s&redirectUri=%s", storeHandle, appKey, scope, redirectUri)
 
-	app := manager.GetApp(appkey)
 	url, err := oauth.AuthorizeUrl(app, handle, "")
 	if err != nil {
 		log.Printf("Authorize url error, appkey: %s, handle: %s, err: %v\n", appkey, handle, err)
