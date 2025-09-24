@@ -3,24 +3,25 @@ package signature
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/shoplineos/shopline-sdk-go/config"
 	"github.com/stretchr/testify/assert"
 	"log"
+	"net/url"
 	"testing"
 )
 
+//
 //var (
-//	client *client2.Client
-//	app    client2.App
+//	client *Client
+//	app    App
 //)
 //
-//func setup() *client2.Client {
-//	app = client2.App{
+//func setup() *Client {
+//	app = App{
 //		AppKey:    config.DefaultAppKey,
 //		AppSecret: config.DefaultAppSecret,
 //	}
 //
-//	client = client2.MustNewClient(app, config.DefaultStoreHandle, config.DefaultAccessToken)
+//	client = MustNewClient(app, config.DefaultStoreHandle, config.DefaultAccessToken)
 //	if client == nil {
 //		panic("client is nil")
 //	}
@@ -29,10 +30,17 @@ import (
 //	return client
 //}
 
+const (
+	AppKeyForTest      = "LDLLJJLflja2039203flaflaLLFLE"
+	AppSecretForTest   = "LDLLJJLflja2039203flaflaLLFLE"
+	StoreHandelForTest = "zwapptest"
+	LangForTest        = "zh"
+)
+
 // no body
 func TestGenerateSign1(t *testing.T) {
 
-	appKey := ""
+	appKey := AppKeyForTest
 	jsonBody := ""
 
 	//timestamp := time.Now().Unix()
@@ -40,20 +48,20 @@ func TestGenerateSign1(t *testing.T) {
 
 	//fmt.Printf("timestampInt: %s\n", timestampInt)
 
-	sign := GenerateSign(appKey, string(jsonBody), timestampInt, config.DefaultAppSecret)
+	sign := GenerateSign(appKey, string(jsonBody), timestampInt, AppSecretForTest)
 
 	a := assert.New(t)
 
 	fmt.Printf("sign: %s\n", sign)
 
-	a.Equal("5c8d81bee7b236a6e57055264ae6e93195a1efad72b5175470f8dffe18ae015d", sign)
+	a.Equal("cf5edab6b92d740fe54b3ce9e2723788128384a1eb5c2a5d64c9210a31185b86", sign)
 
 }
 
 // has body
 func TestGenerateSign2(t *testing.T) {
 
-	appKey := ""
+	appKey := AppKeyForTest
 
 	requestBody := map[string]string{
 		"code": "code",
@@ -66,23 +74,20 @@ func TestGenerateSign2(t *testing.T) {
 
 	//timestamp := time.Now().Unix()
 	timestampInt := "21c335b3a"
-
 	//fmt.Printf("timestampInt: %s\n", timestampInt)
 
-	sign := GenerateSign(appKey, string(jsonBody), timestampInt, config.DefaultAppSecret)
+	sign := GenerateSign(appKey, string(jsonBody), timestampInt, AppSecretForTest)
 
 	a := assert.New(t)
-
-	fmt.Printf("sign: %s\n", sign)
-
-	a.Equal(sign, "55cb3704385db767b865c23f4f2201f4abdb817ccc5e3cce5cbbb86e555fecc0")
+	//fmt.Printf("sign: %s\n", sign)
+	a.Equal(sign, "4c4cf0ac52439d1308b58897f857dcba8545efb6c0e8091fba64b148218d2074")
 
 }
 
 // has body & no timestamp
 func TestGenerateSignForWebhook(t *testing.T) {
 
-	appKey := config.DefaultAppKey
+	appKey := AppKeyForTest
 
 	requestBody := "my secret message"
 
@@ -96,11 +101,47 @@ func TestGenerateSignForWebhook(t *testing.T) {
 
 	//fmt.Printf("timestampInt: %s\n", timestampInt)
 
-	sign := GenerateSign(appKey, string(jsonBody), timestamp, config.DefaultAppSecret)
+	sign := GenerateSign(appKey, string(jsonBody), timestamp, AppSecretForTest)
 
-	fmt.Printf("sign: %s\n", sign)
+	//fmt.Printf("sign: %s\n", sign)
 
 	a := assert.New(t)
-	a.Equal(sign, "1487c504fdb834b0ec315fc038e6f16ed0b51d5e7eb3f1d3aca862139673788b")
+	a.Equal(sign, "7d8b4cbec432e0c7e901881cc0f2490a910d56eaa73fc94bcc4276d14a61fe88")
+
+}
+
+func TestGenerateSignForGet(t *testing.T) {
+	appSecret := AppSecretForTest
+	params := url.Values{}
+	params.Add("appkey", AppKeyForTest)
+	params.Add("handle", StoreHandelForTest)
+	params.Add("lang", LangForTest)
+	params.Add("timestamp", "21c335b3a")
+
+	sign := GenerateSignForGet(appSecret, params)
+	//fmt.Printf("sign: %s\n", sign)
+
+	a := assert.New(t)
+	a.Equal(sign, "654a42549daaad959b6488500f499fc0381c6cf24d8afceeb566729fc82fee6a")
+
+}
+
+func TestVerifySign(t *testing.T) {
+
+	appSecret := AppSecretForTest
+	params := url.Values{}
+	params.Add("appkey", AppKeyForTest)
+	params.Add("handle", StoreHandelForTest)
+	params.Add("lang", LangForTest)
+	params.Add("timestamp", "21c335b3a")
+
+	receivedSign := "654a42549daaad959b6488500f499fc0381c6cf24d8afceeb566729fc82fee6a"
+	success := VerifySign(appSecret, params, receivedSign)
+	a := assert.New(t)
+	a.Equal(success, true)
+
+	receivedSign = "wrong"
+	success = VerifySign(appSecret, params, receivedSign)
+	a.False(success)
 
 }

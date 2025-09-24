@@ -33,28 +33,6 @@ func setup() *Client {
 	return client
 }
 
-func TestCreateAccessToken(t *testing.T) {
-	setup()
-
-	token, err := app.CreateAccessToken(context.Background(), "abc")
-	if err != nil {
-		t.Fatal(err)
-	}
-
-	log.Printf("DefaultAccessToken: %v\n", token)
-}
-
-func TestRefreshAccessToken(t *testing.T) {
-	setup()
-
-	token, err := app.RefreshAccessToken(context.Background(), config.DefaultStoreHandle)
-	if err != nil {
-		t.Fatal(err)
-	}
-
-	log.Printf("DefaultAccessToken: %v\n", token)
-}
-
 // product detail
 // zh: https://developer.shopline.com/zh-hans-cn/docs/admin-rest-api/product/product/query-single-product?version=v20251201
 // en: https://developer.shopline.com/docs/admin-rest-api/product/product/query-single-product?version=v20251201
@@ -203,4 +181,40 @@ func TestCheckResponseError(t *testing.T) {
 			t.Errorf("CheckHttpResponseError(): expected [%v], actual [%v]", c.expected, actual)
 		}
 	}
+}
+
+func TestParsePaginationIfNecessary(t *testing.T) {
+
+	// case 1
+	linkHeader := "linkHeader"
+	_, err := ParsePaginationIfNecessary(linkHeader)
+	a := assert.New(t)
+	a.NotNil(err)
+
+	// case 2
+	linkHeader = ""
+	_, err = ParsePaginationIfNecessary(linkHeader)
+	a.Nil(err)
+
+	linkHeader = "<https://fafafa.myshopline.com/admin/openapi/v33322/products/products.json?limit=1&page_info=eyJzaW5jZUlkIjoiMTYwNTc1OTAxNTM4OTA4Mjk1MjExMTI3ODgiLCJkaXJlY3Rpb24iOiJuZXh0IiwibGltaXQiOjF9>; rel=\"next\",<https://raoruouor.myshopline.com/admin/openapi/fajlfja/products/products.json?limit=1&page_info=eyJzaW5jZUlkIjoiMTYwNTc2NjAxNzI1MjczOTI4MDEwOTI3ODgiLCJkaXJlY3Rpb24iOiJwcmV2IiwibGltaXQiOjF9>; rel=\"previous\""
+	pagination, err := ParsePaginationIfNecessary(linkHeader)
+	a.Nil(err)
+	a.NotNil(pagination)
+
+	a.NotNil(pagination.Previous)
+	a.NotEmpty(pagination.Previous.PageInfo)
+	a.Equal(pagination.Previous.Limit, 1)
+
+	a.NotNil(pagination.Next)
+	a.NotEmpty(pagination.Next.PageInfo)
+	a.Equal(pagination.Next.Limit, 1)
+
+	linkHeader = "<https://fafafa.myshopline.com/admin/openapi/v33322/products/products.json?limit=1&page_info=eyJzaW5jZUlkIjoiMTYwNTc1OTAxNTM4OTA4Mjk1MjExMTI3ODgiLCJkaXJlY3Rpb24iOiJuZXh0IiwibGltaXQiOjF9>; rel=\"next\""
+	pagination, err = ParsePaginationIfNecessary(linkHeader)
+	a.Nil(err)
+	a.NotNil(pagination)
+	a.NotNil(pagination.Next)
+	a.NotEmpty(pagination.Next.PageInfo)
+	a.Equal(pagination.Next.Limit, 1)
+
 }

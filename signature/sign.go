@@ -32,6 +32,16 @@ func GenerateSign(appKey, body, timestamp, appSecret string) string {
 // 中文: https://developer.shopline.com/zh-hans-cn/docs/apps/api-instructions-for-use/generate-and-verify-signatures?version=v20251201
 // en: https://developer.shopline.com/docs/apps/api-instructions-for-use/generate-and-verify-signatures?version=v20251201
 func VerifySign(appSecret string, params url.Values, receivedSign string) bool {
+	expectedSign := GenerateSignForGet(appSecret, params)
+
+	// Compare the sign
+	return hmac.Equal([]byte(expectedSign), []byte(receivedSign))
+}
+
+// GenerateSignForGet
+// 中文: https://developer.shopline.com/zh-hans-cn/docs/apps/api-instructions-for-use/generate-and-verify-signatures?version=v20251201
+// en: https://developer.shopline.com/docs/apps/api-instructions-for-use/generate-and-verify-signatures?version=v20251201
+func GenerateSignForGet(appSecret string, params url.Values) string {
 	// 1. Copy the parameters and remove the sign field
 	paramCopy := make(map[string]string)
 	for k, v := range params {
@@ -63,9 +73,7 @@ func VerifySign(appSecret string, params url.Values, receivedSign string) bool {
 	hash := hmac.New(sha256.New, []byte(appSecret))
 	hash.Write([]byte(paramStr))
 	expectedSign := hex.EncodeToString(hash.Sum(nil))
-
-	// 5. Compare the sign
-	return hmac.Equal([]byte(expectedSign), []byte(receivedSign))
+	return expectedSign
 }
 
 // VerifyWebhookRequest Verify a Webhook http request, sent by shopline.

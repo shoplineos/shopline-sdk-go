@@ -7,6 +7,13 @@ import (
 	"time"
 )
 
+// BuildTimestamp Build timestamp
+func BuildTimestamp() string {
+	timestamp := time.Now().UnixMilli()
+	timestampStr := fmt.Sprintf("%d", timestamp)
+	return timestampStr
+}
+
 // GetStoreFullName Return the full store name, including .myshopline.com
 func GetStoreFullName(name string) string {
 	name = strings.TrimSpace(name)

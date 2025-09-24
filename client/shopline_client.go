@@ -161,8 +161,8 @@ type TokenResponse struct {
 	} `json:"data"`
 }
 
-// TimeoutInMillisecond default timeout time in millisecond
 const (
+	// TimeoutInMillisecond default timeout time in millisecond
 	TimeoutInMillisecond = 10 * 1000 * time.Millisecond
 	defaultApiPathPrefix = config.DefaultApiPathPrefix
 	defaultApiVersion    = config.DefaultAPIVersion
@@ -172,29 +172,12 @@ const (
 // 中文: https://developer.shopline.com/zh-hans-cn/docs/apps/api-instructions-for-use/app-authorization/?lang=zh-hans-cn#%E7%AC%AC%E4%B8%89%E6%AD%A5app-%E8%AF%B7%E6%B1%82%E6%8E%88%E6%9D%83%E7%A0%81
 // en: https://developer.shopline.com/docs/apps/api-instructions-for-use/app-authorization/#step2
 func (app App) AuthorizeUrl(storeHandle string, scope string) (string, error) {
-	//shopUrl, err := url.Parse(common.GetStoreBaseUrl(storeHandle))
-	//if err != nil {
-	//	return "", err
-	//}
-
-	//scope := "read_products,write_products,read_orders,write_orders"
-
-	//redirectUri := fmt.Sprintf("http://%s/auth/callback", shopUrl)
-
-	//shopUrl.Path = "/admin/oauth-web/#/oauth/authorize"
-	//query := shopUrl.Query()
-	//query.Set("appKey", app.AppKey)
-	//query.Set("redirectUri", app.RedirectUrl)
-	//query.Set("scope", app.resolveScope(scope))
-	//query.Set("responseType", "code")
-	//shopUrl.RawQuery = query.Encode()
-
 	redirectUri := url.QueryEscape(app.RedirectUrl)
 	scope = app.resolveScope(scope)
 	scope = url.QueryEscape(scope)
-	baseUrl := fmt.Sprintf("https://%s.myshopline.com/admin/oauth-web/#/oauth/authorize?appKey=%s&responseType=code&scope=%s&redirectUri=%s", storeHandle, app.AppKey, scope, redirectUri)
+	authorizeUrl := fmt.Sprintf("https://%s.myshopline.com/admin/oauth-web/#/oauth/authorize?appKey=%s&responseType=code&scope=%s&redirectUri=%s", storeHandle, app.AppKey, scope, redirectUri)
 
-	return baseUrl, nil
+	return authorizeUrl, nil
 }
 
 func (app App) VerifySign(params url.Values, receivedSign string) bool {
@@ -371,11 +354,6 @@ func (c *Client) Get(ctx context.Context, endpoint string, request *ShopLineRequ
 	return c.Execute(ctx, MethodGet, endpoint, request, resource)
 }
 
-// executeWithoutToken create access Token and refresh access Token
-//func (c *Client) executeWithoutToken(ctx context.Context, method HTTPMethod, path string, request *ShopLineRequest) (*ShopLineResponse, error) {
-//	return c.executeInternal(ctx, method, path, request)
-//}
-
 // Execute performs a http request for the given endpoint and saves the result in the given resource.
 // accessToken:
 //
@@ -502,7 +480,7 @@ func (c *Client) setHeaders(appKey string, appSecret string, httpReq *http.Reque
 		httpReq.Header.Set("Authorization", "Bearer "+c.Token)
 	}
 
-	timestamp := buildTimestamp()
+	timestamp := common.BuildTimestamp()
 	httpReq.Header.Set("timestamp", timestamp)
 
 	request := requestWrapper.shopLineRequest
@@ -566,13 +544,6 @@ func buildBodyJsonString(bodyParams []byte) (string, error) {
 	return string(bodyParams), nil
 }
 
-// Build timestamp
-func buildTimestamp() string {
-	timestamp := time.Now().Unix()
-	timestampInt := strconv.FormatInt(timestamp, 13)
-	return timestampInt
-}
-
 // Build shopline response
 func buildShopLineResponse(shopLineRequest *ShopLineRequest, httpResp *http.Response, resource interface{}) (*ShopLineResponse, error) {
 	shopLineResp := &ShopLineResponse{}
@@ -602,7 +573,7 @@ func buildShopLineResponse(shopLineRequest *ShopLineRequest, httpResp *http.Resp
 	}
 	shopLineResp.Data = resource
 
-	pagination, err := parsePaginationIfNecessary(shopLineResp.Link)
+	pagination, err := ParsePaginationIfNecessary(shopLineResp.Link)
 	if err != nil {
 		return shopLineResp, err
 	}
@@ -801,10 +772,10 @@ func (e ResponseDecodingError) Error() string {
 // linkRegex is used to parse the pagination link from shopline API search results.
 var linkRegex = regexp.MustCompile(`^ *<([^>]+)>; rel="(previous|next)" *$`)
 
-// Pagination, see detail：
+// ParsePaginationIfNecessary
 // 中文: https://developer.shopline.com/zh-hans-cn/docs/apps/api-instructions-for-use/paging-mechanism?version=v20251201
 // en: https://developer.shopline.com/docs/apps/api-instructions-for-use/paging-mechanism?version=v20251201
-func parsePaginationIfNecessary(linkHeader string) (*Pagination, error) {
+func ParsePaginationIfNecessary(linkHeader string) (*Pagination, error) {
 	if linkHeader == "" {
 		return nil, nil
 	}
