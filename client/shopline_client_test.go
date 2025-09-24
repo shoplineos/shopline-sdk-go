@@ -43,8 +43,8 @@ func TestGetProductDetail(t *testing.T) {
 	shopLineReq := &ShopLineRequest{}
 	responseData := &map[string]any{}
 	productId := "16070822412102455208483380"
-	path := fmt.Sprintf("products/%s.json", productId)
-	resp, err := client.Get(context.Background(), path, shopLineReq, responseData)
+	endpoint := fmt.Sprintf("products/%s.json", productId)
+	resp, err := client.Get(context.Background(), endpoint, shopLineReq, responseData)
 
 	if err != nil {
 		t.Fatal(err)
@@ -65,9 +65,9 @@ func TestDeleteProduct(t *testing.T) {
 	responseData := &map[string]any{}
 	shopLineReq := &ShopLineRequest{}
 
-	path := fmt.Sprintf("products/%s.json", productId)
+	endpoint := fmt.Sprintf("products/%s.json", productId)
 
-	resp, err := client.Delete(context.Background(), path, shopLineReq, responseData)
+	resp, err := client.Delete(context.Background(), endpoint, shopLineReq, responseData)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -202,11 +202,12 @@ func TestParsePaginationIfNecessary(t *testing.T) {
 	a.NotNil(pagination)
 
 	a.NotNil(pagination.Previous)
-	a.NotEmpty(pagination.Previous.PageInfo)
+	a.Equal(pagination.Previous.PageInfo, "eyJzaW5jZUlkIjoiMTYwNTc2NjAxNzI1MjczOTI4MDEwOTI3ODgiLCJkaXJlY3Rpb24iOiJwcmV2IiwibGltaXQiOjF9")
 	a.Equal(pagination.Previous.Limit, 1)
 
 	a.NotNil(pagination.Next)
 	a.NotEmpty(pagination.Next.PageInfo)
+	a.Equal(pagination.Next.PageInfo, "eyJzaW5jZUlkIjoiMTYwNTc1OTAxNTM4OTA4Mjk1MjExMTI3ODgiLCJkaXJlY3Rpb24iOiJuZXh0IiwibGltaXQiOjF9")
 	a.Equal(pagination.Next.Limit, 1)
 
 	linkHeader = "<https://fafafa.myshopline.com/admin/openapi/v33322/products/products.json?limit=1&page_info=eyJzaW5jZUlkIjoiMTYwNTc1OTAxNTM4OTA4Mjk1MjExMTI3ODgiLCJkaXJlY3Rpb24iOiJuZXh0IiwibGltaXQiOjF9>; rel=\"next\""

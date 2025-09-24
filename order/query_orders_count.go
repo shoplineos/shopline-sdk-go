@@ -29,13 +29,13 @@ func QueryOrdersCount(c *client.Client, apiReq *GetOrdersCountAPIReq) (*GetOrder
 
 	// 1. API request
 	shopLineReq := &client.ShopLineRequest{
-		Data: apiReq,
+		Data: apiReq, // API request data
 	}
 
 	// 2. API endpoint
 	endpoint := "orders/count.json"
 
-	// 3. API response
+	// 3. API response data
 	apiResp := &GetOrdersCountAPIResp{}
 
 	// 4. Invoke API

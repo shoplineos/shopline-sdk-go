@@ -59,20 +59,21 @@ func InstallHandler(w http.ResponseWriter, r *http.Request) {
 
 	// 4. TODO Verify the timestamp
 	//timestamp, err := strconv.ParseInt(timestampStr, 10, 64)
-	//if err != nil || time.Now().Unix()-timestamp > 6000 {
+	//if err != nil || time.Now().Unix()-timestamp > 600 {
 	//	http.Error(w, "Invalid timestamp", http.StatusBadRequest)
 	//	return
 	//}
 
 	// 5. Verify the Sign
-	isSignValid := manager.GetApp(appkey).VerifySign(r.URL.Query(), sign)
+	app := manager.GetApp(appkey)
+	isSignValid := app.VerifySign(r.URL.Query(), sign)
 	if !isSignValid {
 		log.Printf("sign verification failed, appkey: %s, sign: %s\n", appkey, sign)
 		http.Error(w, "Invalid signature", http.StatusUnauthorized)
 		return
 	}
 
-	// 6. TODO process biz logic
+	// 6. TODO do biz logic
 	log.Printf("install received - appkey: %s, handle: %s, lang: %s", appkey, handle, lang)
 
 	w.Header().Set("Content-Type", "application/json")
@@ -82,7 +83,6 @@ func InstallHandler(w http.ResponseWriter, r *http.Request) {
 	// en: https://developer.shopline.com/docs/apps/api-instructions-for-use/app-authorization?version=v20260301#step2
 	// url := fmt.Sprintf("https://%s.myshopline.com/admin/oauth-web/#/oauth/authorize?appKey=%s&responseType=code&scope=%s&redirectUri=%s", storeHandle, appKey, scope, redirectUri)
 
-	app := manager.GetApp(appkey)
 	url, err := oauth.AuthorizeUrl(app, handle, "")
 	if err != nil {
 		log.Printf("Authorize url error, appkey: %s, handle: %s, err: %v\n", appkey, handle, err)
@@ -116,10 +116,10 @@ func CallbackHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// todo process biz logic
+	// todo do biz logic
 	log.Printf("Auth callback received - appkey: %s, handle: %s, code: %s, customField: %s, timestampStr: %s, sign: %s", appkey, handle, code, customField, timestampStr, sign)
 
-	// create token
+	// create a new token
 	token, err := oauth.CreateAccessToken(app, code)
 	if err != nil {
 		log.Printf("Create access token error, appkey: %s, handle: %s, code: %s, err: %v\n", appkey, handle, code, err)
@@ -135,8 +135,8 @@ func CallbackHandler(w http.ResponseWriter, r *http.Request) {
 		// reset token
 		cli.Token = accessToken
 	} else {
-		// create a Client
-		cli, err = client.NewClient(manager.GetApp(appkey), handle, accessToken)
+		// Create a new API client
+		cli, err = client.NewClient(app, handle, accessToken)
 		if err != nil {
 			log.Printf("new client error, appkey: %s, err: %v\n", appkey, err)
 		}

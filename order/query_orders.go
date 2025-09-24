@@ -42,13 +42,13 @@ type QueryOrdersAPIResp struct {
 func QueryOrders(c *client.Client, apiReq *QueryOrdersAPIReq) (*QueryOrdersAPIResp, error) {
 	// 1. API request
 	shoplineReq := &client.ShopLineRequest{
-		Data: apiReq,
+		Data: apiReq, // API request data
 	}
 
 	// 2. API endpoint
 	endpoint := "orders.json"
 
-	// 3. API response
+	// 3. API response data
 	apiResp := &QueryOrdersAPIResp{}
 
 	// 4. Invoke API

@@ -70,17 +70,16 @@ type UpdateProductAPIResp struct {
 // en: https://developer.shopline.com/docs/admin-rest-api/product/product/update-product?version=v20251201
 func UpdateProduct(c *client.Client, apiReq *ProductUpdateAPIReq) (*UpdateProductAPIResp, error) {
 
-	productID := apiReq.Product.Id
-
 	// 1. API request
 	request := &client.ShopLineRequest{
-		Data: apiReq,
+		Data: apiReq, // API request data
 	}
 
 	// 2. API endpoint
+	productID := apiReq.Product.Id
 	endpoint := fmt.Sprintf("products/%s.json", productID)
 
-	// 3. API response
+	// 3. API response data
 	apiResp := &UpdateProductAPIResp{}
 
 	// 4. Invoke API

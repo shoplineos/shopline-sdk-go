@@ -26,7 +26,7 @@ func GetProductDetail(c *client.Client, apiReq *GetProductDetailAPIReq) (*GetPro
 	// 2. API endpoint
 	endpoint := fmt.Sprintf("products/%s.json", apiReq.ProductId)
 
-	// 3. API response
+	// 3. API response data
 	apiResp := &GetProductDetailAPIResp{}
 
 	// 4. Invoke API

@@ -95,13 +95,13 @@ func CreateProduct(c *client.Client, apiReq *CreateProductAPIReq) (*CreateProduc
 
 	// 1. API request
 	request := &client.ShopLineRequest{ // client request
-		Data: apiReq, // API request
+		Data: apiReq, // API request data
 	}
 
 	// 2. API endpoint
 	endpoint := "products/products.json"
 
-	// 3. API shopLineResp
+	// 3. API response data
 	apiResp := &CreateProductAPIResp{}
 
 	// 4. Invoke API

@@ -26,13 +26,13 @@ func GetProductsCount(c *client.Client, apiReq *GetProductCountAPIReq) (*GetProd
 
 	// 1. API request
 	shoplineReq := &client.ShopLineRequest{
-		Data: apiReq,
+		Data: apiReq, // API request data
 	}
 
 	// 2. API endpoint
 	endpoint := "products/count.json"
 
-	// 3. API response
+	// 3. API response data
 	apiResp := &GetProductCountAPIResp{}
 
 	// 4. Invoke API
