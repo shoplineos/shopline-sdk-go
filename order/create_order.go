@@ -166,7 +166,7 @@ type BillingAddress struct {
 func CreateOrder(c *client.Client, apiReq *CreateOrderAPIReq) (*CreateOrderAPIResp, error) {
 	// 1. API request
 	shopLineReq := &client.ShopLineRequest{
-		Body: apiReq,
+		Data: apiReq,
 	}
 
 	// 2. API endpoint

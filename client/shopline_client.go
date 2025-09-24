@@ -75,11 +75,9 @@ type ShopLineRequestOption struct {
 // 中文: https://developer.shopline.com/zh-hans-cn/docs/apps/api-instructions-for-use/paging-mechanism?version=v20251201
 // en: https://developer.shopline.com/docs/apps/api-instructions-for-use/paging-mechanism?version=v20251201
 type ShopLineRequest struct {
-	Headers map[string]string // http header
-	Query   interface{}       // struct，http query params
-	Body    interface{}       // struct，http body params
-
-	Option *ShopLineRequestOption // option params
+	Headers map[string]string      // http header
+	Data    interface{}            // struct，http url query params or body params
+	Option  *ShopLineRequestOption // option params
 }
 
 func (r *ShopLineRequest) isSignEnabled() bool {
@@ -225,7 +223,7 @@ func (app App) CreateAccessToken(ctx context.Context, code string) (*TokenRespon
 
 	shopLineReq := &ShopLineRequest{
 		Option: &ShopLineRequestOption{EnableSign: true},
-		Body:   requestBody,
+		Data:   requestBody,
 	}
 
 	// 2. new http request
@@ -437,7 +435,7 @@ func (c *Client) NewHttpRequest(ctx context.Context, method HTTPMethod, path str
 
 	requestBodyJsonData, err := c.buildRequestBodyJsonData(request)
 	if err != nil {
-		log.Printf("Failed to serialize JSON, bodyParams:%v, err:%v\n", request.Body, err)
+		log.Printf("Failed to serialize JSON, bodyParams:%v, err:%v\n", request.Data, err)
 		return nil, err
 	}
 
@@ -898,8 +896,8 @@ func (c *Client) buildFinalRequestUrl(relPath string, request *ShopLineRequest) 
 
 	parsedURL := c.baseURL.ResolveReference(rel)
 
-	if request.Query != nil {
-		optionsQuery, err := query.Values(request.Query)
+	if request.Data != nil {
+		optionsQuery, err := query.Values(request.Data)
 		if err != nil {
 			return "", err
 		}
@@ -933,11 +931,11 @@ func (c *Client) resolveApiVersion(req *ShopLineRequest) string {
 
 // body params convert to json string
 func (c *Client) buildRequestBodyJsonData(request *ShopLineRequest) ([]byte, error) {
-	if request == nil || request.Body == nil {
+	if request == nil || request.Data == nil {
 		return nil, nil
 	}
 
-	body := request.Body
+	body := request.Data
 
 	return json.Marshal(body)
 }

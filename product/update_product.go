@@ -74,7 +74,7 @@ func UpdateProduct(c *client.Client, apiReq *ProductUpdateAPIReq) (*UpdateProduc
 
 	// 1. API request
 	request := &client.ShopLineRequest{
-		Body: apiReq,
+		Data: apiReq,
 	}
 
 	// 2. API endpoint

@@ -95,7 +95,7 @@ func CreateProduct(c *client.Client, apiReq *CreateProductAPIReq) (*CreateProduc
 
 	// 1. API request
 	request := &client.ShopLineRequest{ // client request
-		Body: apiReq, // API request
+		Data: apiReq, // API request
 	}
 
 	// 2. API endpoint

@@ -38,7 +38,7 @@ func QueryProducts(c *client.Client, apiReq *QueryProductsAPIReq) (*QueryProduct
 
 	// 1. API request
 	shopLineReq := &client.ShopLineRequest{
-		Query: apiReq,
+		Data: apiReq,
 	}
 
 	// 2. API endpoint
