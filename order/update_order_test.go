@@ -9,12 +9,13 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestCreateOrder(t *testing.T) {
+func TestUpdateOrder(t *testing.T) {
 
-	apiReq := &CreateOrderAPIReq{
+	apiReq := &UpdateOrderAPIReq{
 		Order: Order{
+			ID:          "21071580496925210798359834",
 			Name:        "D101-" + time.Now().Format("20060102"),
-			OrderNote:   "API Create test Order",
+			OrderNote:   "API Create test Order updatezw",
 			Currency:    "USD",
 			SendReceipt: false,
 			ProcessedAt: time.Now().Format("2006-01-02T15:04:05+08:00"),
@@ -69,8 +70,8 @@ func TestCreateOrder(t *testing.T) {
 				CityCode:     "510000",
 				Area:         "Panyu District",
 				AreaCode:     "510006",
-				Address1:     "Xiaoguwei Street",
-				Address2:     "Apartment 5",
+				Address1:     "Xiaoguwei Street 11",
+				Address2:     "Apartment 5 11",
 				Zip:          "510036",
 				Latitude:     "43",
 				Longitude:    "34",
@@ -112,8 +113,8 @@ func TestCreateOrder(t *testing.T) {
 				CityCode:       "510000",
 				Area:           "Panyu District",
 				AreaCode:       "510007",
-				Address1:       "Xiaoguwei Street",
-				Address2:       "Apartment 5",
+				Address1:       "Xiaoguwei Street 11",
+				Address2:       "Apartment 5 11",
 				Zip:            "510036",
 			},
 		},
@@ -121,7 +122,7 @@ func TestCreateOrder(t *testing.T) {
 
 	c := manager.GetDefaultClient()
 
-	shopLineResp, err := CreateOrder(c, apiReq)
+	shopLineResp, err := UpdateOrder(c, apiReq)
 	if err != nil {
 		fmt.Println("Create order failed, err:", err)
 		return
