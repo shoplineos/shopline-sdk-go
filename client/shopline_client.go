@@ -414,7 +414,7 @@ func (c *Client) executeHttpRequest(request *ShopLineRequest, httpReq *http.Requ
 	log.Printf("Execute request finished！status: %d\n", resp.StatusCode)
 
 	// build response
-	shopLineResp, err := buildShopLineResponse(request, resp, resource)
+	shopLineResp, err := buildShopLineResponse(resp, resource)
 	if err != nil {
 		return shopLineResp, err
 	}
@@ -543,7 +543,7 @@ func buildBodyJsonString(bodyParams []byte) (string, error) {
 }
 
 // Build shopline response
-func buildShopLineResponse(shopLineRequest *ShopLineRequest, httpResp *http.Response, resource interface{}) (*ShopLineResponse, error) {
+func buildShopLineResponse(httpResp *http.Response, resource interface{}) (*ShopLineResponse, error) {
 	shopLineResp := &ShopLineResponse{}
 	shopLineResp.StatusCode = httpResp.StatusCode
 
@@ -571,7 +571,7 @@ func buildShopLineResponse(shopLineRequest *ShopLineRequest, httpResp *http.Resp
 	}
 	shopLineResp.Data = resource
 
-	pagination, err := ParsePaginationIfNecessary(shopLineResp.Link)
+	pagination, err := parsePaginationIfNecessary(shopLineResp.Link)
 	if err != nil {
 		return shopLineResp, err
 	}
@@ -770,10 +770,10 @@ func (e ResponseDecodingError) Error() string {
 // linkRegex is used to parse the pagination link from shopline API search results.
 var linkRegex = regexp.MustCompile(`^ *<([^>]+)>; rel="(previous|next)" *$`)
 
-// ParsePaginationIfNecessary
+// parsePaginationIfNecessary
 // 中文: https://developer.shopline.com/zh-hans-cn/docs/apps/api-instructions-for-use/paging-mechanism?version=v20251201
 // en: https://developer.shopline.com/docs/apps/api-instructions-for-use/paging-mechanism?version=v20251201
-func ParsePaginationIfNecessary(linkHeader string) (*Pagination, error) {
+func parsePaginationIfNecessary(linkHeader string) (*Pagination, error) {
 	if linkHeader == "" {
 		return nil, nil
 	}
@@ -904,7 +904,9 @@ func (c *Client) buildFinalRequestUrl(relPath string, request *ShopLineRequest) 
 
 		for k, values := range parsedURL.Query() {
 			for _, v := range values {
-				optionsQuery.Add(k, v)
+				if v != "" { // filter the empty value
+					optionsQuery.Add(k, v)
+				}
 			}
 		}
 		parsedURL.RawQuery = optionsQuery.Encode()

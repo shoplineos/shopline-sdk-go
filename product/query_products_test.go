@@ -18,7 +18,8 @@ func TestQueryProducts(t *testing.T) {
 		// Fields:         "id,title,status,vendor",
 	}
 
-	apiResp, err := QueryProducts(nil, apiReq)
+	c := manager.GetDefaultClient()
+	apiResp, err := QueryProducts(c, apiReq)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -38,7 +39,8 @@ func TestQueryProductsTitle(t *testing.T) {
 		Fields: "title",
 	}
 
-	apiResp, err := QueryProducts(nil, apiReq)
+	c := manager.GetDefaultClient()
+	apiResp, err := QueryProducts(c, apiReq)
 	if err != nil {
 		log.Fatal(err)
 	}

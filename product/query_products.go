@@ -13,22 +13,25 @@ type QueryProductsAPIResp struct {
 }
 
 type QueryProductsAPIReq struct {
-	CollectionID    string // Collection ID
-	CreatedAtMax    string // Latest creation time（ISO 8601）
-	CreatedAtMin    string // Earliest creation time（ISO 8601）
-	Fields          string // Fields（comma separated, eg "title,id,created_at"）
-	Handle          string // Product Handle
-	IDs             string // Ids（comma separated）
-	Limit           int    // Limit（1-250, default 50）
-	OrderBy         string // Sorting rules（created_at_asc/created_at_desc）
-	PageInfo        string // Page Info（Get it from the response header 'link'）
-	ProductCategory string // Product Category
-	SinceID         string // Since ID（Start querying from this ID）
-	Status          string // Product Status（active/draft/archived）
-	Title           string // Product Title（fuzzy matching）
-	UpdatedAtMax    string // Latest update time（ISO 8601）
-	UpdatedAtMin    string // Earliest update time（ISO 8601）
-	Vendor          string // Vendor
+	Status       string `url:"status,omitempty"`
+	CollectionId string `url:"collection_id,omitempty"`
+	CreatedAtMin string `url:"created_at_min,omitempty"` // Minimum order creation time（ISO 8601）
+	CreatedAtMax string `url:"created_at_max,omitempty"` // Max order creation time（ISO 8601）
+	UpdatedAtMin string `url:"updated_at_min,omitempty"` // Minimum order update time（ISO 8601）
+	UpdatedAtMax string `url:"updated_at_max,omitempty"` // Max order update time（ISO 8601）
+
+	IDs      string `url:"ids,omitempty"`       //  ids, Separate multiple with commas
+	Limit    int32  `url:"limit,omitempty"`     // Limit（1-250, default 50）
+	Fields   string `url:"fields,omitempty"`    // Fields, Separate multiple with commas
+	PageInfo string `url:"page_info,omitempty"` // Page Info（Get it from the response header 'link'）
+
+	Handle          string `url:"handle,omitempty"`           // Product Handle
+	OrderBy         string `url:"order_by,omitempty"`         // Sorting rules（created_at_asc/created_at_desc）
+	ProductCategory string `url:"product_category,omitempty"` // Product Category
+	SinceID         string `url:"since_id,omitempty"`         // Since ID（Start querying from this ID）
+	Title           string `url:"title,omitempty"`            // Product Title（fuzzy matching）
+
+	Vendor string `url:"vendor,omitempty"` // Vendor
 }
 
 // QueryProducts

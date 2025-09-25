@@ -7,14 +7,14 @@ import (
 )
 
 type GetOrdersCountAPIReq struct {
-	Status            string // Status（open/cancelled/any）
-	FinancialStatus   string // Financial Status（unpaid/authorized）
-	FulfillmentStatus string // Fulfillment Status（unshipped/partial/shipped）
-	CreatedAtMin      string // Minimum order creation time（ISO 8601）
-	CreatedAtMax      string // Max order creation time（ISO 8601）
-	UpdatedAtMin      string // Minimum order update time（ISO 8601）
-	UpdatedAtMax      string // Max order update time（ISO 8601）
-	OrderSource       string
+	Status            string `url:"status,omitempty"`           // Status（open/cancelled/any）
+	FinancialStatus   string `url:"contract_ids,omitempty"`     // Financial Status（unpaid/authorized）
+	FulfillmentStatus string `url:"financial_status,omitempty"` // Fulfillment Status（unshipped/partial/shipped）
+	CreatedAtMin      string `url:"created_at_min,omitempty"`   // Minimum order creation time（ISO 8601）
+	CreatedAtMax      string `url:"created_at_max,omitempty"`   // Max order creation time（ISO 8601）
+	UpdatedAtMin      string `url:"updated_at_min,omitempty"`   // Minimum order update time（ISO 8601）
+	UpdatedAtMax      string `url:"updated_at_max,omitempty"`   // Max order update time（ISO 8601）
+	OrderSource       string `url:"order_source,omitempty"`
 }
 
 type GetOrdersCountAPIResp struct {
@@ -23,8 +23,8 @@ type GetOrdersCountAPIResp struct {
 }
 
 // QueryOrdersCount
-// 中文: https://developer.shopline.com/zh-hans-cn/docs/admin-rest-api/order/order-management/order-quantity-query?version=v20251201
-// en: https://developer.shopline.com/docs/admin-rest-api/order/order-management/order-quantity-query/?version=v20251201
+// 中文: https://developer.shopline.com/zh-hans-cn/docs/admin-rest-api/order/order-management/get-order-quantity?version=v20251201
+// en: https://developer.shopline.com/docs/admin-rest-api/order/order-management/get-order-quantity?version=v20251201
 func QueryOrdersCount(c *client.Client, apiReq *GetOrdersCountAPIReq) (*GetOrdersCountAPIResp, error) {
 
 	// 1. API request

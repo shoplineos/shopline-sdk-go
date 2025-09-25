@@ -7,26 +7,28 @@ import (
 )
 
 type QueryOrdersAPIReq struct {
-	ContractIDs       string // Contract IDs, Separate multiple with commas
-	CreatedAtMin      string // Minimum order creation time（ISO 8601）
-	Name              string // Order name
-	SortCondition     string // Sort Condition（eg: "order_at:desc"）
-	UpdatedAtMax      string // Max order update time（ISO 8601）
-	FulfillmentStatus string // Fulfillment Status（unshipped/partial/shipped）
-	HiddenOrder       string // Is Hidden Order（true/false）
-	IDs               string // Order ids, Separate multiple with commas
-	Limit             string // Limit（Max 100）
-	Location          string // Location ids, Separate multiple with commas
-	Status            string // Status（open/cancelled/any）
-	BuyerID           string // Buyer ID
-	Email             string // Email
-	Fields            string // Fields, Separate multiple with commas
-	FinancialStatus   string // Financial Status（unpaid/authorized）
-	SearchContent     string // Search Content（Order id、Product title and so on）
-	UpdatedAtMin      string // Minimum order update time（ISO 8601）
-	CreatedAtMax      string // Max order creation time（ISO 8601）
-	PageInfo          string // Page Info
-	SinceID           string // Order Since ID
+	ContractIDs       string `url:"contract_ids,omitempty"`       // Contract IDs, Separate multiple with commas
+	FulfillmentStatus string `url:"fulfillment_status,omitempty"` // Fulfillment Status（unshipped/partial/shipped）
+	Limit             string `url:"limit,omitempty"`              // Limit（Max 100）
+	Email             string `url:"email,omitempty"`              // Email
+	Name              string `url:"name,omitempty"`               // Order name
+	SinceID           string `url:"since_id,omitempty"`           // Order Since ID
+	SortCondition     string `url:"sort_condition,omitempty"`     // Sort Condition（eg: "order_at:desc"）
+	CreatedAtMin      string `url:"created_at_min,omitempty"`     // Minimum order creation time（ISO 8601）
+	CreatedAtMax      string `url:"created_at_max,omitempty"`     // Max order creation time（ISO 8601）
+	UpdatedAtMin      string `url:"updated_at_min,omitempty"`     // Minimum order update time（ISO 8601）
+	UpdatedAtMax      string `url:"updated_at_max,omitempty"`     // Max order update time（ISO 8601）
+	Location          string `url:"location,omitempty"`           // Location ids, Separate multiple with commas
+	PageInfo          string `url:"page_info,omitempty"`          // Page Info
+	SearchContent     string `url:"search_content,omitempty"`     // Search Content（Order id、Product title and so on）
+
+	BuyerID     string `url:"buyer_id,omitempty"`     // Buyer ID
+	Fields      string `url:"fields,omitempty"`       // Fields, Separate multiple with commas
+	HiddenOrder string `url:"hidden_order,omitempty"` // Is Hidden Order（true/false）
+	IDs         string `url:"ids,omitempty"`          // Order ids, Separate multiple with commas
+
+	Status          string `url:"status,omitempty"`           // Status（open/cancelled/any）
+	FinancialStatus string `url:"financial_status,omitempty"` // Financial Status（unpaid/authorized）
 }
 
 type QueryOrdersAPIResp struct {

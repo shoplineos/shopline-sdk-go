@@ -6,11 +6,12 @@ import (
 )
 
 type GetProductCountAPIReq struct {
-	CollectionId string `json:"collection_id"`
-	CreatedAtMax string // Latest creation time（ISO 8601）
-	CreatedAtMin string // Earliest creation time（ISO 8601）
-	UpdatedAtMax string // Latest update time（ISO 8601）
-	UpdatedAtMin string // Earliest update time（ISO 8601）
+	Status       string `url:"status,omitempty"`
+	CollectionId string `url:"collection_id,omitempty"`
+	CreatedAtMin string `url:"created_at_min,omitempty"` // Minimum order creation time（ISO 8601）
+	CreatedAtMax string `url:"created_at_max,omitempty"` // Max order creation time（ISO 8601）
+	UpdatedAtMin string `url:"updated_at_min,omitempty"` // Minimum order update time（ISO 8601）
+	UpdatedAtMax string `url:"updated_at_max,omitempty"` // Max order update time（ISO 8601）
 }
 
 type GetProductCountAPIResp struct {

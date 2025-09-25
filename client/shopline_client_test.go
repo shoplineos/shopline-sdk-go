@@ -187,17 +187,17 @@ func TestParsePaginationIfNecessary(t *testing.T) {
 
 	// case 1
 	linkHeader := "linkHeader"
-	_, err := ParsePaginationIfNecessary(linkHeader)
+	_, err := parsePaginationIfNecessary(linkHeader)
 	a := assert.New(t)
 	a.NotNil(err)
 
 	// case 2
 	linkHeader = ""
-	_, err = ParsePaginationIfNecessary(linkHeader)
+	_, err = parsePaginationIfNecessary(linkHeader)
 	a.Nil(err)
 
 	linkHeader = "<https://fafafa.myshopline.com/admin/openapi/v33322/products/products.json?limit=1&page_info=eyJzaW5jZUlkIjoiMTYwNTc1OTAxNTM4OTA4Mjk1MjExMTI3ODgiLCJkaXJlY3Rpb24iOiJuZXh0IiwibGltaXQiOjF9>; rel=\"next\",<https://raoruouor.myshopline.com/admin/openapi/fajlfja/products/products.json?limit=1&page_info=eyJzaW5jZUlkIjoiMTYwNTc2NjAxNzI1MjczOTI4MDEwOTI3ODgiLCJkaXJlY3Rpb24iOiJwcmV2IiwibGltaXQiOjF9>; rel=\"previous\""
-	pagination, err := ParsePaginationIfNecessary(linkHeader)
+	pagination, err := parsePaginationIfNecessary(linkHeader)
 	a.Nil(err)
 	a.NotNil(pagination)
 
@@ -211,11 +211,60 @@ func TestParsePaginationIfNecessary(t *testing.T) {
 	a.Equal(pagination.Next.Limit, 1)
 
 	linkHeader = "<https://fafafa.myshopline.com/admin/openapi/v33322/products/products.json?limit=1&page_info=eyJzaW5jZUlkIjoiMTYwNTc1OTAxNTM4OTA4Mjk1MjExMTI3ODgiLCJkaXJlY3Rpb24iOiJuZXh0IiwibGltaXQiOjF9>; rel=\"next\""
-	pagination, err = ParsePaginationIfNecessary(linkHeader)
+	pagination, err = parsePaginationIfNecessary(linkHeader)
 	a.Nil(err)
 	a.NotNil(pagination)
 	a.NotNil(pagination.Next)
 	a.NotEmpty(pagination.Next.PageInfo)
 	a.Equal(pagination.Next.Limit, 1)
+
+}
+
+func TestBuildShopLineResponse(t *testing.T) {
+
+	// case 1
+	httpResp := httpmock.NewStringResponse(200, `{"foo": "bar"}`)
+
+	responseData := &map[string]any{}
+	response, err := buildShopLineResponse(httpResp, responseData)
+	a := assert.New(t)
+	a.Nil(err)
+	a.NotNil(response)
+	a.NotNil(response.Data)
+	a2 := (*responseData)["foo"].(string)
+	a.Equal(a2, "bar")
+
+	// case 2
+	httpResp = httpmock.NewStringResponse(500, `{"errors": "system error"}`)
+
+	response, err = buildShopLineResponse(httpResp, responseData)
+	a.NotNil(err)
+	a.Equal(err.Error(), "system error")
+	a.NotNil(response)
+
+}
+
+type testResponseData struct {
+	Name string `url:"name"`
+}
+
+func TestBuildFinalRequestUrl(t *testing.T) {
+	responseData := &testResponseData{}
+	responseData.Name = "lisi"
+	shoplineReq := &ShopLineRequest{
+		Data: responseData,
+	}
+
+	app := App{
+		AppKey:    AppKeyForTest,
+		AppSecret: AppSecretForTest,
+	}
+
+	c := MustNewClient(app, StoreHandelForTest, "access token")
+
+	url, err := c.buildFinalRequestUrl("test/foo", shoplineReq)
+	a := assert.New(t)
+	a.Nil(err)
+	a.Equal("https://zwapptest.myshopline.com/test/foo?name=lisi", url)
 
 }
