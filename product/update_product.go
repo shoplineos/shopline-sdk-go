@@ -43,7 +43,7 @@ func UpdateProduct(c *client.Client, apiReq *UpdateProductAPIReq) (*UpdateProduc
 	// 3. API response data
 	apiResp := &UpdateProductAPIResp{}
 
-	// 4. Invoke API
+	// 4. Call API
 	shopLineResp, err := c.Put(context.Background(), endpoint, request, apiResp)
 
 	if err != nil {

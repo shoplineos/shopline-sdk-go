@@ -118,7 +118,7 @@ func GetStoreInfo(c *client.Client, apiReq *GetStoreAPIReq) (*GetStoreAPIRespons
 	// 3. API response
 	apiResp := &GetStoreAPIResponse{}
 
-	// 4. Invoke API
+	// 4. Call API
 	_, err := c.Get(context.Background(), endpoint, shopLineReq, apiResp)
 	if err != nil {
 		log.Printf("Failed to send request: %v\n", err)

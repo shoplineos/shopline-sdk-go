@@ -39,7 +39,7 @@ func GetProductDetail(c *client.Client, apiReq *GetProductDetailAPIReq) (*GetPro
 	// 3. API response data
 	apiResp := &GetProductDetailAPIResp{}
 
-	// 4. Invoke API
+	// 4. Call API
 	_, err := c.Get(context.Background(), endpoint, shoplineReq, apiResp)
 
 	if err != nil {

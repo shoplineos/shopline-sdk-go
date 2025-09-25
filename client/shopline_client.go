@@ -15,9 +15,7 @@ import (
 	"net/url"
 	"path"
 	"reflect"
-	"regexp"
 	"sort"
-	"strconv"
 	"strings"
 	"time"
 
@@ -128,23 +126,6 @@ func (resp *ShopLineResponse) IsSuccess() bool {
 type shopLineRequestWrapper struct {
 	shopLineRequest      *ShopLineRequest
 	requestBodyJsonBytes []byte // nil able
-}
-
-// Pagination of results
-type Pagination struct {
-	Next     *ListOptions
-	Previous *ListOptions
-}
-
-// ListOptions
-// General list options that can be used for most collections of entities.
-type ListOptions struct {
-	// PageInfo is used with new pagination search.
-	PageInfo string `url:"page_info,omitempty"`
-
-	SinceId *uint64 `url:"since_id,omitempty"`
-	Limit   int     `url:"limit,omitempty"`
-	Fields  string  `url:"fields,omitempty"`
 }
 
 // TokenResponse access Token struct
@@ -400,7 +381,7 @@ func (c *Client) resolveUrlPath(relPath string, request *ShopLineRequest) string
 }
 
 func (c *Client) executeHttpRequest(request *ShopLineRequest, httpReq *http.Request, resource interface{}) (*ShopLineResponse, error) {
-	// invoke http request
+	// Call http request
 	timeout := resolveTimeout(request)
 	client := c.Client // &http.Client{Timeout: timeout}
 	client.Timeout = timeout
@@ -769,82 +750,22 @@ func (e ResponseDecodingError) Error() string {
 }
 
 // linkRegex is used to parse the pagination link from shopline API search results.
-var linkRegex = regexp.MustCompile(`^ *<([^>]+)>; rel="(previous|next)" *$`)
+//var linkRegex = regexp.MustCompile(`^ *<([^>]+)>; rel="(previous|next)" *$`)
 
 // parsePaginationIfNecessary
 // 中文: https://developer.shopline.com/zh-hans-cn/docs/apps/api-instructions-for-use/paging-mechanism?version=v20251201
 // en: https://developer.shopline.com/docs/apps/api-instructions-for-use/paging-mechanism?version=v20251201
 func parsePaginationIfNecessary(linkHeader string) (*Pagination, error) {
-	if linkHeader == "" {
-		return nil, nil
-	}
-	pagination := new(Pagination)
+	pagination, err := parsePagination(linkHeader)
 
-	for _, link := range strings.Split(linkHeader, ",") {
-		match := linkRegex.FindStringSubmatch(link)
-		// Make sure the link is not empty or invalid
-		if len(match) != 3 {
-			// We expect 3 values:
-			// match[0] = full match
-			// match[1] is the URL and match[2] is either 'previous' or 'next'
-			err := ResponseDecodingError{
-				Message: "could not extract pagination link header",
-			}
-			return nil, err
-		}
-
-		rel, err := url.Parse(match[1])
-		if err != nil {
-			err = ResponseDecodingError{
-				Message: "pagination does not contain a valid URL",
-			}
-			return nil, err
-		}
-
-		params, err := url.ParseQuery(rel.RawQuery)
-		if err != nil {
-			return nil, err
-		}
-
-		paginationListOptions := ListOptions{}
-
-		paginationListOptions.PageInfo = params.Get("page_info")
-		if paginationListOptions.PageInfo == "" {
-			err = ResponseDecodingError{
-				Message: "page_info is missing",
-			}
-			return nil, err
-		}
-
-		limit := params.Get("limit")
-		if limit != "" {
-			paginationListOptions.Limit, err = strconv.Atoi(params.Get("limit"))
-			if err != nil {
-				return nil, err
-			}
-		}
-
-		fields := params.Get("fields")
-		if fields != "" {
-			paginationListOptions.Fields = params.Get("fields")
-		}
-
-		// 'rel' is either next or previous
-		if match[2] == "next" {
-			pagination.Next = &paginationListOptions
-		} else {
-			pagination.Previous = &paginationListOptions
-		}
-	}
-
-	return pagination, nil
+	return pagination, err
 }
 
 func (c *Client) logDetailIfNecessary(method string, apiURL string, req *ShopLineRequest, resp *ShopLineResponse) {
 	if config.LogDetailEnabled {
 		reqJsonData, _ := json.MarshalIndent(req, "", "  ")
 		respJsonData, _ := json.MarshalIndent(resp, "", "  ")
-		log.Printf("Current AccessToken: %s\n method: %s\n apiURL: %s\n Request: %s\n Response: %s\n", c.Token, method, apiURL, reqJsonData, respJsonData)
+		log.Printf("Request detail, Current AccessToken: %s\n method: %s\n apiURL: %s\n Request: %s\n Response: %s\n", c.Token, method, apiURL, reqJsonData, respJsonData)
 	}
 
 }

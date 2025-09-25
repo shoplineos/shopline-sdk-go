@@ -48,7 +48,7 @@ func QueryOrdersCount(c *client.Client, apiReq *GetOrdersCountAPIReq) (*GetOrder
 	// 3. API response data
 	apiResp := &GetOrdersCountAPIResp{}
 
-	// 4. Invoke API
+	// 4. Call API
 	_, err := c.Get(context.Background(), endpoint, shopLineReq, apiResp)
 	if err != nil {
 		log.Printf("Failed to Get: %v\n", err)

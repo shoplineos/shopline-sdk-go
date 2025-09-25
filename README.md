@@ -192,7 +192,7 @@ apiResp, err := product.CreateProduct(c, apiReq)
 #### Using your own models
 
 Not all endpoints are implemented right now. In those case, feel free to implement them and make a Pull Request, or you
-can create your own struct for the data and use the client to invoke APIs. This is how the existing endpoints are
+can create your own struct for the data and use the client to call APIs. This is how the existing endpoints are
 implemented.
 
 For example, let's say you want to fetch product count. There's a helper function Get specifically for fetching stuff so
