@@ -1,6 +1,6 @@
 package model
 
 type APIRequest interface {
-	Verify() error
-	Endpoint() string
+	Verify() error    // Verify API request params
+	Endpoint() string // API Endpoint
 }

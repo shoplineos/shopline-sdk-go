@@ -352,13 +352,13 @@ func (c *Client) Execute(ctx context.Context, method HTTPMethod, endpoint string
 	return c.executeInternal(ctx, method, endpoint, request, resource)
 }
 
-func (c *Client) executeInternal(ctx context.Context, method HTTPMethod, relPath string, request *ShopLineRequest, resource interface{}) (*ShopLineResponse, error) {
-	_, _, err := c.verify(relPath, method, request)
+func (c *Client) executeInternal(ctx context.Context, method HTTPMethod, endpoint string, request *ShopLineRequest, resource interface{}) (*ShopLineResponse, error) {
+	_, _, err := c.verify(endpoint, method, request)
 	if err != nil {
 		return nil, err
 	}
 
-	relPath = c.resolveUrlPath(relPath, request)
+	relPath := c.resolveUrlPath(endpoint, request)
 
 	httpReq, err := c.NewHttpRequest(ctx, method, relPath, request)
 	if err != nil {
@@ -557,7 +557,7 @@ func buildShopLineResponse(httpResp *http.Response, resource interface{}) (*Shop
 	}
 	shopLineResp.Data = resource
 
-	pagination, err := parsePaginationIfNecessary(shopLineResp.Link)
+	pagination, err := parsePagination(shopLineResp.Link)
 	if err != nil {
 		return shopLineResp, err
 	}
@@ -623,18 +623,6 @@ func (e ResponseDecodingError) Error() string {
 	return e.Message
 }
 
-// linkRegex is used to parse the pagination link from shopline API search results.
-//var linkRegex = regexp.MustCompile(`^ *<([^>]+)>; rel="(previous|next)" *$`)
-
-// parsePaginationIfNecessary
-// 中文: https://developer.shopline.com/zh-hans-cn/docs/apps/api-instructions-for-use/paging-mechanism?version=v20251201
-// en: https://developer.shopline.com/docs/apps/api-instructions-for-use/paging-mechanism?version=v20251201
-func parsePaginationIfNecessary(linkHeader string) (*Pagination, error) {
-	pagination, err := parsePagination(linkHeader)
-
-	return pagination, err
-}
-
 func (c *Client) logDetailIfNecessary(method string, apiURL string, req *ShopLineRequest, resp *ShopLineResponse) {
 	if c.IsLogDetailEnabled() {
 		reqJsonData, _ := json.MarshalIndent(req, "", "  ")
@@ -645,15 +633,15 @@ func (c *Client) logDetailIfNecessary(method string, apiURL string, req *ShopLin
 }
 
 // verify request params
-func (c *Client) verify(url string, method HTTPMethod, request *ShopLineRequest) (string, string, error) {
+func (c *Client) verify(endpoint string, method HTTPMethod, request *ShopLineRequest) (string, string, error) {
 	if request == nil {
 		return "", "", fmt.Errorf("ShopLineRequest is required")
 	}
 	if method == "" {
 		return "", "", fmt.Errorf("HTTP Method is required")
 	}
-	if url == "" {
-		return "", "", fmt.Errorf("url is required")
+	if endpoint == "" {
+		return "", "", fmt.Errorf("API endpoint is required")
 	}
 
 	appKey := resolveAppKey(c.App)

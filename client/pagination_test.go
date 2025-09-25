@@ -18,6 +18,7 @@ func TestParsePagination(t *testing.T) {
 	_, err = parsePagination(linkHeader)
 	a.Nil(err)
 
+	// case 3
 	linkHeader = "<https://fafafa.myshopline.com/admin/openapi/v33322/products/products.json?limit=1&page_info=eyJzaW5jZUlkIjoiMTYwNTc1OTAxNTM4OTA4Mjk1MjExMTI3ODgiLCJkaXJlY3Rpb24iOiJuZXh0IiwibGltaXQiOjF9>; rel=\"next\",<https://raoruouor.myshopline.com/admin/openapi/fajlfja/products/products.json?limit=1&page_info=eyJzaW5jZUlkIjoiMTYwNTc2NjAxNzI1MjczOTI4MDEwOTI3ODgiLCJkaXJlY3Rpb24iOiJwcmV2IiwibGltaXQiOjF9>; rel=\"previous\""
 	pagination, err := parsePagination(linkHeader)
 	a.Nil(err)
@@ -32,6 +33,7 @@ func TestParsePagination(t *testing.T) {
 	a.Equal(pagination.Next.PageInfo, "eyJzaW5jZUlkIjoiMTYwNTc1OTAxNTM4OTA4Mjk1MjExMTI3ODgiLCJkaXJlY3Rpb24iOiJuZXh0IiwibGltaXQiOjF9")
 	a.Equal(pagination.Next.Limit, 1)
 
+	// case 4
 	linkHeader = "<https://fafafa.myshopline.com/admin/openapi/v33322/products/products.json?limit=1&page_info=eyJzaW5jZUlkIjoiMTYwNTc1OTAxNTM4OTA4Mjk1MjExMTI3ODgiLCJkaXJlY3Rpb24iOiJuZXh0IiwibGltaXQiOjF9>; rel=\"next\""
 	pagination, err = parsePagination(linkHeader)
 	a.Nil(err)
