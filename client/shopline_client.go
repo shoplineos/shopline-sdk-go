@@ -20,6 +20,10 @@ import (
 	"github.com/google/go-querystring/query"
 )
 
+type Options struct {
+	EnableLogDetail bool // log detail switch
+}
+
 type Client struct {
 	StoreHandle string
 
@@ -45,6 +49,8 @@ type Client struct {
 
 	// API version you're currently using of the api, defaults to "config.DefaultAPIVersion"
 	apiVersion string
+
+	Options *Options // Options
 }
 
 type App struct {
@@ -630,7 +636,7 @@ func parsePaginationIfNecessary(linkHeader string) (*Pagination, error) {
 }
 
 func (c *Client) logDetailIfNecessary(method string, apiURL string, req *ShopLineRequest, resp *ShopLineResponse) {
-	if config.LogDetailEnabled {
+	if c.IsLogDetailEnabled() {
 		reqJsonData, _ := json.MarshalIndent(req, "", "  ")
 		respJsonData, _ := json.MarshalIndent(resp, "", "  ")
 		log.Printf("Request detail, Current AccessToken: %s\n method: %s\n apiURL: %s\n Request: %s\n Response: %s\n", c.Token, method, apiURL, reqJsonData, respJsonData)
@@ -742,4 +748,16 @@ func (c *Client) buildRequestBodyJsonData(request *ShopLineRequest) ([]byte, err
 
 func (c *Client) GetAppKey() string {
 	return c.App.AppKey
+}
+
+func (c *Client) IsLogDetailEnabled() bool {
+	return c.Options != nil && c.Options.EnableLogDetail
+}
+
+func (c *Client) WithEnableLogDetail(enableLogDetail bool) *Client {
+	if c.Options == nil {
+		c.Options = &Options{}
+	}
+	c.Options.EnableLogDetail = enableLogDetail
+	return c
 }

@@ -35,6 +35,8 @@ func init() {
 		panic("client is nil")
 	}
 
+	//defaultClientInstance.WithEnableLogDetail(false)
+
 	defaultAppInstance.Client = defaultClientInstance
 
 	//Clients = make(map[string]*client2.Client)
