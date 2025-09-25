@@ -20,15 +20,8 @@ import (
 	"github.com/google/go-querystring/query"
 )
 
-type Options struct {
-	EnableLogDetail bool // log detail switch
-}
-
 type Client struct {
 	StoreHandle string
-
-	// Enable signature calculation, default is false
-	EnableSign bool
 
 	// app config
 	App App
@@ -50,6 +43,9 @@ type Client struct {
 	// API version you're currently using of the api, defaults to "config.DefaultAPIVersion"
 	apiVersion string
 
+	// Enable signature calculation, default is false
+	EnableSign bool
+
 	Options *Options // Options
 }
 
@@ -62,7 +58,8 @@ type App struct {
 	Client *Client // API Client
 }
 
-type ShopLineRequestOption struct {
+// ShopLineRequestOptions Request options
+type ShopLineRequestOptions struct {
 
 	// Enable signature calculation, default is false
 	EnableSign bool
@@ -78,21 +75,25 @@ type ShopLineRequestOption struct {
 // 中文: https://developer.shopline.com/zh-hans-cn/docs/apps/api-instructions-for-use/paging-mechanism?version=v20251201
 // en: https://developer.shopline.com/docs/apps/api-instructions-for-use/paging-mechanism?version=v20251201
 type ShopLineRequest struct {
-	Headers map[string]string      // http header
-	Data    interface{}            // struct，http url query params or body params
-	Option  *ShopLineRequestOption // option params
+	Headers map[string]string       // http header
+	Data    interface{}             // struct，http url query params or body params
+	Options *ShopLineRequestOptions // option params
 }
 
 func (r *ShopLineRequest) isSignEnabled() bool {
-	return r.Option != nil && r.Option.EnableSign
+	return r.Options != nil && r.Options.EnableSign
+}
+
+func (r *ShopLineRequest) isSignDisabled() bool {
+	return r.Options != nil && !r.Options.EnableSign
 }
 
 func (r *ShopLineRequest) isApiVersionPresent() bool {
-	return r.Option != nil && r.Option.ApiVersion != ""
+	return r.Options != nil && r.Options.ApiVersion != ""
 }
 
 func (r *ShopLineRequest) isTimeoutPresent() bool {
-	return r.Option != nil && r.Option.Timeout > 0
+	return r.Options != nil && r.Options.Timeout > 0
 }
 
 type CommonAPIRespData struct {
@@ -208,8 +209,8 @@ func (app App) CreateAccessToken(ctx context.Context, code string) (*TokenRespon
 	tokenResponse := &TokenResponse{}
 
 	shopLineReq := &ShopLineRequest{
-		Option: &ShopLineRequestOption{EnableSign: true},
-		Data:   requestBody,
+		Options: &ShopLineRequestOptions{EnableSign: true},
+		Data:    requestBody,
 	}
 
 	// 2. new http request
@@ -239,7 +240,7 @@ func (app App) RefreshAccessToken(ctx context.Context, storeHandle string) (*Tok
 	tokenResponse := &TokenResponse{}
 
 	shopLineReq := &ShopLineRequest{
-		Option: &ShopLineRequestOption{EnableSign: true},
+		Options: &ShopLineRequestOptions{EnableSign: true},
 	}
 
 	// 2. new http request
@@ -257,15 +258,15 @@ func (app App) RefreshAccessToken(ctx context.Context, storeHandle string) (*Tok
 	return tokenResponse, nil
 }
 
-func MustNewClient(app App, storeHandle, token string) *Client {
-	c, err := NewClient(app, storeHandle, token)
+func MustNewClient(app App, storeHandle, token string, opts ...Option) *Client {
+	c, err := NewClient(app, storeHandle, token, opts...)
 	if err != nil {
 		panic(err)
 	}
 	return c
 }
 
-func NewClient(app App, storeHandle, token string) (*Client, error) {
+func NewClient(app App, storeHandle, token string, opts ...Option) (*Client, error) {
 	baseURL, err := url.Parse(common.GetStoreBaseUrl(storeHandle))
 	if err != nil {
 		return nil, err
@@ -279,10 +280,13 @@ func NewClient(app App, storeHandle, token string) (*Client, error) {
 		StoreHandle: storeHandle,
 		baseURL:     baseURL,
 		Token:       token,
-		pathPrefix:  defaultApiPathPrefix,
 		apiVersion:  defaultApiVersion,
+		pathPrefix:  defaultApiPathPrefix,
 	}
 
+	for _, opt := range opts {
+		opt(c)
+	}
 	return c, nil
 }
 
@@ -447,7 +451,7 @@ func (c *Client) NewHttpRequest(ctx context.Context, method HTTPMethod, path str
 
 func resolveTimeout(req *ShopLineRequest) time.Duration {
 	if req.isTimeoutPresent() {
-		return req.Option.Timeout
+		return req.Options.Timeout
 	}
 	return TimeoutInMillisecond
 }
@@ -470,12 +474,12 @@ func (c *Client) setHeaders(appKey string, appSecret string, httpReq *http.Reque
 	request := requestWrapper.shopLineRequest
 
 	// Signature calculation
-	if request.isSignEnabled() {
-		sign, err := buildSign(appKey, appSecret, timestamp, requestWrapper)
+	if c.isSignEnabled(request) {
+		sign, err := generateSign(appKey, appSecret, timestamp, requestWrapper)
 		if err != nil {
 			return err
 		}
-		log.Printf("Build Sign enabled, sign: %s\n", sign)
+		log.Printf("Generate Sign enabled, sign: %s\n", sign)
 		httpReq.Header.Set("sign", sign)
 	}
 
@@ -504,8 +508,8 @@ func resolveAppSecret(appConfig App) string {
 	return config.DefaultAppSecret
 }
 
-// build sign string
-func buildSign(appKey, appSecret, timestamp string, requestWrapper *shopLineRequestWrapper) (string, error) {
+// generate sign string
+func generateSign(appKey, appSecret, timestamp string, requestWrapper *shopLineRequestWrapper) (string, error) {
 	bodyJsonString, err := buildBodyJsonString(requestWrapper.requestBodyJsonBytes)
 	if err != nil {
 		return "", err
@@ -718,7 +722,7 @@ func (c *Client) buildFinalRequestUrl(relPath string, request *ShopLineRequest) 
 
 func (c *Client) resolveApiVersion(req *ShopLineRequest) string {
 	if req.isApiVersionPresent() {
-		return req.Option.ApiVersion
+		return req.Options.ApiVersion
 	}
 	return defaultApiVersion
 }
@@ -742,10 +746,10 @@ func (c *Client) IsLogDetailEnabled() bool {
 	return c.Options != nil && c.Options.EnableLogDetail
 }
 
-func (c *Client) WithEnableLogDetail(enableLogDetail bool) *Client {
-	if c.Options == nil {
-		c.Options = &Options{}
+func (c *Client) isSignEnabled(request *ShopLineRequest) bool {
+	if request.isSignDisabled() { // in blacklist
+		return false
 	}
-	c.Options.EnableLogDetail = enableLogDetail
-	return c
+
+	return request.isSignEnabled() || c.EnableSign
 }

@@ -36,7 +36,7 @@ func TestRefreshAccessToken(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	log.Printf("DefaultAccessToken: %v\n", token)
+	log.Printf("New AccessToken: %v\n", token.Data)
 }
 
 func TestAuthorizeUrl(t *testing.T) {
