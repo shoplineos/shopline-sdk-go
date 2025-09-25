@@ -11,8 +11,9 @@ import (
 // en: https://developer.shopline.com/docs/admin-rest-api/product/product/update-product?version=v20251201
 func TestUpdateProduct(t *testing.T) {
 
-	requestBody := &ProductUpdateAPIReq{
+	requestBody := &UpdateProductAPIReq{
 		Product: Product{
+			Id:              "16071506529459141648923380",
 			BodyHTML:        "This is a description",
 			Title:           "A product title",
 			Handle:          "a-product-title",

@@ -31,6 +31,16 @@ type QueryOrdersAPIReq struct {
 	FinancialStatus string `url:"financial_status,omitempty"` // Financial Status（unpaid/authorized）
 }
 
+func (req *QueryOrdersAPIReq) Verify() error {
+	// Verify the api request params
+	return nil
+}
+
+func (req *QueryOrdersAPIReq) Endpoint() string {
+	endpoint := "orders.json"
+	return endpoint
+}
+
 type QueryOrdersAPIResp struct {
 	Orders []Order `json:"orders"`
 
@@ -48,12 +58,12 @@ func QueryOrders(c *client.Client, apiReq *QueryOrdersAPIReq) (*QueryOrdersAPIRe
 	}
 
 	// 2. API endpoint
-	endpoint := "orders.json"
+	endpoint := apiReq.Endpoint()
 
 	// 3. API response data
 	apiResp := &QueryOrdersAPIResp{}
 
-	// 4. Invoke API
+	// 4. Call API
 	shoplineResp, err := c.Get(context.Background(), endpoint, shoplineReq, apiResp)
 	if err != nil {
 		fmt.Printf("Execute request failed: %v\n", err)

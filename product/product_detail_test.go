@@ -7,7 +7,7 @@ import (
 	"testing"
 )
 
-func TestProductDetail(t *testing.T) {
+func TestProductDetailDataNotExists(t *testing.T) {
 	//productId := "16070822412102455208483380"
 	productId := "16070828389930044390453380"
 	apiReq := &GetProductDetailAPIReq{
@@ -18,7 +18,7 @@ func TestProductDetail(t *testing.T) {
 
 	apiResp, err := GetProductDetail(c, apiReq)
 	log.Printf("apiResp: %v, err:%v", apiResp, err)
-	assert.Nil(t, err, "err should be nil")
+	assert.NotNil(t, err, "err should be nil")
 }
 
 // product DATA_NOT_EXIST

@@ -10,6 +10,16 @@ type DeleteProductAPIReq struct {
 	ProductId string
 }
 
+func (req *DeleteProductAPIReq) Verify() error {
+	// Verify the api request params
+	return nil
+}
+
+func (req *DeleteProductAPIReq) Endpoint() string {
+	endpoint := fmt.Sprintf("products/%s.json", req.ProductId)
+	return endpoint
+}
+
 type DeleteProductAPIResp struct {
 	client.CommonAPIRespData
 }
@@ -23,12 +33,12 @@ func DeleteProduct(c *client.Client, apiReq *DeleteProductAPIReq) (*DeleteProduc
 	shoplineReq := &client.ShopLineRequest{}
 
 	// 2. API endpoint
-	endpoint := fmt.Sprintf("products/%s.json", apiReq.ProductId)
+	endpoint := apiReq.Endpoint()
 
 	// 3. API response data
 	apiResp := &DeleteProductAPIResp{}
 
-	// 4. Invoke API
+	// 4. Call API
 	_, err := c.Delete(context.Background(), endpoint, shoplineReq, apiResp)
 
 	//apiResp.TraceId = shoplineResp.TraceId

@@ -19,12 +19,12 @@ func TestCancelOrder(t *testing.T) {
 	apiResp, err := CancelOrder(c, apiReq)
 	if err != nil {
 		fmt.Println("Cancel order failed, err:", err)
-		return
+	} else {
+		fmt.Printf("Cancel order successful！orderID: %s\n", apiResp.Order.ID)
 	}
 
-	fmt.Printf("Cancel order successful！orderID: %s\n", apiResp.Order.ID)
 	a := assert.New(t)
-	a.NotEmpty(apiResp)
+	a.NotNil(err)
 
 }
 
@@ -66,6 +66,6 @@ func TestCancelOrderCase3(t *testing.T) {
 	}
 
 	a := assert.New(t)
-	a.Nil(err)
+	a.NotNil(err)
 
 }

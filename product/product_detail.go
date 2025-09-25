@@ -10,6 +10,16 @@ type GetProductDetailAPIReq struct {
 	ProductId string
 }
 
+func (req *GetProductDetailAPIReq) Verify() error {
+	// Verify the api request params
+	return nil
+}
+
+func (req *GetProductDetailAPIReq) Endpoint() string {
+	endpoint := fmt.Sprintf("products/%s.json", req.ProductId)
+	return endpoint
+}
+
 type GetProductDetailAPIResp struct {
 	Product ProductRespData `json:"product"`
 
@@ -24,7 +34,7 @@ func GetProductDetail(c *client.Client, apiReq *GetProductDetailAPIReq) (*GetPro
 	shoplineReq := &client.ShopLineRequest{}
 
 	// 2. API endpoint
-	endpoint := fmt.Sprintf("products/%s.json", apiReq.ProductId)
+	endpoint := apiReq.Endpoint()
 
 	// 3. API response data
 	apiResp := &GetProductDetailAPIResp{}

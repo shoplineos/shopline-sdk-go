@@ -39,7 +39,7 @@ import "github.com/shoplineos/shopline-sdk-go/client"
   appInstance.Client = c
     
     
-  // 3. use client to invoke API
+  // 3. use client to call API
   // 3.1 API request
   getProductCountAPIReq := &GetProductCountAPIReq{}
   shoplineReq := &client.ShopLineRequest{
@@ -47,12 +47,12 @@ import "github.com/shoplineos/shopline-sdk-go/client"
   }
 
   // 3.2 API endpoint
-  endpoint := "products/count.json"
+  endpoint := getProductCountAPIReq.Endpoint()
 
   // 3.3 API response
   apiResp := &GetProductCountAPIResp{}
 
-  // 3.4 Invoke API
+  // 3.4 Call API
   shoplineResp, err := c.Get(context.Background(), endpoint, shoplineReq, apiResp)
   fmt.Printf("count:%d", apiResp.Count)
 ```
@@ -209,6 +209,16 @@ type GetProductCountAPIReq struct {
 	UpdatedAtMax string `url:"updated_at_max,omitempty"` // Max order update time（ISO 8601）
 }
 
+func (req *GetProductCountAPIReq) Verify() error {
+	// Verify the api request params
+	return nil
+}
+
+func (req *GetProductCountAPIReq) Endpoint() string {
+	endpoint := "products/count.json"
+	return endpoint
+}
+
 type GetProductCountAPIResp struct {
 	Count int `json:"count"`
 
@@ -222,12 +232,12 @@ func GetProductsCount(c *client.Client, apiReq *GetProductCountAPIReq) (*GetProd
     }
     
     // 2. API endpoint
-    endpoint := "products/count.json"
+    endpoint := apiReq.Endpoint()
     
     // 3. API response
     apiResp := &GetProductCountAPIResp{}
     
-    // 4. Invoke API
+    // 4. Call API
     shoplineResp, err := c.Get(context.Background(), endpoint, shoplineReq, apiResp)
     
     // option
@@ -392,7 +402,7 @@ import "github.com/shoplineos/shopline-sdk-go/client"
   c := client.MustNewClient(appInstance, handle, accessToken)
   appInstance.Client = c
 
-  // 3. use client to invoke API
+  // 3. use client to call API
   // 3.1 API request
   getProductCountAPIReq := &GetProductCountAPIReq{}
   shoplineReq := &client.ShopLineRequest{
@@ -400,12 +410,12 @@ import "github.com/shoplineos/shopline-sdk-go/client"
   }
 
   // 3.2 API endpoint
-  endpoint := "products/count.json"
+  endpoint := getProductCountAPIReq.Endpoint()
 
   // 3.3 API response
   apiResp := &GetProductCountAPIResp{}
 
-  // 3.4 Invoke API
+  // 3.4 Call API
   shoplineResp, err := c.Get(context.Background(), endpoint, shoplineReq, apiResp)
   fmt.Printf("count:%d", apiResp.Count)
     
@@ -590,6 +600,16 @@ type GetProductCountAPIReq struct {
 	UpdatedAtMax string `url:"updated_at_max,omitempty"` // Max order update time（ISO 8601）
 }
 
+func (req *GetProductCountAPIReq) Verify() error {
+	// Verify the api request params
+	return nil
+}
+
+func (req *GetProductCountAPIReq) Endpoint() string {
+	endpoint := "products/count.json"
+	return endpoint
+}
+
 type GetProductCountAPIResp struct {
 	Count int `json:"count"`
 
@@ -603,12 +623,12 @@ func GetProductsCount(c *client.Client, apiReq *GetProductCountAPIReq) (*GetProd
     }
     
     // 2. API endpoint
-    endpoint := "products/count.json"
+    endpoint := apiReq.Endpoint()
     
     // 3. API response
     apiResp := &GetProductCountAPIResp{}
     
-    // 4. Invoke API
+    // 4. Call API
     shoplineResp, err := c.Get(context.Background(), endpoint, shoplineReq, apiResp)
     
     // option

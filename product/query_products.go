@@ -34,6 +34,16 @@ type QueryProductsAPIReq struct {
 	Vendor string `url:"vendor,omitempty"` // Vendor
 }
 
+func (req *QueryProductsAPIReq) Verify() error {
+	// Verify the api request params
+	return nil
+}
+
+func (req *QueryProductsAPIReq) Endpoint() string {
+	endpoint := "products/products.json"
+	return endpoint
+}
+
 // QueryProducts
 // 中文: https://developer.shopline.com/zh-hans-cn/docs/admin-rest-api/product/product/get-products?version=v20251201
 // en: https://developer.shopline.com/docs/admin-rest-api/product/product/get-products?version=v20251201
@@ -45,12 +55,12 @@ func QueryProducts(c *client.Client, apiReq *QueryProductsAPIReq) (*QueryProduct
 	}
 
 	// 2. API endpoint
-	endpoint := "products/products.json"
+	endpoint := apiReq.Endpoint()
 
 	// 3. API response data
 	apiResp := &QueryProductsAPIResp{}
 
-	// 4. Invoke API
+	// 4. Call API
 	shopLineResp, err := c.Get(context.Background(), endpoint, shopLineReq, apiResp)
 	if err != nil {
 		return nil, err

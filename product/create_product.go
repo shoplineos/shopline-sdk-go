@@ -11,6 +11,16 @@ type CreateProductAPIReq struct {
 	Product Product `json:"product"`
 }
 
+func (req *CreateProductAPIReq) Verify() error {
+	// Verify the api request params
+	return nil
+}
+
+func (req *CreateProductAPIReq) Endpoint() string {
+	endpoint := "products/products.json"
+	return endpoint
+}
+
 type CreateProductAPIResp struct {
 	Product ProductRespData `json:"product"`
 
@@ -99,12 +109,12 @@ func CreateProduct(c *client.Client, apiReq *CreateProductAPIReq) (*CreateProduc
 	}
 
 	// 2. API endpoint
-	endpoint := "products/products.json"
+	endpoint := apiReq.Endpoint()
 
 	// 3. API response data
 	apiResp := &CreateProductAPIResp{}
 
-	// 4. Invoke API
+	// 4. Call API
 	_, err := c.Post(context.Background(), endpoint, request, apiResp)
 	if err != nil {
 		log.Printf("CreateProduct request failed: %v\n", err)

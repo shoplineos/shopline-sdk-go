@@ -9,6 +9,16 @@ import (
 type GetStoreAPIReq struct {
 }
 
+func (req *GetStoreAPIReq) Verify() error {
+	// Verify the api request params
+	return nil
+}
+
+func (req *GetStoreAPIReq) Endpoint() string {
+	endpoint := "merchants/shop.json"
+	return endpoint
+}
+
 type GetStoreAPIResponse struct {
 	Store Store `json:"store"`
 
@@ -103,7 +113,7 @@ func GetStoreInfo(c *client.Client, apiReq *GetStoreAPIReq) (*GetStoreAPIRespons
 	shopLineReq := &client.ShopLineRequest{}
 
 	// 2. API endpoint
-	endpoint := "merchants/shop.json"
+	endpoint := apiReq.Endpoint()
 
 	// 3. API response
 	apiResp := &GetStoreAPIResponse{}

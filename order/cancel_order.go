@@ -17,6 +17,16 @@ type CancelOrderAPIReq struct {
 	Restock      string `json:"restock,omitempty"`
 }
 
+func (req *CancelOrderAPIReq) Verify() error {
+	// Verify the api request params
+	return nil
+}
+
+func (req *CancelOrderAPIReq) Endpoint() string {
+	endpoint := fmt.Sprintf("orders/%s/cancel.json", req.OrderId)
+	return endpoint
+}
+
 // CancelOrderAPIResp Define the request structure for cancel an order (corresponding to the API request body)
 type CancelOrderAPIResp struct {
 	Order Order `json:"order"`
@@ -33,15 +43,15 @@ func CancelOrder(c *client.Client, apiReq *CancelOrderAPIReq) (*CancelOrderAPIRe
 	}
 
 	// 2. API endpoint
-	endpoint := fmt.Sprintf("orders/%s/cancel.json", apiReq.OrderId)
+	endpoint := apiReq.Endpoint()
 
 	// 3. API response data
 	apiResp := &CancelOrderAPIResp{}
 
-	// 4. Invoke API
+	// 4. Call API
 	_, err := c.Post(context.Background(), endpoint, shopLineReq, apiResp)
 	if err != nil {
-		fmt.Printf("Execute Request failed，endpoint:%s, shopLineReq: %v, err: %v\n", endpoint, shopLineReq, err)
+		fmt.Printf("Execute Request failed，endpoint: %s, shopLineReq: %v, err: %v\n", endpoint, shopLineReq, err)
 		return nil, err
 	}
 

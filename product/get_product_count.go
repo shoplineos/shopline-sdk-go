@@ -14,6 +14,16 @@ type GetProductCountAPIReq struct {
 	UpdatedAtMax string `url:"updated_at_max,omitempty"` // Max order update time（ISO 8601）
 }
 
+func (req *GetProductCountAPIReq) Verify() error {
+	// Verify the api request params
+	return nil
+}
+
+func (req *GetProductCountAPIReq) Endpoint() string {
+	endpoint := "products/count.json"
+	return endpoint
+}
+
 type GetProductCountAPIResp struct {
 	Count int `json:"count"`
 
@@ -31,12 +41,12 @@ func GetProductsCount(c *client.Client, apiReq *GetProductCountAPIReq) (*GetProd
 	}
 
 	// 2. API endpoint
-	endpoint := "products/count.json"
+	endpoint := apiReq.Endpoint()
 
 	// 3. API response data
 	apiResp := &GetProductCountAPIResp{}
 
-	// 4. Invoke API
+	// 4. Call API
 	_, err := c.Get(context.Background(), endpoint, shoplineReq, apiResp)
 
 	//apiResp.TraceId = shoplineResp.TraceId

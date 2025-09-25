@@ -124,10 +124,10 @@ func TestCreateOrder(t *testing.T) {
 	shopLineResp, err := CreateOrder(c, apiReq)
 	if err != nil {
 		fmt.Println("Create order failed, err:", err)
-		return
+	} else {
+		fmt.Printf("Create order successful！orderID: %s\n", shopLineResp.Order.ID)
 	}
 
-	fmt.Printf("Create order successful！orderID: %s\n", shopLineResp.Order.ID)
 	a := assert.New(t)
 	a.NotEmpty(shopLineResp)
 

@@ -10,6 +10,16 @@ type CreateOrderAPIReq struct {
 	Order Order `json:"order"`
 }
 
+func (req *CreateOrderAPIReq) Verify() error {
+	// Verify the api request params
+	return nil
+}
+
+func (req *CreateOrderAPIReq) Endpoint() string {
+	endpoint := "orders.json"
+	return endpoint
+}
+
 // CreateOrderAPIResp Define the request structure for creating an order (corresponding to the API request body)
 type CreateOrderAPIResp struct {
 	Order Order `json:"order"`
@@ -170,15 +180,15 @@ func CreateOrder(c *client.Client, apiReq *CreateOrderAPIReq) (*CreateOrderAPIRe
 	}
 
 	// 2. API endpoint
-	endpoint := "orders.json"
+	endpoint := apiReq.Endpoint()
 
 	// 3. API response data
 	apiResp := &CreateOrderAPIResp{}
 
-	// 4. Invoke API
+	// 4. Call API
 	_, err := c.Post(context.Background(), endpoint, shopLineReq, apiResp)
 	if err != nil {
-		fmt.Printf("Execute Request failed，endpoint:%s, shopLineReq: %v, err: %v\n", endpoint, shopLineReq, err)
+		fmt.Printf("Execute Request failed，endpoint: %s, shopLineReq: %v, err: %v\n", endpoint, shopLineReq, err)
 		return nil, err
 	}
 

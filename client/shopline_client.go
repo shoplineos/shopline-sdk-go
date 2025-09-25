@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"github.com/shoplineos/shopline-sdk-go/common"
 	"github.com/shoplineos/shopline-sdk-go/config"
+	"github.com/shoplineos/shopline-sdk-go/model"
 	"github.com/shoplineos/shopline-sdk-go/signature"
 	"io"
 	"log"
@@ -108,7 +109,7 @@ type ShopLineResponse struct {
 
 	//Headers    map[string]string
 
-	// ResponseData
+	// API Response Data, the return type of the request when call APIs specify
 	Data interface{}
 
 	// Pagination, see detail：
@@ -868,6 +869,14 @@ func (c *Client) verify(url string, method HTTPMethod, request *ShopLineRequest)
 	appSecret := resolveAppSecret(c.App)
 	if appSecret == "" {
 		return "", "", fmt.Errorf("appSecret is required")
+	}
+	if request.Data != nil {
+		if _, ok := (request.Data).(model.APIRequest); ok {
+			err := (request.Data).(model.APIRequest).Verify()
+			if err != nil {
+				return "", "", err
+			}
+		}
 	}
 	return appKey, appSecret, nil
 }

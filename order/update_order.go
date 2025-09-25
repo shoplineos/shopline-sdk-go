@@ -10,6 +10,16 @@ type UpdateOrderAPIReq struct {
 	Order Order `json:"order"`
 }
 
+func (req *UpdateOrderAPIReq) Verify() error {
+	// Verify the api request params
+	return nil
+}
+
+func (req *UpdateOrderAPIReq) Endpoint() string {
+	endpoint := fmt.Sprintf("orders/%s.json", req.Order.ID)
+	return endpoint
+}
+
 // UpdateOrderAPIResp Define the request structure for upate an order (corresponding to the API request body)
 type UpdateOrderAPIResp struct {
 	Order Order `json:"order"`
@@ -26,15 +36,15 @@ func UpdateOrder(c *client.Client, apiReq *UpdateOrderAPIReq) (*UpdateOrderAPIRe
 	}
 
 	// 2. API endpoint
-	endpoint := fmt.Sprintf("orders/%s.json", apiReq.Order.ID)
+	endpoint := apiReq.Endpoint()
 
 	// 3. API response data
 	apiResp := &UpdateOrderAPIResp{}
 
-	// 4. Invoke API
+	// 4. Call API
 	_, err := c.Put(context.Background(), endpoint, shopLineReq, apiResp)
 	if err != nil {
-		fmt.Printf("Execute Request failed，endpoint:%s, shopLineReq: %v, err: %v\n", endpoint, shopLineReq, err)
+		fmt.Printf("Execute Request failed，endpoint: %s, shopLineReq: %v, err: %v\n", endpoint, shopLineReq, err)
 		return nil, err
 	}
 
