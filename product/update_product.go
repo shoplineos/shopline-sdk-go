@@ -66,8 +66,8 @@ type UpdateProductAPIResp struct {
 //}
 
 // UpdateProduct
-// 中文: https://developer.shopline.com/zh-hans-cn/docs/admin-rest-api/product/product/update-product?version=v20251201
-// en: https://developer.shopline.com/docs/admin-rest-api/product/product/update-product?version=v20251201
+// 中文: https://developer.shopline.com/zh-hans-cn/docs/admin-rest-api/product/product/update-a-product?version=v20251201
+// en: https://developer.shopline.com/docs/admin-rest-api/product/product/update-a-product?version=v20251201
 func UpdateProduct(c *client.Client, apiReq *ProductUpdateAPIReq) (*UpdateProductAPIResp, error) {
 
 	// 1. API request

@@ -30,7 +30,15 @@ func setup() *Client {
 	}
 
 	app.Client = client
+
+	//httpmock.ActivateNonDefault(client.Client)
+
 	return client
+
+}
+
+func teardown() {
+	httpmock.DeactivateAndReset()
 }
 
 // product detail

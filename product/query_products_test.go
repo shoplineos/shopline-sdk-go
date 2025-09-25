@@ -36,7 +36,7 @@ func TestQueryProductsTitle(t *testing.T) {
 		//Status:          "active",
 		//OrderBy:         "created_at_desc",
 		//Limit:           3,
-		Fields: "title",
+		Fields: "id,title",
 	}
 
 	c := manager.GetDefaultClient()
