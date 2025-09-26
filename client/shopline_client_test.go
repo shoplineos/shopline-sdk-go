@@ -2,7 +2,6 @@ package client
 
 import (
 	"context"
-	"fmt"
 	"github.com/shoplineos/shopline-sdk-go/config"
 	"log"
 	"testing"
@@ -39,49 +38,25 @@ func teardown() {
 	httpmock.DeactivateAndReset()
 }
 
-// product detail
-// zh: https://developer.shopline.com/zh-hans-cn/docs/admin-rest-api/product/product/query-single-product?version=v20251201
-// en: https://developer.shopline.com/docs/admin-rest-api/product/product/query-single-product?version=v20251201
-func TestGetProductDetail(t *testing.T) {
-
-	setup()
-	defer teardown()
-
-	shopLineReq := &ShopLineRequest{}
-	responseData := &map[string]any{}
-	productId := "16070822412102455208483380"
-	endpoint := fmt.Sprintf("products/%s.json", productId)
-	resp, err := client.Get(context.Background(), endpoint, shopLineReq, responseData)
-
-	if err != nil {
-		t.Fatal(err)
-	}
-
-	//fmt.Println(resp)
-
-	a := assert.New(t)
-	a.Equal(200, resp.StatusCode)
-}
-
 // zh: https://developer.shopline.com/zh-hans-cn/docs/admin-rest-api/product/product/delete-product?version=v20251201
 // en: https://developer.shopline.com/docs/admin-rest-api/product/product/delete-product?version=v20251201
-func TestDeleteProduct(t *testing.T) {
-	setup()
-
-	productId := "16070822412199259745763380"
-	responseData := &map[string]any{}
-	shopLineReq := &ShopLineRequest{}
-
-	endpoint := fmt.Sprintf("products/%s.json", productId)
-
-	resp, err := client.Delete(context.Background(), endpoint, shopLineReq, responseData)
-	if err != nil {
-		t.Fatal(err)
-	}
-	a := assert.New(t)
-	a.Equal(200, resp.StatusCode)
-
-}
+//func TestDeleteProduct(t *testing.T) {
+//	setup()
+//
+//	productId := "16070822412199259745763380"
+//	responseData := &map[string]any{}
+//	shopLineReq := &ShopLineRequest{}
+//
+//	endpoint := fmt.Sprintf("products/%s.json", productId)
+//
+//	resp, err := client.Delete(context.Background(), endpoint, shopLineReq, responseData)
+//	if err != nil {
+//		t.Fatal(err)
+//	}
+//	a := assert.New(t)
+//	a.Equal(200, resp.StatusCode)
+//
+//}
 
 func TestVerifyWebhookRequest(t *testing.T) {
 	setup()

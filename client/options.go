@@ -14,7 +14,7 @@ type Option func(c *Client)
 
 func WithVersion(apiVersion string) Option {
 	return func(c *Client) {
-		c.apiVersion = apiVersion
+		c.ApiVersion = apiVersion
 	}
 }
 

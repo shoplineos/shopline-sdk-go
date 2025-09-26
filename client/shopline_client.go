@@ -38,10 +38,10 @@ type Client struct {
 	baseURL *url.URL
 
 	// URL Prefix, defaults to "admin/openapi"
-	pathPrefix string
+	PathPrefix string
 
 	// API version you're currently using of the api, defaults to "config.DefaultAPIVersion"
-	apiVersion string
+	ApiVersion string
 
 	// Enable signature calculation, default is false
 	EnableSign bool
@@ -281,8 +281,8 @@ func NewClient(app App, storeHandle, token string, opts ...Option) (*Client, err
 		StoreHandle: storeHandle,
 		baseURL:     baseURL,
 		Token:       token,
-		apiVersion:  defaultApiVersion,
-		pathPrefix:  defaultApiPathPrefix,
+		ApiVersion:  defaultApiVersion,
+		PathPrefix:  defaultApiPathPrefix,
 	}
 
 	for _, opt := range opts {
@@ -385,7 +385,7 @@ func (c *Client) resolveUrlPath(relPath string, request *ShopLineRequest) string
 	relPath = path.Join(c.resolveApiVersion(request), relPath)
 
 	// /admin/openapi/{version}/{relPath}
-	relPath = path.Join(c.pathPrefix, relPath)
+	relPath = path.Join(c.PathPrefix, relPath)
 	return relPath
 }
 
