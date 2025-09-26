@@ -28,6 +28,7 @@ type ListOptions struct {
 var linkRegex = regexp.MustCompile(`^ *<([^>]+)>; rel="(previous|next)" *$`)
 
 // parsePagination
+// linkHeader eg: <https://fafafa.myshopline.com/admin/openapi/v33322/products/products.json?limit=1&page_info=eyJzaW5jZUlkIjoiMTYwNTc1OTAxNTM4OTA4Mjk1MjExMTI3ODgiLCJkaXJlY3Rpb24iOiJuZXh0IiwibGltaXQiOjF9>; rel="next"
 // 中文: https://developer.shopline.com/zh-hans-cn/docs/apps/api-instructions-for-use/paging-mechanism?version=v20251201
 // en: https://developer.shopline.com/docs/apps/api-instructions-for-use/paging-mechanism?version=v20251201
 func parsePagination(linkHeader string) (*Pagination, error) {
@@ -49,7 +50,7 @@ func parsePagination(linkHeader string) (*Pagination, error) {
 			return nil, err
 		}
 
-		rel, err := url.Parse(match[1])
+		queryURL, err := url.Parse(match[1])
 		if err != nil {
 			err = ResponseDecodingError{
 				Message: "pagination does not contain a valid URL",
@@ -57,7 +58,7 @@ func parsePagination(linkHeader string) (*Pagination, error) {
 			return nil, err
 		}
 
-		params, err := url.ParseQuery(rel.RawQuery)
+		params, err := url.ParseQuery(queryURL.RawQuery)
 		if err != nil {
 			return nil, err
 		}
