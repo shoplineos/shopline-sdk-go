@@ -76,7 +76,7 @@ type ShopLineRequestOptions struct {
 // en: https://developer.shopline.com/docs/apps/api-instructions-for-use/paging-mechanism?version=v20251201
 type ShopLineRequest struct {
 	Headers map[string]string       // http header
-	Data    interface{}             // your own struct or an APIRequest，http body params
+	Body    interface{}             // your own struct or an APIRequest，http body params
 	Query   interface{}             // your own struct or an APIRequest，http url query params
 	Options *ShopLineRequestOptions // option params
 }
@@ -211,7 +211,7 @@ func (app App) CreateAccessToken(ctx context.Context, code string) (*TokenRespon
 
 	shopLineReq := &ShopLineRequest{
 		Options: &ShopLineRequestOptions{EnableSign: true},
-		Data:    requestBody,
+		Body:    requestBody,
 	}
 
 	// 2. new http request
@@ -275,7 +275,7 @@ func NewClient(app App, storeHandle, token string, opts ...Option) (*Client, err
 
 	c := &Client{
 		Client: &http.Client{
-			Timeout: time.Millisecond * TimeoutInMillisecond,
+			Timeout: TimeoutInMillisecond,
 		},
 		App:         app,
 		StoreHandle: storeHandle,
@@ -426,7 +426,7 @@ func (c *Client) NewHttpRequest(ctx context.Context, method HTTPMethod, path str
 
 	requestBodyJsonData, err := c.buildRequestBodyJsonData(request)
 	if err != nil {
-		log.Printf("Failed to serialize JSON, bodyParams:%v, err:%v\n", request.Data, err)
+		log.Printf("Failed to serialize JSON, bodyParams:%v, err:%v\n", request.Body, err)
 		return nil, err
 	}
 
@@ -658,9 +658,9 @@ func (c *Client) verify(endpoint string, method HTTPMethod, request *ShopLineReq
 	if appSecret == "" {
 		return "", "", fmt.Errorf("appSecret is required")
 	}
-	if request.Data != nil {
-		if _, ok := (request.Data).(model.APIRequest); ok {
-			err := (request.Data).(model.APIRequest).Verify()
+	if request.Body != nil {
+		if _, ok := (request.Body).(model.APIRequest); ok {
+			err := (request.Body).(model.APIRequest).Verify()
 			if err != nil {
 				return "", "", err
 			}
@@ -738,11 +738,11 @@ func (c *Client) resolveApiVersion(req *ShopLineRequest) string {
 
 // body params convert to json string
 func (c *Client) buildRequestBodyJsonData(request *ShopLineRequest) ([]byte, error) {
-	if request == nil || request.Data == nil {
+	if request == nil || request.Body == nil {
 		return nil, nil
 	}
 
-	body := request.Data
+	body := request.Body
 
 	return json.Marshal(body)
 }

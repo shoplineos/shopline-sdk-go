@@ -2,6 +2,7 @@ package client
 
 import (
 	"net/http"
+	"time"
 )
 
 // Options client options
@@ -28,6 +29,13 @@ func WithEnableSign(enableSign bool) Option {
 func WithHTTPClient(client *http.Client) Option {
 	return func(c *Client) {
 		c.Client = client
+	}
+}
+
+// WithTimeout http timeout
+func WithTimeout(Timeout time.Duration) Option {
+	return func(c *Client) {
+		c.Client.Timeout = Timeout
 	}
 }
 

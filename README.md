@@ -43,7 +43,8 @@ import "github.com/shoplineos/shopline-sdk-go/client"
   // 3.1 API request
   getProductCountAPIReq := &GetProductCountAPIReq{}
   shoplineReq := &client.ShopLineRequest{
-      Query: getProductCountAPIReq,
+      Query: getProductCountAPIReq, // for Get request
+      //Body: createProductAPIReq, // for Post、Put request
   }
 
   // 3.2 API endpoint
@@ -210,7 +211,7 @@ type GetProductCountAPIReq struct {
 }
 
 func (req *GetProductCountAPIReq) Verify() error {
-	// Verify the api request params
+	// Verify the API request params
 	return nil
 }
 
@@ -601,7 +602,7 @@ type GetProductCountAPIReq struct {
 }
 
 func (req *GetProductCountAPIReq) Verify() error {
-	// Verify the api request params
+	// Verify the API request params
 	return nil
 }
 

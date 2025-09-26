@@ -45,7 +45,7 @@ type Product struct {
 	Path            string    `json:"path,omitempty"`             // Path
 }
 
-// ProductRespData Product Response Data
+// ProductRespData Product Response Body
 type ProductRespData struct {
 	Id              string    `json:"id"`                         // Product id
 	Title           string    `json:"title"`                      // Product Title
@@ -105,7 +105,7 @@ func CreateProduct(c *client.Client, apiReq *CreateProductAPIReq) (*CreateProduc
 
 	// 1. API request
 	request := &client.ShopLineRequest{ // client request
-		Data: apiReq, // API request data
+		Body: apiReq, // API request data
 	}
 
 	// 2. API endpoint

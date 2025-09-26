@@ -107,7 +107,7 @@ func TestRefreshAccessToken(t *testing.T) {
 	//log.Printf("Status Code: %d\n", accessToken)
 	log.Printf("New Access Token: %s\n", accessToken.Data.AccessToken)
 	log.Printf("Expires In: %s seconds\n", accessToken.Data.ExpiresTime)
-	//fmt.Printf("Refresh Token: %s\n", tokenResp.Data.RefreshToken)
+	//fmt.Printf("Refresh Token: %s\n", tokenResp.Body.RefreshToken)
 
 	a := assert.New(t)
 	a.Equal(200, accessToken.Code)
@@ -150,9 +150,9 @@ func TestRefreshAccessTokenError(t *testing.T) {
 //	}
 //
 //	//log.Printf("Status Code: %d\n", accessToken)
-//	log.Printf("New Access Token: %s\n", accessToken.Data.AccessToken)
-//	log.Printf("Expires In: %s seconds\n", accessToken.Data.ExpiresTime)
-//	//fmt.Printf("Refresh Token: %s\n", tokenResp.Data.RefreshToken)
+//	log.Printf("New Access Token: %s\n", accessToken.Body.AccessToken)
+//	log.Printf("Expires In: %s seconds\n", accessToken.Body.ExpiresTime)
+//	//fmt.Printf("Refresh Token: %s\n", tokenResp.Body.RefreshToken)
 //
 //	a := assert.New(t)
 //	a.Equal(200, accessToken.Code)

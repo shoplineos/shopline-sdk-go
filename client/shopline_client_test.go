@@ -78,7 +78,7 @@ func TestVerifyWebhookRequest(t *testing.T) {
 
 		//testClient := MustNewClient(App{}, "", "")
 		shoplineReq := &ShopLineRequest{
-			Data: c.message,
+			Body: c.message,
 		}
 		req, err := client.NewHttpRequest(context.Background(), MethodGet, "", shoplineReq)
 		if err != nil {
