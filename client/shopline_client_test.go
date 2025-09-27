@@ -78,7 +78,7 @@ func TestVerifyWebhookRequest(t *testing.T) {
 
 		//testClient := MustNewClient(App{}, "", "")
 		shoplineReq := &ShopLineRequest{
-			Body: c.message,
+			Data: c.message,
 		}
 		req, err := client.NewHttpRequest(context.Background(), MethodGet, "", shoplineReq)
 		if err != nil {
@@ -127,10 +127,10 @@ type testRequestData struct {
 }
 
 func TestBuildFinalRequestUrl(t *testing.T) {
-	responseData := &testRequestData{}
-	responseData.Name = "lisi"
+	requestData := &testRequestData{}
+	requestData.Name = "lisi"
 	shoplineReq := &ShopLineRequest{
-		Query: responseData,
+		Data: requestData,
 	}
 
 	app := App{
@@ -140,7 +140,7 @@ func TestBuildFinalRequestUrl(t *testing.T) {
 
 	c := MustNewClient(app, StoreHandelForTest, "access token")
 
-	url, err := c.buildFinalRequestUrl("test/foo", shoplineReq)
+	url, err := c.buildFinalRequestUrl(MethodGet, "test/foo", shoplineReq)
 	a := assert.New(t)
 	a.Nil(err)
 	a.Equal("https://zwapptest.myshopline.com/test/foo?name=lisi", url)

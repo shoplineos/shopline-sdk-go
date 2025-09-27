@@ -40,8 +40,7 @@ func (req *QueryProductsAPIReq) Verify() error {
 }
 
 func (req *QueryProductsAPIReq) Endpoint() string {
-	endpoint := "products/products.json"
-	return endpoint
+	return "products/products.json" // endpoint
 }
 
 // QueryProducts
@@ -51,7 +50,7 @@ func QueryProducts(c *client.Client, apiReq *QueryProductsAPIReq) (*QueryProduct
 
 	// 1. API request
 	shopLineReq := &client.ShopLineRequest{
-		Query: apiReq, // API request params
+		Data: apiReq, // API request params
 	}
 
 	// 2. API endpoint

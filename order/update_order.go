@@ -32,7 +32,7 @@ type UpdateOrderAPIResp struct {
 func UpdateOrder(c *client.Client, apiReq *UpdateOrderAPIReq) (*UpdateOrderAPIResp, error) {
 	// 1. API request
 	shopLineReq := &client.ShopLineRequest{
-		Body: apiReq, // API request data
+		Data: apiReq, // API request data
 	}
 
 	// 2. API endpoint

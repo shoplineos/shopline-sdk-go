@@ -54,7 +54,7 @@ type QueryOrdersAPIResp struct {
 func QueryOrders(c *client.Client, apiReq *QueryOrdersAPIReq) (*QueryOrdersAPIResp, error) {
 	// 1. API request
 	shoplineReq := &client.ShopLineRequest{
-		Query: apiReq, // API request data
+		Data: apiReq, // API request data
 	}
 
 	// 2. API endpoint

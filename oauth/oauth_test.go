@@ -130,11 +130,10 @@ func TestRefreshAccessTokenError(t *testing.T) {
 	a := assert.New(t)
 	a.NotNil(err)
 	a.Equal("error", err.Error())
-
 }
 
-// https://developer.shopline.com/zh-hans-cn/docs/apps/api-instructions-for-use/app-authorization/?lang=zh-hans-cn#%E7%AC%AC%E5%85%AB%E6%AD%A5app-%E8%AF%B7%E6%B1%82%E5%88%B7%E6%96%B0-access-token
-//func TestRefreshAccessToken(t *testing.T) {
+//https://developer.shopline.com/zh-hans-cn/docs/apps/api-instructions-for-use/app-authorization/?lang=zh-hans-cn#%E7%AC%AC%E5%85%AB%E6%AD%A5app-%E8%AF%B7%E6%B1%82%E5%88%B7%E6%96%B0-access-token
+//func TestRefreshAccessTokenFromShopLine(t *testing.T) {
 //
 //	// replace app data
 //	storeHandle := config.DefaultStoreHandle
@@ -150,8 +149,8 @@ func TestRefreshAccessTokenError(t *testing.T) {
 //	}
 //
 //	//log.Printf("Status Code: %d\n", accessToken)
-//	log.Printf("New Access Token: %s\n", accessToken.Body.AccessToken)
-//	log.Printf("Expires In: %s seconds\n", accessToken.Body.ExpiresTime)
+//	log.Printf("New Access Token: %s\n", accessToken.Data.AccessToken)
+//	log.Printf("Expires In: %s seconds\n", accessToken.Data.ExpiresTime)
 //	//fmt.Printf("Refresh Token: %s\n", tokenResp.Body.RefreshToken)
 //
 //	a := assert.New(t)
