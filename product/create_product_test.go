@@ -91,9 +91,9 @@ func TestProductCreate(t *testing.T) {
 		httpmock.NewBytesResponder(200, test.LoadTestData("product/product.json")))
 
 	product := Product{
-		Title:    "Burton Custom Freestyle 151",
-		BodyHTML: "<strong>Good snowboard!<\\/strong>",
-		Vendor:   "Burton",
+		Title:    "Hello shopline Freestyle 111",
+		BodyHTML: "<strong>Hello shopline!<\\/strong>",
+		Vendor:   "shopline",
 	}
 
 	apiReq := &CreateProductAPIReq{

@@ -87,7 +87,7 @@ func TestRefreshAccessToken(t *testing.T) {
 
 	httpmock.RegisterResponder("POST", "https://zwapptest.myshopline.com/admin/oauth/token/refresh",
 		httpmock.NewStringResponder(200, `{
-	"code": "200",
+	"code": 200,
 	"i18nCode": "SUCCESS",
 	"message": "ok",
 	"data": {

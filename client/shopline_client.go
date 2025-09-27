@@ -75,10 +75,8 @@ type ShopLineRequestOptions struct {
 // 中文: https://developer.shopline.com/zh-hans-cn/docs/apps/api-instructions-for-use/paging-mechanism?version=v20251201
 // en: https://developer.shopline.com/docs/apps/api-instructions-for-use/paging-mechanism?version=v20251201
 type ShopLineRequest struct {
-	Headers map[string]string // http header
-	Data    interface{}       // your own struct or an APIRequest
-	//Body    interface{}             // your own struct or an APIRequest，http body params
-	//Query   interface{}             // your own struct or an APIRequest，http url query params
+	Headers map[string]string       // http header
+	Data    interface{}             // your own struct or an APIRequest, for http url query params or body params
 	Options *ShopLineRequestOptions // option params
 }
 
@@ -375,7 +373,7 @@ func (c *Client) executeInternal(ctx context.Context, method HTTPMethod, endpoin
 }
 
 // return the http url's path '/admin/openapi/{version}/{relPath}'
-// eg: /admin/openapi/20251201/orders.json
+// eg: /admin/openapi/v20251201/orders.json
 func (c *Client) resolveUrlPath(relPath string, request *ShopLineRequest) string {
 	if strings.HasPrefix(relPath, "/") {
 		// make sure it's a relative path
@@ -419,13 +417,13 @@ func (c *Client) executeHttpRequest(request *ShopLineRequest, httpReq *http.Requ
 func (c *Client) NewHttpRequest(ctx context.Context, method HTTPMethod, path string, request *ShopLineRequest) (*http.Request, error) {
 	// build request URL
 	// eg：requestURL := fmt.Sprintf("https://%s.myshopline.com/admin/openapi/%s/products/%s.json", shopHandle, ApiVersion, productId)
-	requestURL, err := c.buildFinalRequestUrl(method, path, request)
+	requestURL, err := c.buildRequestUrl(method, path, request)
 	if err != nil {
 		log.Printf("Failed to build requestURL, path: %s, request: %v, err: %v\n", path, request, err)
 		return nil, err
 	}
 
-	requestBodyJsonData, err := c.buildRequestBodyJsonData(request)
+	requestBodyJsonData, err := c.serializeBodyDataIfNecessary(method, request)
 	if err != nil {
 		log.Printf("Failed to serialize JSON, bodyParams:%v, err:%v\n", request.Data, err)
 		return nil, err
@@ -459,7 +457,7 @@ func resolveTimeout(req *ShopLineRequest) time.Duration {
 }
 
 // set Headers
-func (c *Client) setHeaders(appKey string, appSecret string, httpReq *http.Request, requestWrapper *shopLineRequestWrapper) error {
+func (c *Client) setHeaders(appKey string, appSecret string, httpReq *http.Request, wrapper *shopLineRequestWrapper) error {
 	httpReq.Header.Set("Content-Type", "application/json")
 	httpReq.Header.Set("Accept", "application/json")
 	httpReq.Header.Set("appkey", appKey)
@@ -473,11 +471,11 @@ func (c *Client) setHeaders(appKey string, appSecret string, httpReq *http.Reque
 	timestamp := common.BuildTimestamp()
 	httpReq.Header.Set("timestamp", timestamp)
 
-	request := requestWrapper.shopLineRequest
+	request := wrapper.shopLineRequest
 
 	// Signature calculation
 	if c.isSignEnabled(request) {
-		sign, err := generateSign(appKey, appSecret, timestamp, requestWrapper)
+		sign, err := generateSign(appKey, appSecret, timestamp, wrapper.requestBodyJsonBytes)
 		if err != nil {
 			return err
 		}
@@ -495,24 +493,24 @@ func (c *Client) setHeaders(appKey string, appSecret string, httpReq *http.Reque
 }
 
 // First get the App.AppKey in the request, if not exists then get the DefaultAppKey in app_constants.go
-func resolveAppKey(appConfig App) string {
-	if len(appConfig.AppKey) > 0 {
-		return appConfig.AppKey
+func resolveAppKey(app App) string {
+	if len(app.AppKey) > 0 {
+		return app.AppKey
 	}
 	return config.DefaultAppKey
 }
 
 // First get the App.AppSecret in the request, if not exists then get the DefaultAppSecret in app_constants.go
-func resolveAppSecret(appConfig App) string {
-	if len(appConfig.AppSecret) > 0 {
-		return appConfig.AppSecret
+func resolveAppSecret(app App) string {
+	if len(app.AppSecret) > 0 {
+		return app.AppSecret
 	}
 	return config.DefaultAppSecret
 }
 
 // generate sign string
-func generateSign(appKey, appSecret, timestamp string, requestWrapper *shopLineRequestWrapper) (string, error) {
-	bodyJsonString, err := buildBodyJsonString(requestWrapper.requestBodyJsonBytes)
+func generateSign(appKey, appSecret, timestamp string, requestBodyJsonBytes []byte) (string, error) {
+	bodyJsonString, err := buildBodyJsonString(requestBodyJsonBytes)
 	if err != nil {
 		return "", err
 	}
@@ -538,10 +536,6 @@ func buildBodyJsonString(bodyParams []byte) (string, error) {
 func buildShopLineResponse(httpResp *http.Response, resource interface{}) (*ShopLineResponse, error) {
 	shopLineResp := &ShopLineResponse{}
 	shopLineResp.StatusCode = httpResp.StatusCode
-
-	// Pagination, see detail：
-	// 中文: https://developer.shopline.com/zh-hans-cn/docs/apps/api-instructions-for-use/paging-mechanism?version=v20251201
-	// en: https://developer.shopline.com/docs/apps/api-instructions-for-use/paging-mechanism/?version=v20251201
 
 	link := resolveLinkHeader(httpResp.Header)
 	shopLineResp.Link = link
@@ -573,6 +567,7 @@ func buildShopLineResponse(httpResp *http.Response, resource interface{}) (*Shop
 	return shopLineResp, nil
 }
 
+// set common data to api response data
 func setCommonAPIRespData(shopLineResp *ShopLineResponse) {
 	apiResp := shopLineResp.Data
 	if apiResp == nil {
@@ -596,6 +591,7 @@ func setCommonAPIRespData(shopLineResp *ShopLineResponse) {
 
 }
 
+// set traceId to api response
 func setTraceId2APIResp(shopLineResp *ShopLineResponse, typ reflect.Type, apiRespVal reflect.Value) {
 	_, ok := typ.FieldByName("TraceId")
 	if ok {
@@ -686,7 +682,7 @@ func verifyForRefreshAccessToken(appkey, appSecret, shopHandle string) error {
 }
 
 // Add the request query parameters to the http query parameters
-func (c *Client) buildFinalRequestUrl(method HTTPMethod, relPath string, request *ShopLineRequest) (string, error) {
+func (c *Client) buildRequestUrl(method HTTPMethod, relPath string, request *ShopLineRequest) (string, error) {
 
 	rel, err := url.Parse(relPath)
 	if err != nil {
@@ -695,6 +691,7 @@ func (c *Client) buildFinalRequestUrl(method HTTPMethod, relPath string, request
 
 	parsedURL := c.baseURL.ResolveReference(rel)
 
+	// Get only
 	if method == MethodGet && request.Data != nil {
 		optionsQuery, err := query.Values(request.Data)
 		if err != nil {
@@ -712,7 +709,7 @@ func (c *Client) buildFinalRequestUrl(method HTTPMethod, relPath string, request
 	}
 
 	requestURL := parsedURL.String()
-	log.Printf("Final requestURL: %s\n", requestURL)
+	log.Printf("Final to build requestURL: %s\n", requestURL)
 
 	return requestURL, nil
 }
@@ -721,12 +718,12 @@ func (c *Client) resolveApiVersion(req *ShopLineRequest) string {
 	if req.isApiVersionPresent() {
 		return req.Options.ApiVersion
 	}
-	return defaultApiVersion
+	return c.ApiVersion
 }
 
-// body params convert to json string
-func (c *Client) buildRequestBodyJsonData(request *ShopLineRequest) ([]byte, error) {
-	if request == nil || request.Data == nil {
+// body params serialize to json bytes
+func (c *Client) serializeBodyDataIfNecessary(method HTTPMethod, request *ShopLineRequest) ([]byte, error) {
+	if method == MethodGet || request == nil || request.Data == nil {
 		return nil, nil
 	}
 
