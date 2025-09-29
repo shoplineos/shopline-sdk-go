@@ -29,7 +29,7 @@ type CreateProductAPIResp struct {
 
 type Product struct {
 	Id              string    `json:"id"`                         // Product id
-	Title           string    `json:"title"`                      // Product Title
+	Title           string    `json:"title,omitempty"`            // Product Title
 	BodyHTML        string    `json:"body_html,omitempty"`        // Product Detail HTML
 	Handle          string    `json:"shopHandle,omitempty"`       // shopHandle
 	Subtitle        string    `json:"subtitle,omitempty"`         // Product Subtitle
@@ -48,7 +48,7 @@ type Product struct {
 // ProductRespData Product Response Body
 type ProductRespData struct {
 	Id              string    `json:"id"`                         // Product id
-	Title           string    `json:"title"`                      // Product Title
+	Title           string    `json:"title,omitempty"`            // Product Title
 	BodyHTML        string    `json:"body_html,omitempty"`        // Product Detail HTML
 	Handle          string    `json:"shopHandle,omitempty"`       // shopHandle
 	Subtitle        string    `json:"subtitle,omitempty"`         // Product Subtitle
@@ -72,8 +72,8 @@ type Image struct {
 
 // Option Product Option（eg:Color、Size）
 type Option struct {
-	Name         string            `json:"name"`   // Option name（eg "Color"）
-	Values       []string          `json:"values"` // Option value（eg ["red", "blue"]）
+	Name         string            `json:"name,omitempty"`   // Option name（eg "Color"）
+	Values       []string          `json:"values,omitempty"` // Option value（eg ["red", "blue"]）
 	ValuesImages map[string]string `json:"values_images,omitempty"`
 }
 
@@ -82,7 +82,7 @@ type Variant struct {
 	ID               string `json:"id,omitempty"`
 	Image            Image  `json:"image,omitempty"`
 	SKU              string `json:"sku,omitempty"`              // SKU
-	Price            string `json:"price"`                      // Price
+	Price            string `json:"price,omitempty"`            // Price
 	CompareAtPrice   string `json:"compare_at_price,omitempty"` // Compare At Price
 	Barcode          string `json:"barcode,omitempty"`          // Barcode
 	Weight           string `json:"weight,omitempty"`           // Weight

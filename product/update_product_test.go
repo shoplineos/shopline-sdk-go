@@ -69,9 +69,9 @@ import (
 //		},
 //	}
 //
-//	c := manager.GetDefaultClient()
+//	cli := manager.GetDefaultClient()
 //
-//	resp, err := UpdateProduct(c, requestBody)
+//	resp, err := UpdateProduct(cli, requestBody)
 //	assert.Nil(t, err)
 //	fmt.Printf("Update Product Resp: %v\n", resp)
 //	// New Product Id: 16071506529459141648923380
@@ -83,7 +83,7 @@ func TestProductUpdate(t *testing.T) {
 	setup()
 	defer teardown()
 
-	httpmock.RegisterResponder("PUT", fmt.Sprintf("https://%s.myshopline.com/%s/%s/products/111.json", c.StoreHandle, c.PathPrefix, c.ApiVersion),
+	httpmock.RegisterResponder("PUT", fmt.Sprintf("https://%s.myshopline.com/%s/%s/products/111.json", cli.StoreHandle, cli.PathPrefix, cli.ApiVersion),
 		httpmock.NewBytesResponder(200, test.LoadTestData("product/product.json")))
 
 	product := Product{
@@ -95,7 +95,7 @@ func TestProductUpdate(t *testing.T) {
 		Product: product,
 	}
 
-	apiResp, err := UpdateProduct(c, apiReq)
+	apiResp, err := UpdateProduct(cli, apiReq)
 	if err != nil {
 		t.Errorf("Product.Update returned error: %v", err)
 	}

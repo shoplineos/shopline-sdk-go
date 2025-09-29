@@ -12,7 +12,7 @@ import (
 )
 
 var (
-	c   *client.Client
+	cli *client.Client
 	app client.App
 )
 
@@ -22,14 +22,14 @@ func setup() {
 		AppSecret: config.AppSecretForUnitTest,
 	}
 
-	c = client.MustNewClient(app, config.StoreHandelForUnitTest, config.AccessTokenForUnitTest, client.WithEnableLogDetail(true))
-	if c == nil {
+	cli = client.MustNewClient(app, config.StoreHandelForUnitTest, config.AccessTokenForUnitTest, client.WithEnableLogDetail(true))
+	if cli == nil {
 		panic("client is nil")
 	}
 
-	app.Client = c
+	app.Client = cli
 
-	httpmock.ActivateNonDefault(c.Client)
+	httpmock.ActivateNonDefault(cli.Client)
 }
 
 func teardown() {

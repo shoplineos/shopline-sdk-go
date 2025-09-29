@@ -15,9 +15,9 @@ import (
 //		ProductId: productId,
 //	}
 //
-//	c := manager.GetDefaultClient()
+//	cli := manager.GetDefaultClient()
 //
-//	apiResp, err := GetProductDetail(c, apiReq)
+//	apiResp, err := GetProductDetail(cli, apiReq)
 //	log.Printf("apiResp: %v, err:%v", apiResp, err)
 //	assert.NotNil(t, err, "err should be nil")
 //}
@@ -30,7 +30,7 @@ func TestGetProductDetailError(t *testing.T) {
 	setup()
 	defer teardown()
 
-	httpmock.RegisterResponder("GET", fmt.Sprintf("https://%s.myshopline.com/%s/%s/products/111.json", c.StoreHandle, c.PathPrefix, c.ApiVersion),
+	httpmock.RegisterResponder("GET", fmt.Sprintf("https://%s.myshopline.com/%s/%s/products/111.json", cli.StoreHandle, cli.PathPrefix, cli.ApiVersion),
 		httpmock.NewStringResponder(404, `{"errors":"DataNotExists"}`))
 
 	//shopLineReq := &client.ShopLineRequest{}
@@ -38,7 +38,7 @@ func TestGetProductDetailError(t *testing.T) {
 		ProductId: "111",
 	}
 
-	_, err := GetProductDetail(c, apiReq)
+	_, err := GetProductDetail(cli, apiReq)
 
 	a := assert.New(t)
 	a.NotNil(err)
@@ -53,7 +53,7 @@ func TestGetProductDetail(t *testing.T) {
 	setup()
 	defer teardown()
 
-	httpmock.RegisterResponder("GET", fmt.Sprintf("https://%s.myshopline.com/%s/%s/products/111.json", c.StoreHandle, c.PathPrefix, c.ApiVersion),
+	httpmock.RegisterResponder("GET", fmt.Sprintf("https://%s.myshopline.com/%s/%s/products/111.json", cli.StoreHandle, cli.PathPrefix, cli.ApiVersion),
 		httpmock.NewBytesResponder(200, test.LoadTestData("product/product.json")))
 
 	//shopLineReq := &client.ShopLineRequest{}
@@ -64,7 +64,7 @@ func TestGetProductDetail(t *testing.T) {
 	//responseData := &map[string]any{}
 	//productId := "111"
 	//endpoint := fmt.Sprintf("products/%s.json", productId)
-	resp, err := GetProductDetail(c, apiReq)
+	resp, err := GetProductDetail(cli, apiReq)
 
 	if err != nil {
 		t.Fatal(err)

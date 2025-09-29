@@ -68,8 +68,8 @@ import (
 //		},
 //	}
 //
-//	c := manager.GetDefaultClient()
-//	apiResp, err := CreateProduct(c, apiReq)
+//	cli := manager.GetDefaultClient()
+//	apiResp, err := CreateProduct(cli, apiReq)
 //	if err != nil {
 //		log.Fatal(err)
 //	}
@@ -87,7 +87,7 @@ func TestProductCreate(t *testing.T) {
 	setup()
 	defer teardown()
 
-	httpmock.RegisterResponder("POST", fmt.Sprintf("https://%s.myshopline.com/%s/%s/products/products.json", c.StoreHandle, c.PathPrefix, c.ApiVersion),
+	httpmock.RegisterResponder("POST", fmt.Sprintf("https://%s.myshopline.com/%s/%s/products/products.json", cli.StoreHandle, cli.PathPrefix, cli.ApiVersion),
 		httpmock.NewBytesResponder(200, test.LoadTestData("product/product.json")))
 
 	product := Product{
@@ -100,7 +100,7 @@ func TestProductCreate(t *testing.T) {
 		Product: product,
 	}
 
-	apiResp, err := CreateProduct(c, apiReq)
+	apiResp, err := CreateProduct(cli, apiReq)
 	if err != nil {
 		t.Errorf("Product.Create returned error: %v", err)
 	}

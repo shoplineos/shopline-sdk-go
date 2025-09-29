@@ -16,9 +16,9 @@ import (
 //		ProductId: productId,
 //	}
 //
-//	c := manager.GetDefaultClient()
+//	cli := manager.GetDefaultClient()
 //
-//	apiResp, err := DeleteProduct(c, apiReq)
+//	apiResp, err := DeleteProduct(cli, apiReq)
 //	if err != nil {
 //		log.Printf("delete product error, apiResp: %v, err:%v", apiResp, err)
 //	} else {
@@ -34,13 +34,13 @@ func TestDeleteProductError(t *testing.T) {
 	setup()
 	defer teardown()
 
-	httpmock.RegisterResponder("DELETE", fmt.Sprintf("https://%s.myshopline.com/%s/%s/products/1.json", c.StoreHandle, c.PathPrefix, c.ApiVersion),
+	httpmock.RegisterResponder("DELETE", fmt.Sprintf("https://%s.myshopline.com/%s/%s/products/1.json", cli.StoreHandle, cli.PathPrefix, cli.ApiVersion),
 		httpmock.NewStringResponder(500, `{"errors":"Internal Server Error"}`))
 
 	apiReq := &DeleteProductAPIReq{
 		ProductId: "1",
 	}
-	_, err := DeleteProduct(c, apiReq)
+	_, err := DeleteProduct(cli, apiReq)
 	assert.NotNil(t, err)
 	assert.Equal(t, "Internal Server Error", err.Error())
 }
@@ -51,13 +51,13 @@ func TestDeleteProductUnknowError(t *testing.T) {
 	setup()
 	defer teardown()
 
-	httpmock.RegisterResponder("DELETE", fmt.Sprintf("https://%s.myshopline.com/%s/%s/products/1.json", c.StoreHandle, c.PathPrefix, c.ApiVersion),
+	httpmock.RegisterResponder("DELETE", fmt.Sprintf("https://%s.myshopline.com/%s/%s/products/1.json", cli.StoreHandle, cli.PathPrefix, cli.ApiVersion),
 		httpmock.NewStringResponder(500, ""))
 
 	apiReq := &DeleteProductAPIReq{
 		ProductId: "1",
 	}
-	_, err := DeleteProduct(c, apiReq)
+	_, err := DeleteProduct(cli, apiReq)
 	assert.NotNil(t, err)
 	assert.Equal(t, "Unknown Error", err.Error())
 }
@@ -67,13 +67,13 @@ func TestDeleteProduct3(t *testing.T) {
 	setup()
 	defer teardown()
 
-	httpmock.RegisterResponder("DELETE", fmt.Sprintf("https://%s.myshopline.com/%s/%s/products/1.json", c.StoreHandle, c.PathPrefix, c.ApiVersion),
+	httpmock.RegisterResponder("DELETE", fmt.Sprintf("https://%s.myshopline.com/%s/%s/products/1.json", cli.StoreHandle, cli.PathPrefix, cli.ApiVersion),
 		httpmock.NewStringResponder(200, "{}"))
 
 	apiReq := &DeleteProductAPIReq{
 		ProductId: "1",
 	}
-	apiResp, err := DeleteProduct(c, apiReq)
+	apiResp, err := DeleteProduct(cli, apiReq)
 	if err != nil {
 		t.Errorf("Product.Delete returned error: %v", err)
 	} else {
