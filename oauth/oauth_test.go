@@ -1,7 +1,6 @@
 package oauth
 
 import (
-	"context"
 	"fmt"
 	"github.com/jarcoal/httpmock"
 	"github.com/shoplineos/shopline-sdk-go/client"
@@ -53,7 +52,7 @@ func TestAppCreateAccessToken(t *testing.T) {
 	}
 }`))
 
-	apiResp, err := app.CreateAccessToken(context.Background(), "test_code")
+	apiResp, err := CreateAccessToken(app, "test_code")
 	if err != nil {
 		t.Fatalf("App.CreateAccessToken(): %v", err)
 	}
@@ -73,7 +72,7 @@ func TestCreateAccessTokenError(t *testing.T) {
 	httpmock.RegisterResponder("POST", "https://zwapptest.myshopline.com/admin/oauth/token/create",
 		httpmock.NewStringResponder(500, `{"errors": "system error"}`))
 
-	_, err := app.CreateAccessToken(context.Background(), "test_code")
+	_, err := CreateAccessToken(app, "test_code")
 	a := assert.New(t)
 	a.NotNil(err)
 	a.Equal("system error", err.Error())
@@ -97,7 +96,7 @@ func TestRefreshAccessToken(t *testing.T) {
 	}
 }`))
 
-	accessToken, err := app.RefreshAccessToken(context.Background(), config.StoreHandelForUnitTest)
+	accessToken, err := RefreshAccessToken(app, config.StoreHandelForUnitTest)
 	if err != nil {
 		log.Fatalf("Failed to refresh access token: %v\n", err)
 	} else {
@@ -126,7 +125,7 @@ func TestRefreshAccessTokenError(t *testing.T) {
 	"message": "error"
 }`))
 
-	_, err := app.RefreshAccessToken(context.Background(), config.StoreHandelForUnitTest)
+	_, err := RefreshAccessToken(app, config.StoreHandelForUnitTest)
 	a := assert.New(t)
 	a.NotNil(err)
 	a.Equal("error", err.Error())

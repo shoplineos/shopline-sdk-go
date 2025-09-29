@@ -21,9 +21,6 @@ var (
 )
 
 func setup() *Client {
-	if client != nil {
-		return client
-	}
 	app = App{
 		AppKey:    config.DefaultAppKey,
 		AppSecret: config.DefaultAppSecret,
