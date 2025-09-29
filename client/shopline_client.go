@@ -26,15 +26,15 @@ type Client struct {
 	// app config
 	App App
 
-	// http client
+	// Http client
 	Client *http.Client
 
-	// access Token
+	// Access Token
 	Token string
 
 	// Base URL for API requests.
 	// This is set on a per-store basis which means that each store must have its own Client.
-	// eg: https://shopName.myshopline.com
+	// eg: https://storeHandle.myshopline.com
 	baseURL *url.URL
 
 	// URL Prefix, defaults to "admin/openapi"
@@ -64,10 +64,10 @@ type ShopLineRequestOptions struct {
 	// Enable signature calculation, default is false
 	EnableSign bool
 
-	// Timeout(option)
+	// Timeout(Optional)
 	Timeout time.Duration
 
-	// API version(option)
+	// API version(Optional)
 	ApiVersion string
 }
 
@@ -206,8 +206,6 @@ func (app App) CreateAccessToken(ctx context.Context, code string) (*TokenRespon
 		"code": code,
 	}
 
-	tokenResponse := &TokenResponse{}
-
 	shopLineReq := &ShopLineRequest{
 		Options: &ShopLineRequestOptions{EnableSign: true},
 		Data:    requestBody,
@@ -219,7 +217,10 @@ func (app App) CreateAccessToken(ctx context.Context, code string) (*TokenRespon
 		return nil, err
 	}
 
-	// 3. execute
+	// 3. resource
+	tokenResponse := &TokenResponse{}
+
+	// 4. execute
 	_, err = app.Client.executeHttpRequest(shopLineReq, httpReq, tokenResponse)
 	if err != nil {
 		return nil, err
@@ -237,8 +238,6 @@ func (app App) RefreshAccessToken(ctx context.Context, storeHandle string) (*Tok
 	}
 
 	// 1. build request
-	tokenResponse := &TokenResponse{}
-
 	shopLineReq := &ShopLineRequest{
 		Options: &ShopLineRequestOptions{EnableSign: true},
 	}
@@ -249,7 +248,10 @@ func (app App) RefreshAccessToken(ctx context.Context, storeHandle string) (*Tok
 		return nil, err
 	}
 
-	// 3. execute
+	// 3. resource
+	tokenResponse := &TokenResponse{}
+
+	// 4. execute
 	_, err = app.Client.executeHttpRequest(shopLineReq, httpReq, tokenResponse)
 	if err != nil {
 		return nil, err

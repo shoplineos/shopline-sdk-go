@@ -20,7 +20,7 @@ var (
 	app    App
 )
 
-func setup() *Client {
+func setup() {
 	app = App{
 		AppKey:    config.DefaultAppKey,
 		AppSecret: config.DefaultAppSecret,
@@ -34,9 +34,6 @@ func setup() *Client {
 	app.Client = client
 
 	httpmock.ActivateNonDefault(client.Client)
-
-	return client
-
 }
 
 func teardown() {
