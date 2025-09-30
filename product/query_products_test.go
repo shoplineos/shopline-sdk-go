@@ -312,7 +312,7 @@ func TestProductListWithPagination(t *testing.T) {
 			`<http://valid.url>; rel="next"`,
 			[]ProductRespData(nil),
 			nil,
-			client.ResponseDecodingError{Message: "page_info is missing"},
+			client.ResponseDecodingError{Message: "The page_info is missing"},
 		},
 		{
 			"{}",
