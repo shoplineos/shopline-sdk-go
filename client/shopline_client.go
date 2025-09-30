@@ -9,6 +9,7 @@ import (
 	"github.com/shoplineos/shopline-sdk-go/config"
 	"github.com/shoplineos/shopline-sdk-go/model"
 	"github.com/shoplineos/shopline-sdk-go/signature"
+	"io"
 	"log"
 	"net/http"
 	"net/url"
@@ -121,6 +122,8 @@ type ShopLineResponse struct {
 	Link string
 
 	Pagination *Pagination
+
+	ResponseBody string
 }
 
 func (resp *ShopLineResponse) HasNext() bool {
@@ -447,13 +450,23 @@ func buildShopLineResponse(httpResp *http.Response, resource interface{}) (*Shop
 		return shopLineResp, err
 	}
 
-	if err := json.NewDecoder(httpResp.Body).Decode(&resource); err != nil {
-		//respData := &map[string]any{}
-		//json.NewDecoder(httpResp.Body).Decode(respData)
-		log.Printf("Failed to parse response body, statusCode: %d, body: %v, err: %v\n", httpResp.StatusCode, resource, err)
-
-		return shopLineResp, err
+	method := httpResp.Request.Method
+	if MethodDelete != method { // delete method will return empty body
+		if err := json.NewDecoder(httpResp.Body).Decode(&resource); err != nil {
+			//respData := &map[string]any{}
+			//json.NewDecoder(httpResp.Body).Decode(respData)
+			//log.Printf("Failed to parse json response body, statusCode: %d, body: %v, err: %v\n", httpResp.StatusCode, resource, err)
+			bodyBytes, err := io.ReadAll(httpResp.Body)
+			if err != nil {
+				return shopLineResp, err
+			}
+			body := string(bodyBytes)
+			log.Printf("Failed to parse json response body, statusCode: %d, body: %v, err: %v\n", httpResp.StatusCode, body, err)
+			shopLineResp.ResponseBody = body
+			return shopLineResp, err
+		}
 	}
+
 	shopLineResp.Data = resource
 
 	pagination, err := parsePagination(shopLineResp.Link)
