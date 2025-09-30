@@ -4,9 +4,11 @@ import (
 	"errors"
 	"fmt"
 	"github.com/jarcoal/httpmock"
+	"github.com/shoplineos/shopline-sdk-go/client"
 	"github.com/shoplineos/shopline-sdk-go/test"
 	"net/http"
 	"reflect"
+	"runtime"
 	"testing"
 )
 
@@ -180,6 +182,151 @@ func TestOrderListAll(t *testing.T) {
 				)
 			}
 		})
+	}
+}
+
+func TestOrderListWithPagination(t *testing.T) {
+	setup()
+	defer teardown()
+
+	listURL := fmt.Sprintf("https://%s.myshopline.com/%s/%s/orders.json", cli.StoreHandle, cli.PathPrefix, cli.ApiVersion)
+
+	// The strconv.Atoi error changed in go 1.8, 1.7 is still being tested/supported.
+	limitConversionErrorMessage := `strconv.Atoi: parsing "invalid": invalid syntax`
+	if runtime.Version()[2:5] == "1.7" {
+		limitConversionErrorMessage = `strconv.ParseInt: parsing "invalid": invalid syntax`
+	}
+
+	cases := []struct {
+		body               string
+		linkHeader         string
+		expectedOrders     []Order
+		expectedPagination *client.Pagination
+		expectedErr        error
+	}{
+		// Expect empty pagination when there is no link header
+		{
+			`{"orders": [{"id":"1"},{"id":"2"}]}`,
+			"",
+			[]Order{{ID: "1"}, {ID: "2"}},
+			new(client.Pagination),
+			nil,
+		},
+		// Invalid link header responses
+		{
+			"{}",
+			"invalid link",
+			[]Order(nil),
+			nil,
+			client.ResponseDecodingError{Message: "could not extract pagination link header"},
+		},
+		{
+			"{}",
+			`<:invalid.url>; rel="next"`,
+			[]Order(nil),
+			nil,
+			client.ResponseDecodingError{Message: "pagination does not contain a valid URL"},
+		},
+		{
+			"{}",
+			`<http://valid.url?%invalid_query>; rel="next"`,
+			[]Order(nil),
+			nil,
+			errors.New(`invalid URL escape "%in"`),
+		},
+		{
+			"{}",
+			`<http://valid.url>; rel="next"`,
+			[]Order(nil),
+			nil,
+			client.ResponseDecodingError{Message: "The page_info is missing"},
+		},
+		{
+			"{}",
+			`<http://valid.url?page_info=foo&limit=invalid>; rel="next"`,
+			[]Order(nil),
+			nil,
+			errors.New(limitConversionErrorMessage),
+		},
+		// Valid link header responses
+		{
+			`{"orders": [{"id":"1"}]}`,
+			`<http://valid.url?page_info=foo&limit=2>; rel="next"`,
+			[]Order{{ID: "1"}},
+			&client.Pagination{
+				Next: &client.ListOptions{PageInfo: "foo", Limit: 2},
+			},
+			nil,
+		},
+		{
+			`{"orders": [{"id":"2"}]}`,
+			`<http://valid.url?page_info=foo>; rel="next", <http://valid.url?page_info=bar>; rel="previous"`,
+			[]Order{{ID: "2"}},
+			&client.Pagination{
+				Next:     &client.ListOptions{PageInfo: "foo"},
+				Previous: &client.ListOptions{PageInfo: "bar"},
+			},
+			nil,
+		},
+	}
+	for i, c := range cases {
+		response := &http.Response{
+			StatusCode: 200,
+			Body:       httpmock.NewRespBodyFromString(c.body),
+			Header: http.Header{
+				"Link": {c.linkHeader},
+			},
+		}
+
+		httpmock.RegisterResponder("GET", listURL, httpmock.ResponderFromResponse(response))
+
+		//orders, pagination, err := client.Order.ListWithPagination(context.Background(), nil)
+		apiReq := &QueryOrdersAPIReq{}
+		apiResp, err := QueryOrders(cli, apiReq)
+
+		if apiResp != nil && apiResp.Orders != nil && !reflect.DeepEqual(apiResp.Orders, c.expectedOrders) {
+			t.Errorf("test %d Order.ListWithPagination orders returned %+v, expected %+v", i, apiResp.Orders, c.expectedOrders)
+		}
+
+		if apiResp != nil && apiResp.Pagination != nil && !reflect.DeepEqual(apiResp.Pagination, c.expectedPagination) {
+			t.Errorf(
+				"test %d Order.ListWithPagination pagination returned %+v, expected %+v",
+				i,
+				apiResp.Pagination,
+				c.expectedPagination,
+			)
+		}
+
+		if (c.expectedErr != nil || err != nil) && err.Error() != c.expectedErr.Error() {
+			t.Errorf(
+				"test %d Order.ListWithPagination err returned %+v, expected %+v",
+				i,
+				err,
+				c.expectedErr,
+			)
+		}
+	}
+}
+
+func TestOrderListError(t *testing.T) {
+	setup()
+	defer teardown()
+
+	httpmock.RegisterResponder("GET",
+		fmt.Sprintf("https://%s.myshopline.com/%s/%s/orders.json", cli.StoreHandle, cli.PathPrefix, cli.ApiVersion),
+		httpmock.NewStringResponder(500, ""))
+
+	expectedErrMessage := "Unknown Error"
+
+	apiReq := &QueryOrdersAPIReq{}
+	apiResp, err := QueryOrders(cli, apiReq)
+
+	if apiResp != nil && apiResp.Orders != nil {
+		t.Errorf("Order.List returned orders, expected nil: %v", err)
+	}
+
+	if err == nil || err.Error() != expectedErrMessage {
+		t.Errorf("Order.List err returned %+v, expected %+v", err, expectedErrMessage)
 	}
 }
 

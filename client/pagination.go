@@ -47,7 +47,7 @@ func parsePagination(linkHeader string) (*Pagination, error) {
 			err := ResponseDecodingError{
 				Message: "could not extract pagination link header",
 			}
-			return nil, err
+			return pagination, err
 		}
 
 		queryURL, err := url.Parse(match[1])
@@ -55,12 +55,12 @@ func parsePagination(linkHeader string) (*Pagination, error) {
 			err = ResponseDecodingError{
 				Message: "pagination does not contain a valid URL",
 			}
-			return nil, err
+			return pagination, err
 		}
 
 		params, err := url.ParseQuery(queryURL.RawQuery)
 		if err != nil {
-			return nil, err
+			return pagination, err
 		}
 
 		paginationListOptions := ListOptions{}
@@ -70,14 +70,14 @@ func parsePagination(linkHeader string) (*Pagination, error) {
 			err = ResponseDecodingError{
 				Message: "The page_info is missing",
 			}
-			return nil, err
+			return pagination, err
 		}
 
 		limit := params.Get("limit")
 		if limit != "" {
 			paginationListOptions.Limit, err = strconv.Atoi(params.Get("limit"))
 			if err != nil {
-				return nil, err
+				return pagination, err
 			}
 		}
 

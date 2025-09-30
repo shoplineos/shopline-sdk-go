@@ -98,7 +98,7 @@ func QueryOrdersAll(c *client.Client, apiReq *QueryOrdersAPIReq) ([]Order, error
 
 		collector = append(collector, apiResp.Orders...)
 
-		if shoplineResp.Pagination == nil || shoplineResp.Pagination.Next == nil {
+		if !shoplineResp.HasNext() {
 			break
 		}
 

@@ -200,7 +200,7 @@ func TestProductListAll(t *testing.T) {
 				`{"products": []}`,
 			},
 			expectedProducts: []ProductRespData{},
-			expectedErr:      errors.New("page_info is missing"),
+			expectedErr:      errors.New("The page_info is missing"),
 		},
 	}
 

@@ -97,7 +97,7 @@ func QueryProductsAll(c *client.Client, apiReq *QueryProductsAPIReq) ([]ProductR
 
 		collector = append(collector, apiResp.Products...)
 
-		if shoplineResp.Pagination == nil || shoplineResp.Pagination.Next == nil {
+		if !shoplineResp.HasNext() {
 			break
 		}
 

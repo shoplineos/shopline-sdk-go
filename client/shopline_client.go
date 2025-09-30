@@ -123,6 +123,10 @@ type ShopLineResponse struct {
 	Pagination *Pagination
 }
 
+func (resp *ShopLineResponse) HasNext() bool {
+	return resp.Pagination != nil && resp.Pagination.Next != nil
+}
+
 func (resp *ShopLineResponse) IsSuccess() bool {
 	return resp.StatusCode == http.StatusOK
 }
