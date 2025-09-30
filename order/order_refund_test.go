@@ -16,7 +16,7 @@ func TestOrderRefund(t *testing.T) {
 		fmt.Sprintf("https://%s.myshopline.com/%s/%s/order/refund.json", cli.StoreHandle, cli.PathPrefix, cli.ApiVersion),
 		httpmock.NewStringResponder(200, `{"data":{"id":"5144142", "order_id":"123"}}`))
 
-	apiReq := &RefundAPIRequest{
+	apiReq := &RefundAPIReq{
 		OrderId: "123",
 	}
 

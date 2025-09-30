@@ -6,7 +6,7 @@ import (
 	"github.com/shoplineos/shopline-sdk-go/client"
 )
 
-type RefundAPIRequest struct {
+type RefundAPIReq struct {
 	OrderId         string          `json:"order_id,omitempty"`
 	Notify          string          `json:"notify,omitempty"`
 	ProcessedAt     string          `json:"processed_at,omitempty"` // 2023-04-12T22:59:52+08:00
@@ -29,7 +29,7 @@ type RefundShipping struct {
 	FullRefund bool   `json:"full_refund,omitempty"`
 }
 
-type RefundAPIResponse struct {
+type RefundAPIResp struct {
 	Refund RefundResultDTO `json:"data,omitempty"`
 }
 
@@ -77,19 +77,19 @@ type Money struct {
 	CurrencyCode string `json:"currency_code,omitempty"`
 }
 
-func (req *RefundAPIRequest) Verify() error {
+func (req *RefundAPIReq) Verify() error {
 	// Verify the api request params
 	return nil
 }
 
-func (req *RefundAPIRequest) Endpoint() string {
+func (req *RefundAPIReq) Endpoint() string {
 	return "order/refund.json"
 }
 
 // OrderRefund
 // 中文：https://developer.shopline.com/zh-hans-cn/docs/admin-rest-api/order/order-management/order-refund?version=v20251201
 // en：https://developer.shopline.com/docs/admin-rest-api/order/order-management/order-refund?version=v20251201
-func OrderRefund(c *client.Client, apiReq *RefundAPIRequest) (*RefundAPIResponse, error) {
+func OrderRefund(c *client.Client, apiReq *RefundAPIReq) (*RefundAPIResp, error) {
 	// 1. API request
 	shopLineReq := &client.ShopLineRequest{
 		Data: apiReq, // API request data
@@ -99,7 +99,7 @@ func OrderRefund(c *client.Client, apiReq *RefundAPIRequest) (*RefundAPIResponse
 	endpoint := apiReq.Endpoint()
 
 	// 3. API response data
-	apiResp := &RefundAPIResponse{}
+	apiResp := &RefundAPIResp{}
 
 	// 4. Call API
 	_, err := c.Post(context.Background(), endpoint, shopLineReq, apiResp)
