@@ -68,7 +68,7 @@ func parsePagination(linkHeader string) (*Pagination, error) {
 		paginationListOptions.PageInfo = params.Get("page_info")
 		if paginationListOptions.PageInfo == "" {
 			err = ResponseDecodingError{
-				Message: "page_info is missing",
+				Message: "The page_info is missing",
 			}
 			return nil, err
 		}

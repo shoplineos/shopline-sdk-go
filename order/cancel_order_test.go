@@ -87,11 +87,11 @@ func orderTests(t *testing.T, order Order) {
 	// Check prices
 	//p := decimal.NewFromFloat(10)
 	if !strings.EqualFold("9.50", order.CurrentTotalPrice) {
-		t.Errorf("Order.TotalPrice returned %+v, expected %+v", order.CurrentTotalPrice, "9.50")
+		t.Errorf("Order.CurrentTotalPrice returned %+v, expected %+v", order.CurrentTotalPrice, "9.50")
 	}
 
 	if !strings.EqualFold("1.00", order.CurrentTotalTax) {
-		t.Errorf("Order.TotalPrice returned %+v, expected %+v", order.CurrentTotalTax, "1.00")
+		t.Errorf("Order.CurrentTotalTax returned %+v, expected %+v", order.CurrentTotalTax, "1.00")
 	}
 
 	//Check customer

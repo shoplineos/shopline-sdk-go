@@ -644,7 +644,6 @@ func (c *Client) isSignEnabled(request *ShopLineRequest) bool {
 // ResolveURL resolve the call api http url
 // https://{storeHandle}.myshopline.com/{pathPrefix}/{version}/{endpoint}
 //
-//eg:https://storeHandle.myshopline.com/admin/openapi/v20251201/orders/count.j
 //eg:https://storeHandle.myshopline.com/admin/openapi/v20251201/orders/count.json
 func (c *Client) ResolveURL(relPath string) (*url.URL, error) {
 	rel, err := url.Parse(relPath)

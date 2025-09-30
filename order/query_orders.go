@@ -74,3 +74,36 @@ func QueryOrders(c *client.Client, apiReq *QueryOrdersAPIReq) (*QueryOrdersAPIRe
 
 	return apiResp, err
 }
+
+func QueryOrdersAll(c *client.Client, apiReq *QueryOrdersAPIReq) ([]Order, error) {
+	collector := []Order{}
+	// 1. API request
+	shopLineReq := &client.ShopLineRequest{
+		Data: apiReq, // API request params
+	}
+
+	for {
+		// 2. API endpoint
+		endpoint := apiReq.Endpoint()
+
+		// 3. API response data
+		apiResp := &QueryOrdersAPIResp{}
+
+		// 4. Call API
+		shoplineResp, err := c.Get(context.Background(), endpoint, shopLineReq, apiResp)
+
+		if err != nil {
+			return collector, err
+		}
+
+		collector = append(collector, apiResp.Orders...)
+
+		if shoplineResp.Pagination == nil || shoplineResp.Pagination.Next == nil {
+			break
+		}
+
+		shopLineReq.Data = shoplineResp.Pagination.Next
+	}
+
+	return collector, nil
+}
