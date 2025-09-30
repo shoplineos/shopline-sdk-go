@@ -37,7 +37,7 @@ func TestQueryOrders(t *testing.T) {
 		fmt.Printf("Order Status: %s\n", order.Status)
 		fmt.Printf("Order FinancialStatus: %s\n", order.FinancialStatus)
 		fmt.Printf("Order CreatedAt: %s\n", order.CreatedAt)
-		fmt.Printf("Order TotalPrice: %s %s\n", order.TotalPrice, order.Currency)
+		fmt.Printf("Order TotalPrice: %s %s\n", order.CurrentTotalPrice, order.Currency)
 		fmt.Printf("Order Email: %s\n", order.Customer.Email)
 		fmt.Printf("Order Items Count: %d\n", len(order.LineItems))
 	}

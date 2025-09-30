@@ -55,9 +55,11 @@ type Order struct {
 	Note                    string          `json:"note,omitempty"`                       // Note
 	BillingAddress          BillingAddress  `json:"billing_address,omitempty"`            // Billing Address
 
-	CreatedAt  string `json:"created_at"`          // Create time
-	UpdatedAt  string `json:"updated_at"`          // Updated time
-	TotalPrice string `json:"current_total_price"` // Total Price
+	CreatedAt         string `json:"created_at"`          // Create time
+	UpdatedAt         string `json:"updated_at"`          // Updated time
+	CancelledAt       string `json:"cancelled_at"`        // Cancelled time
+	CurrentTotalPrice string `json:"current_total_price"` // Total Price
+	CurrentTotalTax   string `json:"current_total_tax"`   // current_total_tax
 }
 
 // PriceInfo PriceInfo structure
