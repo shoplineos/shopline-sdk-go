@@ -7,7 +7,6 @@ import (
 	"fmt"
 	"github.com/shoplineos/shopline-sdk-go/common"
 	"github.com/shoplineos/shopline-sdk-go/config"
-	"github.com/shoplineos/shopline-sdk-go/model"
 	"github.com/shoplineos/shopline-sdk-go/signature"
 	"io"
 	"log"
@@ -174,7 +173,7 @@ func NewClient(app App, storeHandle, token string, opts ...Option) (*Client, err
 
 func MustNewClientWithAwares(app App, storeHandle, token string, awares []Aware, opts ...Option) *Client {
 	if len(awares) == 0 {
-		panic("The client awares is nil or empty, please see 'service_register.go'")
+		panic("The client awares is nil or empty, please see 'awares_loader.go'")
 	}
 
 	c, err := NewClientWithAwares(app, storeHandle, token, awares, opts...)
@@ -202,12 +201,12 @@ func NewClientWithAwares(app App, storeHandle, token string, awares []Aware, opt
 		PathPrefix:  defaultApiPathPrefix,
 	}
 
-	for _, opt := range opts {
-		opt(c)
-	}
-
 	for _, aware := range awares {
 		aware.SetClient(c)
+	}
+
+	for _, opt := range opts {
+		opt(c)
 	}
 	return c, nil
 }
@@ -589,8 +588,8 @@ func (c *Client) verify(endpoint string, method HTTPMethod, request *ShopLineReq
 	}
 
 	if request.Data != nil {
-		if _, ok := (request.Data).(model.APIRequest); ok {
-			err := (request.Data).(model.APIRequest).Verify()
+		if _, ok := (request.Data).(APIRequest); ok {
+			err := (request.Data).(APIRequest).Verify()
 			if err != nil {
 				return "", "", err
 			}

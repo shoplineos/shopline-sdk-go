@@ -1,4 +1,4 @@
-package manager
+package awares
 
 import (
 	"github.com/shoplineos/shopline-sdk-go/client"

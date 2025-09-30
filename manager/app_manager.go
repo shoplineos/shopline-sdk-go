@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/shoplineos/shopline-sdk-go/client"
 	"github.com/shoplineos/shopline-sdk-go/config"
+	"github.com/shoplineos/shopline-sdk-go/support"
 	"log"
 	"sync"
 )
@@ -30,7 +31,7 @@ func init() {
 		Scope:       config.DefaultAppScope,
 	}
 
-	defaultClientInstance = client.MustNewClientWithAwares(defaultAppInstance, config.DefaultStoreHandle, config.DefaultAccessToken, GetClientAwares())
+	defaultClientInstance = support.MustNewClient(defaultAppInstance, config.DefaultStoreHandle, config.DefaultAccessToken)
 	if defaultClientInstance == nil {
 		panic("client is nil")
 	}

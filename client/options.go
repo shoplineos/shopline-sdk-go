@@ -5,10 +5,6 @@ import (
 	"time"
 )
 
-type Aware interface {
-	SetClient(*Client)
-}
-
 // Options client options
 type Options struct {
 	EnableLogDetail bool // log detail switch
