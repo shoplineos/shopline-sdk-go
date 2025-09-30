@@ -306,7 +306,7 @@ func (c *Client) executeHttpRequest(request *ShopLineRequest, httpReq *http.Requ
 	log.Printf("Execute request finished！status: %d\n", resp.StatusCode)
 
 	// build response
-	shopLineResp, err := buildShopLineResponse(resp, resource)
+	shopLineResp, err := buildShopLineResponse(httpReq.Method, resp, resource)
 	if err != nil {
 		return shopLineResp, err
 	}
@@ -435,7 +435,7 @@ func buildBodyJsonString(bodyParams []byte) (string, error) {
 }
 
 // Build shopline response
-func buildShopLineResponse(httpResp *http.Response, resource interface{}) (*ShopLineResponse, error) {
+func buildShopLineResponse(method string, httpResp *http.Response, resource interface{}) (*ShopLineResponse, error) {
 	shopLineResp := &ShopLineResponse{}
 	shopLineResp.StatusCode = httpResp.StatusCode
 
@@ -450,7 +450,6 @@ func buildShopLineResponse(httpResp *http.Response, resource interface{}) (*Shop
 		return shopLineResp, err
 	}
 
-	method := httpResp.Request.Method
 	if MethodDelete != method { // delete method will return empty body
 		if err := json.NewDecoder(httpResp.Body).Decode(&resource); err != nil {
 			//respData := &map[string]any{}
