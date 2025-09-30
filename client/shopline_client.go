@@ -456,12 +456,9 @@ func buildShopLineResponse(httpResp *http.Response, resource interface{}) (*Shop
 			//respData := &map[string]any{}
 			//json.NewDecoder(httpResp.Body).Decode(respData)
 			//log.Printf("Failed to parse json response body, statusCode: %d, body: %v, err: %v\n", httpResp.StatusCode, resource, err)
-			bodyBytes, err := io.ReadAll(httpResp.Body)
-			if err != nil {
-				return shopLineResp, err
-			}
+			bodyBytes, _ := io.ReadAll(httpResp.Body)
 			body := string(bodyBytes)
-			log.Printf("Failed to parse json response body, statusCode: %d, body: %v, err: %v\n", httpResp.StatusCode, body, err)
+			log.Printf("Use json decoder to decode response body failed, statusCode: %d, body: %v, err: %v\n", httpResp.StatusCode, body, err)
 			shopLineResp.ResponseBody = body
 			return shopLineResp, err
 		}
