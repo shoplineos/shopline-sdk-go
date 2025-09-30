@@ -686,12 +686,10 @@ func verifyForRefreshAccessToken(appkey, appSecret, shopHandle string) error {
 // Add the request query parameters to the http query parameters
 func (c *Client) buildRequestUrl(method HTTPMethod, relPath string, request *ShopLineRequest) (string, error) {
 
-	rel, err := url.Parse(relPath)
+	parsedURL, err := c.ResolveURL(relPath)
 	if err != nil {
 		return "", err
 	}
-
-	parsedURL := c.baseURL.ResolveReference(rel)
 
 	// Get only
 	if method == MethodGet && request.Data != nil {
@@ -748,4 +746,18 @@ func (c *Client) isSignEnabled(request *ShopLineRequest) bool {
 	}
 
 	return request.isSignEnabled() || c.EnableSign
+}
+
+// ResolveURL resolve the call api http url
+// https://{storeHandle}.myshopline.com/{pathPrefix}/{version}/{endpoint}
+//
+//eg:https://storeHandle.myshopline.com/admin/openapi/v20251201/orders/count.j
+//eg:https://storeHandle.myshopline.com/admin/openapi/v20251201/orders/count.json
+func (c *Client) ResolveURL(relPath string) (*url.URL, error) {
+	rel, err := url.Parse(relPath)
+	if err != nil {
+		return nil, err
+	}
+	parsedURL := c.baseURL.ResolveReference(rel)
+	return parsedURL, nil
 }
