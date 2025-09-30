@@ -1,9 +1,9 @@
 package main
 
 import (
+	"context"
 	"github.com/shoplineos/shopline-sdk-go/client"
 	"github.com/shoplineos/shopline-sdk-go/manager"
-	"github.com/shoplineos/shopline-sdk-go/oauth"
 	"log"
 	"net/http"
 )
@@ -83,7 +83,7 @@ func InstallHandler(w http.ResponseWriter, r *http.Request) {
 	// en: https://developer.shopline.com/docs/apps/api-instructions-for-use/app-authorization?version=v20260301#step2
 	// url := fmt.Sprintf("https://%s.myshopline.com/admin/oauth-web/#/oauth/authorize?appKey=%s&responseType=code&scope=%s&redirectUri=%s", storeHandle, appKey, scope, redirectUri)
 
-	url, err := oauth.AuthorizeUrl(app, handle, "")
+	url, err := app.AuthorizeUrl(handle, "")
 	if err != nil {
 		log.Printf("Authorize url error, appkey: %s, handle: %s, err: %v\n", appkey, handle, err)
 		http.Error(w, "server error", http.StatusInternalServerError)
@@ -108,7 +108,7 @@ func CallbackHandler(w http.ResponseWriter, r *http.Request) {
 	sign := r.URL.Query().Get("sign")
 
 	app := manager.GetApp(appkey)
-	isSignValid := oauth.VerifySign(app, r.URL.Query(), sign)
+	isSignValid := app.VerifySign(r.URL.Query(), sign)
 	if isSignValid {
 		log.Println("sign verified successfully")
 	} else {
@@ -120,7 +120,7 @@ func CallbackHandler(w http.ResponseWriter, r *http.Request) {
 	log.Printf("Auth callback received - appkey: %s, handle: %s, code: %s, customField: %s, timestampStr: %s, sign: %s", appkey, handle, code, customField, timestampStr, sign)
 
 	// create a new token
-	token, err := oauth.CreateAccessToken(app, code)
+	token, err := app.CreateAccessToken(context.Background(), code)
 	if err != nil {
 		log.Printf("Create access token error, appkey: %s, handle: %s, code: %s, err: %v\n", appkey, handle, code, err)
 		http.Error(w, "server error", http.StatusInternalServerError)

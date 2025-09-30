@@ -82,7 +82,7 @@ func InstallHandler(w http.ResponseWriter, r *http.Request) {
     }
     
   
-    url, err := oauth.AuthorizeUrl(app, handle, "")
+    url, err := app.AuthorizeUrl(handle, "")
     if err != nil {
         log.Printf("Authorize url error, appkey: %s, handle: %s, err: %v\n", appkey, handle, err)
         http.Error(w, "server error", http.StatusInternalServerError)
@@ -104,7 +104,7 @@ func CallbackHandler(w http.ResponseWriter, r *http.Request) {
     
     app := manager.GetApp(appkey)
     // Check that the callback signature is valid
-    isSignValid := oauth.VerifySign(app, r.URL.Query(), sign)
+    isSignValid := app.VerifySign(r.URL.Query(), sign)
     if isSignValid {
         log.Println("sign verified successfully")
     } else {
@@ -113,7 +113,7 @@ func CallbackHandler(w http.ResponseWriter, r *http.Request) {
     }
     
     // create token
-    token, err := oauth.CreateAccessToken(app, code)
+    token, err := app.CreateAccessToken(context.Background(), code)
     
     // Do something with the token, like store it in a DB or Cache.
 }
@@ -425,7 +425,7 @@ App callback URL：http://appdemo.myshopline.com/auth/callback
 code := "code"
 appKey := ""
 app := manager.GetApp(appKey)
-accessToken, err := oauth.CreateAccessToken(app, code)
+token, err := app.CreateAccessToken(context.Background(), code)
 // Do something with the token, like store it in a DB or Cache.
 
 ```
@@ -454,7 +454,7 @@ en: https://developer.shopline.com/docs/apps/api-instructions-for-use/app-author
 storeHandle := ""
 appKey := ""
 app := manager.GetApp(appKey)
-accessToken, err := oauth.RefreshAccessToken(app, storeHandle)
+token, err := app.RefreshAccessToken(context.Background(), storeHandle)
 
 // Do something with the token, like store it in a DB or Cache.
 
@@ -568,7 +568,7 @@ func InstallHandler(w http.ResponseWriter, r *http.Request) {
 	// en: https://developer.shopline.com/docs/apps/api-instructions-for-use/app-authorization?version=v20260301#step2
 	// url := fmt.Sprintf("https://%s.myshopline.com/admin/oauth-web/#/oauth/authorize?appKey=%s&responseType=code&scope=%s&redirectUri=%s", storeHandle, appKey, scope, redirectUri)
 
-	url, err := oauth.AuthorizeUrl(app, handle, "")
+	url, err := app.AuthorizeUrl(handle, "")
 	if err != nil {
 		log.Printf("Authorize url error, appkey: %s, handle: %s, err: %v\n", appkey, handle, err)
 		http.Error(w, "server error", http.StatusInternalServerError)
@@ -589,7 +589,7 @@ func CallbackHandler(w http.ResponseWriter, r *http.Request) {
     
     // Check that the callback signature is valid
     app := manager.GetApp(appkey)
-	isSignValid := oauth.VerifySign(app, r.URL.Query(), sign)
+	isSignValid := app.VerifySign(r.URL.Query(), sign)
     
     if isSignValid {
         log.Println("sign verified successfully")
@@ -599,7 +599,7 @@ func CallbackHandler(w http.ResponseWriter, r *http.Request) {
     }
     
     // create token
-    token, err := oauth.CreateAccessToken(app, code)
+    token, err := app.CreateAccessToken(context.Background(), code)
     
     // Do something with the token, like store it in a DB or Cache.
 }
@@ -902,7 +902,7 @@ Windows路径: C:\Windows\System32\drivers\etc\hosts
 appkey := "appkey"
 code := "code"
 app := manager.GetApp(appKey)
-accessToken, err := oauth.CreateAccessToken(app, code)
+token, err := app.CreateAccessToken(context.Background(), code)
 
 // Do something with the token, like store it in a DB or Cache.
 
@@ -931,7 +931,7 @@ Access Token 每隔一段时间会过期，因此我们需要定期刷新 Access
 storeHandle := ""
 appKey := ""
 app := manager.GetApp(appKey)
-accessToken, err := oauth.RefreshAccessToken(app, storeHandle)
+token, err := app.RefreshAccessToken(context.Background(), storeHandle)
 
 // Do something with the token, like store it in a DB or Cache.
 
