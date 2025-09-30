@@ -1,6 +1,7 @@
 package product
 
 import (
+	"context"
 	"fmt"
 	"github.com/jarcoal/httpmock"
 	"github.com/stretchr/testify/assert"
@@ -57,7 +58,7 @@ func TestDeleteProductUnknowError(t *testing.T) {
 	apiReq := &DeleteProductAPIReq{
 		ProductId: "1",
 	}
-	_, err := DeleteProduct(cli, apiReq)
+	_, err := GetProductService().Delete(context.Background(), apiReq)
 	assert.NotNil(t, err)
 	assert.Equal(t, "Unknown Error", err.Error())
 }
@@ -73,7 +74,7 @@ func TestDeleteProduct3(t *testing.T) {
 	apiReq := &DeleteProductAPIReq{
 		ProductId: "1",
 	}
-	apiResp, err := DeleteProduct(cli, apiReq)
+	apiResp, err := GetProductService().Delete(context.Background(), apiReq)
 	if err != nil {
 		t.Errorf("Product.Delete returned error: %v", err)
 	} else {

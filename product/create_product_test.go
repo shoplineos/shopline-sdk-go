@@ -1,6 +1,7 @@
 package product
 
 import (
+	"context"
 	"fmt"
 	"github.com/jarcoal/httpmock"
 	"github.com/shoplineos/shopline-sdk-go/test"
@@ -100,7 +101,7 @@ func TestProductCreate(t *testing.T) {
 		Product: product,
 	}
 
-	apiResp, err := CreateProduct(cli, apiReq)
+	apiResp, err := GetProductService().Create(context.Background(), apiReq)
 	if err != nil {
 		t.Errorf("Product.Create returned error: %v", err)
 	}

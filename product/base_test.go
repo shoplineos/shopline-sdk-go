@@ -17,7 +17,7 @@ func setup() {
 		AppSecret: config.AppSecretForUnitTest,
 	}
 
-	cli = client.MustNewClient(app, config.StoreHandelForUnitTest, config.AccessTokenForUnitTest)
+	cli = client.MustNewClient(app, config.StoreHandelForUnitTest, config.AccessTokenForUnitTest, client.WithClientAware(GetProductService()))
 	if cli == nil {
 		panic("client is nil")
 	}

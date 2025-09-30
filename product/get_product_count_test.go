@@ -1,6 +1,7 @@
 package product
 
 import (
+	"context"
 	"fmt"
 	"github.com/jarcoal/httpmock"
 	"github.com/stretchr/testify/assert"
@@ -31,7 +32,7 @@ func TestProductCount(t *testing.T) {
 		httpmock.NewStringResponder(200, `{"count":1}`))
 
 	apiReq := &GetProductCountAPIReq{}
-	apiResp, err := GetProductsCount(cli, apiReq)
+	apiResp, err := GetProductService().Count(context.Background(), apiReq)
 	if err != nil {
 		t.Errorf("Product.Delete returned error: %v", err)
 	} else {

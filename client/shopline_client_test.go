@@ -60,6 +60,48 @@ func teardown() {
 //
 //}
 
+func TestNewClient(t *testing.T) {
+	app := App{
+		AppKey:    config.AppKeyForUnitTest,
+		AppSecret: config.AppSecretForUnitTest,
+	}
+
+	cli, err := NewClient(app, config.StoreHandelForUnitTest, config.AccessTokenForUnitTest)
+	if err != nil {
+		t.Errorf("NewClient() err = %v, expected nil", err)
+	}
+
+	assert.Equal(t, app.AppKey, cli.App.AppKey)
+}
+
+func TestNewClientOptions(t *testing.T) {
+	app := App{
+		AppKey:    config.AppKeyForUnitTest,
+		AppSecret: config.AppSecretForUnitTest,
+	}
+
+	cli, err := NewClient(app, config.StoreHandelForUnitTest, config.AccessTokenForUnitTest, WithVersion("v20250601"))
+	if err != nil {
+		t.Errorf("NewClient() err = %v, expected nil", err)
+	}
+
+	assert.Equal(t, "v20250601", cli.ApiVersion)
+}
+
+//func TestNewClientAware(t *testing.T) {
+//	app := App{
+//		AppKey:    config.AppKeyForUnitTest,
+//		AppSecret: config.AppSecretForUnitTest,
+//	}
+//
+//	cli, err := NewClient(app, config.StoreHandelForUnitTest, config.AccessTokenForUnitTest, WithVersion("v20250601"), WithClientAware())
+//	if err != nil {
+//		t.Errorf("NewClient() err = %v, expected nil", err)
+//	}
+//
+//	assert.Equal(t, "v20250601", cli.ApiVersion)
+//}
+
 func TestResolveUrlPath(t *testing.T) {
 	setup()
 	defer teardown()

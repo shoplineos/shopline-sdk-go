@@ -5,6 +5,10 @@ import (
 	"time"
 )
 
+type Aware interface {
+	SetClient(*Client)
+}
+
 // Options client options
 type Options struct {
 	EnableLogDetail bool // log detail switch
@@ -45,5 +49,19 @@ func WithEnableLogDetail(enableLogDetail bool) Option {
 			c.Options = &Options{}
 		}
 		c.Options.EnableLogDetail = enableLogDetail
+	}
+}
+
+func WithClientAware(aware Aware) Option {
+	return func(c *Client) {
+		aware.SetClient(c)
+	}
+}
+
+func WithClientAwares(awares []Aware) Option {
+	return func(c *Client) {
+		for _, aware := range awares {
+			aware.SetClient(c)
+		}
 	}
 }

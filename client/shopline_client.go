@@ -169,6 +169,22 @@ func MustNewClient(app App, storeHandle, token string, opts ...Option) *Client {
 }
 
 func NewClient(app App, storeHandle, token string, opts ...Option) (*Client, error) {
+	return NewClientWithAwares(app, storeHandle, token, nil, opts...)
+}
+
+func MustNewClientWithAwares(app App, storeHandle, token string, awares []Aware, opts ...Option) *Client {
+	if len(awares) == 0 {
+		panic("The client awares is nil or empty, please see 'service_register.go'")
+	}
+
+	c, err := NewClientWithAwares(app, storeHandle, token, awares, opts...)
+	if err != nil {
+		panic(err)
+	}
+	return c
+}
+
+func NewClientWithAwares(app App, storeHandle, token string, awares []Aware, opts ...Option) (*Client, error) {
 	baseURL, err := url.Parse(common.GetStoreBaseUrl(storeHandle))
 	if err != nil {
 		return nil, err
@@ -188,6 +204,10 @@ func NewClient(app App, storeHandle, token string, opts ...Option) (*Client, err
 
 	for _, opt := range opts {
 		opt(c)
+	}
+
+	for _, aware := range awares {
+		aware.SetClient(c)
 	}
 	return c, nil
 }

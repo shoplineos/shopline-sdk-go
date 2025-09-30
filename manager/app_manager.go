@@ -30,7 +30,7 @@ func init() {
 		Scope:       config.DefaultAppScope,
 	}
 
-	defaultClientInstance = client.MustNewClient(defaultAppInstance, config.DefaultStoreHandle, config.DefaultAccessToken)
+	defaultClientInstance = client.MustNewClientWithAwares(defaultAppInstance, config.DefaultStoreHandle, config.DefaultAccessToken, GetClientAwares())
 	if defaultClientInstance == nil {
 		panic("client is nil")
 	}
