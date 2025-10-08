@@ -469,7 +469,7 @@ func buildShopLineResponse(method string, httpResp *http.Response, resource inte
 		return shopLineResp, err
 	}
 
-	if !isDeleteSuccess(method, httpResp) { // delete method will return empty body
+	if !isDeleteSuccess(method, httpResp.StatusCode) { // delete method will return empty body
 		if err := json.NewDecoder(httpResp.Body).Decode(&resource); err != nil {
 			//respData := &map[string]any{}
 			//json.NewDecoder(httpResp.Body).Decode(respData)
@@ -494,8 +494,8 @@ func buildShopLineResponse(method string, httpResp *http.Response, resource inte
 	return shopLineResp, nil
 }
 
-func isDeleteSuccess(method string, httpResp *http.Response) bool {
-	return MethodDelete == method && httpResp.StatusCode == http.StatusOK
+func isDeleteSuccess(method string, statusCode int) bool {
+	return MethodDelete == method && statusCode == http.StatusOK
 }
 
 // set common data to api response data

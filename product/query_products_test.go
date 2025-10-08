@@ -1,6 +1,7 @@
 package product
 
 import (
+	"context"
 	"errors"
 	"fmt"
 	"github.com/jarcoal/httpmock"
@@ -109,7 +110,7 @@ func TestProductListFilterByIds(t *testing.T) {
 	requestParams := &QueryProductsAPIReq{
 		IDs: "1,2,3",
 	}
-	productsAPIResp, err := QueryProducts(cli, requestParams)
+	productsAPIResp, err := GetProductService().List(context.Background(), requestParams)
 
 	if err != nil {
 		t.Errorf("Product.List returned error: %v", err)
@@ -239,8 +240,7 @@ func TestProductListAll(t *testing.T) {
 			}
 
 			requestParams := &QueryProductsAPIReq{}
-
-			Products, err := QueryProductsAll(cli, requestParams)
+			Products, err := GetProductService().ListAll(context.Background(), requestParams)
 
 			if !reflect.DeepEqual(Products, c.expectedProducts) {
 				t.Errorf("test %d Product.ListAll orders returned %+v, expected %+v", i, Products, c.expectedProducts)

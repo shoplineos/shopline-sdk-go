@@ -125,93 +125,33 @@ With an access token, you can make API calls like this:
 
 Get Product Count:
 ``` Get Product Count
-  // use client to call API
-  // 1 API request
-  getProductCountAPIReq := &GetProductCountAPIReq{}
-  shoplineReq := &client.ShopLineRequest{
-      Data: getProductCountAPIReq,
-  }
-
-  // 2 API endpoint
-  endpoint := getProductCountAPIReq.Endpoint()
-
-  // 3 API response
-  apiResp := &GetProductCountAPIResp{}
-
-  // 4 Call API
-  shoplineResp, err := c.Get(context.Background(), endpoint, shoplineReq, apiResp)
+  apiReq := &GetProductCountAPIReq{}
+  apiResp, err := GetProductService().Count(context.Background(), apiReq)
   fmt.Printf("count:%d", apiResp.Count)
+```
+
+Query data:
+```Query Products
+  requestParams := &QueryProductsAPIReq{
+      // IDs: "1,2,3",
+  }
+  productsAPIResp, err := GetProductService().List(context.Background(), requestParams)
 ```
 
 
 Pagination:
 ```Query Products
-func QueryProducts(c *client.Client, apiReq *QueryProductsAPIReq) (*QueryProductsAPIResp, error) {
-
-	// 1. API request
-	shopLineReq := &client.ShopLineRequest{
-		Data: apiReq, // API request params
-	}
-
-	// 2. API endpoint
-	endpoint := apiReq.Endpoint()
-
-	// 3. API response data
-	apiResp := &QueryProductsAPIResp{}
-
-	// 4. Call API
-	shopLineResp, err := c.Get(context.Background(), endpoint, shopLineReq, apiResp)
-	if err != nil {
-		return nil, err
-	}
-
-	//apiResp.TraceId = shopLineResp.TraceId
-	apiResp.Pagination = shopLineResp.Pagination
-
-	//log.Printf("product count:%v\n", len(apiResp.Products))
-	//log.Printf("body:%v\n", apiResp)¬
-
-	return apiResp, nil
-}
-
+  requestParams := &QueryProductsAPIReq{
+      // IDs: "1,2,3",
+  }
+  productsAPIResp, err := GetProductService().ListWithPagination(context.Background(), requestParams)
 ```
 
 Query all products:
 ``` query all products
-
-func QueryProductsAll(c *client.Client, apiReq *QueryProductsAPIReq) ([]ProductRespData, error) {
-	collector := []ProductRespData{}
-	// 1. API request
-	shopLineReq := &client.ShopLineRequest{
-		Data: apiReq, // API request params
-	}
-
-	for {
-		// 2. API endpoint
-		endpoint := apiReq.Endpoint()
-
-		// 3. API response data
-		apiResp := &QueryProductsAPIResp{}
-
-		// 4. Call API
-		shoplineResp, err := c.Get(context.Background(), endpoint, shopLineReq, apiResp)
-
-		if err != nil {
-			return collector, err
-		}
-
-		collector = append(collector, apiResp.Products...)
-
-		if shoplineResp.Pagination == nil || shoplineResp.Pagination.Next == nil {
-			break
-		}
-
-		shopLineReq.Data = shoplineResp.Pagination.Next
-	}
-
-	return collector, nil
-}
-
+  requestParams := &QueryProductsAPIReq{}
+  Products, err := GetProductService().ListAll(context.Background(), requestParams)
+  
 ```
 
 Create product:
@@ -276,7 +216,7 @@ apiReq := &product.CreateProductAPIReq{
     },
 }
 
-apiResp, err := product.CreateProduct(c, apiReq)
+apiResp, err := GetProductService().Create(context.Background(), apiReq)
 
 ```
 
@@ -609,100 +549,39 @@ func CallbackHandler(w http.ResponseWriter, r *http.Request) {
 
 查询 商品数量：
 ``` Get Product Count
-  // use client to call API
-  // 1 API request
-  getProductCountAPIReq := &GetProductCountAPIReq{}
-  shoplineReq := &client.ShopLineRequest{
-      Data: getProductCountAPIReq,
-  }
-
-  // 2 API endpoint
-  endpoint := getProductCountAPIReq.Endpoint()
-
-  // 3 API response
-  apiResp := &GetProductCountAPIResp{}
-
-  // 4 Call API
-  shoplineResp, err := c.Get(context.Background(), endpoint, shoplineReq, apiResp)
+  apiReq := &GetProductCountAPIReq{}
+  apiResp, err := GetProductService().Count(context.Background(), apiReq)
   fmt.Printf("count:%d", apiResp.Count)
+```
+
+查询数据:
+```Query Products
+  requestParams := &QueryProductsAPIReq{
+      // IDs: "1,2,3",
+  }
+  productsAPIResp, err := GetProductService().List(context.Background(), requestParams)
 ```
 
 分页：
 ```Query Products
-func QueryProducts(c *client.Client, apiReq *QueryProductsAPIReq) (*QueryProductsAPIResp, error) {
-
-	// 1. API request
-	shopLineReq := &client.ShopLineRequest{
-		Data: apiReq, // API request params
-	}
-
-	// 2. API endpoint
-	endpoint := apiReq.Endpoint()
-
-	// 3. API response data
-	apiResp := &QueryProductsAPIResp{}
-
-	// 4. Call API
-	shopLineResp, err := c.Get(context.Background(), endpoint, shopLineReq, apiResp)
-	if err != nil {
-		return nil, err
-	}
-
-	//apiResp.TraceId = shopLineResp.TraceId
-	apiResp.Pagination = shopLineResp.Pagination
-
-	//log.Printf("product count:%v\n", len(apiResp.Products))
-	//log.Printf("body:%v\n", apiResp)¬
-
-	return apiResp, nil
-}
+  requestParams := &QueryProductsAPIReq{
+      //IDs: "1,2,3",
+  }
+  productsAPIResp, err := GetProductService().ListWithPagination(context.Background(), requestParams)
 
 ```
 
 
 查询所有商品:
 ``` query all products
-
-func QueryProductsAll(c *client.Client, apiReq *QueryProductsAPIReq) ([]ProductRespData, error) {
-	collector := []ProductRespData{}
-	// 1. API request
-	shopLineReq := &client.ShopLineRequest{
-		Data: apiReq, // API request params
-	}
-
-	for {
-		// 2. API endpoint
-		endpoint := apiReq.Endpoint()
-
-		// 3. API response data
-		apiResp := &QueryProductsAPIResp{}
-
-		// 4. Call API
-		shoplineResp, err := c.Get(context.Background(), endpoint, shopLineReq, apiResp)
-
-		if err != nil {
-			return collector, err
-		}
-
-		collector = append(collector, apiResp.Products...)
-
-		if shoplineResp.Pagination == nil || shoplineResp.Pagination.Next == nil {
-			break
-		}
-
-		shopLineReq.Data = shoplineResp.Pagination.Next
-	}
-
-	return collector, nil
-}
-
+  requestParams := &QueryProductsAPIReq{}
+  Products, err := GetProductService().ListAll(context.Background(), requestParams)
+  
 ```
 
 
 创建商品:
-
 ```
-
 // see create_product_test.go
 // create product
 // https://developer.shopline.com/docs/admin-rest-api/product/product/create-a-product/?version=v20251201
@@ -764,7 +643,9 @@ apiReq := &product.CreateProductAPIReq{
     },
 }
 
-apiResp, err := product.CreateProduct(c, apiReq)
+
+apiResp, err := GetProductService().Create(context.Background(), apiReq)
+
 ```
 
 #### 使用您自己的数据模型对象
