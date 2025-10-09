@@ -6,7 +6,6 @@ import (
 )
 
 type IProductService interface {
-	client.Aware
 	List(context.Context, *QueryProductsAPIReq) (*QueryProductsAPIResp, error)
 	ListAll(context.Context, *QueryProductsAPIReq) ([]ProductRespData, error)
 	ListWithPagination(context.Context, *QueryProductsAPIReq) (*QueryProductsAPIResp, error)
@@ -19,12 +18,12 @@ type IProductService interface {
 
 var productServiceInst = &ProductService{}
 
-type ProductService struct {
-	client.BaseService
-}
-
 func GetProductService() *ProductService {
 	return productServiceInst
+}
+
+type ProductService struct {
+	client.BaseService
 }
 
 func (p *ProductService) List(ctx context.Context, apiReq *QueryProductsAPIReq) (*QueryProductsAPIResp, error) {

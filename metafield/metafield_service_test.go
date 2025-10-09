@@ -111,6 +111,7 @@ func TestCountMetafield(t *testing.T) {
 	}
 
 	assert.NotNil(t, apiResp)
+	assert.Equal(t, 1, apiResp.Count)
 }
 
 func TestListMetafields(t *testing.T) {

@@ -7,7 +7,6 @@ import (
 )
 
 type IOrderService interface {
-	client.Aware
 	List(context.Context, *QueryOrdersAPIReq) (*QueryOrdersAPIResp, error)
 	ListAll(context.Context, *QueryOrdersAPIReq) ([]Order, error)
 	ListWithPagination(context.Context, *QueryOrdersAPIReq) (*QueryOrdersAPIResp, error)
@@ -22,12 +21,12 @@ type IOrderService interface {
 
 var serviceInst = &OrderService{}
 
-type OrderService struct {
-	client.BaseService
-}
-
 func GetOrderService() *OrderService {
 	return serviceInst
+}
+
+type OrderService struct {
+	client.BaseService
 }
 
 // Refund

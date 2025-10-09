@@ -256,14 +256,15 @@ func (req *GetProductCountAPIReq) Endpoint() string {
 
 type GetProductCountAPIResp struct {
 	Count int `json:"count"`
-
+	client.BaseAPIResponse
 }
 
 func GetProductsCount(c *client.Client, apiReq *GetProductCountAPIReq) (*GetProductCountAPIResp, error) {
 
     // 1. API request
     shoplineReq := &client.ShopLineRequest{
-        Query: apiReq,
+        Query: apiReq, // http url query params
+        // Data: apiReq, // http body params
     }
     
     // 2. API endpoint
@@ -284,11 +285,50 @@ func GetProductsCount(c *client.Client, apiReq *GetProductCountAPIReq) (*GetProd
 ```
 
 
-#### Use your own Service
-* See product_service.go or order_service.go
-* Register the Service
-  * see: awares_loader.go
+#### Use your own Service Interface
+* step1:Definition a Service Interface
+  * See product_service.go or order_service.go
+  ```
+    type IOrderService interface {
+        List(context.Context, *QueryOrdersAPIReq) (*QueryOrdersAPIResp, error)
+        ListAll(context.Context, *QueryOrdersAPIReq) ([]Order, error)
+        ...
+    }
+  ```
+  * step2:Definition a Service struct and implements the Service Interface
+  ```
+    type OrderService struct {
+      client.BaseService
+    }
+  
+    func (o *OrderService) List(ctx context.Context, apiReq *QueryOrdersAPIReq) (*QueryOrdersAPIResp, error) {
+      ...
+    }
+  
+    func (o *OrderService) ListAll(ctx context.Context, apiReq *QueryOrdersAPIReq) (*QueryOrdersAPIResp, error) {
+      ...
+    }
 
+  ```
+  * step3:Create a Service Instance
+  ```
+    var productServiceInst = &ProductService{}
+    func GetOrderService() *OrderService {
+      return serviceInst
+    }
+  ```
+  * step4:Register the Service
+    * see: service_register.go
+  ```
+    func GetClientAwares() []client.Aware {
+      var awares = []client.Aware{
+          order.GetOrderService(),
+          // you can add service here
+      }
+      return awares
+    }
+
+  ```
 
 #### Webhooks verification
 
@@ -691,14 +731,15 @@ func (req *GetProductCountAPIReq) Endpoint() string {
 
 type GetProductCountAPIResp struct {
 	Count int `json:"count"`
-
+	client.BaseAPIResponse
 }
 
 func GetProductsCount(c *client.Client, apiReq *GetProductCountAPIReq) (*GetProductCountAPIResp, error) {
 
     // 1. API request
     shoplineReq := &client.ShopLineRequest{
-        Query: apiReq,
+        Query: apiReq, // http url query params
+        // Data: apiReq, // http body params
     }
     
     // 2. API endpoint
@@ -718,10 +759,51 @@ func GetProductsCount(c *client.Client, apiReq *GetProductCountAPIReq) (*GetProd
 
 ```
 
-#### 实现你自己的 Service
-* 参考 product_service.go 或 order_service.go
-* 注册 Service
-  * 具体见 awares_loader.go
+#### 实现你自己的 Service Interface
+* step1:Definition a Service Interface
+  * See product_service.go or order_service.go
+  ```
+    type IOrderService interface {
+        List(context.Context, *QueryOrdersAPIReq) (*QueryOrdersAPIResp, error)
+        ListAll(context.Context, *QueryOrdersAPIReq) ([]Order, error)
+        ...
+    }
+  ```
+  * step2:Definition a Service struct and implements the Service Interface
+  ```
+    type OrderService struct {
+      client.BaseService
+    }
+  
+    func (o *OrderService) List(ctx context.Context, apiReq *QueryOrdersAPIReq) (*QueryOrdersAPIResp, error) {
+      ...
+    }
+  
+    func (o *OrderService) ListAll(ctx context.Context, apiReq *QueryOrdersAPIReq) (*QueryOrdersAPIResp, error) {
+      ...
+    }
+
+  ```
+  * step3:Create a Service Instance
+  ```
+    var productServiceInst = &ProductService{}
+    func GetOrderService() *OrderService {
+      return serviceInst
+    }
+  ```
+  * step4:Register the Service
+    * see: service_register.go
+  ```
+    func GetClientAwares() []client.Aware {
+      var awares = []client.Aware{
+          order.GetOrderService(),
+          // you can add service here
+      }
+      return awares
+    }
+
+  ```
+
 
 
 #### 验证Webhooks
