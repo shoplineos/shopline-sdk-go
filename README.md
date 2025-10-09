@@ -37,7 +37,11 @@ import "github.com/shoplineos/shopline-sdk-go/client"
   // 2. create client
   c := client.MustNewClient(appInstance, handle, accessToken)
   appInstance.Client = c
-    
+  
+  // use support to create client, it will regitster awares
+  // c := support.MustNewClient(appInstance, handle, accessToken)
+  // appInstance.Client = c
+  
     
   // 3. use client to call API
   // 3.1 API request
@@ -126,7 +130,7 @@ With an access token, you can make API calls like this:
 Get Product Count:
 ``` Get Product Count
   apiReq := &GetProductCountAPIReq{}
-  apiResp, err := GetProductService().Count(context.Background(), apiReq)
+  apiResp, err := product.GetProductService().Count(context.Background(), apiReq)
   fmt.Printf("count:%d", apiResp.Count)
 ```
 
@@ -135,7 +139,7 @@ Query data:
   requestParams := &QueryProductsAPIReq{
       // IDs: "1,2,3",
   }
-  productsAPIResp, err := GetProductService().List(context.Background(), requestParams)
+  productsAPIResp, err := product.GetProductService().List(context.Background(), requestParams)
 ```
 
 
@@ -144,13 +148,13 @@ Pagination:
   requestParams := &QueryProductsAPIReq{
       // IDs: "1,2,3",
   }
-  productsAPIResp, err := GetProductService().ListWithPagination(context.Background(), requestParams)
+  productsAPIResp, err := product.GetProductService().ListWithPagination(context.Background(), requestParams)
 ```
 
 Query all products:
 ``` query all products
   requestParams := &QueryProductsAPIReq{}
-  Products, err := GetProductService().ListAll(context.Background(), requestParams)
+  Products, err := product.GetProductService().ListAll(context.Background(), requestParams)
   
 ```
 
@@ -216,7 +220,7 @@ apiReq := &product.CreateProductAPIReq{
     },
 }
 
-apiResp, err := GetProductService().Create(context.Background(), apiReq)
+apiResp, err := product.GetProductService().Create(context.Background(), apiReq)
 
 ```
 
@@ -278,6 +282,13 @@ func GetProductsCount(c *client.Client, apiReq *GetProductCountAPIReq) (*GetProd
 }
 
 ```
+
+
+#### Use your own Service
+* See product_service.go or order_service.go
+* Register the Service
+  * see: awares_loader.go
+
 
 #### Webhooks verification
 
@@ -402,7 +413,7 @@ token, err := app.RefreshAccessToken(context.Background(), storeHandle)
 
 ### <span id="zh">中文</span>
 
-**注意**：对于使用 https://developer.shopline.com 的开发者来说，目前这是一个不稳定的 SDK，我们还在不断完善中。该库并未包含所有 Shopline 资源的实现。欢迎提交新资源和端点的 Pull Request，或者您也可以自行实现一些。更多信息，请参阅“使用您自己的数据模型对象”部分。
+**注意**：对于使用 https://developer.shopline.com 的开发者来说，目前这是一个不稳定的 SDK，我们还在不断完善中。该库并未包含所有 Shopline 资源的实现。欢迎提交新资源和端点的 Pull Request，或者您也可以自行实现一些。更多信息，请参阅“使用您自己的数据模型”部分。
 
 
 #### Install
@@ -432,6 +443,10 @@ import "github.com/shoplineos/shopline-sdk-go/client"
   // 2. create client
   c := client.MustNewClient(appInstance, handle, accessToken)
   appInstance.Client = c
+
+  // use support to create client, it will regitster awares
+  // c := support.MustNewClient(appInstance, handle, accessToken)
+  // appInstance.Client = c
 
   // 3. use client to call API
   // 3.1 API request
@@ -550,7 +565,7 @@ func CallbackHandler(w http.ResponseWriter, r *http.Request) {
 查询 商品数量：
 ``` Get Product Count
   apiReq := &GetProductCountAPIReq{}
-  apiResp, err := GetProductService().Count(context.Background(), apiReq)
+  apiResp, err := product.GetProductService().Count(context.Background(), apiReq)
   fmt.Printf("count:%d", apiResp.Count)
 ```
 
@@ -559,7 +574,7 @@ func CallbackHandler(w http.ResponseWriter, r *http.Request) {
   requestParams := &QueryProductsAPIReq{
       // IDs: "1,2,3",
   }
-  productsAPIResp, err := GetProductService().List(context.Background(), requestParams)
+  productsAPIResp, err := product.GetProductService().List(context.Background(), requestParams)
 ```
 
 分页：
@@ -567,7 +582,7 @@ func CallbackHandler(w http.ResponseWriter, r *http.Request) {
   requestParams := &QueryProductsAPIReq{
       //IDs: "1,2,3",
   }
-  productsAPIResp, err := GetProductService().ListWithPagination(context.Background(), requestParams)
+  productsAPIResp, err := product.GetProductService().ListWithPagination(context.Background(), requestParams)
 
 ```
 
@@ -575,7 +590,7 @@ func CallbackHandler(w http.ResponseWriter, r *http.Request) {
 查询所有商品:
 ``` query all products
   requestParams := &QueryProductsAPIReq{}
-  Products, err := GetProductService().ListAll(context.Background(), requestParams)
+  Products, err := product.GetProductService().ListAll(context.Background(), requestParams)
   
 ```
 
@@ -644,11 +659,11 @@ apiReq := &product.CreateProductAPIReq{
 }
 
 
-apiResp, err := GetProductService().Create(context.Background(), apiReq)
+apiResp, err := product.GetProductService().Create(context.Background(), apiReq)
 
 ```
 
-#### 使用您自己的数据模型对象
+#### 使用您自己的数据模型
 
 目前为止不是所有的 API 都已经实现，您可以发起1个 Pull Request，或者自己实现数据模型对象。
 下面这个例子是获取商品数量:
@@ -702,6 +717,12 @@ func GetProductsCount(c *client.Client, apiReq *GetProductCountAPIReq) (*GetProd
 }
 
 ```
+
+#### 实现你自己的 Service
+* 参考 product_service.go 或 order_service.go
+* 注册 Service
+  * 具体见 awares_loader.go
+
 
 #### 验证Webhooks
 

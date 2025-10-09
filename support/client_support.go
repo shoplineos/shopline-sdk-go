@@ -1,12 +1,11 @@
 package support
 
 import (
-	"github.com/shoplineos/shopline-sdk-go/awares"
 	"github.com/shoplineos/shopline-sdk-go/client"
 )
 
 // MustNewClient Will apply awares.GetClientAwares()
 func MustNewClient(app client.App, storeHandle, token string, opts ...client.Option) *client.Client {
-	c := client.MustNewClientWithAwares(app, storeHandle, token, awares.GetClientAwares(), opts...)
+	c := client.MustNewClientWithAwares(app, storeHandle, token, GetClientAwares(), opts...)
 	return c
 }
