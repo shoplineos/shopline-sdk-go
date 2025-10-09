@@ -1,6 +1,7 @@
 package order
 
 import (
+	"context"
 	"fmt"
 	"github.com/jarcoal/httpmock"
 	"github.com/shoplineos/shopline-sdk-go/test"
@@ -122,7 +123,7 @@ func TestOrderCancel(t *testing.T) {
 		OrderId: "123",
 	}
 
-	apiResp, err := CancelOrder(cli, apiReq)
+	apiResp, err := GetOrderService().Cancel(context.Background(), apiReq)
 	if err != nil {
 		t.Errorf("Order.CancelledAt returned error: %v", err)
 	}

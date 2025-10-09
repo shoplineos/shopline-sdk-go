@@ -27,6 +27,8 @@ type DeleteProductAPIResp struct {
 // DeleteProduct
 // 中文: https://developer.shopline.com/zh-hans-cn/docs/admin-rest-api/product/product/delete-a-product?version=v20251201
 // en: https://developer.shopline.com/docs/admin-rest-api/product/product/delete-a-product?version=v20251201
+// Deprecated
+// see ProductService
 func DeleteProduct(c *client.Client, apiReq *DeleteProductAPIReq) (*DeleteProductAPIResp, error) {
 
 	// 1. API request

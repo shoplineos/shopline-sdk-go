@@ -31,6 +31,8 @@ type DeleteOrderAPIResp struct {
 // DeleteOrder
 // 中文：https://developer.shopline.com/zh-hans-cn/docs/admin-rest-api/order/order-management/delete-an-order?version=v20251201
 // en：https://developer.shopline.com/docs/admin-rest-api/order/order-management/delete-an-order?version=v20251201
+// Deprecated
+// see OrderService
 func DeleteOrder(c *client.Client, apiReq *DeleteOrderAPIReq) (*DeleteOrderAPIResp, error) {
 	// 1. API request
 	shopLineReq := &client.ShopLineRequest{

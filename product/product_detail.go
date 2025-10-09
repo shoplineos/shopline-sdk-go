@@ -29,6 +29,8 @@ type GetProductDetailAPIResp struct {
 // GetProductDetail
 // 中文: https://developer.shopline.com/zh-hans-cn/docs/admin-rest-api/product/product/get-a-product?version=v20251201
 // en: https://developer.shopline.com/docs/admin-rest-api/product/product/get-a-product?version=v20251201
+// Deprecated
+// see ProductService
 func GetProductDetail(c *client.Client, apiReq *GetProductDetailAPIReq) (*GetProductDetailAPIResp, error) {
 	// 1. API request
 	shoplineReq := &client.ShopLineRequest{}

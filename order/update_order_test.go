@@ -1,6 +1,7 @@
 package order
 
 import (
+	"context"
 	"fmt"
 	"github.com/jarcoal/httpmock"
 	"testing"
@@ -147,7 +148,7 @@ func TestOrderUpdate(t *testing.T) {
 	}
 
 	apiReq := &UpdateOrderAPIReq{Order: order}
-	o, err := UpdateOrder(cli, apiReq)
+	o, err := GetOrderService().Update(context.Background(), apiReq)
 	if err != nil {
 		t.Errorf("Order.Update returned error: %v", err)
 	}

@@ -1,6 +1,7 @@
 package product
 
 import (
+	"context"
 	"fmt"
 	"github.com/jarcoal/httpmock"
 	"github.com/shoplineos/shopline-sdk-go/test"
@@ -95,7 +96,7 @@ func TestProductUpdate(t *testing.T) {
 		Product: product,
 	}
 
-	apiResp, err := UpdateProduct(cli, apiReq)
+	apiResp, err := GetProductService().Update(context.Background(), apiReq)
 	if err != nil {
 		t.Errorf("Product.Update returned error: %v", err)
 	}

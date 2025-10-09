@@ -175,6 +175,8 @@ type BillingAddress struct {
 // CreateOrder
 // 中文: https://developer.shopline.com/zh-hans-cn/docs/admin-rest-api/order/order-management/create-an-order?version=v20251201
 // en: https://developer.shopline.com/docs/admin-rest-api/order/order-management/create-an-order?version=v20251201
+// Deprecated
+// see OrderService
 func CreateOrder(c *client.Client, apiReq *CreateOrderAPIReq) (*CreateOrderAPIResp, error) {
 	// 1. API request
 	shopLineReq := &client.ShopLineRequest{

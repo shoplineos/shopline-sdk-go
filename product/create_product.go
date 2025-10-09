@@ -100,6 +100,8 @@ type Variant struct {
 // CreateProduct
 // 中文: https://developer.shopline.com/zh-hans-cn/docs/admin-rest-api/product/product/create-a-product?version=v20251201
 // en: https://developer.shopline.com/docs/admin-rest-api/product/product/create-a-product?version=v20251201
+// Deprecated
+// see ProductService
 func CreateProduct(c *client.Client, apiReq *CreateProductAPIReq) (*CreateProductAPIResp, error) {
 
 	// 1. API request

@@ -6,6 +6,9 @@ import (
 	"github.com/shoplineos/shopline-sdk-go/client"
 )
 
+// RefundAPIReq
+// 中文：https://developer.shopline.com/zh-hans-cn/docs/admin-rest-api/order/order-management/order-refund?version=v20251201
+// en：https://developer.shopline.com/docs/admin-rest-api/order/order-management/order-refund?version=v20251201
 type RefundAPIReq struct {
 	OrderId         string          `json:"order_id,omitempty"`
 	Notify          string          `json:"notify,omitempty"`
@@ -90,6 +93,8 @@ func (req *RefundAPIReq) Endpoint() string {
 // OrderRefund
 // 中文：https://developer.shopline.com/zh-hans-cn/docs/admin-rest-api/order/order-management/order-refund?version=v20251201
 // en：https://developer.shopline.com/docs/admin-rest-api/order/order-management/order-refund?version=v20251201
+// Deprecated
+// see OrderService
 func OrderRefund(c *client.Client, apiReq *RefundAPIReq) (*RefundAPIResp, error) {
 	// 1. API request
 	shopLineReq := &client.ShopLineRequest{

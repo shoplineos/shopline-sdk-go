@@ -1,6 +1,7 @@
 package product
 
 import (
+	"context"
 	"fmt"
 	"github.com/jarcoal/httpmock"
 	"github.com/shoplineos/shopline-sdk-go/test"
@@ -64,7 +65,7 @@ func TestGetProductDetail(t *testing.T) {
 	//responseData := &map[string]any{}
 	//productId := "111"
 	//endpoint := fmt.Sprintf("products/%s.json", productId)
-	resp, err := GetProductDetail(cli, apiReq)
+	resp, err := GetProductService().Get(context.Background(), apiReq)
 
 	if err != nil {
 		t.Fatal(err)

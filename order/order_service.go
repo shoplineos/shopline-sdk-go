@@ -2,6 +2,7 @@ package order
 
 import (
 	"context"
+	"errors"
 	"github.com/shoplineos/shopline-sdk-go/client"
 )
 
@@ -22,18 +23,17 @@ type IOrderService interface {
 var serviceInst = &OrderService{}
 
 type OrderService struct {
-	cli *client.Client
+	client.BaseService
 }
 
 func GetOrderService() *OrderService {
 	return serviceInst
 }
 
-func (p *OrderService) SetClient(c *client.Client) {
-	p.cli = c
-}
-
-func (p *OrderService) Refund(ctx context.Context, req *RefundAPIReq) (*RefundAPIResp, error) {
+// Refund
+// 中文：https://developer.shopline.com/zh-hans-cn/docs/admin-rest-api/order/order-management/order-refund?version=v20251201
+// en：https://developer.shopline.com/docs/admin-rest-api/order/order-management/order-refund?version=v20251201
+func (o *OrderService) Refund(ctx context.Context, req *RefundAPIReq) (*RefundAPIResp, error) {
 	// 1. API request
 	shopLineReq := &client.ShopLineRequest{
 		Data: req, // API request params
@@ -43,12 +43,12 @@ func (p *OrderService) Refund(ctx context.Context, req *RefundAPIReq) (*RefundAP
 	apiResp := &RefundAPIResp{}
 
 	// 3. Call API
-	_, err := p.cli.Get(context.Background(), req.Endpoint(), shopLineReq, apiResp)
+	_, err := o.Client.Post(context.Background(), req.Endpoint(), shopLineReq, apiResp)
 
 	return apiResp, err
 }
 
-func (p *OrderService) Cancel(ctx context.Context, apiReq *CancelOrderAPIReq) (*CancelOrderAPIResp, error) {
+func (o *OrderService) Cancel(ctx context.Context, apiReq *CancelOrderAPIReq) (*CancelOrderAPIResp, error) {
 	// 1. API request
 	shopLineReq := &client.ShopLineRequest{
 		Data: apiReq, // API request params
@@ -58,11 +58,11 @@ func (p *OrderService) Cancel(ctx context.Context, apiReq *CancelOrderAPIReq) (*
 	apiResp := &CancelOrderAPIResp{}
 
 	// 3. Call API
-	_, err := p.cli.Get(context.Background(), apiReq.Endpoint(), shopLineReq, apiResp)
+	_, err := o.Client.Post(context.Background(), apiReq.Endpoint(), shopLineReq, apiResp)
 	return apiResp, err
 }
 
-func (p *OrderService) List(ctx context.Context, apiReq *QueryOrdersAPIReq) (*QueryOrdersAPIResp, error) {
+func (o *OrderService) List(ctx context.Context, apiReq *QueryOrdersAPIReq) (*QueryOrdersAPIResp, error) {
 	// 1. API request
 	shopLineReq := &client.ShopLineRequest{
 		Query: apiReq, // API request params
@@ -75,7 +75,7 @@ func (p *OrderService) List(ctx context.Context, apiReq *QueryOrdersAPIReq) (*Qu
 	apiResp := &QueryOrdersAPIResp{}
 
 	// 4. Call API
-	shopLineResp, err := p.cli.Get(context.Background(), endpoint, shopLineReq, apiResp)
+	shopLineResp, err := o.Client.Get(context.Background(), endpoint, shopLineReq, apiResp)
 	if err != nil {
 		return nil, err
 	}
@@ -85,7 +85,7 @@ func (p *OrderService) List(ctx context.Context, apiReq *QueryOrdersAPIReq) (*Qu
 	return apiResp, nil
 }
 
-func (p *OrderService) ListAll(ctx context.Context, apiReq *QueryOrdersAPIReq) ([]Order, error) {
+func (o *OrderService) ListAll(ctx context.Context, apiReq *QueryOrdersAPIReq) ([]Order, error) {
 	collector := []Order{}
 	// 1. API request
 	shopLineReq := &client.ShopLineRequest{
@@ -100,7 +100,7 @@ func (p *OrderService) ListAll(ctx context.Context, apiReq *QueryOrdersAPIReq) (
 		apiResp := &QueryOrdersAPIResp{}
 
 		// 4. Call API
-		shoplineResp, err := p.cli.Get(context.Background(), endpoint, shopLineReq, apiResp)
+		shoplineResp, err := o.Client.Get(context.Background(), endpoint, shopLineReq, apiResp)
 
 		if err != nil {
 			return collector, err
@@ -118,11 +118,11 @@ func (p *OrderService) ListAll(ctx context.Context, apiReq *QueryOrdersAPIReq) (
 	return collector, nil
 }
 
-func (p *OrderService) ListWithPagination(ctx context.Context, apiReq *QueryOrdersAPIReq) (*QueryOrdersAPIResp, error) {
-	return p.List(ctx, apiReq)
+func (o *OrderService) ListWithPagination(ctx context.Context, apiReq *QueryOrdersAPIReq) (*QueryOrdersAPIResp, error) {
+	return o.List(ctx, apiReq)
 }
 
-func (p *OrderService) Count(ctx context.Context, apiReq *GetOrdersCountAPIReq) (*GetOrdersCountAPIResp, error) {
+func (o *OrderService) Count(ctx context.Context, apiReq *GetOrdersCountAPIReq) (*GetOrdersCountAPIResp, error) {
 	// 1. API request
 	shoplineReq := &client.ShopLineRequest{
 		Query: apiReq, // API request data
@@ -135,17 +135,17 @@ func (p *OrderService) Count(ctx context.Context, apiReq *GetOrdersCountAPIReq) 
 	apiResp := &GetOrdersCountAPIResp{}
 
 	// 4. Call API
-	_, err := p.cli.Get(context.Background(), endpoint, shoplineReq, apiResp)
+	_, err := o.Client.Get(context.Background(), endpoint, shoplineReq, apiResp)
 
 	return apiResp, err
 }
 
-func (p *OrderService) Get(ctx context.Context, apiReq *GetOrderDetailAPIReq) (*GetOrderDetailAPIResp, error) {
+func (o *OrderService) Get(ctx context.Context, apiReq *GetOrderDetailAPIReq) (*GetOrderDetailAPIResp, error) {
 	// unsupported
-	return nil, nil
+	return nil, errors.New("Get method not implemented")
 }
 
-func (p *OrderService) Create(ctx context.Context, apiReq *CreateOrderAPIReq) (*CreateOrderAPIResp, error) {
+func (o *OrderService) Create(ctx context.Context, apiReq *CreateOrderAPIReq) (*CreateOrderAPIResp, error) {
 	// 1. API request
 	request := &client.ShopLineRequest{ // client request
 		Data: apiReq, // API request data
@@ -158,12 +158,12 @@ func (p *OrderService) Create(ctx context.Context, apiReq *CreateOrderAPIReq) (*
 	apiResp := &CreateOrderAPIResp{}
 
 	// 4. Call API
-	_, err := p.cli.Post(context.Background(), endpoint, request, apiResp)
+	_, err := o.Client.Post(context.Background(), endpoint, request, apiResp)
 
 	return apiResp, err
 }
 
-func (p *OrderService) Update(ctx context.Context, apiReq *UpdateOrderAPIReq) (*UpdateOrderAPIResp, error) {
+func (o *OrderService) Update(ctx context.Context, apiReq *UpdateOrderAPIReq) (*UpdateOrderAPIResp, error) {
 	// 1. API request
 	request := &client.ShopLineRequest{
 		Data: apiReq, // API request data
@@ -176,12 +176,12 @@ func (p *OrderService) Update(ctx context.Context, apiReq *UpdateOrderAPIReq) (*
 	apiResp := &UpdateOrderAPIResp{}
 
 	// 4. Call API
-	_, err := p.cli.Put(context.Background(), endpoint, request, apiResp)
+	_, err := o.Client.Put(context.Background(), endpoint, request, apiResp)
 
 	return apiResp, err
 }
 
-func (p *OrderService) Delete(ctx context.Context, apiReq *DeleteOrderAPIReq) (*DeleteOrderAPIResp, error) {
+func (o *OrderService) Delete(ctx context.Context, apiReq *DeleteOrderAPIReq) (*DeleteOrderAPIResp, error) {
 	// 1. API request
 	shoplineReq := &client.ShopLineRequest{}
 
@@ -192,7 +192,7 @@ func (p *OrderService) Delete(ctx context.Context, apiReq *DeleteOrderAPIReq) (*
 	apiResp := &DeleteOrderAPIResp{}
 
 	// 4. Call API
-	_, err := p.cli.Delete(context.Background(), endpoint, shoplineReq, apiResp)
+	_, err := o.Client.Delete(context.Background(), endpoint, shoplineReq, apiResp)
 
 	return apiResp, err
 }

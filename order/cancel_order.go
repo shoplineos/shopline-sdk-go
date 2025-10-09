@@ -6,6 +6,9 @@ import (
 	"github.com/shoplineos/shopline-sdk-go/client"
 )
 
+// CancelOrderAPIReq
+// 中文: https://developer.shopline.com/zh-hans-cn/docs/admin-rest-api/order/order-management/cancel-order?version=v20251201
+// en: https://developer.shopline.com/docs/admin-rest-api/order/order-management/cancel-order?version=v20251201
 type CancelOrderAPIReq struct {
 	OrderId      string
 	Amount       string `json:"amount,omitempty"`
@@ -36,6 +39,8 @@ type CancelOrderAPIResp struct {
 // CancelOrder
 // 中文: https://developer.shopline.com/zh-hans-cn/docs/admin-rest-api/order/order-management/cancel-order?version=v20251201
 // en: https://developer.shopline.com/docs/admin-rest-api/order/order-management/cancel-order?version=v20251201
+// Deprecated
+// see OrderService
 func CancelOrder(c *client.Client, apiReq *CancelOrderAPIReq) (*CancelOrderAPIResp, error) {
 	// 1. API request
 	shopLineReq := &client.ShopLineRequest{

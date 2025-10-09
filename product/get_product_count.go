@@ -33,6 +33,8 @@ type GetProductCountAPIResp struct {
 // GetProductsCount
 // 中文: https://developer.shopline.com/zh-hans-cn/docs/admin-rest-api/product/product/get-product-count?version=v20251201
 // en: https://developer.shopline.com/docs/admin-rest-api/product/product/batch-query-product-quantity?version=v20251201
+// Deprecated
+// see ProductService
 func GetProductsCount(c *client.Client, apiReq *GetProductCountAPIReq) (*GetProductCountAPIResp, error) {
 
 	// 1. API request

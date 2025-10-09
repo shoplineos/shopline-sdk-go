@@ -1,6 +1,7 @@
 package order
 
 import (
+	"context"
 	"fmt"
 	"github.com/jarcoal/httpmock"
 	"github.com/shoplineos/shopline-sdk-go/client"
@@ -20,7 +21,7 @@ func TestOrderRefund(t *testing.T) {
 		OrderId: "123",
 	}
 
-	apiResponse, err := OrderRefund(cli, apiReq)
+	apiResponse, err := GetOrderService().Refund(context.Background(), apiReq)
 	if err != nil {
 		t.Errorf("OrderRefund returned an error %v", err)
 	}
