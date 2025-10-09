@@ -22,9 +22,8 @@ func (req *CreateProductAPIReq) Endpoint() string {
 }
 
 type CreateProductAPIResp struct {
+	client.BaseAPIResponse
 	Product ProductRespData `json:"product"`
-
-	client.CommonAPIRespData
 }
 
 type Product struct {
@@ -120,6 +119,5 @@ func CreateProduct(c *client.Client, apiReq *CreateProductAPIReq) (*CreateProduc
 		log.Printf("CreateProduct request failed: %v\n", err)
 		return nil, err
 	}
-
 	return apiResp, err
 }

@@ -24,7 +24,7 @@ func (req *UpdateProductAPIReq) Endpoint() string {
 type UpdateProductAPIResp struct {
 	Product ProductRespData `json:"product"`
 
-	client.CommonAPIRespData
+	client.BaseAPIResponse
 }
 
 // UpdateProduct

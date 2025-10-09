@@ -8,8 +8,7 @@ import (
 type QueryProductsAPIResp struct {
 	Products []ProductRespData `json:"products"`
 
-	client.CommonAPIRespData
-	Pagination *client.Pagination
+	client.BaseAPIResponse
 }
 
 type QueryProductsAPIReq struct {

@@ -7,7 +7,20 @@ type APIRequest interface {
 
 type APIResponse interface {
 	SetTraceId(traceId string)
-	SetPagination(pagination Pagination)
+	SetPagination(pagination *Pagination)
+}
+
+type BaseAPIResponse struct {
+	TraceId    string
+	Pagination *Pagination
+}
+
+func (api BaseAPIResponse) SetTraceId(traceId string) {
+	api.TraceId = traceId
+}
+
+func (api BaseAPIResponse) SetPagination(pagination *Pagination) {
+	api.Pagination = pagination
 }
 
 type Aware interface {

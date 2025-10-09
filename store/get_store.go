@@ -22,7 +22,7 @@ func (req *GetStoreAPIReq) Endpoint() string {
 type GetStoreAPIResponse struct {
 	Store Store `json:"store"`
 
-	client.CommonAPIRespData
+	client.BaseAPIResponse
 }
 
 type Store struct {

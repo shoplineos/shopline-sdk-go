@@ -31,6 +31,7 @@ type RefundShipping struct {
 
 type RefundAPIResp struct {
 	Refund RefundResultDTO `json:"data,omitempty"`
+	client.BaseAPIResponse
 }
 
 type RefundResultDTO struct {

@@ -29,7 +29,7 @@ func (req *GetOrdersCountAPIReq) Endpoint() string {
 
 type GetOrdersCountAPIResp struct {
 	Count int `json:"count"`
-	client.CommonAPIRespData
+	client.BaseAPIResponse
 }
 
 // QueryOrdersCount

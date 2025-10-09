@@ -44,8 +44,7 @@ func (req *QueryOrdersAPIReq) Endpoint() string {
 type QueryOrdersAPIResp struct {
 	Orders []Order `json:"orders"`
 
-	client.CommonAPIRespData
-	Pagination *client.Pagination
+	client.BaseAPIResponse
 }
 
 // QueryOrders

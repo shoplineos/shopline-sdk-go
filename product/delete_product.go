@@ -21,7 +21,7 @@ func (req *DeleteProductAPIReq) Endpoint() string {
 }
 
 type DeleteProductAPIResp struct {
-	client.CommonAPIRespData
+	client.BaseAPIResponse
 }
 
 // DeleteProduct

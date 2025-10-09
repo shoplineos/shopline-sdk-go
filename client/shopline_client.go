@@ -500,25 +500,31 @@ func isDeleteSuccess(method string, statusCode int) bool {
 
 // set common data to api response data
 func setCommonAPIRespData(shopLineResp *ShopLineResponse) {
-	apiResp := shopLineResp.Data
-	if apiResp == nil {
+	apiRespData := shopLineResp.Data
+	if apiRespData == nil {
 		return
 	}
 
-	apiRespVal := reflect.ValueOf(apiResp)
-
-	if apiRespVal.Kind() == reflect.Ptr {
-		apiRespVal = apiRespVal.Elem()
+	if _, ok := (apiRespData).(APIResponse); ok {
+		apiResp := (apiRespData).(APIResponse)
+		apiResp.SetTraceId(shopLineResp.TraceId)
+		apiResp.SetPagination(shopLineResp.Pagination)
 	}
 
-	if apiRespVal.Kind() != reflect.Struct {
-		log.Printf("Invalid response data type(must struct ptr or struct): %T\n", apiResp)
-		return
-	}
-
-	typ := apiRespVal.Type()
-
-	setTraceId2APIResp(shopLineResp, typ, apiRespVal)
+	//apiRespVal := reflect.ValueOf(apiResp)
+	//
+	//if apiRespVal.Kind() == reflect.Ptr {
+	//	apiRespVal = apiRespVal.Elem()
+	//}
+	//
+	//if apiRespVal.Kind() != reflect.Struct {
+	//	log.Printf("Invalid response data type(must struct ptr or struct): %T\n", apiResp)
+	//	return
+	//}
+	//
+	//typ := apiRespVal.Type()
+	//
+	//setTraceId2APIResp(shopLineResp, typ, apiRespVal)
 
 }
 

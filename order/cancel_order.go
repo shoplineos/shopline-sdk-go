@@ -30,7 +30,7 @@ func (req *CancelOrderAPIReq) Endpoint() string {
 // CancelOrderAPIResp Define the request structure for cancel an order (corresponding to the API request body)
 type CancelOrderAPIResp struct {
 	Order Order `json:"order"`
-	client.CommonAPIRespData
+	client.BaseAPIResponse
 }
 
 // CancelOrder

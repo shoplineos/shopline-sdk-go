@@ -25,7 +25,7 @@ func (req *DeleteOrderAPIReq) Endpoint() string {
 
 // DeleteOrderAPIResp Define the request structure for delete an order (corresponding to the API request body)
 type DeleteOrderAPIResp struct {
-	client.CommonAPIRespData
+	client.BaseAPIResponse
 }
 
 // DeleteOrder

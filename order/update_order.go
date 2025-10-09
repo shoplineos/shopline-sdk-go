@@ -23,7 +23,7 @@ func (req *UpdateOrderAPIReq) Endpoint() string {
 // UpdateOrderAPIResp Define the request structure for upate an order (corresponding to the API request body)
 type UpdateOrderAPIResp struct {
 	Order Order `json:"order"`
-	client.CommonAPIRespData
+	client.BaseAPIResponse
 }
 
 // UpdateOrder
