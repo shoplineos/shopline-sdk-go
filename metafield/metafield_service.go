@@ -11,7 +11,7 @@ import (
 type IMetafieldService interface {
 	List(context.Context, *ListMetafieldAPIReq) (*ListMetafieldAPIResp, error)
 	ListAll(context.Context, *ListMetafieldAPIReq) ([]Metafield, error)
-	Detail(context.Context, *DetailMetafieldAPIReq) (*DetailMetafieldAPIResp, error)
+	Get(context.Context, *GetMetafieldAPIReq) (*GetMetafieldAPIResp, error)
 	Count(context.Context, *CountMetafieldAPIReq) (*CountMetafieldAPIResp, error)
 	Delete(context.Context, *DeleteMetafieldAPIReq) (*DeleteMetafieldAPIResp, error)
 	Update(context.Context, *UpdateMetafieldAPIReq) (*UpdateMetafieldAPIResp, error)
@@ -24,7 +24,7 @@ type MetafieldService struct {
 	client.BaseService
 }
 
-func (m MetafieldService) Detail(ctx context.Context, apiReq *DetailMetafieldAPIReq) (*DetailMetafieldAPIResp, error) {
+func (m MetafieldService) Get(ctx context.Context, apiReq *GetMetafieldAPIReq) (*GetMetafieldAPIResp, error) {
 	// 1. API request
 	shopLineReq := &client.ShopLineRequest{}
 
@@ -32,7 +32,7 @@ func (m MetafieldService) Detail(ctx context.Context, apiReq *DetailMetafieldAPI
 	endpoint := apiReq.Endpoint()
 
 	// 3. API response data
-	apiResp := &DetailMetafieldAPIResp{}
+	apiResp := &GetMetafieldAPIResp{}
 
 	// 4. Call API
 	_, err := m.Client.Get(context.Background(), endpoint, shopLineReq, apiResp)

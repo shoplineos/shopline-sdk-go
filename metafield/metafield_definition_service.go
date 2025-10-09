@@ -11,7 +11,7 @@ import (
 type IMetafieldDefinitionService interface {
 	List(context.Context, *ListMetafieldDefinitionAPIReq) (*ListMetafieldDefinitionAPIResp, error)
 	ListAll(context.Context, *ListMetafieldDefinitionAPIReq) ([]MetafieldDefinition, error)
-	Detail(context.Context, *DetailMetafieldDefinitionAPIReq) (*DetailMetafieldDefinitionAPIResp, error)
+	Get(context.Context, *GetMetafieldDefinitionAPIReq) (*GetMetafieldDefinitionAPIResp, error)
 	Delete(context.Context, *DeleteMetafieldDefinitionAPIReq) (*DeleteMetafieldDefinitionAPIResp, error)
 	Update(context.Context, *UpdateMetafieldDefinitionAPIReq) (*UpdateMetafieldDefinitionAPIResp, error)
 	Create(context.Context, *CreateMetafieldDefinitionAPIReq) (*CreateMetafieldDefinitionAPIResp, error)
@@ -77,7 +77,7 @@ func (m MetafieldDefinitionService) ListAll(ctx context.Context, apiReq *ListMet
 	return collector, nil
 }
 
-func (m MetafieldDefinitionService) Detail(ctx context.Context, apiReq *DetailMetafieldDefinitionAPIReq) (*DetailMetafieldDefinitionAPIResp, error) {
+func (m MetafieldDefinitionService) Get(ctx context.Context, apiReq *GetMetafieldDefinitionAPIReq) (*GetMetafieldDefinitionAPIResp, error) {
 	// 1. API request
 	shopLineReq := &client.ShopLineRequest{
 		Query: apiReq, // API request params
@@ -87,7 +87,7 @@ func (m MetafieldDefinitionService) Detail(ctx context.Context, apiReq *DetailMe
 	endpoint := apiReq.Endpoint()
 
 	// 3. API response data
-	apiResp := &DetailMetafieldDefinitionAPIResp{}
+	apiResp := &GetMetafieldDefinitionAPIResp{}
 
 	// 4. Call API
 	_, err := m.Client.Get(context.Background(), endpoint, shopLineReq, apiResp)

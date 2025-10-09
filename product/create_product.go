@@ -29,7 +29,7 @@ type CreateProductAPIResp struct {
 type Product struct {
 	Id              string    `json:"id"`                         // Product id
 	Title           string    `json:"title,omitempty"`            // Product Title
-	BodyHTML        string    `json:"body_html,omitempty"`        // Product Detail HTML
+	BodyHTML        string    `json:"body_html,omitempty"`        // Product Get HTML
 	Handle          string    `json:"shopHandle,omitempty"`       // shopHandle
 	Subtitle        string    `json:"subtitle,omitempty"`         // Product Subtitle
 	Vendor          string    `json:"vendor,omitempty"`           // Vendor
@@ -48,7 +48,7 @@ type Product struct {
 type ProductRespData struct {
 	Id              string    `json:"id"`                         // Product id
 	Title           string    `json:"title,omitempty"`            // Product Title
-	BodyHTML        string    `json:"body_html,omitempty"`        // Product Detail HTML
+	BodyHTML        string    `json:"body_html,omitempty"`        // Product Get HTML
 	Handle          string    `json:"shopHandle,omitempty"`       // shopHandle
 	Subtitle        string    `json:"subtitle,omitempty"`         // Product Subtitle
 	Vendor          string    `json:"vendor,omitempty"`           // Vendor

@@ -79,10 +79,9 @@ func TestUpdateMetafieldDefinition(t *testing.T) {
 
 }
 
-// DetailMetafieldDefinitionAPIReq
 // 中文：https://developer.shopline.com/zh-hans-cn/docs/admin-rest-api/shopline-metafields/metafield-definition/get-a-metafield-definition?version=v20251201
 // En：https://developer.shopline.com/docs/admin-rest-api/shopline-metafields/metafield-definition/get-a-metafield-definition?version=v20251201
-func TestDetailMetafieldDefinition(t *testing.T) {
+func TestGetMetafieldDefinition(t *testing.T) {
 	setup()
 	defer teardown()
 
@@ -90,13 +89,13 @@ func TestDetailMetafieldDefinition(t *testing.T) {
 		fmt.Sprintf("https://%s.myshopline.com/%s/%s/metafield_definition.json", cli.StoreHandle, cli.PathPrefix, cli.ApiVersion),
 		httpmock.NewStringResponder(200, `{"definition":{"id":"1", "created_at":"2025-09-22T14:48:44-04:00", "updated_at":"2025-10-09T14:48:44-04:00","access": {"admin":"MERCHANT_READ_WRITE"}, "description":"test desc", "key":"key_test", "name":"name_test", "namespace":"namespace_test", "owner_resource":"product", "type":"single_line_text_field"}}`))
 
-	req := &DetailMetafieldDefinitionAPIReq{
+	req := &GetMetafieldDefinitionAPIReq{
 		ID: "1",
 	}
 
-	apiResp, err := GetMetafieldDefinitionService().Detail(context.Background(), req)
+	apiResp, err := GetMetafieldDefinitionService().Get(context.Background(), req)
 	if err != nil {
-		t.Errorf("MetafieldDefinition.Detail returned error: %v", err)
+		t.Errorf("MetafieldDefinition.Get returned error: %v", err)
 	}
 
 	assert.NotNil(t, apiResp)

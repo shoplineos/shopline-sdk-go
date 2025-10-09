@@ -30,7 +30,7 @@ import (
 //
 //			Images: []Image{
 //				{Src: "https://example.com/product-main.jpg", Alt: "Main picture"},
-//				{Src: "https://example.com/product-detail.jpg", Alt: "Detail picture"},
+//				{Src: "https://example.com/product-detail.jpg", Alt: "Get picture"},
 //			},
 //
 //			// Variants（red S、red M、blue S）
