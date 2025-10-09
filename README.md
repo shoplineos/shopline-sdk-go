@@ -47,7 +47,7 @@ import "github.com/shoplineos/shopline-sdk-go/client"
   // 3.1 API request
   getProductCountAPIReq := &GetProductCountAPIReq{}
   shoplineReq := &client.ShopLineRequest{
-      Data: getProductCountAPIReq,
+      Query: getProductCountAPIReq,
   }
 
   // 3.2 API endpoint
@@ -263,7 +263,7 @@ func GetProductsCount(c *client.Client, apiReq *GetProductCountAPIReq) (*GetProd
 
     // 1. API request
     shoplineReq := &client.ShopLineRequest{
-        Data: apiReq,
+        Query: apiReq,
     }
     
     // 2. API endpoint
@@ -452,7 +452,7 @@ import "github.com/shoplineos/shopline-sdk-go/client"
   // 3.1 API request
   getProductCountAPIReq := &GetProductCountAPIReq{}
   shoplineReq := &client.ShopLineRequest{
-      Data: getProductCountAPIReq,
+      Query: getProductCountAPIReq,
   }
 
   // 3.2 API endpoint
@@ -698,7 +698,7 @@ func GetProductsCount(c *client.Client, apiReq *GetProductCountAPIReq) (*GetProd
 
     // 1. API request
     shoplineReq := &client.ShopLineRequest{
-        Data: apiReq,
+        Query: apiReq,
     }
     
     // 2. API endpoint
