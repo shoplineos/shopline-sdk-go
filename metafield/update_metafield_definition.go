@@ -1,21 +1,28 @@
 package metafield
 
+import "github.com/shoplineos/shopline-sdk-go/client"
+
 // UpdateMetafieldDefinitionAPIReq
 // 中文：https://developer.shopline.com/zh-hans-cn/docs/admin-rest-api/shopline-metafields/metafield-definition/update-a-metafield-definition?version=v20251201
 // En：https://developer.shopline.com/docs/admin-rest-api/shopline-metafields/metafield-definition/update-a-metafield-definition?version=v20251201
 type UpdateMetafieldDefinitionAPIReq struct {
-	MetafieldDefinition CreateMetafieldDefinition `json:"definition"`
+	MetafieldDefinition UpdateMetafieldDefinition `json:"definition"`
+}
+
+func (u UpdateMetafieldDefinitionAPIReq) Verify() error {
+	return nil
+}
+
+func (u UpdateMetafieldDefinitionAPIReq) Endpoint() string {
+	return "metafield_definition.json"
 }
 
 type UpdateMetafieldDefinitionAPIResp struct {
 	MetafieldDefinition MetafieldDefinition `json:"definition"`
+	client.BaseAPIResponse
 }
 
 type UpdateMetafieldDefinition struct {
-	//ID        string `json:"id,omitempty"`
-	//CreatedAt string `json:"created_at,omitempty"` // Create time
-	//UpdatedAt string `json:"updated_at,omitempty"` // Updated time
-
 	Access Access `json:"access,omitempty"`
 
 	Description string `json:"description,omitempty"`

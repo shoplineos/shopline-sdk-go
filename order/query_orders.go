@@ -9,18 +9,16 @@ import (
 type QueryOrdersAPIReq struct {
 	ContractIDs       string `url:"contract_ids,omitempty"`       // Contract IDs, Separate multiple with commas
 	FulfillmentStatus string `url:"fulfillment_status,omitempty"` // Fulfillment Status（unshipped/partial/shipped）
-	Limit             string `url:"limit,omitempty"`              // Limit（Max 100）
-	Email             string `url:"email,omitempty"`              // Email
-	Name              string `url:"name,omitempty"`               // Order name
-	SinceID           string `url:"since_id,omitempty"`           // Order Since ID
-	SortCondition     string `url:"sort_condition,omitempty"`     // Sort Condition（eg: "order_at:desc"）
-	CreatedAtMin      string `url:"created_at_min,omitempty"`     // Minimum order creation time（ISO 8601）
-	CreatedAtMax      string `url:"created_at_max,omitempty"`     // Max order creation time（ISO 8601）
-	UpdatedAtMin      string `url:"updated_at_min,omitempty"`     // Minimum order update time（ISO 8601）
-	UpdatedAtMax      string `url:"updated_at_max,omitempty"`     // Max order update time（ISO 8601）
-	Location          string `url:"location,omitempty"`           // Location ids, Separate multiple with commas
-	PageInfo          string `url:"page_info,omitempty"`          // Page Info
-	SearchContent     string `url:"search_content,omitempty"`     // Search Content（Order id、Product title and so on）
+
+	Email         string `url:"email,omitempty"`          // Email
+	Name          string `url:"name,omitempty"`           // Order name
+	SortCondition string `url:"sort_condition,omitempty"` // Sort Condition（eg: "order_at:desc"）
+	CreatedAtMin  string `url:"created_at_min,omitempty"` // Minimum order creation time（ISO 8601）
+	CreatedAtMax  string `url:"created_at_max,omitempty"` // Max order creation time（ISO 8601）
+	UpdatedAtMin  string `url:"updated_at_min,omitempty"` // Minimum order update time（ISO 8601）
+	UpdatedAtMax  string `url:"updated_at_max,omitempty"` // Max order update time（ISO 8601）
+	Location      string `url:"location,omitempty"`       // Location ids, Separate multiple with commas
+	SearchContent string `url:"search_content,omitempty"` // Search Content（Order id、Product title and so on）
 
 	BuyerID     string `url:"buyer_id,omitempty"`     // Buyer ID
 	Fields      string `url:"fields,omitempty"`       // Fields, Separate multiple with commas
@@ -29,6 +27,10 @@ type QueryOrdersAPIReq struct {
 
 	Status          string `url:"status,omitempty"`           // Status（open/cancelled/any）
 	FinancialStatus string `url:"financial_status,omitempty"` // Financial Status（unpaid/authorized）
+
+	SinceID  string `url:"since_id,omitempty"`  // Order Since ID
+	Limit    string `url:"limit,omitempty"`     // Limit
+	PageInfo string `url:"page_info,omitempty"` // Page Info
 }
 
 func (req *QueryOrdersAPIReq) Verify() error {

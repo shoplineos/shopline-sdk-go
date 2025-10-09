@@ -31,6 +31,6 @@ type BaseService struct {
 	Client *Client
 }
 
-func (b BaseService) SetClient(client *Client) {
+func (b *BaseService) SetClient(client *Client) {
 	b.Client = client
 }

@@ -17,7 +17,10 @@ func setup() {
 		AppSecret: config.AppSecretForUnitTest,
 	}
 
-	cli = client.MustNewClient(app, config.StoreHandelForUnitTest, config.AccessTokenForUnitTest, client.WithClientAware(GetMetafieldDefinitionService()), client.WithClientAware(GetMetafieldService()))
+	cli = client.MustNewClientWithAwares(app, config.StoreHandelForUnitTest, config.AccessTokenForUnitTest, []client.Aware{
+		GetMetafieldDefinitionService(),
+		GetMetafieldService(),
+	})
 	if cli == nil {
 		panic("client is nil")
 	}

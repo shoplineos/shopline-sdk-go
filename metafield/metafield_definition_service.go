@@ -9,12 +9,11 @@ import (
 // 中文：https://developer.shopline.com/zh-hans-cn/docs/admin-rest-api/shopline-metafields/metafield-definition/create-a-metafield-definition?version=v20251201
 // En：https://developer.shopline.com/docs/admin-rest-api/shopline-metafields/metafield-definition/create-a-metafield-definition?version=v20251201
 type IMetafieldDefinitionService interface {
-	// todo
-	List(context.Context)
-	ListAll(context.Context)
-	Detail(context.Context)
-	Update(context.Context)
-	Delete(context.Context)
+	List(context.Context, *ListMetafieldDefinitionAPIReq) (*ListMetafieldDefinitionAPIResp, error)
+	ListAll(context.Context, *ListMetafieldDefinitionAPIReq) ([]MetafieldDefinition, error)
+	Detail(context.Context, *DetailMetafieldDefinitionAPIReq) (*DetailMetafieldDefinitionAPIResp, error)
+	Delete(context.Context, *DeleteMetafieldDefinitionAPIReq) (*DeleteMetafieldDefinitionAPIResp, error)
+	Update(context.Context, *UpdateMetafieldDefinitionAPIReq) (*UpdateMetafieldDefinitionAPIResp, error)
 	Create(context.Context, *CreateMetafieldDefinitionAPIReq) (*CreateMetafieldDefinitionAPIResp, error)
 }
 
@@ -22,6 +21,152 @@ var metafieldDefinitionServiceInst = &MetafieldDefinitionService{}
 
 type MetafieldDefinitionService struct {
 	client.BaseService
+}
+
+func (m MetafieldDefinitionService) List(ctx context.Context, apiReq *ListMetafieldDefinitionAPIReq) (*ListMetafieldDefinitionAPIResp, error) {
+	// 1. API request
+	shopLineReq := &client.ShopLineRequest{
+		Query: apiReq, // API request params
+	}
+
+	// 2. API endpoint
+	endpoint := apiReq.Endpoint()
+
+	// 3. API response data
+	apiResp := &ListMetafieldDefinitionAPIResp{}
+
+	// 4. Call API
+	_, err := m.Client.Get(context.Background(), endpoint, shopLineReq, apiResp)
+	if err != nil {
+		return nil, err
+	}
+
+	return apiResp, nil
+}
+
+func (m MetafieldDefinitionService) ListAll(ctx context.Context, apiReq *ListMetafieldDefinitionAPIReq) ([]MetafieldDefinition, error) {
+	collector := []MetafieldDefinition{}
+	// 1. API request
+	shopLineReq := &client.ShopLineRequest{
+		Query: apiReq, // API request params
+	}
+
+	for {
+		// 2. API endpoint
+		endpoint := apiReq.Endpoint()
+
+		// 3. API response data
+		apiResp := &ListMetafieldDefinitionAPIResp{}
+
+		// 4. Call API
+		shoplineResp, err := m.Client.Get(context.Background(), endpoint, shopLineReq, apiResp)
+
+		if err != nil {
+			return collector, err
+		}
+
+		collector = append(collector, apiResp.Data.MetafieldDefinitions...)
+
+		if !shoplineResp.HasNext() {
+			break
+		}
+
+		shopLineReq.Query = shoplineResp.Pagination.Next
+	}
+
+	return collector, nil
+}
+
+func (m MetafieldDefinitionService) Detail(ctx context.Context, apiReq *DetailMetafieldDefinitionAPIReq) (*DetailMetafieldDefinitionAPIResp, error) {
+	// 1. API request
+	shopLineReq := &client.ShopLineRequest{
+		Query: apiReq, // API request params
+	}
+
+	// 2. API endpoint
+	endpoint := apiReq.Endpoint()
+
+	// 3. API response data
+	apiResp := &DetailMetafieldDefinitionAPIResp{}
+
+	// 4. Call API
+	_, err := m.Client.Get(context.Background(), endpoint, shopLineReq, apiResp)
+	if err != nil {
+		return nil, err
+	}
+
+	return apiResp, nil
+}
+
+func (m MetafieldDefinitionService) Delete(ctx context.Context, apiReq *DeleteMetafieldDefinitionAPIReq) (*DeleteMetafieldDefinitionAPIResp, error) {
+
+	query := struct {
+		ID string `url:"id"`
+	}{
+		ID: apiReq.ID,
+	}
+
+	// 1. API request
+	shopLineReq := &client.ShopLineRequest{
+		Query: query,  // API request query params
+		Data:  apiReq, // API request body params
+	}
+
+	// 2. API endpoint
+	endpoint := apiReq.Endpoint()
+
+	// 3. API response data
+	apiResp := &DeleteMetafieldDefinitionAPIResp{}
+
+	// 4. Call API
+	_, err := m.Client.Delete(context.Background(), endpoint, shopLineReq, apiResp)
+	if err != nil {
+		return nil, err
+	}
+
+	return apiResp, nil
+}
+
+func (m MetafieldDefinitionService) Update(ctx context.Context, apiReq *UpdateMetafieldDefinitionAPIReq) (*UpdateMetafieldDefinitionAPIResp, error) {
+	// 1. API request
+	shopLineReq := &client.ShopLineRequest{
+		Data: apiReq, // API request params
+	}
+
+	// 2. API endpoint
+	endpoint := apiReq.Endpoint()
+
+	// 3. API response data
+	apiResp := &UpdateMetafieldDefinitionAPIResp{}
+
+	// 4. Call API
+	_, err := m.Client.Put(context.Background(), endpoint, shopLineReq, apiResp)
+	if err != nil {
+		return nil, err
+	}
+
+	return apiResp, nil
+}
+
+func (m MetafieldDefinitionService) Create(ctx context.Context, apiReq *CreateMetafieldDefinitionAPIReq) (*CreateMetafieldDefinitionAPIResp, error) {
+	// 1. API request
+	shopLineReq := &client.ShopLineRequest{
+		Data: apiReq, // API request params
+	}
+
+	// 2. API endpoint
+	endpoint := apiReq.Endpoint()
+
+	// 3. API response data
+	apiResp := &CreateMetafieldDefinitionAPIResp{}
+
+	// 4. Call API
+	_, err := m.Client.Post(context.Background(), endpoint, shopLineReq, apiResp)
+	if err != nil {
+		return nil, err
+	}
+
+	return apiResp, nil
 }
 
 func GetMetafieldDefinitionService() *MetafieldDefinitionService {
