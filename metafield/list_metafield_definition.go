@@ -42,5 +42,5 @@ type ListMetafieldDefinitionAPIResp struct {
 }
 
 type ListMetafieldDefinitionAPIRespData struct {
-	MetafieldDefinitions []MetafieldDefinition `json:"metafield_definitions"`
+	MetafieldDefinitions []MetafieldDefinition `json:"metafield_definitions,omitempty"`
 }

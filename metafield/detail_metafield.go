@@ -38,6 +38,6 @@ func (c DetailMetafieldAPIReq) Endpoint() string {
 }
 
 type DetailMetafieldAPIResp struct {
-	Metafield Metafield `json:"metafield"`
+	Metafield Metafield `json:"metafield,omitempty"`
 	client.BaseAPIResponse
 }

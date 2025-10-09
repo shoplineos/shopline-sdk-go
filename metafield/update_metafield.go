@@ -33,7 +33,7 @@ func (c UpdateMetafieldAPIReq) Endpoint() string {
 }
 
 type UpdateMetafieldAPIResp struct {
-	Metafield Metafield `json:"metafield"`
+	Metafield Metafield `json:"metafield,omitempty"`
 	client.BaseAPIResponse
 }
 

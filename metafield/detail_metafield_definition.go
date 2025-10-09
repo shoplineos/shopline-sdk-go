@@ -24,6 +24,6 @@ func (d DetailMetafieldDefinitionAPIReq) Endpoint() string {
 }
 
 type DetailMetafieldDefinitionAPIResp struct {
-	MetafieldDefinition MetafieldDefinition `json:"definition"`
+	MetafieldDefinition MetafieldDefinition `json:"definition,omitempty"`
 	client.BaseAPIResponse
 }
