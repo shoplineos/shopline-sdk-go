@@ -15,7 +15,7 @@ type DeleteMetafieldAPIReq struct {
 	// eg："product"
 	OwnerResource string
 	OwnerId       string
-	ID            string `json:"id,omitempty"`
+	ID            string
 }
 
 func (c DeleteMetafieldAPIReq) Verify() error {

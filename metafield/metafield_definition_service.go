@@ -11,6 +11,7 @@ import (
 type IMetafieldDefinitionService interface {
 	List(context.Context, *ListMetafieldDefinitionAPIReq) (*ListMetafieldDefinitionAPIResp, error)
 	ListAll(context.Context, *ListMetafieldDefinitionAPIReq) ([]MetafieldDefinition, error)
+	ListWithPagination(context.Context, *ListMetafieldDefinitionAPIReq) (*ListMetafieldDefinitionAPIResp, error)
 	Get(context.Context, *GetMetafieldDefinitionAPIReq) (*GetMetafieldDefinitionAPIResp, error)
 	Delete(context.Context, *DeleteMetafieldDefinitionAPIReq) (*DeleteMetafieldDefinitionAPIResp, error)
 	Update(context.Context, *UpdateMetafieldDefinitionAPIReq) (*UpdateMetafieldDefinitionAPIResp, error)
@@ -21,6 +22,10 @@ var metafieldDefinitionServiceInst = &MetafieldDefinitionService{}
 
 type MetafieldDefinitionService struct {
 	client.BaseService
+}
+
+func (m MetafieldDefinitionService) ListWithPagination(ctx context.Context, req *ListMetafieldDefinitionAPIReq) (*ListMetafieldDefinitionAPIResp, error) {
+	return m.List(ctx, req)
 }
 
 func (m MetafieldDefinitionService) List(ctx context.Context, apiReq *ListMetafieldDefinitionAPIReq) (*ListMetafieldDefinitionAPIResp, error) {

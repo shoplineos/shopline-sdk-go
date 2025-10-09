@@ -11,6 +11,7 @@ import (
 type IMetafieldService interface {
 	List(context.Context, *ListMetafieldAPIReq) (*ListMetafieldAPIResp, error)
 	ListAll(context.Context, *ListMetafieldAPIReq) ([]Metafield, error)
+	ListWithPagination(context.Context, *ListMetafieldAPIReq) (*ListMetafieldAPIResp, error)
 	Get(context.Context, *GetMetafieldAPIReq) (*GetMetafieldAPIResp, error)
 	Count(context.Context, *CountMetafieldAPIReq) (*CountMetafieldAPIResp, error)
 	Delete(context.Context, *DeleteMetafieldAPIReq) (*DeleteMetafieldAPIResp, error)
@@ -22,6 +23,10 @@ var metafieldServiceInst = &MetafieldService{}
 
 type MetafieldService struct {
 	client.BaseService
+}
+
+func (m MetafieldService) ListWithPagination(ctx context.Context, req *ListMetafieldAPIReq) (*ListMetafieldAPIResp, error) {
+	return m.List(ctx, req)
 }
 
 func (m MetafieldService) Get(ctx context.Context, apiReq *GetMetafieldAPIReq) (*GetMetafieldAPIResp, error) {
@@ -107,9 +112,7 @@ func (m MetafieldService) Count(ctx context.Context, apiReq *CountMetafieldAPIRe
 
 func (m MetafieldService) Delete(ctx context.Context, apiReq *DeleteMetafieldAPIReq) (*DeleteMetafieldAPIResp, error) {
 	// 1. API request
-	shopLineReq := &client.ShopLineRequest{
-		Data: apiReq, // API request params
-	}
+	shopLineReq := &client.ShopLineRequest{}
 
 	// 2. API endpoint
 	endpoint := apiReq.Endpoint()
