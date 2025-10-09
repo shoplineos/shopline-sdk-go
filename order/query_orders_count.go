@@ -35,11 +35,13 @@ type GetOrdersCountAPIResp struct {
 // QueryOrdersCount
 // 中文: https://developer.shopline.com/zh-hans-cn/docs/admin-rest-api/order/order-management/get-order-quantity?version=v20251201
 // en: https://developer.shopline.com/docs/admin-rest-api/order/order-management/get-order-quantity?version=v20251201
+// Deprecated
+// see OrderService
 func QueryOrdersCount(c *client.Client, apiReq *GetOrdersCountAPIReq) (*GetOrdersCountAPIResp, error) {
 
 	// 1. API request
 	shopLineReq := &client.ShopLineRequest{
-		Data: apiReq, // API request data
+		Query: apiReq, // API request data
 	}
 
 	// 2. API endpoint

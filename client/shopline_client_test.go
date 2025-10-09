@@ -376,7 +376,7 @@ func TestBuildRequestUrl(t *testing.T) {
 	requestData := &testRequestData{}
 	requestData.Name = "lisi"
 	shoplineReq := &ShopLineRequest{
-		Data: requestData,
+		Query: requestData,
 	}
 
 	app := App{

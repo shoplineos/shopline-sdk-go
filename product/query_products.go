@@ -45,11 +45,13 @@ func (req *QueryProductsAPIReq) Endpoint() string {
 // QueryProducts
 // 中文: https://developer.shopline.com/zh-hans-cn/docs/admin-rest-api/product/product/get-products?version=v20251201
 // en: https://developer.shopline.com/docs/admin-rest-api/product/product/get-products?version=v20251201
+// Deprecated
+// see ProductService
 func QueryProducts(c *client.Client, apiReq *QueryProductsAPIReq) (*QueryProductsAPIResp, error) {
 
 	// 1. API request
 	shopLineReq := &client.ShopLineRequest{
-		Data: apiReq, // API request params
+		Query: apiReq, // API request params
 	}
 
 	// 2. API endpoint
@@ -73,11 +75,14 @@ func QueryProducts(c *client.Client, apiReq *QueryProductsAPIReq) (*QueryProduct
 	return apiResp, nil
 }
 
+// QueryProductsAll
+// Deprecated
+// see ProductService
 func QueryProductsAll(c *client.Client, apiReq *QueryProductsAPIReq) ([]ProductRespData, error) {
 	collector := []ProductRespData{}
 	// 1. API request
 	shopLineReq := &client.ShopLineRequest{
-		Data: apiReq, // API request params
+		Query: apiReq, // API request params
 	}
 
 	for {
@@ -100,7 +105,7 @@ func QueryProductsAll(c *client.Client, apiReq *QueryProductsAPIReq) ([]ProductR
 			break
 		}
 
-		shopLineReq.Data = shoplineResp.Pagination.Next
+		shopLineReq.Query = shoplineResp.Pagination.Next
 	}
 
 	return collector, nil

@@ -34,7 +34,7 @@ func (p *ProductService) SetClient(c *client.Client) {
 func (p *ProductService) List(ctx context.Context, apiReq *QueryProductsAPIReq) (*QueryProductsAPIResp, error) {
 	// 1. API request
 	shopLineReq := &client.ShopLineRequest{
-		Data: apiReq, // API request params
+		Query: apiReq, // API request params
 	}
 
 	// 2. API endpoint
@@ -58,7 +58,7 @@ func (p *ProductService) ListAll(ctx context.Context, apiReq *QueryProductsAPIRe
 	collector := []ProductRespData{}
 	// 1. API request
 	shopLineReq := &client.ShopLineRequest{
-		Data: apiReq, // API request params
+		Query: apiReq, // API request params
 	}
 
 	for {
@@ -81,7 +81,7 @@ func (p *ProductService) ListAll(ctx context.Context, apiReq *QueryProductsAPIRe
 			break
 		}
 
-		shopLineReq.Data = shoplineResp.Pagination.Next
+		shopLineReq.Query = shoplineResp.Pagination.Next
 	}
 
 	return collector, nil
@@ -94,7 +94,7 @@ func (p *ProductService) ListWithPagination(ctx context.Context, apiReq *QueryPr
 func (p *ProductService) Count(ctx context.Context, apiReq *GetProductCountAPIReq) (*GetProductCountAPIResp, error) {
 	// 1. API request
 	shoplineReq := &client.ShopLineRequest{
-		Data: apiReq, // API request data
+		Query: apiReq, // API request data
 	}
 
 	// 2. API endpoint

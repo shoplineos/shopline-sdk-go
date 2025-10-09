@@ -65,7 +65,7 @@ func (p *OrderService) Cancel(ctx context.Context, apiReq *CancelOrderAPIReq) (*
 func (p *OrderService) List(ctx context.Context, apiReq *QueryOrdersAPIReq) (*QueryOrdersAPIResp, error) {
 	// 1. API request
 	shopLineReq := &client.ShopLineRequest{
-		Data: apiReq, // API request params
+		Query: apiReq, // API request params
 	}
 
 	// 2. API endpoint
@@ -89,7 +89,7 @@ func (p *OrderService) ListAll(ctx context.Context, apiReq *QueryOrdersAPIReq) (
 	collector := []Order{}
 	// 1. API request
 	shopLineReq := &client.ShopLineRequest{
-		Data: apiReq, // API request params
+		Query: apiReq, // API request params
 	}
 
 	for {
@@ -112,7 +112,7 @@ func (p *OrderService) ListAll(ctx context.Context, apiReq *QueryOrdersAPIReq) (
 			break
 		}
 
-		shopLineReq.Data = shoplineResp.Pagination.Next
+		shopLineReq.Query = shoplineResp.Pagination.Next
 	}
 
 	return collector, nil
@@ -125,7 +125,7 @@ func (p *OrderService) ListWithPagination(ctx context.Context, apiReq *QueryOrde
 func (p *OrderService) Count(ctx context.Context, apiReq *GetOrdersCountAPIReq) (*GetOrdersCountAPIResp, error) {
 	// 1. API request
 	shoplineReq := &client.ShopLineRequest{
-		Data: apiReq, // API request data
+		Query: apiReq, // API request data
 	}
 
 	// 2. API endpoint

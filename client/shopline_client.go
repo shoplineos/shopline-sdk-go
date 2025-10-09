@@ -76,7 +76,8 @@ type ShopLineRequestOptions struct {
 // en: https://developer.shopline.com/docs/apps/api-instructions-for-use/paging-mechanism?version=v20251201
 type ShopLineRequest struct {
 	Headers map[string]string       // http header
-	Data    interface{}             // your own struct or an APIRequest, for http url query params or body params
+	Query   interface{}             // your own struct or an APIRequest, for http url query params
+	Data    interface{}             // your own struct or an APIRequest, for http body params
 	Options *ShopLineRequestOptions // option params
 }
 
@@ -601,6 +602,14 @@ func (c *Client) verify(endpoint string, method HTTPMethod, request *ShopLineReq
 			}
 		}
 	}
+	if request.Query != nil {
+		if _, ok := (request.Query).(APIRequest); ok {
+			err := (request.Query).(APIRequest).Verify()
+			if err != nil {
+				return "", "", err
+			}
+		}
+	}
 	return appKey, appSecret, nil
 }
 
@@ -626,9 +635,8 @@ func (c *Client) buildRequestUrl(method HTTPMethod, relPath string, request *Sho
 		return "", err
 	}
 
-	// Get only
-	if method == MethodGet && request.Data != nil {
-		optionsQuery, err := query.Values(request.Data)
+	if request.Query != nil {
+		optionsQuery, err := query.Values(request.Query)
 		if err != nil {
 			return "", err
 		}

@@ -50,10 +50,12 @@ type QueryOrdersAPIResp struct {
 // QueryOrders
 // 中文: https://developer.shopline.com/zh-hans-cn/docs/admin-rest-api/order/order-management/get-orders?version=v20251201
 // en: https://developer.shopline.com/docs/admin-rest-api/order/order-management/get-orders?version=v20251201
+// Deprecated
+// see OrderService
 func QueryOrders(c *client.Client, apiReq *QueryOrdersAPIReq) (*QueryOrdersAPIResp, error) {
 	// 1. API request
 	shoplineReq := &client.ShopLineRequest{
-		Data: apiReq, // API request data
+		Query: apiReq, // API request data
 	}
 
 	// 2. API endpoint
@@ -74,11 +76,14 @@ func QueryOrders(c *client.Client, apiReq *QueryOrdersAPIReq) (*QueryOrdersAPIRe
 	return apiResp, err
 }
 
+// QueryOrdersAll
+// Deprecated
+// see OrderService
 func QueryOrdersAll(c *client.Client, apiReq *QueryOrdersAPIReq) ([]Order, error) {
 	collector := []Order{}
 	// 1. API request
 	shopLineReq := &client.ShopLineRequest{
-		Data: apiReq, // API request params
+		Query: apiReq, // API request params
 	}
 
 	for {
@@ -101,7 +106,7 @@ func QueryOrdersAll(c *client.Client, apiReq *QueryOrdersAPIReq) ([]Order, error
 			break
 		}
 
-		shopLineReq.Data = shoplineResp.Pagination.Next
+		shopLineReq.Query = shoplineResp.Pagination.Next
 	}
 
 	return collector, nil

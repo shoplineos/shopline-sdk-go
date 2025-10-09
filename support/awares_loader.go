@@ -2,6 +2,7 @@ package support
 
 import (
 	"github.com/shoplineos/shopline-sdk-go/client"
+	"github.com/shoplineos/shopline-sdk-go/metafield"
 	"github.com/shoplineos/shopline-sdk-go/order"
 	"github.com/shoplineos/shopline-sdk-go/product"
 )
@@ -11,6 +12,8 @@ func GetClientAwares() []client.Aware {
 	var awares = []client.Aware{
 		product.GetProductService(),
 		order.GetOrderService(),
+		metafield.GetMetafieldDefinitionService(),
+		metafield.GetMetafieldService(),
 		// you can add service here
 	}
 	return awares
