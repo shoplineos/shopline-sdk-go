@@ -74,14 +74,9 @@ func (o *OrderService) List(ctx context.Context, apiReq *ListOrdersAPIReq) (*Lis
 	apiResp := &ListOrdersAPIResp{}
 
 	// 4. Call API
-	shopLineResp, err := o.Client.Get(context.Background(), endpoint, shopLineReq, apiResp)
-	if err != nil {
-		return nil, err
-	}
+	_, err := o.Client.Get(context.Background(), endpoint, shopLineReq, apiResp)
 
-	apiResp.Pagination = shopLineResp.Pagination
-
-	return apiResp, nil
+	return apiResp, err
 }
 
 func (o *OrderService) ListAll(ctx context.Context, apiReq *ListOrdersAPIReq) ([]Order, error) {

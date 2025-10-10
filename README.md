@@ -286,7 +286,7 @@ func GetProductsCount(c *client.Client, apiReq *GetProductCountAPIReq) (*GetProd
 
 
 #### Use your own Service Interface
-* step1:Definition a Service Interface
+* step1:Define a Service Interface
   * See product_service.go or order_service.go
   ```
     type IOrderService interface {
@@ -295,7 +295,7 @@ func GetProductsCount(c *client.Client, apiReq *GetProductCountAPIReq) (*GetProd
         ...
     }
   ```
-  * step2:Definition a Service struct and implements the Service Interface
+* step2:Define a Service struct and implements the Service Interface
   ```
     type OrderService struct {
       client.BaseService
@@ -310,7 +310,7 @@ func GetProductsCount(c *client.Client, apiReq *GetProductCountAPIReq) (*GetProd
     }
 
   ```
-  * step3:Create a Service Instance
+* step3:Create a Service Instance
   ```
     var serviceInst = &OrderService{}
     func GetOrderService() *OrderService {
@@ -318,12 +318,12 @@ func GetProductsCount(c *client.Client, apiReq *GetProductCountAPIReq) (*GetProd
     }
   ```
   
-  * step4:Register the Service
-    * way1: client.WithClientAware
-      ```
-      cli = support.MustNewClient(app, cfg.DefaultStoreHandle, cfg.DefaultAccessToken, client.WithClientAware(order.GetOrderService()))
-      ```
-    * way2: modify the source code 'service_register.go'
+* step4:Register the Service
+  * way1: client.WithClientAware
+    ```
+    cli = support.MustNewClient(app, cfg.DefaultStoreHandle, cfg.DefaultAccessToken, client.WithClientAware(order.GetOrderService()))
+    ```
+  * way2: modify the source code 'service_register.go'
     
   ``` see: service_register.go
     func GetClientAwares() []client.Aware {
@@ -766,7 +766,7 @@ func GetProductsCount(c *client.Client, apiReq *GetProductCountAPIReq) (*GetProd
 ```
 
 #### 实现你自己的 Service Interface
-* step1:Definition a Service Interface
+* step1:Define a Service Interface
   * See product_service.go or order_service.go
   ```
     type IOrderService interface {
@@ -775,7 +775,7 @@ func GetProductsCount(c *client.Client, apiReq *GetProductCountAPIReq) (*GetProd
         ...
     }
   ```
-  * step2:Definition a Service struct and implements the Service Interface
+* step2:Define a Service struct and implements the Service Interface
   ```
     type OrderService struct {
       client.BaseService
@@ -790,7 +790,7 @@ func GetProductsCount(c *client.Client, apiReq *GetProductCountAPIReq) (*GetProd
     }
 
   ```
-  * step3:Create a Service Instance
+* step3:Create a Service Instance
   ```
     var serviceInst = &OrderService{}
     func GetOrderService() *OrderService {
@@ -798,12 +798,12 @@ func GetProductsCount(c *client.Client, apiReq *GetProductCountAPIReq) (*GetProd
     }
   ```
 
-  * step4:Register the Service
-    * way1: client.WithClientAware
-      ```
-      cli = support.MustNewClient(app, cfg.DefaultStoreHandle, cfg.DefaultAccessToken, client.WithClientAware(order.GetOrderService()))
-      ```
-    * way2: modify the source code 'service_register.go'
+* step4:Register the Service
+  * way1: client.WithClientAware
+    ```
+    cli = support.MustNewClient(app, cfg.DefaultStoreHandle, cfg.DefaultAccessToken, client.WithClientAware(order.GetOrderService()))
+    ```
+  * way2: modify the source code 'service_register.go'
 
   ``` see: service_register.go
     func GetClientAwares() []client.Aware {

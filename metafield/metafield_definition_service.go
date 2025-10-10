@@ -20,6 +20,10 @@ type IMetafieldDefinitionService interface {
 
 var metafieldDefinitionServiceInst = &MetafieldDefinitionService{}
 
+func GetMetafieldDefinitionService() *MetafieldDefinitionService {
+	return metafieldDefinitionServiceInst
+}
+
 type MetafieldDefinitionService struct {
 	client.BaseService
 }
@@ -172,8 +176,4 @@ func (m MetafieldDefinitionService) Create(ctx context.Context, apiReq *CreateMe
 	}
 
 	return apiResp, nil
-}
-
-func GetMetafieldDefinitionService() *MetafieldDefinitionService {
-	return metafieldDefinitionServiceInst
 }

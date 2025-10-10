@@ -39,12 +39,12 @@ func (p *ProductService) List(ctx context.Context, apiReq *ListProductsAPIReq) (
 	apiResp := &ListProductsAPIResp{}
 
 	// 4. Call API
-	shopLineResp, err := p.Client.Get(context.Background(), endpoint, shopLineReq, apiResp)
+	_, err := p.Client.Get(context.Background(), endpoint, shopLineReq, apiResp)
 	if err != nil {
 		return nil, err
 	}
 
-	apiResp.Pagination = shopLineResp.Pagination
+	//apiResp.Pagination = shopLineResp.Pagination
 
 	return apiResp, nil
 }

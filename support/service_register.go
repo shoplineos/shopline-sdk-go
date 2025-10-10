@@ -1,6 +1,7 @@
 package support
 
 import (
+	"github.com/shoplineos/shopline-sdk-go/access"
 	"github.com/shoplineos/shopline-sdk-go/client"
 	"github.com/shoplineos/shopline-sdk-go/metafield"
 	"github.com/shoplineos/shopline-sdk-go/order"
@@ -14,6 +15,7 @@ func GetClientAwares() []client.Aware {
 		order.GetOrderService(),
 		metafield.GetMetafieldDefinitionService(),
 		metafield.GetMetafieldService(),
+		access.GetStorefrontAccessTokenService(),
 		// you can add service here
 	}
 	return awares
