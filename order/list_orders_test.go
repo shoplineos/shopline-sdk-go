@@ -1,6 +1,7 @@
 package order
 
 import (
+	"context"
 	"errors"
 	"fmt"
 	"github.com/jarcoal/httpmock"
@@ -20,10 +21,10 @@ func TestOrderList(t *testing.T) {
 		fmt.Sprintf("https://%s.myshopline.com/%s/%s/orders.json", cli.StoreHandle, cli.PathPrefix, cli.ApiVersion),
 		httpmock.NewBytesResponder(200, test.LoadTestData("order/orders.json")))
 
-	apiReq := &QueryOrdersAPIReq{}
-	apiResp, err := QueryOrders(cli, apiReq)
+	apiReq := &ListOrdersAPIReq{}
+	apiResp, err := GetOrderService().List(context.Background(), apiReq)
 	if err != nil {
-		t.Errorf("QueryOrders error: %v", err)
+		t.Errorf("ListOrders error: %v", err)
 	}
 
 	if len(apiResp.Orders) != 1 {
@@ -50,14 +51,14 @@ func TestOrderListOptions(t *testing.T) {
 		params,
 		httpmock.NewBytesResponder(200, test.LoadTestData("order/orders.json")))
 
-	apiReq := &QueryOrdersAPIReq{
+	apiReq := &ListOrdersAPIReq{
 		Limit:  "250",
 		Fields: "id,name",
 		Status: "any",
 	}
-	apiResp, err := QueryOrders(cli, apiReq)
+	apiResp, err := GetOrderService().List(context.Background(), apiReq)
 	if err != nil {
-		t.Errorf("QueryOrders error: %v", err)
+		t.Errorf("ListOrders error: %v", err)
 	}
 
 	if len(apiResp.Orders) != 1 {
@@ -163,10 +164,10 @@ func TestOrderListAll(t *testing.T) {
 				httpmock.RegisterResponder("GET", c.expectedRequestURLs[i], httpmock.ResponderFromResponse(response))
 			}
 
-			apiReq := &QueryOrdersAPIReq{}
-			orders, err := QueryOrdersAll(cli, apiReq)
+			apiReq := &ListOrdersAPIReq{}
+			orders, err := GetOrderService().ListAll(context.Background(), apiReq)
 			//if err != nil {
-			//	t.Errorf("QueryOrders error, index: %d, err: %v", i, err)
+			//	t.Errorf("ListOrders error, index: %d, err: %v", i, err)
 			//}
 
 			if !reflect.DeepEqual(orders, c.expectedOrders) {
@@ -281,8 +282,8 @@ func TestOrderListWithPagination(t *testing.T) {
 		httpmock.RegisterResponder("GET", listURL, httpmock.ResponderFromResponse(response))
 
 		//orders, pagination, err := client.Order.ListWithPagination(context.Background(), nil)
-		apiReq := &QueryOrdersAPIReq{}
-		apiResp, err := QueryOrders(cli, apiReq)
+		apiReq := &ListOrdersAPIReq{}
+		apiResp, err := GetOrderService().List(context.Background(), apiReq)
 
 		if apiResp != nil && apiResp.Orders != nil && !reflect.DeepEqual(apiResp.Orders, c.expectedOrders) {
 			t.Errorf("test %d Order.ListWithPagination orders returned %+v, expected %+v", i, apiResp.Orders, c.expectedOrders)
@@ -318,8 +319,8 @@ func TestOrderListError(t *testing.T) {
 
 	expectedErrMessage := "Unknown Error"
 
-	apiReq := &QueryOrdersAPIReq{}
-	apiResp, err := QueryOrders(cli, apiReq)
+	apiReq := &ListOrdersAPIReq{}
+	apiResp, err := GetOrderService().List(context.Background(), apiReq)
 
 	if apiResp != nil && apiResp.Orders != nil {
 		t.Errorf("Order.List returned orders, expected nil: %v", err)
@@ -334,7 +335,7 @@ func TestOrderListError(t *testing.T) {
 //// en: https://developer.shopline.com/docs/admin-rest-api/order/order-management/get-orders?version=v20251201
 //func TestQueryOrders(t *testing.T) {
 //
-//	apiReq := &QueryOrdersAPIReq{
+//	apiReq := &ListOrdersAPIReq{
 //		Limit: "2", // 10 for every page
 //		//SortCondition:   "created_at:desc",
 //		//CreatedAtMin:    "2024-01-01T00:00:00+08:00",
@@ -344,7 +345,7 @@ func TestOrderListError(t *testing.T) {
 //
 //	c := manager.GetDefaultClient()
 //
-//	apiResp, err := QueryOrders(c, apiReq)
+//	apiResp, err := ListOrders(c, apiReq)
 //
 //	if err != nil {
 //		fmt.Println("Query orders failed, err:", err)

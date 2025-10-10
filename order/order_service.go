@@ -7,9 +7,9 @@ import (
 )
 
 type IOrderService interface {
-	List(context.Context, *QueryOrdersAPIReq) (*QueryOrdersAPIResp, error)
-	ListAll(context.Context, *QueryOrdersAPIReq) ([]Order, error)
-	ListWithPagination(context.Context, *QueryOrdersAPIReq) (*QueryOrdersAPIResp, error)
+	List(context.Context, *ListOrdersAPIReq) (*ListOrdersAPIResp, error)
+	ListAll(context.Context, *ListOrdersAPIReq) ([]Order, error)
+	ListWithPagination(context.Context, *ListOrdersAPIReq) (*ListOrdersAPIResp, error)
 	Count(context.Context, *GetOrdersCountAPIReq) (*GetOrdersCountAPIResp, error)
 	Get(context.Context, *GetOrderDetailAPIReq) (*GetOrderDetailAPIResp, error)
 	Create(context.Context, *CreateOrderAPIReq) (*CreateOrderAPIResp, error)
@@ -61,7 +61,7 @@ func (o *OrderService) Cancel(ctx context.Context, apiReq *CancelOrderAPIReq) (*
 	return apiResp, err
 }
 
-func (o *OrderService) List(ctx context.Context, apiReq *QueryOrdersAPIReq) (*QueryOrdersAPIResp, error) {
+func (o *OrderService) List(ctx context.Context, apiReq *ListOrdersAPIReq) (*ListOrdersAPIResp, error) {
 	// 1. API request
 	shopLineReq := &client.ShopLineRequest{
 		Query: apiReq, // API request params
@@ -71,7 +71,7 @@ func (o *OrderService) List(ctx context.Context, apiReq *QueryOrdersAPIReq) (*Qu
 	endpoint := apiReq.Endpoint()
 
 	// 3. API response data
-	apiResp := &QueryOrdersAPIResp{}
+	apiResp := &ListOrdersAPIResp{}
 
 	// 4. Call API
 	shopLineResp, err := o.Client.Get(context.Background(), endpoint, shopLineReq, apiResp)
@@ -84,7 +84,7 @@ func (o *OrderService) List(ctx context.Context, apiReq *QueryOrdersAPIReq) (*Qu
 	return apiResp, nil
 }
 
-func (o *OrderService) ListAll(ctx context.Context, apiReq *QueryOrdersAPIReq) ([]Order, error) {
+func (o *OrderService) ListAll(ctx context.Context, apiReq *ListOrdersAPIReq) ([]Order, error) {
 	collector := []Order{}
 	// 1. API request
 	shopLineReq := &client.ShopLineRequest{
@@ -96,7 +96,7 @@ func (o *OrderService) ListAll(ctx context.Context, apiReq *QueryOrdersAPIReq) (
 		endpoint := apiReq.Endpoint()
 
 		// 3. API response data
-		apiResp := &QueryOrdersAPIResp{}
+		apiResp := &ListOrdersAPIResp{}
 
 		// 4. Call API
 		shoplineResp, err := o.Client.Get(context.Background(), endpoint, shopLineReq, apiResp)
@@ -117,7 +117,7 @@ func (o *OrderService) ListAll(ctx context.Context, apiReq *QueryOrdersAPIReq) (
 	return collector, nil
 }
 
-func (o *OrderService) ListWithPagination(ctx context.Context, apiReq *QueryOrdersAPIReq) (*QueryOrdersAPIResp, error) {
+func (o *OrderService) ListWithPagination(ctx context.Context, apiReq *ListOrdersAPIReq) (*ListOrdersAPIResp, error) {
 	return o.List(ctx, apiReq)
 }
 

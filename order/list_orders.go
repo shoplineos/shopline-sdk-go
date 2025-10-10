@@ -6,7 +6,7 @@ import (
 	"github.com/shoplineos/shopline-sdk-go/client"
 )
 
-type QueryOrdersAPIReq struct {
+type ListOrdersAPIReq struct {
 	ContractIDs       string `url:"contract_ids,omitempty"`       // Contract IDs, Separate multiple with commas
 	FulfillmentStatus string `url:"fulfillment_status,omitempty"` // Fulfillment Status（unshipped/partial/shipped）
 
@@ -33,28 +33,28 @@ type QueryOrdersAPIReq struct {
 	PageInfo string `url:"page_info,omitempty"` // Page Info
 }
 
-func (req *QueryOrdersAPIReq) Verify() error {
+func (req *ListOrdersAPIReq) Verify() error {
 	// Verify the api request params
 	return nil
 }
 
-func (req *QueryOrdersAPIReq) Endpoint() string {
+func (req *ListOrdersAPIReq) Endpoint() string {
 	endpoint := "orders.json"
 	return endpoint
 }
 
-type QueryOrdersAPIResp struct {
+type ListOrdersAPIResp struct {
 	Orders []Order `json:"orders"`
 
 	client.BaseAPIResponse
 }
 
-// QueryOrders
+// ListOrders
 // 中文: https://developer.shopline.com/zh-hans-cn/docs/admin-rest-api/order/order-management/get-orders?version=v20251201
 // en: https://developer.shopline.com/docs/admin-rest-api/order/order-management/get-orders?version=v20251201
 // Deprecated
 // see OrderService
-func QueryOrders(c *client.Client, apiReq *QueryOrdersAPIReq) (*QueryOrdersAPIResp, error) {
+func ListOrders(c *client.Client, apiReq *ListOrdersAPIReq) (*ListOrdersAPIResp, error) {
 	// 1. API request
 	shoplineReq := &client.ShopLineRequest{
 		Query: apiReq, // API request data
@@ -64,7 +64,7 @@ func QueryOrders(c *client.Client, apiReq *QueryOrdersAPIReq) (*QueryOrdersAPIRe
 	endpoint := apiReq.Endpoint()
 
 	// 3. API response data
-	apiResp := &QueryOrdersAPIResp{}
+	apiResp := &ListOrdersAPIResp{}
 
 	// 4. Call API
 	shoplineResp, err := c.Get(context.Background(), endpoint, shoplineReq, apiResp)
@@ -78,10 +78,10 @@ func QueryOrders(c *client.Client, apiReq *QueryOrdersAPIReq) (*QueryOrdersAPIRe
 	return apiResp, err
 }
 
-// QueryOrdersAll
+// ListOrdersAll
 // Deprecated
 // see OrderService
-func QueryOrdersAll(c *client.Client, apiReq *QueryOrdersAPIReq) ([]Order, error) {
+func ListOrdersAll(c *client.Client, apiReq *ListOrdersAPIReq) ([]Order, error) {
 	collector := []Order{}
 	// 1. API request
 	shopLineReq := &client.ShopLineRequest{
@@ -93,7 +93,7 @@ func QueryOrdersAll(c *client.Client, apiReq *QueryOrdersAPIReq) ([]Order, error
 		endpoint := apiReq.Endpoint()
 
 		// 3. API response data
-		apiResp := &QueryOrdersAPIResp{}
+		apiResp := &ListOrdersAPIResp{}
 
 		// 4. Call API
 		shoplineResp, err := c.Get(context.Background(), endpoint, shopLineReq, apiResp)

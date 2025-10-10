@@ -16,7 +16,7 @@ import (
 //// en: https://developer.shopline.com/docs/admin-rest-api/product/product/get-products?version=v20251201
 //func TestQueryProducts(t *testing.T) {
 //
-//	apiReq := &QueryProductsAPIReq{
+//	apiReq := &ListProductsAPIReq{
 //		ProductCategory: "Clothes",
 //		Status:          "active",
 //		OrderBy:         "created_at_desc",
@@ -25,7 +25,7 @@ import (
 //	}
 //
 //	c := manager.GetDefaultClient()
-//	apiResp, err := QueryProducts(c, apiReq)
+//	apiResp, err := ListProducts(c, apiReq)
 //	if err != nil {
 //		log.Fatal(err)
 //	}
@@ -37,7 +37,7 @@ import (
 //// en: https://developer.shopline.com/docs/admin-rest-api/product/product/get-products?version=v20251201
 //func TestQueryProductsTitle(t *testing.T) {
 //
-//	apiReq := &QueryProductsAPIReq{
+//	apiReq := &ListProductsAPIReq{
 //		//ProductCategory: "Clothes",
 //		//Status:          "active",
 //		//OrderBy:         "created_at_desc",
@@ -46,7 +46,7 @@ import (
 //	}
 //
 //	c := manager.GetDefaultClient()
-//	apiResp, err := QueryProducts(c, apiReq)
+//	apiResp, err := ListProducts(c, apiReq)
 //	if err != nil {
 //		log.Fatal(err)
 //	}
@@ -59,7 +59,7 @@ import (
 //// en: https://developer.shopline.com/docs/admin-rest-api/product/product/get-products?version=v20251201
 //func TestQueryProductsPagination(t *testing.T) {
 //
-//	requestParams := &QueryProductsAPIReq{
+//	requestParams := &ListProductsAPIReq{
 //		//ProductCategory: "Clothes",
 //		//Status:          "active",
 //		//OrderBy:         "created_at_desc",
@@ -69,7 +69,7 @@ import (
 //	}
 //
 //	c := manager.GetDefaultClient()
-//	products, err := QueryProducts(c, requestParams)
+//	products, err := ListProducts(c, requestParams)
 //	if err != nil {
 //		log.Fatal(err)
 //	}
@@ -84,8 +84,8 @@ func TestProductList(t *testing.T) {
 	httpmock.RegisterResponder("GET", fmt.Sprintf("https://%s.myshopline.com/%s/%s/products/products.json", cli.StoreHandle, cli.PathPrefix, cli.ApiVersion),
 		httpmock.NewStringResponder(200, `{"products": [{"Id":"1"},{"Id":"2"}]}`))
 
-	requestParams := &QueryProductsAPIReq{}
-	products, err := QueryProducts(cli, requestParams)
+	requestParams := &ListProductsAPIReq{}
+	products, err := ListProducts(cli, requestParams)
 	if err != nil {
 		t.Errorf("Product.List returned error: %v", err)
 	}
@@ -107,7 +107,7 @@ func TestProductListFilterByIds(t *testing.T) {
 		params,
 		httpmock.NewStringResponder(200, `{"products": [{"id":"1"},{"id":"2"},{"id":"3"}]}`))
 
-	requestParams := &QueryProductsAPIReq{
+	requestParams := &ListProductsAPIReq{
 		IDs: "1,2,3",
 	}
 	productsAPIResp, err := GetProductService().List(context.Background(), requestParams)
@@ -132,8 +132,8 @@ func TestProductListError(t *testing.T) {
 
 	expectedErrMessage := "Unknown Error"
 
-	requestParams := &QueryProductsAPIReq{}
-	_, err := QueryProducts(cli, requestParams)
+	requestParams := &ListProductsAPIReq{}
+	_, err := ListProducts(cli, requestParams)
 
 	if err == nil {
 		t.Errorf("Product.List returned products, expected nil: %v", err)
@@ -239,7 +239,7 @@ func TestProductListAll(t *testing.T) {
 				httpmock.RegisterResponder("GET", c.expectedRequestURLs[i], httpmock.ResponderFromResponse(response))
 			}
 
-			requestParams := &QueryProductsAPIReq{}
+			requestParams := &ListProductsAPIReq{}
 			Products, err := GetProductService().ListAll(context.Background(), requestParams)
 
 			if !reflect.DeepEqual(Products, c.expectedProducts) {
@@ -353,8 +353,8 @@ func TestProductListWithPagination(t *testing.T) {
 
 		httpmock.RegisterResponder("GET", listURL, httpmock.ResponderFromResponse(response))
 
-		requestParams := &QueryProductsAPIReq{}
-		apiResp, err := QueryProducts(cli, requestParams)
+		requestParams := &ListProductsAPIReq{}
+		apiResp, err := ListProducts(cli, requestParams)
 
 		if c.expectedErr != nil || err != nil {
 			if err.Error() != c.expectedErr.Error() {

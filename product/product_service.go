@@ -6,9 +6,9 @@ import (
 )
 
 type IProductService interface {
-	List(context.Context, *QueryProductsAPIReq) (*QueryProductsAPIResp, error)
-	ListAll(context.Context, *QueryProductsAPIReq) ([]ProductRespData, error)
-	ListWithPagination(context.Context, *QueryProductsAPIReq) (*QueryProductsAPIResp, error)
+	List(context.Context, *ListProductsAPIReq) (*ListProductsAPIResp, error)
+	ListAll(context.Context, *ListProductsAPIReq) ([]ProductRespData, error)
+	ListWithPagination(context.Context, *ListProductsAPIReq) (*ListProductsAPIResp, error)
 	Count(context.Context, *GetProductCountAPIReq) (*GetProductCountAPIResp, error)
 	Get(context.Context, *GetProductDetailAPIReq) (*GetProductDetailAPIResp, error)
 	Create(context.Context, *CreateProductAPIReq) (*CreateProductAPIResp, error)
@@ -26,7 +26,7 @@ type ProductService struct {
 	client.BaseService
 }
 
-func (p *ProductService) List(ctx context.Context, apiReq *QueryProductsAPIReq) (*QueryProductsAPIResp, error) {
+func (p *ProductService) List(ctx context.Context, apiReq *ListProductsAPIReq) (*ListProductsAPIResp, error) {
 	// 1. API request
 	shopLineReq := &client.ShopLineRequest{
 		Query: apiReq, // API request params
@@ -36,7 +36,7 @@ func (p *ProductService) List(ctx context.Context, apiReq *QueryProductsAPIReq) 
 	endpoint := apiReq.Endpoint()
 
 	// 3. API response data
-	apiResp := &QueryProductsAPIResp{}
+	apiResp := &ListProductsAPIResp{}
 
 	// 4. Call API
 	shopLineResp, err := p.Client.Get(context.Background(), endpoint, shopLineReq, apiResp)
@@ -49,7 +49,7 @@ func (p *ProductService) List(ctx context.Context, apiReq *QueryProductsAPIReq) 
 	return apiResp, nil
 }
 
-func (p *ProductService) ListAll(ctx context.Context, apiReq *QueryProductsAPIReq) ([]ProductRespData, error) {
+func (p *ProductService) ListAll(ctx context.Context, apiReq *ListProductsAPIReq) ([]ProductRespData, error) {
 	collector := []ProductRespData{}
 	// 1. API request
 	shopLineReq := &client.ShopLineRequest{
@@ -61,7 +61,7 @@ func (p *ProductService) ListAll(ctx context.Context, apiReq *QueryProductsAPIRe
 		endpoint := apiReq.Endpoint()
 
 		// 3. API response data
-		apiResp := &QueryProductsAPIResp{}
+		apiResp := &ListProductsAPIResp{}
 
 		// 4. Call API
 		shoplineResp, err := p.Client.Get(context.Background(), endpoint, shopLineReq, apiResp)
@@ -82,7 +82,7 @@ func (p *ProductService) ListAll(ctx context.Context, apiReq *QueryProductsAPIRe
 	return collector, nil
 }
 
-func (p *ProductService) ListWithPagination(ctx context.Context, apiReq *QueryProductsAPIReq) (*QueryProductsAPIResp, error) {
+func (p *ProductService) ListWithPagination(ctx context.Context, apiReq *ListProductsAPIReq) (*ListProductsAPIResp, error) {
 	return p.List(ctx, apiReq)
 }
 

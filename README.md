@@ -136,7 +136,7 @@ Get Product Count:
 
 Query data:
 ```Query Products
-  requestParams := &QueryProductsAPIReq{
+  requestParams := &ListProductsAPIReq{
       // IDs: "1,2,3",
   }
   productsAPIResp, err := product.GetProductService().List(context.Background(), requestParams)
@@ -145,7 +145,7 @@ Query data:
 
 Pagination:
 ```Query Products
-  requestParams := &QueryProductsAPIReq{
+  requestParams := &ListProductsAPIReq{
       // IDs: "1,2,3",
   }
   productsAPIResp, err := product.GetProductService().ListWithPagination(context.Background(), requestParams)
@@ -153,7 +153,7 @@ Pagination:
 
 Query all products:
 ``` query all products
-  requestParams := &QueryProductsAPIReq{}
+  requestParams := &ListProductsAPIReq{}
   Products, err := product.GetProductService().ListAll(context.Background(), requestParams)
   
 ```
@@ -290,8 +290,8 @@ func GetProductsCount(c *client.Client, apiReq *GetProductCountAPIReq) (*GetProd
   * See product_service.go or order_service.go
   ```
     type IOrderService interface {
-        List(context.Context, *QueryOrdersAPIReq) (*QueryOrdersAPIResp, error)
-        ListAll(context.Context, *QueryOrdersAPIReq) ([]Order, error)
+        List(context.Context, *ListOrdersAPIReq) (*ListOrdersAPIResp, error)
+        ListAll(context.Context, *ListOrdersAPIReq) ([]Order, error)
         ...
     }
   ```
@@ -301,25 +301,31 @@ func GetProductsCount(c *client.Client, apiReq *GetProductCountAPIReq) (*GetProd
       client.BaseService
     }
   
-    func (o *OrderService) List(ctx context.Context, apiReq *QueryOrdersAPIReq) (*QueryOrdersAPIResp, error) {
+    func (o *OrderService) List(ctx context.Context, apiReq *ListOrdersAPIReq) (*ListOrdersAPIResp, error) {
       ...
     }
   
-    func (o *OrderService) ListAll(ctx context.Context, apiReq *QueryOrdersAPIReq) (*QueryOrdersAPIResp, error) {
+    func (o *OrderService) ListAll(ctx context.Context, apiReq *ListOrdersAPIReq) (*ListOrdersAPIResp, error) {
       ...
     }
 
   ```
   * step3:Create a Service Instance
   ```
-    var productServiceInst = &ProductService{}
+    var serviceInst = &OrderService{}
     func GetOrderService() *OrderService {
       return serviceInst
     }
   ```
+  
   * step4:Register the Service
-    * see: service_register.go
-  ```
+    * way1: client.WithClientAware
+      ```
+      cli = support.MustNewClient(app, cfg.DefaultStoreHandle, cfg.DefaultAccessToken, client.WithClientAware(order.GetOrderService()))
+      ```
+    * way2: modify the source code 'service_register.go'
+    
+  ``` see: service_register.go
     func GetClientAwares() []client.Aware {
       var awares = []client.Aware{
           order.GetOrderService(),
@@ -611,7 +617,7 @@ func CallbackHandler(w http.ResponseWriter, r *http.Request) {
 
 查询数据:
 ```Query Products
-  requestParams := &QueryProductsAPIReq{
+  requestParams := &ListProductsAPIReq{
       // IDs: "1,2,3",
   }
   productsAPIResp, err := product.GetProductService().List(context.Background(), requestParams)
@@ -619,7 +625,7 @@ func CallbackHandler(w http.ResponseWriter, r *http.Request) {
 
 分页：
 ```Query Products
-  requestParams := &QueryProductsAPIReq{
+  requestParams := &ListProductsAPIReq{
       //IDs: "1,2,3",
   }
   productsAPIResp, err := product.GetProductService().ListWithPagination(context.Background(), requestParams)
@@ -629,7 +635,7 @@ func CallbackHandler(w http.ResponseWriter, r *http.Request) {
 
 查询所有商品:
 ``` query all products
-  requestParams := &QueryProductsAPIReq{}
+  requestParams := &ListProductsAPIReq{}
   Products, err := product.GetProductService().ListAll(context.Background(), requestParams)
   
 ```
@@ -764,8 +770,8 @@ func GetProductsCount(c *client.Client, apiReq *GetProductCountAPIReq) (*GetProd
   * See product_service.go or order_service.go
   ```
     type IOrderService interface {
-        List(context.Context, *QueryOrdersAPIReq) (*QueryOrdersAPIResp, error)
-        ListAll(context.Context, *QueryOrdersAPIReq) ([]Order, error)
+        List(context.Context, *ListOrdersAPIReq) (*ListOrdersAPIResp, error)
+        ListAll(context.Context, *ListOrdersAPIReq) ([]Order, error)
         ...
     }
   ```
@@ -775,25 +781,31 @@ func GetProductsCount(c *client.Client, apiReq *GetProductCountAPIReq) (*GetProd
       client.BaseService
     }
   
-    func (o *OrderService) List(ctx context.Context, apiReq *QueryOrdersAPIReq) (*QueryOrdersAPIResp, error) {
+    func (o *OrderService) List(ctx context.Context, apiReq *ListOrdersAPIReq) (*ListOrdersAPIResp, error) {
       ...
     }
   
-    func (o *OrderService) ListAll(ctx context.Context, apiReq *QueryOrdersAPIReq) (*QueryOrdersAPIResp, error) {
+    func (o *OrderService) ListAll(ctx context.Context, apiReq *ListOrdersAPIReq) (*ListOrdersAPIResp, error) {
       ...
     }
 
   ```
   * step3:Create a Service Instance
   ```
-    var productServiceInst = &ProductService{}
+    var serviceInst = &OrderService{}
     func GetOrderService() *OrderService {
       return serviceInst
     }
   ```
+
   * step4:Register the Service
-    * see: service_register.go
-  ```
+    * way1: client.WithClientAware
+      ```
+      cli = support.MustNewClient(app, cfg.DefaultStoreHandle, cfg.DefaultAccessToken, client.WithClientAware(order.GetOrderService()))
+      ```
+    * way2: modify the source code 'service_register.go'
+
+  ``` see: service_register.go
     func GetClientAwares() []client.Aware {
       var awares = []client.Aware{
           order.GetOrderService(),

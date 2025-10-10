@@ -47,10 +47,10 @@ func TestOrderServiceList(t *testing.T) {
 		fmt.Sprintf("https://%s.myshopline.com/%s/%s/orders.json", cli.StoreHandle, cli.PathPrefix, cli.ApiVersion),
 		httpmock.NewBytesResponder(200, test.LoadTestData("order/orders.json")))
 
-	apiReq := &QueryOrdersAPIReq{}
+	apiReq := &ListOrdersAPIReq{}
 	apiResp, err := GetOrderService().List(context.Background(), apiReq)
 	if err != nil {
-		t.Errorf("QueryOrders error: %v", err)
+		t.Errorf("ListOrders error: %v", err)
 	}
 
 	if len(apiResp.Orders) != 1 {

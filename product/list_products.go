@@ -5,13 +5,13 @@ import (
 	"github.com/shoplineos/shopline-sdk-go/client"
 )
 
-type QueryProductsAPIResp struct {
+type ListProductsAPIResp struct {
 	Products []ProductRespData `json:"products"`
 
 	client.BaseAPIResponse
 }
 
-type QueryProductsAPIReq struct {
+type ListProductsAPIReq struct {
 	Status       string `url:"status,omitempty"`
 	CollectionId string `url:"collection_id,omitempty"`
 	CreatedAtMin string `url:"created_at_min,omitempty"` // Minimum order creation time（ISO 8601）
@@ -33,21 +33,21 @@ type QueryProductsAPIReq struct {
 	Vendor string `url:"vendor,omitempty"` // Vendor
 }
 
-func (req *QueryProductsAPIReq) Verify() error {
+func (req *ListProductsAPIReq) Verify() error {
 	// Verify the api request params
 	return nil
 }
 
-func (req *QueryProductsAPIReq) Endpoint() string {
+func (req *ListProductsAPIReq) Endpoint() string {
 	return "products/products.json" // endpoint
 }
 
-// QueryProducts
+// ListProducts
 // 中文: https://developer.shopline.com/zh-hans-cn/docs/admin-rest-api/product/product/get-products?version=v20251201
 // en: https://developer.shopline.com/docs/admin-rest-api/product/product/get-products?version=v20251201
 // Deprecated
 // see ProductService
-func QueryProducts(c *client.Client, apiReq *QueryProductsAPIReq) (*QueryProductsAPIResp, error) {
+func ListProducts(c *client.Client, apiReq *ListProductsAPIReq) (*ListProductsAPIResp, error) {
 
 	// 1. API request
 	shopLineReq := &client.ShopLineRequest{
@@ -58,7 +58,7 @@ func QueryProducts(c *client.Client, apiReq *QueryProductsAPIReq) (*QueryProduct
 	endpoint := apiReq.Endpoint()
 
 	// 3. API response data
-	apiResp := &QueryProductsAPIResp{}
+	apiResp := &ListProductsAPIResp{}
 
 	// 4. Call API
 	shopLineResp, err := c.Get(context.Background(), endpoint, shopLineReq, apiResp)
@@ -75,10 +75,10 @@ func QueryProducts(c *client.Client, apiReq *QueryProductsAPIReq) (*QueryProduct
 	return apiResp, nil
 }
 
-// QueryProductsAll
+// ListProductsAll
 // Deprecated
 // see ProductService
-func QueryProductsAll(c *client.Client, apiReq *QueryProductsAPIReq) ([]ProductRespData, error) {
+func ListProductsAll(c *client.Client, apiReq *ListProductsAPIReq) ([]ProductRespData, error) {
 	collector := []ProductRespData{}
 	// 1. API request
 	shopLineReq := &client.ShopLineRequest{
@@ -90,7 +90,7 @@ func QueryProductsAll(c *client.Client, apiReq *QueryProductsAPIReq) ([]ProductR
 		endpoint := apiReq.Endpoint()
 
 		// 3. API response data
-		apiResp := &QueryProductsAPIResp{}
+		apiResp := &ListProductsAPIResp{}
 
 		// 4. Call API
 		shoplineResp, err := c.Get(context.Background(), endpoint, shopLineReq, apiResp)

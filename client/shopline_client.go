@@ -202,12 +202,12 @@ func NewClientWithAwares(app App, storeHandle, token string, awares []Aware, opt
 		PathPrefix:  defaultApiPathPrefix,
 	}
 
-	for _, aware := range awares {
-		aware.SetClient(c)
-	}
-
 	for _, opt := range opts {
 		opt(c)
+	}
+
+	for _, aware := range awares {
+		aware.SetClient(c)
 	}
 	return c, nil
 }
