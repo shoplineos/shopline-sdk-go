@@ -1,6 +1,7 @@
 package webhook
 
 import (
+	"errors"
 	"fmt"
 	"github.com/shoplineos/shopline-sdk-go/client"
 )
@@ -14,7 +15,7 @@ type DeleteWebhookAPIReq struct {
 
 func (c DeleteWebhookAPIReq) Verify() error {
 	if c.ID == 0 {
-		return fmt.Errorf("webhook id is required")
+		return errors.New("webhook.id is required")
 	}
 	return nil
 }

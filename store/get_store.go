@@ -6,6 +6,9 @@ import (
 	"log"
 )
 
+// GetStoreAPIReq
+// 中文: https://developer.shopline.com/zh-hans-cn/docs/admin-rest-api/store/query-store-information?version=v20251201
+// en: https://developer.shopline.com/docs/admin-rest-api/store/query-store-information?version=v20251201
 type GetStoreAPIReq struct {
 }
 
@@ -15,18 +18,16 @@ func (req *GetStoreAPIReq) Verify() error {
 }
 
 func (req *GetStoreAPIReq) Endpoint() string {
-	endpoint := "merchants/shop.json"
-	return endpoint
+	return "merchants/shop.json"
 }
 
-type GetStoreAPIResponse struct {
-	Store Store `json:"store"`
-
+type GetStoreAPIResp struct {
 	client.BaseAPIResponse
+	Store Store `json:"data,omitempty"`
 }
 
 type Store struct {
-	ID                   string            `json:"id"`                     // Store ID
+	ID                   uint64            `json:"id"`                     // Store ID
 	Name                 string            `json:"name"`                   // Store Name
 	Domain               string            `json:"domain"`                 // Store Domain
 	Handle               string            `json:"handle"`                 // Store Handle
@@ -107,7 +108,9 @@ type BusinessReg struct {
 // GetStoreInfo
 // 中文: https://developer.shopline.com/zh-hans-cn/docs/admin-rest-api/store/query-store-information?version=v20251201
 // en: https://developer.shopline.com/docs/admin-rest-api/store/query-store-information?version=v20251201
-func GetStoreInfo(c *client.Client, apiReq *GetStoreAPIReq) (*GetStoreAPIResponse, error) {
+// Deprecated
+// see StoreService
+func GetStoreInfo(c *client.Client, apiReq *GetStoreAPIReq) (*GetStoreAPIResp, error) {
 
 	// 1. API request
 	shopLineReq := &client.ShopLineRequest{}
@@ -116,7 +119,7 @@ func GetStoreInfo(c *client.Client, apiReq *GetStoreAPIReq) (*GetStoreAPIRespons
 	endpoint := apiReq.Endpoint()
 
 	// 3. API response
-	apiResp := &GetStoreAPIResponse{}
+	apiResp := &GetStoreAPIResp{}
 
 	// 4. Call API
 	_, err := c.Get(context.Background(), endpoint, shopLineReq, apiResp)
@@ -124,8 +127,6 @@ func GetStoreInfo(c *client.Client, apiReq *GetStoreAPIReq) (*GetStoreAPIRespons
 		log.Printf("Failed to send request: %v\n", err)
 		return nil, err
 	}
-
-	//apiResp.TraceId = shopLineResp.TraceId
 
 	return apiResp, nil
 }

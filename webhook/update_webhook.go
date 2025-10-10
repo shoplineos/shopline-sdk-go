@@ -1,6 +1,7 @@
 package webhook
 
 import (
+	"errors"
 	"fmt"
 	"github.com/shoplineos/shopline-sdk-go/client"
 )
@@ -15,10 +16,10 @@ type UpdateWebhookAPIReq struct {
 
 func (c UpdateWebhookAPIReq) Verify() error {
 	if c.ID == 0 {
-		return fmt.Errorf("webhook id is required")
+		return errors.New("id is required")
 	}
 	if c.Webhook.Address == "" {
-		return fmt.Errorf("webhook.address is required")
+		return errors.New("webhook.address is required")
 	}
 	return nil
 }

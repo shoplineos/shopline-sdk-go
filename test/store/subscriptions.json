@@ -1,0 +1,30 @@
+{
+  "data": [
+    {
+      "auto_recurring": true,
+      "billing_cycle": "monthly",
+      "business_parameters": {"MCC_packageVersion":"pe","SLP":"Premium"},
+      "cancelled_at": 1760088373000,
+      "created_at": 1760088373000,
+      "enable": true,
+      "end_at": 1760088373000,
+      "extend_peroid": 6,
+      "grace_period": 6,
+      "grace_period_end_at": 1760088373000,
+
+      "merchant_email": "open001@shopline.com",
+      "merchant_id": 1760088373000,
+      "next_recurring_at": 1760088373000,
+      "payment_method": "CreditCard",
+      "product_line": "enterprise",
+      "product_name": {"en":"Starter","jp":"スターター","malay":"Versi pertama","zh-hans-cn":"入门版","zh-hant-tw":"入門版"},
+      "remarks": "enterprise",
+      "start_at": 1760088373000,
+      "status": "active",
+      "store_handle": "open001",
+      "store_id": 1666942294702,
+      "sub_id": "SUB6025977562148654208",
+      "type": "paid"
+    }
+  ]
+}
