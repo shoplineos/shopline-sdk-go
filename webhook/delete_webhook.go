@@ -1,0 +1,28 @@
+package webhook
+
+import (
+	"fmt"
+	"github.com/shoplineos/shopline-sdk-go/client"
+)
+
+// DeleteWebhookAPIReq
+// 中文：https://developer.shopline.com/zh-hans-cn/docs/admin-rest-api/webhook/unsubscribe-from-a-webhook?version=v20251201
+// En：https://developer.shopline.com/docs/admin-rest-api/webhook/unsubscribe-from-a-webhook?version=v20251201
+type DeleteWebhookAPIReq struct {
+	ID uint64
+}
+
+func (c DeleteWebhookAPIReq) Verify() error {
+	if c.ID == 0 {
+		return fmt.Errorf("webhook id is required")
+	}
+	return nil
+}
+
+func (c DeleteWebhookAPIReq) Endpoint() string {
+	return fmt.Sprintf("%d/webhooks.json", c.ID)
+}
+
+type DeleteWebhookAPIResp struct {
+	client.BaseAPIResponse
+}

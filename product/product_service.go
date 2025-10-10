@@ -5,6 +5,9 @@ import (
 	"github.com/shoplineos/shopline-sdk-go/client"
 )
 
+// IProductService
+// 中文: https://developer.shopline.com/zh-hans-cn/docs/admin-rest-api/product/product/create-a-product?version=v20251201
+// en: https://developer.shopline.com/docs/admin-rest-api/product/product/create-a-product?version=v20251201
 type IProductService interface {
 	List(context.Context, *ListProductsAPIReq) (*ListProductsAPIResp, error)
 	ListAll(context.Context, *ListProductsAPIReq) ([]ProductRespData, error)

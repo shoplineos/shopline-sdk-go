@@ -10,8 +10,6 @@ import (
 // En：https://developer.shopline.com/docs/admin-rest-api/access/storefront-api/create-an-access-token?version=v20251201
 type IStorefrontAccessTokenService interface {
 	List(context.Context, *ListStorefrontAccessTokensAPIReq) (*ListStorefrontAccessTokensAPIResp, error)
-	ListAll(context.Context, *ListStorefrontAccessTokensAPIReq) ([]StorefrontAccessToken, error)
-	ListWithPagination(context.Context, *ListStorefrontAccessTokensAPIReq) (*ListStorefrontAccessTokensAPIResp, error)
 	Delete(context.Context, *DeleteStorefrontAccessTokenAPIReq) (*DeleteStorefrontAccessTokenAPIResp, error)
 	Create(context.Context, *CreateStorefrontAccessTokenAPIReq) (*CreateStorefrontAccessTokenAPIResp, error)
 }

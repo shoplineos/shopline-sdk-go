@@ -7,6 +7,8 @@ import (
 )
 
 // CreateProductAPIReq Create Product Request Params
+// 中文: https://developer.shopline.com/zh-hans-cn/docs/admin-rest-api/product/product/create-a-product?version=v20251201
+// en: https://developer.shopline.com/docs/admin-rest-api/product/product/create-a-product?version=v20251201
 type CreateProductAPIReq struct {
 	Product Product `json:"product"`
 }
