@@ -1,6 +1,7 @@
 package order
 
 import (
+	"context"
 	"fmt"
 	"github.com/jarcoal/httpmock"
 	"testing"
@@ -150,7 +151,7 @@ func TestOrderCreate(t *testing.T) {
 	apiReq := &CreateOrderAPIReq{
 		Order: order,
 	}
-	o, err := CreateOrder(cli, apiReq)
+	o, err := GetOrderService().Create(context.Background(), apiReq)
 	if err != nil {
 		t.Errorf("Order.Create returned error: %v", err)
 	}

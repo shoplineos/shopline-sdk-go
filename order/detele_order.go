@@ -35,9 +35,7 @@ type DeleteOrderAPIResp struct {
 // see OrderService
 func DeleteOrder(c *client.Client, apiReq *DeleteOrderAPIReq) (*DeleteOrderAPIResp, error) {
 	// 1. API request
-	shopLineReq := &client.ShopLineRequest{
-		Data: apiReq, // API request data
-	}
+	shopLineReq := &client.ShopLineRequest{}
 
 	// 2. API endpoint
 	endpoint := apiReq.Endpoint()

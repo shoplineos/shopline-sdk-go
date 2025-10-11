@@ -1,6 +1,7 @@
 package order
 
 import (
+	"context"
 	"fmt"
 	"github.com/jarcoal/httpmock"
 	"github.com/shoplineos/shopline-sdk-go/client"
@@ -38,7 +39,7 @@ func TestOrderDelete(t *testing.T) {
 		OrderId: "123",
 	}
 
-	_, err := DeleteOrder(cli, apiReq)
+	_, err := GetOrderService().Delete(context.Background(), apiReq)
 	if err != nil {
 		t.Errorf("DeleteOrder returned an error %v", err)
 	}
