@@ -21,7 +21,7 @@ func (req *GetStoreBalanceAPIReq) Endpoint() string {
 
 type GetStoreBalanceAPIResp struct {
 	client.BaseAPIResponse
-	Balance Balance `json:"balance,omitempty"`
+	Balances []Balance `json:"balance,omitempty"`
 }
 
 type Balance struct {

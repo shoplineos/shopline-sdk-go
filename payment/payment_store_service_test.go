@@ -14,7 +14,7 @@ func TestGetStoreBalance(t *testing.T) {
 	defer teardown()
 
 	httpmock.RegisterResponder("POST", fmt.Sprintf("https://%s.myshopline.com/%s/%s/payments/store/balance.json", cli.StoreHandle, cli.PathPrefix, cli.ApiVersion),
-		httpmock.NewStringResponder(200, `{"balance":{"amount":"12.34", "currency":"CNY"}}`))
+		httpmock.NewStringResponder(200, `{"balance":[{"amount":"12.34", "currency":"CNY"}]}`))
 
 	apiReq := &GetStoreBalanceAPIReq{}
 
@@ -24,7 +24,11 @@ func TestGetStoreBalance(t *testing.T) {
 	}
 
 	assert.NotNil(t, apiResp)
+	assert.NotNil(t, apiResp.Balances)
+	assert.Equal(t, 1, len(apiResp.Balances))
 
+	balance := apiResp.Balances[0]
+	assert.Equal(t, "CNY", balance.Currency)
 }
 
 func TestListStorePayouts(t *testing.T) {
