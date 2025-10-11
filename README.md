@@ -35,12 +35,9 @@ import "github.com/shoplineos/shopline-sdk-go/client"
   accessToken := "" // replace your data
   
   // 2. create client
-  c := client.MustNewClient(appInstance, handle, accessToken)
-  appInstance.Client = c
-  
   // use support to create client, it will regitster awares
-  // c := support.MustNewClient(appInstance, handle, accessToken)
-  // appInstance.Client = c
+  c := support.MustNewClient(appInstance, handle, accessToken)
+  appInstance.Client = c
   
     
   // 3. use client to call API
@@ -134,7 +131,7 @@ Get Product Count:
   fmt.Printf("count:%d", apiResp.Count)
 ```
 
-Query data:
+Query Products:
 ```Query Products
   requestParams := &ListProductsAPIReq{
       // IDs: "1,2,3",
@@ -319,7 +316,7 @@ func GetProductsCount(c *client.Client, apiReq *GetProductCountAPIReq) (*GetProd
   ```
   
 * step4:Register the Service
-  * way1: client.WithClientAware
+  * way1: Use client.WithClientAware
     ```
     cli = support.MustNewClient(app, cfg.DefaultStoreHandle, cfg.DefaultAccessToken, client.WithClientAware(order.GetOrderService()))
     ```
@@ -487,12 +484,12 @@ import "github.com/shoplineos/shopline-sdk-go/client"
   accessToken := ""  // replace your data
   
   // 2. create client
-  c := client.MustNewClient(appInstance, handle, accessToken)
-  appInstance.Client = c
+  // c := client.MustNewClient(appInstance, handle, accessToken)
+  // appInstance.Client = c
 
   // use support to create client, it will regitster awares
-  // c := support.MustNewClient(appInstance, handle, accessToken)
-  // appInstance.Client = c
+  c := support.MustNewClient(appInstance, handle, accessToken)
+  appInstance.Client = c
 
   // 3. use client to call API
   // 3.1 API request
@@ -608,14 +605,14 @@ func CallbackHandler(w http.ResponseWriter, r *http.Request) {
 
 #### 使用 access token 调用 APIs
 
-查询 商品数量：
+查询商品数量：
 ``` Get Product Count
   apiReq := &GetProductCountAPIReq{}
   apiResp, err := product.GetProductService().Count(context.Background(), apiReq)
   fmt.Printf("count:%d", apiResp.Count)
 ```
 
-查询数据:
+查询商品数据:
 ```Query Products
   requestParams := &ListProductsAPIReq{
       // IDs: "1,2,3",
@@ -799,11 +796,11 @@ func GetProductsCount(c *client.Client, apiReq *GetProductCountAPIReq) (*GetProd
   ```
 
 * step4:Register the Service
-  * way1: client.WithClientAware
+  * 方式1: 使用 client.WithClientAware
     ```
     cli = support.MustNewClient(app, cfg.DefaultStoreHandle, cfg.DefaultAccessToken, client.WithClientAware(order.GetOrderService()))
     ```
-  * way2: modify the source code 'service_register.go'
+  * 方式2: modify the source code 'service_register.go'
 
   ``` see: service_register.go
     func GetClientAwares() []client.Aware {

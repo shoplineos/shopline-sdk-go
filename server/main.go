@@ -29,7 +29,8 @@ func main() {
 // WebhookHandler Verify a Webhook http request, sent by SHOPLine.
 // The body of the request is still readable after invoking the method.
 func WebhookHandler(w http.ResponseWriter, r *http.Request) {
-	manager.GetDefaultApp().VerifyWebhookRequest(r)
+	app := manager.GetDefaultApp()
+	app.VerifyWebhookRequest(r)
 	// do something
 }
 

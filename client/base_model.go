@@ -1,8 +1,8 @@
 package client
 
 type APIRequest interface {
-	Verify() error    // Verify API request params
 	Endpoint() string // API Endpoint
+	Verify() error    // Verify API request params
 }
 
 type APIResponse interface {
