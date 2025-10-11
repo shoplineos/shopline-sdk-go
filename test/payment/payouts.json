@@ -1,0 +1,11 @@
+{
+  "payouts": [
+    {
+      "amount": "12.34",
+      "currency": "CNY",
+      "payout_transaction_no": "2222",
+      "status": "SUCCESS",
+      "time": "2025-04-30T00:00:00+08:00"
+    }
+  ]
+}

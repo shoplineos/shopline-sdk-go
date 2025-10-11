@@ -350,7 +350,8 @@ func TestBuildShopLineResponse(t *testing.T) {
 	httpResp := httpmock.NewStringResponse(200, `{"foo": "bar"}`)
 
 	responseData := &map[string]any{}
-	response, err := buildShopLineResponse("Get", httpResp, responseData)
+	shoplineReq := &ShopLineRequest{}
+	response, err := buildShopLineResponse("Get", shoplineReq, httpResp, responseData)
 	a := assert.New(t)
 	a.Nil(err)
 	a.NotNil(response)
@@ -361,7 +362,7 @@ func TestBuildShopLineResponse(t *testing.T) {
 	// case 2
 	httpResp = httpmock.NewStringResponse(500, `{"errors": "system error"}`)
 
-	response, err = buildShopLineResponse("Get", httpResp, responseData)
+	response, err = buildShopLineResponse("Get", shoplineReq, httpResp, responseData)
 	a.NotNil(err)
 	a.Equal(err.Error(), "system error")
 	a.NotNil(response)

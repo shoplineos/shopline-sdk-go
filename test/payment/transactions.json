@@ -1,0 +1,60 @@
+{
+  "transactions": [
+    {
+      "exchange": {
+        "currency": "CNY",
+        "amount": "10.10",
+        "rate": "USD/USD @1.0000000000"
+      },
+      "fee_type": "international",
+      "payment_method": "ApplePay",
+      "status": "SUCCEEDED",
+      "trade_order_id": "10010062529029006852253184000",
+      "create_time": "2024-12-09T00:00:00+08:00",
+      "dispute_type": "CHARGEBACK",
+      "payment_method_option": {
+        "installment": {
+          "count": "12"
+        }
+      },
+      "payment_msg": {
+        "code": "4600",
+        "msg": "The payment has been declined for unspecificed reasons."
+      },
+      "seller_order_id": "123456",
+      "sub_payment_method": "AlipayQrCode",
+      "update_time": "2024-12-09T01:00:00+08:00",
+      "amount": "10.10",
+      "channel_deal_id": "Z237HWV6LT7QCWX3",
+      "credit_card": {
+        "brand": "Visa",
+        "issuer_country": "US",
+        "last4": "1234",
+        "type": "CREDIT",
+        "auth_code": "123456",
+        "bin": "48068133"
+      },
+      "reason": "fraudulent",
+      "transaction_type": "PAYMENT",
+      "additional_data": {
+        "dispute_evidence_update_deadline": "2024-02-25T18:00:42+08:00",
+        "is_settled": true,
+        "reserve_held": "1.23",
+        "reserve_release_time": "2024-12-10T00:00:00+08:00",
+        "settle_time": "2024-12-10T00:00:00+08:00",
+        "statement_time": "2024-12-10T00:00:00+08:00"
+      },
+      "customer": {
+        "personal_info": {
+          "first_name": "first_name",
+          "last_name": "last_name"
+        }
+      },
+      "fee": "-0.22",
+      "merchant_id": "2143350491097202688",
+      "paid_amount": "10.10",
+      "sub_status": "CONFIRM_FAILED",
+      "currency": "USD"
+    }
+  ]
+}

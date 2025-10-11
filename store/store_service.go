@@ -40,7 +40,7 @@ func (s StoreService) Get(ctx context.Context, req *GetStoreAPIReq) (*GetStoreAP
 	apiResp := &GetStoreAPIResp{}
 
 	// 4. Call API
-	_, err := s.Client.Get(context.Background(), endpoint, shopLineReq, apiResp)
+	_, err := s.Client.Get(ctx, endpoint, shopLineReq, apiResp)
 
 	return apiResp, err
 }
@@ -56,7 +56,7 @@ func (s StoreService) ListCurrencies(ctx context.Context, req *ListStoreCurrenci
 	apiResp := &ListStoreCurrenciesAPIResp{}
 
 	// 4. Call API
-	_, err := s.Client.Get(context.Background(), endpoint, shopLineReq, apiResp)
+	_, err := s.Client.Get(ctx, endpoint, shopLineReq, apiResp)
 
 	return apiResp, err
 }
@@ -72,7 +72,7 @@ func (s StoreService) GetStaff(ctx context.Context, req *GetStoreStaffAPIReq) (*
 	apiResp := &GetStoreStaffAPIResp{}
 
 	// 4. Call API
-	_, err := s.Client.Get(context.Background(), endpoint, shopLineReq, apiResp)
+	_, err := s.Client.Get(ctx, endpoint, shopLineReq, apiResp)
 
 	return apiResp, err
 }
@@ -90,7 +90,7 @@ func (s StoreService) ListStaffs(ctx context.Context, req *ListStoreStaffsAPIReq
 	apiResp := &ListStoreStaffsAPIResp{}
 
 	// 4. Call API
-	_, err := s.Client.Get(context.Background(), endpoint, shopLineReq, apiResp)
+	_, err := s.Client.Get(ctx, endpoint, shopLineReq, apiResp)
 
 	return apiResp, err
 }
@@ -106,7 +106,7 @@ func (s StoreService) GetOperationLog(ctx context.Context, req *GetStoreOperatio
 	apiResp := &GetStoreOperationLogAPIResp{}
 
 	// 4. Call API
-	_, err := s.Client.Get(context.Background(), endpoint, shopLineReq, apiResp)
+	_, err := s.Client.Get(ctx, endpoint, shopLineReq, apiResp)
 
 	return apiResp, err
 }
@@ -124,7 +124,7 @@ func (s StoreService) ListOperationLogs(ctx context.Context, req *ListStoreOpera
 	apiResp := &ListStoreOperationLogsAPIResp{}
 
 	// 4. Call API
-	_, err := s.Client.Get(context.Background(), endpoint, shopLineReq, apiResp)
+	_, err := s.Client.Get(ctx, endpoint, shopLineReq, apiResp)
 
 	return apiResp, err
 }
@@ -142,7 +142,7 @@ func (s StoreService) CountOperationLogs(ctx context.Context, req *CountStoreOpe
 	apiResp := &CountStoreOperationLogsAPIResp{}
 
 	// 4. Call API
-	_, err := s.Client.Get(context.Background(), endpoint, shopLineReq, apiResp)
+	_, err := s.Client.Get(ctx, endpoint, shopLineReq, apiResp)
 
 	return apiResp, err
 }
@@ -160,7 +160,7 @@ func (s StoreService) ListSubscriptions(ctx context.Context, req *ListStoreSubsc
 	apiResp := &ListStoreSubscriptionsAPIResp{}
 
 	// 4. Call API
-	_, err := s.Client.Get(context.Background(), endpoint, shopLineReq, apiResp)
+	_, err := s.Client.Get(ctx, endpoint, shopLineReq, apiResp)
 
 	return apiResp, err
 }

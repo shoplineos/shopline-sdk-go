@@ -45,7 +45,7 @@ func (m MetafieldDefinitionService) List(ctx context.Context, apiReq *ListMetafi
 	apiResp := &ListMetafieldDefinitionAPIResp{}
 
 	// 4. Call API
-	_, err := m.Client.Get(context.Background(), endpoint, shopLineReq, apiResp)
+	_, err := m.Client.Get(ctx, endpoint, shopLineReq, apiResp)
 	if err != nil {
 		return nil, err
 	}
@@ -68,7 +68,7 @@ func (m MetafieldDefinitionService) ListAll(ctx context.Context, apiReq *ListMet
 		apiResp := &ListMetafieldDefinitionAPIResp{}
 
 		// 4. Call API
-		shoplineResp, err := m.Client.Get(context.Background(), endpoint, shopLineReq, apiResp)
+		shoplineResp, err := m.Client.Get(ctx, endpoint, shopLineReq, apiResp)
 
 		if err != nil {
 			return collector, err
@@ -99,7 +99,7 @@ func (m MetafieldDefinitionService) Get(ctx context.Context, apiReq *GetMetafiel
 	apiResp := &GetMetafieldDefinitionAPIResp{}
 
 	// 4. Call API
-	_, err := m.Client.Get(context.Background(), endpoint, shopLineReq, apiResp)
+	_, err := m.Client.Get(ctx, endpoint, shopLineReq, apiResp)
 	if err != nil {
 		return nil, err
 	}
@@ -128,7 +128,7 @@ func (m MetafieldDefinitionService) Delete(ctx context.Context, apiReq *DeleteMe
 	apiResp := &DeleteMetafieldDefinitionAPIResp{}
 
 	// 4. Call API
-	_, err := m.Client.Delete(context.Background(), endpoint, shopLineReq, apiResp)
+	_, err := m.Client.Delete(ctx, endpoint, shopLineReq, apiResp)
 	if err != nil {
 		return nil, err
 	}
@@ -149,7 +149,7 @@ func (m MetafieldDefinitionService) Update(ctx context.Context, apiReq *UpdateMe
 	apiResp := &UpdateMetafieldDefinitionAPIResp{}
 
 	// 4. Call API
-	_, err := m.Client.Put(context.Background(), endpoint, shopLineReq, apiResp)
+	_, err := m.Client.Put(ctx, endpoint, shopLineReq, apiResp)
 	if err != nil {
 		return nil, err
 	}
@@ -170,7 +170,7 @@ func (m MetafieldDefinitionService) Create(ctx context.Context, apiReq *CreateMe
 	apiResp := &CreateMetafieldDefinitionAPIResp{}
 
 	// 4. Call API
-	_, err := m.Client.Post(context.Background(), endpoint, shopLineReq, apiResp)
+	_, err := m.Client.Post(ctx, endpoint, shopLineReq, apiResp)
 	if err != nil {
 		return nil, err
 	}

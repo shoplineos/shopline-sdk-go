@@ -5,6 +5,7 @@ import (
 	"github.com/shoplineos/shopline-sdk-go/client"
 	"github.com/shoplineos/shopline-sdk-go/metafield"
 	"github.com/shoplineos/shopline-sdk-go/order"
+	"github.com/shoplineos/shopline-sdk-go/payment"
 	"github.com/shoplineos/shopline-sdk-go/product"
 	"github.com/shoplineos/shopline-sdk-go/store"
 	"github.com/shoplineos/shopline-sdk-go/webhook"
@@ -20,6 +21,8 @@ func GetClientAwares() []client.Aware {
 		access.GetStorefrontAccessTokenService(),
 		webhook.GetWebhookService(),
 		store.GetStoreService(),
+		payment.GetMerchantAppService(),
+		payment.GetPaymentStoreService(),
 		// you can add service here
 	}
 	return awares

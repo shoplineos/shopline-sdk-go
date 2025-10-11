@@ -1,0 +1,23 @@
+{
+  "transactions": [
+    {
+      "source_order_transaction_id": "30010022516695225053195427840",
+      "currency": "CNY",
+      "fee": "-0.76",
+      "net": "0.76",
+      "settlement_amount": "1.00",
+      "processed_at": "2022-02-25T18:00:42+08:00",
+      "type": "payment",
+      "source_payment_id": "10010022516695213198582620160",
+      "amount": "1.00",
+      "exchange_rate": "1.3000000000",
+      "payout_id": "202208031899561700999905280",
+      "settlement_currency": "USD",
+      "source_type": "refund",
+      "transaction_time": "2022-02-25T18:00:42+08:00",
+      "id": "202206161756376480011100000",
+      "payout_status": "in progress",
+      "source_order_id": "8545173391"
+    }
+  ]
+}

@@ -42,7 +42,7 @@ func (o *OrderService) Refund(ctx context.Context, req *RefundAPIReq) (*RefundAP
 	apiResp := &RefundAPIResp{}
 
 	// 3. Call API
-	_, err := o.Client.Post(context.Background(), req.Endpoint(), shopLineReq, apiResp)
+	_, err := o.Client.Post(ctx, req.Endpoint(), shopLineReq, apiResp)
 
 	return apiResp, err
 }
@@ -57,7 +57,7 @@ func (o *OrderService) Cancel(ctx context.Context, apiReq *CancelOrderAPIReq) (*
 	apiResp := &CancelOrderAPIResp{}
 
 	// 3. Call API
-	_, err := o.Client.Post(context.Background(), apiReq.Endpoint(), shopLineReq, apiResp)
+	_, err := o.Client.Post(ctx, apiReq.Endpoint(), shopLineReq, apiResp)
 	return apiResp, err
 }
 
@@ -74,7 +74,7 @@ func (o *OrderService) List(ctx context.Context, apiReq *ListOrdersAPIReq) (*Lis
 	apiResp := &ListOrdersAPIResp{}
 
 	// 4. Call API
-	_, err := o.Client.Get(context.Background(), endpoint, shopLineReq, apiResp)
+	_, err := o.Client.Get(ctx, endpoint, shopLineReq, apiResp)
 
 	return apiResp, err
 }
@@ -94,7 +94,7 @@ func (o *OrderService) ListAll(ctx context.Context, apiReq *ListOrdersAPIReq) ([
 		apiResp := &ListOrdersAPIResp{}
 
 		// 4. Call API
-		shoplineResp, err := o.Client.Get(context.Background(), endpoint, shopLineReq, apiResp)
+		shoplineResp, err := o.Client.Get(ctx, endpoint, shopLineReq, apiResp)
 
 		if err != nil {
 			return collector, err
@@ -129,7 +129,7 @@ func (o *OrderService) Count(ctx context.Context, apiReq *GetOrdersCountAPIReq) 
 	apiResp := &GetOrdersCountAPIResp{}
 
 	// 4. Call API
-	_, err := o.Client.Get(context.Background(), endpoint, shoplineReq, apiResp)
+	_, err := o.Client.Get(ctx, endpoint, shoplineReq, apiResp)
 
 	return apiResp, err
 }
@@ -152,7 +152,7 @@ func (o *OrderService) Create(ctx context.Context, apiReq *CreateOrderAPIReq) (*
 	apiResp := &CreateOrderAPIResp{}
 
 	// 4. Call API
-	_, err := o.Client.Post(context.Background(), endpoint, request, apiResp)
+	_, err := o.Client.Post(ctx, endpoint, request, apiResp)
 
 	return apiResp, err
 }
@@ -170,7 +170,7 @@ func (o *OrderService) Update(ctx context.Context, apiReq *UpdateOrderAPIReq) (*
 	apiResp := &UpdateOrderAPIResp{}
 
 	// 4. Call API
-	_, err := o.Client.Put(context.Background(), endpoint, request, apiResp)
+	_, err := o.Client.Put(ctx, endpoint, request, apiResp)
 
 	return apiResp, err
 }
@@ -186,7 +186,7 @@ func (o *OrderService) Delete(ctx context.Context, apiReq *DeleteOrderAPIReq) (*
 	apiResp := &DeleteOrderAPIResp{}
 
 	// 4. Call API
-	_, err := o.Client.Delete(context.Background(), endpoint, shoplineReq, apiResp)
+	_, err := o.Client.Delete(ctx, endpoint, shoplineReq, apiResp)
 
 	return apiResp, err
 }

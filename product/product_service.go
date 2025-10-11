@@ -42,7 +42,7 @@ func (p *ProductService) List(ctx context.Context, apiReq *ListProductsAPIReq) (
 	apiResp := &ListProductsAPIResp{}
 
 	// 4. Call API
-	_, err := p.Client.Get(context.Background(), endpoint, shopLineReq, apiResp)
+	_, err := p.Client.Get(ctx, endpoint, shopLineReq, apiResp)
 	if err != nil {
 		return nil, err
 	}
@@ -67,7 +67,7 @@ func (p *ProductService) ListAll(ctx context.Context, apiReq *ListProductsAPIReq
 		apiResp := &ListProductsAPIResp{}
 
 		// 4. Call API
-		shoplineResp, err := p.Client.Get(context.Background(), endpoint, shopLineReq, apiResp)
+		shoplineResp, err := p.Client.Get(ctx, endpoint, shopLineReq, apiResp)
 
 		if err != nil {
 			return collector, err
@@ -102,7 +102,7 @@ func (p *ProductService) Count(ctx context.Context, apiReq *GetProductCountAPIRe
 	apiResp := &GetProductCountAPIResp{}
 
 	// 4. Call API
-	_, err := p.Client.Get(context.Background(), endpoint, shoplineReq, apiResp)
+	_, err := p.Client.Get(ctx, endpoint, shoplineReq, apiResp)
 
 	return apiResp, err
 }
@@ -117,7 +117,7 @@ func (p *ProductService) Get(ctx context.Context, apiReq *GetProductDetailAPIReq
 	apiResp := &GetProductDetailAPIResp{}
 
 	// 4. Call API
-	_, err := p.Client.Get(context.Background(), endpoint, shoplineReq, apiResp)
+	_, err := p.Client.Get(ctx, endpoint, shoplineReq, apiResp)
 
 	return apiResp, err
 }
@@ -135,7 +135,7 @@ func (p *ProductService) Create(ctx context.Context, apiReq *CreateProductAPIReq
 	apiResp := &CreateProductAPIResp{}
 
 	// 4. Call API
-	_, err := p.Client.Post(context.Background(), endpoint, request, apiResp)
+	_, err := p.Client.Post(ctx, endpoint, request, apiResp)
 	//if err != nil {
 	//	log.Printf("CreateProduct request failed: %v\n", err)
 	//	return nil, err
@@ -157,7 +157,7 @@ func (p *ProductService) Update(ctx context.Context, apiReq *UpdateProductAPIReq
 	apiResp := &UpdateProductAPIResp{}
 
 	// 4. Call API
-	_, err := p.Client.Put(context.Background(), endpoint, request, apiResp)
+	_, err := p.Client.Put(ctx, endpoint, request, apiResp)
 
 	//if err != nil {
 	//	log.Printf("Update product failed，shopLineResp: %v, err: %v\n", shopLineResp, err)
@@ -178,7 +178,7 @@ func (p *ProductService) Delete(ctx context.Context, apiReq *DeleteProductAPIReq
 	apiResp := &DeleteProductAPIResp{}
 
 	// 4. Call API
-	_, err := p.Client.Delete(context.Background(), endpoint, shoplineReq, apiResp)
+	_, err := p.Client.Delete(ctx, endpoint, shoplineReq, apiResp)
 
 	return apiResp, err
 }

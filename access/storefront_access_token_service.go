@@ -37,7 +37,7 @@ func (s StorefrontAccessTokenService) List(ctx context.Context, apiReq *ListStor
 	apiResp := &ListStorefrontAccessTokensAPIResp{}
 
 	// 4. Call API
-	_, err := s.Client.Get(context.Background(), endpoint, shopLineReq, apiResp)
+	_, err := s.Client.Get(ctx, endpoint, shopLineReq, apiResp)
 	return apiResp, err
 }
 
@@ -56,7 +56,7 @@ func (s StorefrontAccessTokenService) ListAll(ctx context.Context, apiReq *ListS
 		apiResp := &ListStorefrontAccessTokensAPIResp{}
 
 		// 4. Call API
-		shoplineResp, err := s.Client.Get(context.Background(), endpoint, shopLineReq, apiResp)
+		shoplineResp, err := s.Client.Get(ctx, endpoint, shopLineReq, apiResp)
 
 		if err != nil {
 			return collector, err
@@ -91,7 +91,7 @@ func (s StorefrontAccessTokenService) Delete(ctx context.Context, apiReq *Delete
 	apiResp := &DeleteStorefrontAccessTokenAPIResp{}
 
 	// 4. Call API
-	_, err := s.Client.Delete(context.Background(), endpoint, shopLineReq, apiResp)
+	_, err := s.Client.Delete(ctx, endpoint, shopLineReq, apiResp)
 	return apiResp, err
 }
 
@@ -108,6 +108,6 @@ func (s StorefrontAccessTokenService) Create(ctx context.Context, apiReq *Create
 	apiResp := &CreateStorefrontAccessTokenAPIResp{}
 
 	// 4. Call API
-	_, err := s.Client.Post(context.Background(), endpoint, shopLineReq, apiResp)
+	_, err := s.Client.Post(ctx, endpoint, shopLineReq, apiResp)
 	return apiResp, err
 }

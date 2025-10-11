@@ -38,7 +38,7 @@ func (w WebhookService) List(ctx context.Context, req *ListWebhooksAPIReq) (*Lis
 	apiResp := &ListWebhooksAPIResp{}
 
 	// 4. Call API
-	_, err := w.Client.Get(context.Background(), endpoint, shopLineReq, apiResp)
+	_, err := w.Client.Get(ctx, endpoint, shopLineReq, apiResp)
 
 	return apiResp, err
 }
@@ -54,7 +54,7 @@ func (w WebhookService) Count(ctx context.Context, req *CountWebhooksAPIReq) (*C
 	apiResp := &CountWebhooksAPIResp{}
 
 	// 4. Call API
-	_, err := w.Client.Get(context.Background(), endpoint, shopLineReq, apiResp)
+	_, err := w.Client.Get(ctx, endpoint, shopLineReq, apiResp)
 
 	return apiResp, err
 }
@@ -70,7 +70,7 @@ func (w WebhookService) Get(ctx context.Context, req *GetWebhookAPIReq) (*GetWeb
 	apiResp := &GetWebhookAPIResp{}
 
 	// 4. Call API
-	_, err := w.Client.Get(context.Background(), endpoint, shopLineReq, apiResp)
+	_, err := w.Client.Get(ctx, endpoint, shopLineReq, apiResp)
 
 	return apiResp, err
 }
@@ -88,7 +88,7 @@ func (w WebhookService) Create(ctx context.Context, req *CreateWebhookAPIReq) (*
 	apiResp := &CreateWebhookAPIResp{}
 
 	// 4. Call API
-	_, err := w.Client.Post(context.Background(), endpoint, shopLineReq, apiResp)
+	_, err := w.Client.Post(ctx, endpoint, shopLineReq, apiResp)
 
 	return apiResp, err
 }
@@ -106,7 +106,7 @@ func (w WebhookService) Update(ctx context.Context, req *UpdateWebhookAPIReq) (*
 	apiResp := &UpdateWebhookAPIResp{}
 
 	// 4. Call API
-	_, err := w.Client.Put(context.Background(), endpoint, shopLineReq, apiResp)
+	_, err := w.Client.Put(ctx, endpoint, shopLineReq, apiResp)
 
 	return apiResp, err
 }
@@ -122,7 +122,7 @@ func (w WebhookService) Delete(ctx context.Context, req *DeleteWebhookAPIReq) (*
 	apiResp := &DeleteWebhookAPIResp{}
 
 	// 4. Call API
-	_, err := w.Client.Delete(context.Background(), endpoint, shopLineReq, apiResp)
+	_, err := w.Client.Delete(ctx, endpoint, shopLineReq, apiResp)
 
 	return apiResp, err
 }

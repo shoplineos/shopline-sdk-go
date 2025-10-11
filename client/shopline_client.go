@@ -69,6 +69,10 @@ type ShopLineRequestOptions struct {
 
 	// API version(Optional)
 	ApiVersion string
+
+	// When call API successful, Some api return empty body
+	// eg:https://developer.shopline.com/zh-hans-cn/docs/admin-rest-api/payments-app-api/merchant-activation-successful-notification?version=v20251201
+	NotDecodeBody bool
 }
 
 // ShopLineRequest request params, pagination see detail：
@@ -95,6 +99,10 @@ func (r *ShopLineRequest) isApiVersionPresent() bool {
 
 func (r *ShopLineRequest) isTimeoutPresent() bool {
 	return r.Options != nil && r.Options.Timeout > 0
+}
+
+func (r *ShopLineRequest) NotDecodeBody() bool {
+	return r.Options != nil && r.Options.NotDecodeBody
 }
 
 type CommonAPIRespData struct {
@@ -326,7 +334,7 @@ func (c *Client) executeHttpRequest(request *ShopLineRequest, httpReq *http.Requ
 	log.Printf("Execute request finished！status: %d\n", resp.StatusCode)
 
 	// build response
-	shopLineResp, err := buildShopLineResponse(httpReq.Method, resp, resource)
+	shopLineResp, err := buildShopLineResponse(httpReq.Method, request, resp, resource)
 	if err != nil {
 		return shopLineResp, err
 	}
@@ -455,7 +463,7 @@ func buildBodyJsonString(bodyParams []byte) (string, error) {
 }
 
 // Build shopline response
-func buildShopLineResponse(method string, httpResp *http.Response, resource interface{}) (*ShopLineResponse, error) {
+func buildShopLineResponse(method string, request *ShopLineRequest, httpResp *http.Response, resource interface{}) (*ShopLineResponse, error) {
 	shopLineResp := &ShopLineResponse{}
 	shopLineResp.StatusCode = httpResp.StatusCode
 
@@ -470,7 +478,8 @@ func buildShopLineResponse(method string, httpResp *http.Response, resource inte
 		return shopLineResp, err
 	}
 
-	if !isDeleteSuccess(method, httpResp.StatusCode) { // delete method will return empty body
+	if !isDeleteSuccess(method, httpResp.StatusCode) && !request.NotDecodeBody() { // delete method will return empty body
+		// decode http body on success
 		if err := json.NewDecoder(httpResp.Body).Decode(&resource); err != nil {
 			//respData := &map[string]any{}
 			//json.NewDecoder(httpResp.Body).Decode(respData)

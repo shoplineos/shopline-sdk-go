@@ -44,7 +44,7 @@ func (m MetafieldService) Get(ctx context.Context, apiReq *GetMetafieldAPIReq) (
 	apiResp := &GetMetafieldAPIResp{}
 
 	// 4. Call API
-	_, err := m.Client.Get(context.Background(), endpoint, shopLineReq, apiResp)
+	_, err := m.Client.Get(ctx, endpoint, shopLineReq, apiResp)
 
 	return apiResp, err
 }
@@ -60,7 +60,7 @@ func (m MetafieldService) List(ctx context.Context, apiReq *ListMetafieldAPIReq)
 	apiResp := &ListMetafieldAPIResp{}
 
 	// 4. Call API
-	_, err := m.Client.Get(context.Background(), endpoint, shopLineReq, apiResp)
+	_, err := m.Client.Get(ctx, endpoint, shopLineReq, apiResp)
 
 	return apiResp, err
 }
@@ -80,7 +80,7 @@ func (m MetafieldService) ListAll(ctx context.Context, apiReq *ListMetafieldAPIR
 		apiResp := &ListMetafieldAPIResp{}
 
 		// 4. Call API
-		shoplineResp, err := m.Client.Get(context.Background(), endpoint, shopLineReq, apiResp)
+		shoplineResp, err := m.Client.Get(ctx, endpoint, shopLineReq, apiResp)
 
 		if err != nil {
 			return collector, err
@@ -109,7 +109,7 @@ func (m MetafieldService) Count(ctx context.Context, apiReq *CountMetafieldAPIRe
 	apiResp := &CountMetafieldAPIResp{}
 
 	// 4. Call API
-	_, err := m.Client.Get(context.Background(), endpoint, shopLineReq, apiResp)
+	_, err := m.Client.Get(ctx, endpoint, shopLineReq, apiResp)
 
 	return apiResp, err
 }
@@ -125,7 +125,7 @@ func (m MetafieldService) Delete(ctx context.Context, apiReq *DeleteMetafieldAPI
 	apiResp := &DeleteMetafieldAPIResp{}
 
 	// 4. Call API
-	_, err := m.Client.Delete(context.Background(), endpoint, shopLineReq, apiResp)
+	_, err := m.Client.Delete(ctx, endpoint, shopLineReq, apiResp)
 
 	return apiResp, err
 }
@@ -143,7 +143,7 @@ func (m MetafieldService) Update(ctx context.Context, apiReq *UpdateMetafieldAPI
 	apiResp := &UpdateMetafieldAPIResp{}
 
 	// 4. Call API
-	_, err := m.Client.Put(context.Background(), endpoint, shopLineReq, apiResp)
+	_, err := m.Client.Put(ctx, endpoint, shopLineReq, apiResp)
 	if err != nil {
 		return nil, err
 	}
@@ -164,7 +164,7 @@ func (m MetafieldService) Create(ctx context.Context, apiReq *CreateMetafieldAPI
 	apiResp := &CreateMetafieldAPIResp{}
 
 	// 4. Call API
-	_, err := m.Client.Post(context.Background(), endpoint, shopLineReq, apiResp)
+	_, err := m.Client.Post(ctx, endpoint, shopLineReq, apiResp)
 	if err != nil {
 		return nil, err
 	}
