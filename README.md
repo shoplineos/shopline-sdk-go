@@ -6,8 +6,7 @@
 
 ### <span id="en">English</span>
 
-**Note**: This is an unstable SDK for developers using https://developer.shopline.com, we are still improving. The library does not have implementations of all shopline resources. PRs for new resources and endpoints are welcome, or you can simply implement some yourself as-you-go. See the section "Using your own models" for more info.
-
+**Note**: For developers using https://developer.shopline.com, the SDK is currently under active development and is a preview release with ongoing improvements. This library doesn't yet implement all SHOPLINE resources. We welcome you to submit Pull Requests to add new resources or endpoints, or you can implement your own by following the instructions in the "Using Your Own Data Model" section. We look forward to your contributions!
 
 
 #### Install
@@ -60,7 +59,7 @@ import "github.com/shoplineos/shopline-sdk-go/client"
 
 #### OAuth
 
-If you don't have an access token yet, you can obtain one with the oauth flow. Something like this will work:
+If you don't have an Access Token yet, you can obtain one with the oauth flow. Something like this will work:
 
 ```
 // see server/main.go
@@ -93,7 +92,7 @@ func InstallHandler(w http.ResponseWriter, r *http.Request) {
     http.Redirect(w, r, url, http.StatusTemporaryRedirect)
 }
 
-// Fetch a access token in the callback
+// Fetch a Access Token in the callback
 func CallbackHandler(w http.ResponseWriter, r *http.Request) {
     appkey := r.URL.Query().Get("appkey")
     code := r.URL.Query().Get("code")
@@ -120,9 +119,9 @@ func CallbackHandler(w http.ResponseWriter, r *http.Request) {
 }
 ```
 
-#### API calls with an access token
+#### API calls with an Access Token
 
-With an access token, you can make API calls like this:
+With an Access Token, you can make API calls like this:
 
 Get Product Count:
 ``` Get Product Count
@@ -221,7 +220,7 @@ apiResp, err := product.GetProductService().Create(context.Background(), apiReq)
 
 ```
 
-#### Using your own models
+#### Using Your Own Data Model
 
 Not all endpoints are implemented right now. In those case, feel free to implement them and make a Pull Request, or you
 can create your own struct for the data and use the client to call APIs. This is how the existing endpoints are
@@ -335,7 +334,7 @@ func GetProductsCount(c *client.Client, apiReq *GetProductCountAPIReq) (*GetProd
 
 #### Webhooks verification
 
-In order to be sure that a webhook is sent from Shopline API you could easily verify it with the VerifyWebhookRequest
+In order to be sure that a webhook is sent from SHOPLINE API you could easily verify it with the VerifyWebhookRequest
 method.
 
 For example:
@@ -402,7 +401,7 @@ App callback URL：http://appdemo.myshopline.com/auth/callback
 * 5.2 Into App Detail，select「Test App」, click the「Install App」. At this point, the platform will first request
   our [App URL] -> [Platform Auth Page] -> [App Callback URL] in step 4.
   If successful, it will print: Auth callback received ... code: xxx, where code is what we will use to exchange for
-  access token later.
+  Access Token later.
   en：https://developer.shopline.com/docs/apps/api-instructions-for-use/app-authorization?version=v20260301#step3
   code path: server/main.go function 'CallbackHandler'
 
@@ -410,7 +409,7 @@ App callback URL：http://appdemo.myshopline.com/auth/callback
 
 * 6.1 Find the TestCreateAccessToken function in oauth_test.go and replace the code variable in the function with the
   code obtained in step 5.
-* 6.2 Executing the TestCreateAccessToken function will request the platform to create an access token, and the result
+* 6.2 Executing the TestCreateAccessToken function will request the platform to create an Access Token, and the result
   will be printed in the console if successful.
   en: https://developer.shopline.com/docs/apps/api-instructions-for-use/app-authorization?version=v20260301#step-4-request-an-access-token
 
@@ -430,7 +429,7 @@ Use Access Token to call
 the [Create Product](https://developer.shopline.com/docs/admin-rest-api/product/product/create-a-product?version=v20251201)
 API
 
-* 7.1 Find app_config.go and replace the AccessToken variable value with the access token obtained in step 6.
+* 7.1 Find app_config.go and replace the AccessToken variable value with the Access Token obtained in step 6.
 * 7.2 Find create_product_test.go and execute the TestCreateProduct function. If successful, it will print "New product
   ID: xxx", eg: "New product ID: 16071495214036953630973380".
   For more examples, see the xxx_test.go files in each package.  <br>
@@ -439,7 +438,7 @@ API
 ##### step8、App Refresh Access Token
 
 Access tokens expire periodically, so we need to refresh them regularly. Executing the TestRefreshAccessToken function
-in oauth_test.go will request the platform to refresh the access token. Successful refreshes will be printed to the
+in oauth_test.go will request the platform to refresh the Access Token. Successful refreshes will be printed to the
 console.<br>
 en: https://developer.shopline.com/docs/apps/api-instructions-for-use/app-authorization?version=v20260301#step6
 
@@ -456,7 +455,7 @@ token, err := app.RefreshAccessToken(context.Background(), storeHandle)
 
 ### <span id="zh">中文</span>
 
-**注意**：对于使用 https://developer.shopline.com 的开发者来说，目前这是一个不稳定的 SDK，我们还在不断完善中。该库并未包含所有 Shopline 资源的实现。欢迎提交新资源和端点的 Pull Request，或者您也可以自行实现一些。更多信息，请参阅“使用您自己的数据模型”部分。
+**注意**：对于使用 https://developer.shopline.com 的开发者来说，当前 SDK 尚处于积极开发阶段，是一个功能正在不断完善的预览版本。该库尚未实现所有 SHOPLINE 资源。我们欢迎您通过提交 Pull Request 来添加新的资源或端点，您也可以根据“使用您自己的数据模型”部分的指引自行实现。期待您的贡献！
 
 
 #### Install
@@ -512,7 +511,7 @@ import "github.com/shoplineos/shopline-sdk-go/client"
 
 #### OAuth 认证
 
-如果还没有 access token，可以通过 OAuth 流程来获取 access token，如下：
+如果还没有 Access Token，可以通过 OAuth 流程来获取 Access Token，如下：
 
 ```
 // 详细见：server/main.go
@@ -576,7 +575,7 @@ func InstallHandler(w http.ResponseWriter, r *http.Request) {
 	http.Redirect(w, r, url, http.StatusTemporaryRedirect)
 }
 
-// Fetch a access token in the callback
+// Fetch a Access Token in the callback
 func CallbackHandler(w http.ResponseWriter, r *http.Request) {
     appkey := r.URL.Query().Get("appkey")
     code := r.URL.Query().Get("code")
@@ -603,7 +602,7 @@ func CallbackHandler(w http.ResponseWriter, r *http.Request) {
 }
 ```
 
-#### 使用 access token 调用 APIs
+#### 使用 Access Token 调用 APIs
 
 查询商品数量：
 ``` Get Product Count
@@ -708,7 +707,7 @@ apiResp, err := product.GetProductService().Create(context.Background(), apiReq)
 
 #### 使用您自己的数据模型
 
-目前为止不是所有的 API 都已经实现，您可以发起1个 Pull Request，或者自己实现数据模型对象。
+目前为止不是所有的 API 都已经实现，你可以发起1个 Pull Request，或者自己实现数据模型对象。
 下面这个例子是获取商品数量:
 
 ```
@@ -880,14 +879,14 @@ Windows路径: C:\Windows\System32\drivers\etc\hosts
 
 * 5.1 路径：[应用列表](https://developer.myshopline.com/app/list) -> 应用详情 -> 应用测试
 * 5.2 进入应用详情，选择「应用测试」，点击「安装应用」。此时，平台会先请求我们第4步的【应用地址】 -> 【平台认证页面】 -> 【应用回调地址】
-  成功后会打印: Auth callback received ... code: xxx，其中 code 就是我们后续用来交换 access token。 <br>
+  成功后会打印: Auth callback received ... code: xxx，其中 code 就是我们后续用来交换 Access Token。 <br>
   中文：https://developer.shopline.com/zh-hans-cn/docs/apps/api-instructions-for-use/app-authorization/?lang=zh-hans-cn#%E7%AC%AC%E4%BA%94%E6%AD%A5app-%E6%94%B6%E5%88%B0%E6%8E%88%E6%9D%83%E7%A0%81  <br>
   代码：server/main.go 函数 CallbackHandler
 
 ##### step6、App 获取 Access Token
 
 * 6.1 找到 oauth_test.go 里的 TestCreateAccessToken 函数，用第5步获取到的 code，替换函数里的 code 变量。
-* 6.2 执行 TestCreateAccessToken 函数，会请求平台获取 access token，成功后会打印在控制台。
+* 6.2 执行 TestCreateAccessToken 函数，会请求平台获取 Access Token，成功后会打印在控制台。
   中文: https://developer.shopline.com/zh-hans-cn/docs/apps/api-instructions-for-use/app-authorization/?lang=zh-hans-cn#%E7%AC%AC%E5%85%AD%E6%AD%A5app-%E8%AF%B7%E6%B1%82-access-token  <br>
 
 ```
@@ -907,7 +906,7 @@ token, err := app.CreateAccessToken(context.Background(), code)
 调用 [创建商品](https://developer.shopline.com/zh-hans-cn/docs/admin-rest-api/product/product/create-a-product?version=v20251201)
 接口。
 
-* 7.1 找到 app_config.go，用第6步获取到的 access token，替换 AccessToken 变量值。
+* 7.1 找到 app_config.go，用第6步获取到的 Access Token，替换 AccessToken 变量值。
 * 7.2 找到 create_product_test.go，执行 TestCreateProduct 函数，成功后会打印 “新商品ID: xxx”，如：新商品ID:
   16071495214036953630973380。
   更多例子见：各个包下面的 xxx_test.go 文件。  <br>
@@ -916,7 +915,7 @@ token, err := app.CreateAccessToken(context.Background(), code)
 ##### step8、App 刷新 Access Token
 
 Access Token 每隔一段时间会过期，因此我们需要定期刷新 Access Token。执行 oauth_test.go 里的 TestRefreshAccessToken
-函数，会请求平台刷新 access token，成功后会打印在控制台。 <br>
+函数，会请求平台刷新 Access Token，成功后会打印在控制台。 <br>
 中文: https://developer.shopline.com/zh-hans-cn/docs/apps/api-instructions-for-use/app-authorization/?lang=zh-hans-cn#%E7%AC%AC%E5%85%AB%E6%AD%A5app-%E8%AF%B7%E6%B1%82%E5%88%B7%E6%96%B0-access-token  <br>
 
 ```
