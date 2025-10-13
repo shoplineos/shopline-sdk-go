@@ -12,7 +12,7 @@ import (
 //
 //	apiReq := &UpdateOrderAPIReq{
 //		Order: Order{
-//			ID:          "21071580496925210798359834",
+//			Id:          "21071580496925210798359834",
 //			Name:        "D101-" + time.Now().Format("20060102"),
 //			OrderNote:   "API Create test Order updatezw",
 //			Currency:    "USD",
@@ -28,8 +28,8 @@ import (
 //			// line item
 //			LineItems: []LineItem{
 //				{
-//					ProductID: "16071506529459141648923380", // Product ID
-//					VariantID: "18071506529466020307563380", // Variant ID
+//					ProductId: "16071506529459141648923380", // Product Id
+//					VariantId: "18071506529466020307563380", // Variant Id
 //					Title:     "beautiful skirt",            // Product title
 //					Price:     "3.25",                       // Price
 //					Quantity:  1,                            // Quantity
@@ -78,7 +78,7 @@ import (
 //
 //			// Customer
 //			Customer: Customer{
-//				ID:        "4201057495",
+//				Id:        "4201057495",
 //				FirstName: "Tom",
 //				LastName:  "Washington",
 //				Phone:     "13903004000",
@@ -127,7 +127,7 @@ import (
 //		return
 //	}
 //
-//	fmt.Printf("Create order successful！orderID: %s\n", shopLineResp.Order.ID)
+//	fmt.Printf("Create order successful！orderID: %s\n", shopLineResp.Order.Id)
 //	a := assert.New(t)
 //	a.NotEmpty(shopLineResp)
 //
@@ -142,7 +142,7 @@ func TestOrderUpdate(t *testing.T) {
 		httpmock.NewStringResponder(200, `{"order":{"id": "1"}}`))
 
 	order := Order{
-		ID:                "1",
+		Id:                "1",
 		FinancialStatus:   "paid",
 		FulfillmentStatus: "fulfilled",
 	}
@@ -153,8 +153,8 @@ func TestOrderUpdate(t *testing.T) {
 		t.Errorf("Order.Update returned error: %v", err)
 	}
 
-	expected := Order{ID: "1"}
-	if o.Order.ID != expected.ID {
-		t.Errorf("Order.Update returned id %s, expected %s", o.Order.ID, expected.ID)
+	expected := Order{Id: "1"}
+	if o.Order.Id != expected.Id {
+		t.Errorf("Order.Update returned id %s, expected %s", o.Order.Id, expected.Id)
 	}
 }

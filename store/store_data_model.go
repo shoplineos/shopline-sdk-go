@@ -1,7 +1,7 @@
 package store
 
 type Store struct {
-	ID                   uint64            `json:"id"`                     // Store ID
+	Id                   uint64            `json:"id"`                     // Store Id
 	Name                 string            `json:"name"`                   // Store Name
 	Domain               string            `json:"domain"`                 // Store Domain
 	Handle               string            `json:"handle"`                 // Store Handle
@@ -38,7 +38,7 @@ type StoreAddress struct {
 }
 
 type StorePlan struct {
-	ID           string `json:"id"`            // Store Plan ID
+	Id           string `json:"id"`            // Store Plan Id
 	Name         string `json:"name"`          // Store Plan Name
 	Type         string `json:"type"`          // Store Plan Type
 	Price        string `json:"price"`         // Store Plan Price
@@ -47,7 +47,7 @@ type StorePlan struct {
 }
 
 type StoreImage struct {
-	ID        string `json:"id"`
+	Id        string `json:"id"`
 	Src       string `json:"src"` // Image URL
 	Alt       string `json:"alt"` // Image Alt
 	Width     int    `json:"width"`
@@ -61,14 +61,14 @@ type SocialLink struct {
 }
 
 type PaymentGateway struct {
-	ID     string `json:"id"`     // Payment Gateway ID
+	Id     string `json:"id"`     // Payment Gateway Id
 	Name   string `json:"name"`   // Payment Gateway Name
 	Status string `json:"status"` // Payment Gateway Status(active/inactive)
 	Type   string `json:"type"`   // Payment Gateway Type
 }
 
 type ShippingCarrier struct {
-	ID     string `json:"id"`     // Shipping Carrier ID
+	Id     string `json:"id"`     // Shipping Carrier Id
 	Name   string `json:"name"`   // Shipping Carrier Name
 	Status string `json:"status"` // Status(active/inactive)
 }
@@ -134,7 +134,7 @@ type OperationLog struct {
 	Author      string `json:"author,omitempty"`
 	CreatedAt   string `json:"created_at,omitempty"`
 	Detail      string `json:"detail,omitempty"`
-	ID          string `json:"id,omitempty"`
+	Id          string `json:"id,omitempty"`
 	SubjectId   string `json:"subject_id,omitempty"`
 	SubjectType string `json:"subject_type,omitempty"`
 	Verb        string `json:"verb,omitempty"`

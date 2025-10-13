@@ -23,7 +23,7 @@ func TestGetStore(t *testing.T) {
 		t.Fatal(err)
 	}
 	assert.NotNil(t, storeInfo.Store)
-	assert.Equal(t, uint64(1), storeInfo.Store.ID)
+	assert.Equal(t, uint64(1), storeInfo.Store.Id)
 }
 
 func TestListCurrencies(t *testing.T) {
@@ -106,7 +106,7 @@ func TestGetOperationLog(t *testing.T) {
 	}
 	assert.NotNil(t, apiResp)
 
-	assert.Equal(t, "1", apiResp.OperationLog.ID)
+	assert.Equal(t, "1", apiResp.OperationLog.Id)
 }
 
 func TestListOperationLogs(t *testing.T) {
@@ -129,7 +129,7 @@ func TestListOperationLogs(t *testing.T) {
 	assert.Equal(t, 1, len(apiResp.OperationLogs))
 
 	log := apiResp.OperationLogs[0]
-	assert.Equal(t, "1", log.ID)
+	assert.Equal(t, "1", log.Id)
 }
 
 func TestCountOperationLogs(t *testing.T) {

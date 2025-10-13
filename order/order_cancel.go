@@ -10,7 +10,7 @@ import (
 // 中文: https://developer.shopline.com/zh-hans-cn/docs/admin-rest-api/order/order-management/cancel-order?version=v20251201
 // en: https://developer.shopline.com/docs/admin-rest-api/order/order-management/cancel-order?version=v20251201
 type CancelOrderAPIReq struct {
-	OrderID      string
+	OrderId      string
 	Amount       string `json:"amount,omitempty"`
 	CancelReason string `json:"cancel_reason,omitempty"`
 	Currency     string `json:"currency,omitempty"`
@@ -26,7 +26,7 @@ func (req *CancelOrderAPIReq) Verify() error {
 }
 
 func (req *CancelOrderAPIReq) Endpoint() string {
-	endpoint := fmt.Sprintf("orders/%s/cancel.json", req.OrderID)
+	endpoint := fmt.Sprintf("orders/%s/cancel.json", req.OrderId)
 	return endpoint
 }
 

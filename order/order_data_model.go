@@ -2,7 +2,7 @@ package order
 
 // Order Order structure
 type Order struct {
-	ID                      string          `json:"id"`                                   // Order ID
+	Id                      string          `json:"id"`                                   // Order Id
 	Status                  string          `json:"status"`                               // Order status
 	Name                    string          `json:"name,omitempty"`                       // Order name
 	OrderNote               string          `json:"order_note,omitempty"`                 // Order Note
@@ -23,7 +23,7 @@ type Order struct {
 	ExchangeRate            string          `json:"exchange_rate,omitempty"`              // Exchange Rate
 	FulfillmentStatus       string          `json:"fulfillment_status,omitempty"`         // Fulfillment Status
 	BuyerNote               string          `json:"buyer_note,omitempty"`                 // Buyer Note
-	CompanyLocationID       string          `json:"company_location_id,omitempty"`        // Company Location ID
+	CompanyLocationId       string          `json:"company_location_id,omitempty"`        // Company Location Id
 	Customer                Customer        `json:"customer,omitempty"`                   // Customer info
 	FinancialStatus         string          `json:"financial_status,omitempty"`           // Financial Status
 	Note                    string          `json:"note,omitempty"`                       // Note
@@ -45,20 +45,20 @@ type PriceInfo struct {
 
 // Transactions Transactions structure
 type Transactions struct {
-	ID string `json:"id,omitempty"` // 交易ID
+	Id string `json:"id,omitempty"` // 交易ID
 }
 
 // LineItem Line Item structure
 type LineItem struct {
-	ProductID        string   `json:"product_id,omitempty"`        // Product ID
+	ProductId        string   `json:"product_id,omitempty"`        // Product Id
 	TaxLine          TaxLine  `json:"tax_line,omitempty"`          // Tax Line
 	Taxable          bool     `json:"taxable,omitempty"`           // Taxable
 	Title            string   `json:"title,omitempty"`             // Title
 	DiscountPrice    Discount `json:"discount_price,omitempty"`    // Discount Price
 	Quantity         int      `json:"quantity"`                    // Quantity
 	RequiresShipping bool     `json:"requires_shipping,omitempty"` // Requires Shipping
-	VariantID        string   `json:"variant_id,omitempty"`        // Variant ID
-	LocationID       string   `json:"location_id,omitempty"`       // Location ID
+	VariantId        string   `json:"variant_id,omitempty"`        // Variant Id
+	LocationId       string   `json:"location_id,omitempty"`       // Location Id
 	Price            string   `json:"price"`                       // Price
 }
 
@@ -118,7 +118,7 @@ type ShippingLine struct {
 }
 
 type Customer struct {
-	ID        string `json:"id,omitempty"`         // ID
+	Id        string `json:"id,omitempty"`         // Id
 	LastName  string `json:"last_name,omitempty"`  // Last Name
 	Phone     string `json:"phone,omitempty"`      // Phone
 	AreaCode  string `json:"area_code,omitempty"`  // Area Code

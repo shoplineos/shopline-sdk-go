@@ -83,7 +83,7 @@ func TestListStoreBalanceTransactions(t *testing.T) {
 
 	trans := apiResp.BalanceTransactions[0]
 	assert.Equal(t, "1.00", trans.Amount)
-	assert.Equal(t, "202206161756376480011100000", trans.ID)
+	assert.Equal(t, "202206161756376480011100000", trans.Id)
 	assert.Equal(t, "in progress", trans.PayoutStatus)
 }
 

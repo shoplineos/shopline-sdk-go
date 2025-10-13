@@ -10,7 +10,7 @@ import (
 // 中文：https://developer.shopline.com/zh-hans-cn/docs/admin-rest-api/order/order-management/add-risk-fraud?version=v20251201
 // En：https://developer.shopline.com/docs/admin-rest-api/order/order-management/add-risk-fraud?version=v20251201
 type CreateOrderRiskAPIReq struct {
-	OrderID         string          `url:"order_id,omitempty"`
+	OrderId         string          `url:"order_id,omitempty"`
 	CreateOrderRisk CreateOrderRisk `json:"risk,omitempty"`
 }
 
@@ -25,14 +25,14 @@ type CreateOrderRisk struct {
 }
 
 func (r CreateOrderRiskAPIReq) Verify() error {
-	if r.OrderID == "" {
+	if r.OrderId == "" {
 		return errors.New("order_id is required")
 	}
 	return nil
 }
 
 func (r CreateOrderRiskAPIReq) Endpoint() string {
-	return fmt.Sprintf("orders/v2/%s/risks.json", r.OrderID)
+	return fmt.Sprintf("orders/v2/%s/risks.json", r.OrderId)
 }
 
 type CreateOrderRiskAPIResp struct {

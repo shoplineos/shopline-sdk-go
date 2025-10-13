@@ -37,8 +37,8 @@ func TestCreateMetafieldDefinition(t *testing.T) {
 	}
 
 	assert.NotNil(t, apiResp)
-	assert.NotNil(t, apiResp.MetafieldDefinition.ID)
-	assert.Equal(t, "1", apiResp.MetafieldDefinition.ID)
+	assert.NotNil(t, apiResp.MetafieldDefinition.Id)
+	assert.Equal(t, "1", apiResp.MetafieldDefinition.Id)
 	assert.Equal(t, "2025-09-22T14:48:44-04:00", apiResp.MetafieldDefinition.CreatedAt)
 	assert.Equal(t, "2025-09-22T14:48:44-04:00", apiResp.MetafieldDefinition.UpdatedAt)
 
@@ -71,8 +71,8 @@ func TestUpdateMetafieldDefinition(t *testing.T) {
 	}
 
 	assert.NotNil(t, apiResp)
-	assert.NotNil(t, apiResp.MetafieldDefinition.ID)
-	assert.Equal(t, "1", apiResp.MetafieldDefinition.ID)
+	assert.NotNil(t, apiResp.MetafieldDefinition.Id)
+	assert.Equal(t, "1", apiResp.MetafieldDefinition.Id)
 	assert.Equal(t, "2025-09-22T14:48:44-04:00", apiResp.MetafieldDefinition.CreatedAt)
 	assert.Equal(t, "2025-10-09T14:48:44-04:00", apiResp.MetafieldDefinition.UpdatedAt)
 	assert.Equal(t, "single_line_text_field", apiResp.MetafieldDefinition.Type)
@@ -90,7 +90,7 @@ func TestGetMetafieldDefinition(t *testing.T) {
 		httpmock.NewStringResponder(200, `{"definition":{"id":"1", "created_at":"2025-09-22T14:48:44-04:00", "updated_at":"2025-10-09T14:48:44-04:00","access": {"admin":"MERCHANT_READ_WRITE"}, "description":"test desc", "key":"key_test", "name":"name_test", "namespace":"namespace_test", "owner_resource":"product", "type":"single_line_text_field"}}`))
 
 	req := &GetMetafieldDefinitionAPIReq{
-		ID: "1",
+		Id: "1",
 	}
 
 	apiResp, err := GetMetafieldDefinitionService().Get(context.Background(), req)
@@ -99,8 +99,8 @@ func TestGetMetafieldDefinition(t *testing.T) {
 	}
 
 	assert.NotNil(t, apiResp)
-	assert.NotNil(t, apiResp.MetafieldDefinition.ID)
-	assert.Equal(t, "1", apiResp.MetafieldDefinition.ID)
+	assert.NotNil(t, apiResp.MetafieldDefinition.Id)
+	assert.Equal(t, "1", apiResp.MetafieldDefinition.Id)
 	assert.Equal(t, "2025-09-22T14:48:44-04:00", apiResp.MetafieldDefinition.CreatedAt)
 	assert.Equal(t, "2025-10-09T14:48:44-04:00", apiResp.MetafieldDefinition.UpdatedAt)
 	assert.Equal(t, "single_line_text_field", apiResp.MetafieldDefinition.Type)
@@ -131,8 +131,8 @@ func TestListMetafieldDefinitions(t *testing.T) {
 
 	metafieldDefinition := apiResp.Data.MetafieldDefinitions[0]
 
-	assert.NotNil(t, metafieldDefinition.ID)
-	assert.Equal(t, "1", metafieldDefinition.ID)
+	assert.NotNil(t, metafieldDefinition.Id)
+	assert.Equal(t, "1", metafieldDefinition.Id)
 	assert.Equal(t, "2025-09-22T14:48:44-04:00", metafieldDefinition.CreatedAt)
 	assert.Equal(t, "2025-10-09T14:48:44-04:00", metafieldDefinition.UpdatedAt)
 	assert.Equal(t, "single_line_text_field", metafieldDefinition.Type)
@@ -162,8 +162,8 @@ func TestListAllMetafieldDefinitions(t *testing.T) {
 
 	metafieldDefinition := apiResp[0]
 
-	assert.NotNil(t, metafieldDefinition.ID)
-	assert.Equal(t, "1", metafieldDefinition.ID)
+	assert.NotNil(t, metafieldDefinition.Id)
+	assert.Equal(t, "1", metafieldDefinition.Id)
 	assert.Equal(t, "2025-09-22T14:48:44-04:00", metafieldDefinition.CreatedAt)
 	assert.Equal(t, "2025-10-09T14:48:44-04:00", metafieldDefinition.UpdatedAt)
 	assert.Equal(t, "single_line_text_field", metafieldDefinition.Type)
@@ -182,7 +182,7 @@ func TestDeleteMetafieldDefinition(t *testing.T) {
 		httpmock.NewStringResponder(200, ""))
 
 	req := &DeleteMetafieldDefinitionAPIReq{
-		ID: "1",
+		Id: "1",
 	}
 
 	apiResp, err := GetMetafieldDefinitionService().Delete(context.Background(), req)

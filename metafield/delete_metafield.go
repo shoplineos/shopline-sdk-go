@@ -15,7 +15,7 @@ type DeleteMetafieldAPIReq struct {
 	// eg："product"
 	OwnerResource string
 	OwnerId       string
-	ID            string
+	Id            string
 }
 
 func (c DeleteMetafieldAPIReq) Verify() error {
@@ -26,15 +26,15 @@ func (c DeleteMetafieldAPIReq) Verify() error {
 	if c.OwnerResource == "" {
 		return errors.New("OwnerResource is required")
 	}
-	if c.ID == "" {
-		return errors.New("ID is required")
+	if c.Id == "" {
+		return errors.New("Id is required")
 	}
 
 	return nil
 }
 
 func (c DeleteMetafieldAPIReq) Endpoint() string {
-	return fmt.Sprintf("%s/%s/metafields/%s.json", c.OwnerResource, c.OwnerId, c.ID)
+	return fmt.Sprintf("%s/%s/metafields/%s.json", c.OwnerResource, c.OwnerId, c.Id)
 }
 
 type DeleteMetafieldAPIResp struct {

@@ -1,7 +1,7 @@
 package metafield
 
 type MetafieldDefinition struct {
-	ID        string `json:"id,omitempty"`
+	Id        string `json:"id,omitempty"`
 	CreatedAt string `json:"created_at,omitempty"` // Create time
 	UpdatedAt string `json:"updated_at,omitempty"` // Updated time
 
@@ -28,7 +28,7 @@ type Access struct {
 }
 
 type Metafield struct {
-	ID        string `json:"id,omitempty"`
+	Id        string `json:"id,omitempty"`
 	CreatedAt string `json:"created_at,omitempty"` // Create time
 	UpdatedAt string `json:"updated_at,omitempty"` // Updated time
 

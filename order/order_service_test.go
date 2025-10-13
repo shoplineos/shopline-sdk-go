@@ -20,7 +20,7 @@ func TestOrderServiceCreate(t *testing.T) {
 	order := Order{
 		LineItems: []LineItem{
 			{
-				VariantID: "1",
+				VariantId: "1",
 				Quantity:  1,
 			},
 		},
@@ -34,9 +34,9 @@ func TestOrderServiceCreate(t *testing.T) {
 		t.Errorf("Order.Create returned error: %v", err)
 	}
 
-	expected := Order{ID: "1"}
-	if o.Order.ID != expected.ID {
-		t.Errorf("Order.Create returned id %s, expected %s", o.Order.ID, expected.ID)
+	expected := Order{Id: "1"}
+	if o.Order.Id != expected.Id {
+		t.Errorf("Order.Create returned id %s, expected %s", o.Order.Id, expected.Id)
 	}
 }
 
@@ -71,7 +71,7 @@ func TestListAttributionInfos(t *testing.T) {
 		httpmock.NewBytesResponder(200, test.LoadTestData("order/order_attribution_info.json")))
 
 	apiReq := &ListOrderAttributionInfosAPIReq{
-		OrderIDs: []string{"1"},
+		OrderIds: []string{"1"},
 	}
 	apiResp, err := GetOrderService().ListAttributionInfos(context.Background(), apiReq)
 	if err != nil {

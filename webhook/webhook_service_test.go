@@ -44,7 +44,7 @@ func TestUpdate(t *testing.T) {
 		httpmock.NewStringResponder(200, `{"webhook":{"id":1, "created_at":"2025-09-22T14:48:44-04:00", "updated_at":"2025-10-10T14:48:44-04:00", "address":"test1 desc", "topic":"key_test", "apiVersion":"123"}}`))
 
 	req := &UpdateWebhookAPIReq{
-		ID: 1,
+		Id: 1,
 		Webhook: UpdateWebhook{
 			Address: "test1 desc",
 		},
@@ -70,7 +70,7 @@ func TestGet(t *testing.T) {
 		httpmock.NewStringResponder(200, `{"webhook":{"id":1, "created_at":"2025-09-22T14:48:44-04:00", "updated_at":"2025-09-22T14:48:44-04:00", "address":"test1 desc", "topic":"key_test", "apiVersion":"123"}}`))
 
 	req := &GetWebhookAPIReq{
-		ID: 1,
+		Id: 1,
 	}
 
 	apiResp, err := GetWebhookService().Get(context.Background(), req)
@@ -115,7 +115,7 @@ func TestDelete(t *testing.T) {
 		httpmock.NewStringResponder(200, ""))
 
 	req := &DeleteWebhookAPIReq{
-		ID: 1,
+		Id: 1,
 	}
 
 	apiResp, err := GetWebhookService().Delete(context.Background(), req)

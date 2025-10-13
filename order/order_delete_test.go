@@ -11,7 +11,7 @@ import (
 //func TestDeleteOrderCase3(t *testing.T) {
 //
 //	apiReq := &DeleteOrderAPIReq{
-//		OrderID: "21071580496925210798359834",
+//		OrderId: "21071580496925210798359834",
 //	}
 //
 //	c := manager.GetDefaultClient()
@@ -20,7 +20,7 @@ import (
 //	if err != nil {
 //		t.Errorf("DeleteOrder returned an error %v", err)
 //	} else {
-//		fmt.Printf("Delete order successful！orderID: %s\n", apiReq.OrderID)
+//		fmt.Printf("Delete order successful！orderID: %s\n", apiReq.OrderId)
 //	}
 //
 //	a := assert.New(t)
@@ -36,7 +36,7 @@ func TestOrderDelete(t *testing.T) {
 		httpmock.NewStringResponder(200, ""))
 
 	apiReq := &DeleteOrderAPIReq{
-		OrderID: "123",
+		OrderId: "123",
 	}
 
 	_, err := GetOrderService().Delete(context.Background(), apiReq)

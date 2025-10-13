@@ -9,12 +9,12 @@ import (
 // 中文：https://developer.shopline.com/zh-hans-cn/docs/admin-rest-api/order/order-management/get-order-attribution-in-bulk?version=v20251201
 // En：https://developer.shopline.com/docs/admin-rest-api/order/order-management/get-order-attribution-in-bulk?version=v20251201
 type ListOrderAttributionInfosAPIReq struct {
-	OrderIDs []string `json:"orders,omitempty"`
+	OrderIds []string `json:"orders,omitempty"`
 }
 
 func (r ListOrderAttributionInfosAPIReq) Verify() error {
-	if r.OrderIDs == nil || len(r.OrderIDs) == 0 {
-		return errors.New("OrderIDs is required")
+	if r.OrderIds == nil || len(r.OrderIds) == 0 {
+		return errors.New("OrderIds is required")
 	}
 	return nil
 }

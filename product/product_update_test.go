@@ -31,7 +31,7 @@ import (
 //				{
 //					Src: "https://img.myshopline.com/image/official/e46e6189dd5641a3b179444cacdcdd2a.png",
 //					Alt: "main picture",
-//					ID:  "7082838991712560845",
+//					Id:  "7082838991712560845",
 //				},
 //			},
 //
@@ -50,11 +50,11 @@ import (
 //					Image: Image{
 //						Src: "https://img.myshopline.com/image/official/e46e6189dd5641a3b179444cacdcdd2a.png",
 //						Alt: "This is a image alt",
-//						ID:  "7082838991712560846",
+//						Id:  "7082838991712560846",
 //					},
 //					Option5:          "",
 //					CompareAtPrice:   "11.2",
-//					ID:               "18070828389938432998533380",
+//					Id:               "18070828389938432998533380",
 //					Price:            "10.11",
 //					Option3:          "",
 //					RequiredShipping: true,

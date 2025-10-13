@@ -97,7 +97,7 @@ func TestOrderListAll(t *testing.T) {
 				`{"orders": [{"id":"1"},{"id":"2"}]}`,
 				`{"orders": [{"id":"3"},{"id":"4"}]}`,
 			},
-			expectedOrders: []Order{{ID: "1"}, {ID: "2"}, {ID: "3"}, {ID: "4"}},
+			expectedOrders: []Order{{Id: "1"}, {Id: "2"}, {Id: "3"}, {Id: "4"}},
 			expectedErr:    nil,
 		},
 		{
@@ -111,7 +111,7 @@ func TestOrderListAll(t *testing.T) {
 			expectedBodies: []string{
 				`{"orders": [{"id":"1"}]}`,
 			},
-			expectedOrders: []Order{{ID: "1"}},
+			expectedOrders: []Order{{Id: "1"}},
 			expectedErr:    nil,
 		},
 		{
@@ -209,7 +209,7 @@ func TestOrderListWithPagination(t *testing.T) {
 		{
 			`{"orders": [{"id":"1"},{"id":"2"}]}`,
 			"",
-			[]Order{{ID: "1"}, {ID: "2"}},
+			[]Order{{Id: "1"}, {Id: "2"}},
 			new(client.Pagination),
 			nil,
 		},
@@ -253,7 +253,7 @@ func TestOrderListWithPagination(t *testing.T) {
 		{
 			`{"orders": [{"id":"1"}]}`,
 			`<http://valid.url?page_info=foo&limit=2>; rel="next"`,
-			[]Order{{ID: "1"}},
+			[]Order{{Id: "1"}},
 			&client.Pagination{
 				Next: &client.ListOptions{PageInfo: "foo", Limit: 2},
 			},
@@ -262,7 +262,7 @@ func TestOrderListWithPagination(t *testing.T) {
 		{
 			`{"orders": [{"id":"2"}]}`,
 			`<http://valid.url?page_info=foo>; rel="next", <http://valid.url?page_info=bar>; rel="previous"`,
-			[]Order{{ID: "2"}},
+			[]Order{{Id: "2"}},
 			&client.Pagination{
 				Next:     &client.ListOptions{PageInfo: "foo"},
 				Previous: &client.ListOptions{PageInfo: "bar"},
@@ -340,7 +340,7 @@ func TestOrderListError(t *testing.T) {
 //		//SortCondition:   "created_at:desc",
 //		//CreatedAtMin:    "2024-01-01T00:00:00+08:00",
 //		//FinancialStatus: "paid",
-//		//IDs: "21070984663426767352955294",
+//		//Ids: "21070984663426767352955294",
 //	}
 //
 //	c := manager.GetDefaultClient()
@@ -355,7 +355,7 @@ func TestOrderListError(t *testing.T) {
 //	fmt.Printf("Find total %d orders\n", len(apiResp.Orders))
 //	for i, order := range apiResp.Orders {
 //		fmt.Printf("\nOrder %d:\n", i+1)
-//		fmt.Printf("Order ID: %s\n", order.ID)
+//		fmt.Printf("Order Id: %s\n", order.Id)
 //		fmt.Printf("Order Name: %s\n", order.Name)
 //		fmt.Printf("Order Status: %s\n", order.Status)
 //		fmt.Printf("Order FinancialStatus: %s\n", order.FinancialStatus)

@@ -21,15 +21,15 @@ func (c UpdateMetafieldAPIReq) Verify() error {
 	if c.Metafield.OwnerResource == "" {
 		return errors.New("OwnerResource is required")
 	}
-	if c.Metafield.ID == "" {
-		return errors.New("ID is required")
+	if c.Metafield.Id == "" {
+		return errors.New("Id is required")
 	}
 
 	return nil
 }
 
 func (c UpdateMetafieldAPIReq) Endpoint() string {
-	return fmt.Sprintf("%s/%s/metafields/%s.json", c.Metafield.OwnerResource, c.Metafield.OwnerId, c.Metafield.ID)
+	return fmt.Sprintf("%s/%s/metafields/%s.json", c.Metafield.OwnerResource, c.Metafield.OwnerId, c.Metafield.Id)
 }
 
 type UpdateMetafieldAPIResp struct {
@@ -43,7 +43,7 @@ type UpdateMetafield struct {
 	// eg："product"
 	OwnerResource string
 	OwnerId       string
-	ID            string `json:"id,omitempty"`
+	Id            string `json:"id,omitempty"`
 
 	Description string `json:"description,omitempty"`
 

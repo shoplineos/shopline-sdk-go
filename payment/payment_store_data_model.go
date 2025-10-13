@@ -87,7 +87,7 @@ type PersonalInfo struct {
 }
 
 type BalanceTransaction struct {
-	ID                       string `json:"id"`
+	Id                       string `json:"id"`
 	Amount                   string `json:"amount,omitempty"`
 	Currency                 string `json:"currency,omitempty"`
 	SourceOrderTransactionId string `json:"source_order_transaction_id,omitempty"`

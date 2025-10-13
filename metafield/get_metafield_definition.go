@@ -9,12 +9,12 @@ import (
 // 中文：https://developer.shopline.com/zh-hans-cn/docs/admin-rest-api/shopline-metafields/metafield-definition/get-a-metafield-definition?version=v20251201
 // En：https://developer.shopline.com/docs/admin-rest-api/shopline-metafields/metafield-definition/get-a-metafield-definition?version=v20251201
 type GetMetafieldDefinitionAPIReq struct {
-	ID string
+	Id string
 }
 
 func (d GetMetafieldDefinitionAPIReq) Verify() error {
-	if d.ID == "" {
-		return errors.New("MetafieldDefinition ID is empty")
+	if d.Id == "" {
+		return errors.New("MetafieldDefinition Id is empty")
 	}
 	return nil
 }

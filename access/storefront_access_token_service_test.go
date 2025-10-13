@@ -29,7 +29,7 @@ func TestCreateStorefrontAccessToken(t *testing.T) {
 	}
 
 	assert.NotNil(t, apiResp)
-	assert.Equal(t, int64(1), apiResp.StorefrontAccessToken.ID)
+	assert.Equal(t, int64(1), apiResp.StorefrontAccessToken.Id)
 	assert.Equal(t, "access_token", apiResp.StorefrontAccessToken.AccessToken)
 }
 
@@ -42,7 +42,7 @@ func TestDeleteStorefrontAccessToken(t *testing.T) {
 		httpmock.NewStringResponder(200, ""))
 
 	req := &DeleteStorefrontAccessTokenAPIReq{
-		ID: "1",
+		Id: "1",
 	}
 
 	apiResp, err := GetStorefrontAccessTokenService().Delete(context.Background(), req)
@@ -72,7 +72,7 @@ func TestListStorefrontAccessTokens(t *testing.T) {
 
 	storefrontAccessToken := apiResp.StorefrontAccessTokens[0]
 
-	assert.Equal(t, int64(1), storefrontAccessToken.ID)
+	assert.Equal(t, int64(1), storefrontAccessToken.Id)
 	assert.Equal(t, "access_token", storefrontAccessToken.AccessToken)
 }
 
@@ -95,7 +95,7 @@ func TestListWithPaginationStorefrontAccessTokens(t *testing.T) {
 
 	storefrontAccessToken := apiResp.StorefrontAccessTokens[0]
 
-	assert.Equal(t, int64(1), storefrontAccessToken.ID)
+	assert.Equal(t, int64(1), storefrontAccessToken.Id)
 	assert.Equal(t, "access_token", storefrontAccessToken.AccessToken)
 }
 
@@ -118,6 +118,6 @@ func TestListAllStorefrontAccessTokens(t *testing.T) {
 
 	storefrontAccessToken := apiResp[0]
 
-	assert.Equal(t, int64(1), storefrontAccessToken.ID)
+	assert.Equal(t, int64(1), storefrontAccessToken.Id)
 	assert.Equal(t, "access_token", storefrontAccessToken.AccessToken)
 }

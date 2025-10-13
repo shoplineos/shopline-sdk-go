@@ -23,7 +23,7 @@ type CreateMetafieldDefinitionAPIResp struct {
 }
 
 type CreateMetafieldDefinition struct {
-	//ID        string `json:"id,omitempty"`
+	//Id        string `json:"id,omitempty"`
 	//CreatedAt string `json:"created_at,omitempty"` // Create time
 	//UpdatedAt string `json:"updated_at,omitempty"` // Updated time
 

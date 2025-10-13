@@ -16,7 +16,7 @@ func (req *UpdateOrderAPIReq) Verify() error {
 }
 
 func (req *UpdateOrderAPIReq) Endpoint() string {
-	endpoint := fmt.Sprintf("orders/%s.json", req.Order.ID)
+	endpoint := fmt.Sprintf("orders/%s.json", req.Order.Id)
 	return endpoint
 }
 

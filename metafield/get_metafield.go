@@ -15,7 +15,7 @@ type GetMetafieldAPIReq struct {
 	// eg："product"
 	OwnerResource string
 	OwnerId       string
-	ID            string `json:"id,omitempty"`
+	Id            string `json:"id,omitempty"`
 }
 
 func (c GetMetafieldAPIReq) Verify() error {
@@ -26,15 +26,15 @@ func (c GetMetafieldAPIReq) Verify() error {
 	if c.OwnerResource == "" {
 		return errors.New("OwnerResource is required")
 	}
-	if c.ID == "" {
-		return errors.New("ID is required")
+	if c.Id == "" {
+		return errors.New("Id is required")
 	}
 
 	return nil
 }
 
 func (c GetMetafieldAPIReq) Endpoint() string {
-	return fmt.Sprintf("%s/%s/metafields/%s.json", c.OwnerResource, c.OwnerId, c.ID)
+	return fmt.Sprintf("%s/%s/metafields/%s.json", c.OwnerResource, c.OwnerId, c.Id)
 }
 
 type GetMetafieldAPIResp struct {

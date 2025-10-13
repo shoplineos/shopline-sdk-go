@@ -18,7 +18,7 @@ type ListProductsAPIReq struct {
 	UpdatedAtMin string `url:"updated_at_min,omitempty"` // Minimum order update time（ISO 8601）
 	UpdatedAtMax string `url:"updated_at_max,omitempty"` // Max order update time（ISO 8601）
 
-	IDs      string `url:"ids,omitempty"`       //  ids, Separate multiple with commas
+	Ids      string `url:"ids,omitempty"`       //  ids, Separate multiple with commas
 	Limit    int32  `url:"limit,omitempty"`     // Limit（1-250, default 50）
 	Fields   string `url:"fields,omitempty"`    // Fields, Separate multiple with commas
 	PageInfo string `url:"page_info,omitempty"` // Page Info（Get it from the response header 'link'）
@@ -26,7 +26,7 @@ type ListProductsAPIReq struct {
 	Handle          string `url:"handle,omitempty"`           // Product Handle
 	OrderBy         string `url:"order_by,omitempty"`         // Sorting rules（created_at_asc/created_at_desc）
 	ProductCategory string `url:"product_category,omitempty"` // Product Category
-	SinceID         string `url:"since_id,omitempty"`         // Since ID（Start querying from this ID）
+	SinceId         string `url:"since_id,omitempty"`         // Since Id（Start querying from this Id）
 	Title           string `url:"title,omitempty"`            // Product Title（fuzzy matching）
 
 	Vendor string `url:"vendor,omitempty"` // Vendor

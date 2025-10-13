@@ -38,7 +38,7 @@ type ProductRespData struct {
 }
 
 type Image struct {
-	ID  string `json:"id,omitempty"`
+	Id  string `json:"id,omitempty"`
 	Src string `json:"src,omitempty"` // Image url
 	Alt string `json:"alt,omitempty"` // Image description
 }
@@ -52,7 +52,7 @@ type Option struct {
 
 // Variant Product Variant
 type Variant struct {
-	ID               string `json:"id,omitempty"`
+	Id               string `json:"id,omitempty"`
 	Image            Image  `json:"image,omitempty"`
 	SKU              string `json:"sku,omitempty"`              // SKU
 	Price            string `json:"price,omitempty"`            // Price

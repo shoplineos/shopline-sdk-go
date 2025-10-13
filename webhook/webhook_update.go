@@ -10,12 +10,12 @@ import (
 // 中文：https://developer.shopline.com/zh-hans-cn/docs/admin-rest-api/webhook/update-a-subscribed-webhook?version=v20251201
 // En：https://developer.shopline.com/docs/admin-rest-api/webhook/update-a-subscribed-webhook?version=v20251201
 type UpdateWebhookAPIReq struct {
-	ID      uint64
+	Id      uint64
 	Webhook UpdateWebhook `json:"webhook,omitempty"`
 }
 
 func (c UpdateWebhookAPIReq) Verify() error {
-	if c.ID == 0 {
+	if c.Id == 0 {
 		return errors.New("id is required")
 	}
 	if c.Webhook.Address == "" {
@@ -25,7 +25,7 @@ func (c UpdateWebhookAPIReq) Verify() error {
 }
 
 func (c UpdateWebhookAPIReq) Endpoint() string {
-	return fmt.Sprintf("%d/webhooks.json", c.ID)
+	return fmt.Sprintf("%d/webhooks.json", c.Id)
 }
 
 type UpdateWebhook struct {

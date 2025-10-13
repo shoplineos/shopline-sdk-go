@@ -18,7 +18,7 @@ func TestList(t *testing.T) {
 		httpmock.NewBytesResponder(200, test.LoadTestData("order/risks.json")))
 
 	apiReq := &ListOrderRisksAPIReq{
-		OrderID: "21056921623197625897868288",
+		OrderId: "21056921623197625897868288",
 	}
 
 	apiResponse, err := GetOrderRiskService().List(context.Background(), apiReq)
@@ -28,7 +28,7 @@ func TestList(t *testing.T) {
 	assert.NotNil(t, apiResponse)
 	assert.NotEmpty(t, apiResponse.OrderRisks)
 	risk := apiResponse.OrderRisks[0]
-	assert.Equal(t, "21056921623197625897868288", risk.OrderID)
+	assert.Equal(t, "21056921623197625897868288", risk.OrderId)
 }
 
 func TestGet(t *testing.T) {
@@ -40,8 +40,8 @@ func TestGet(t *testing.T) {
 		httpmock.NewBytesResponder(200, test.LoadTestData("order/risk.json")))
 
 	apiReq := &GetOrderRiskAPIReq{
-		OrderID: "21056921623197625897868288",
-		RiskID:  "1",
+		OrderId: "21056921623197625897868288",
+		RiskId:  "1",
 	}
 
 	apiResponse, err := GetOrderRiskService().Get(context.Background(), apiReq)
@@ -50,8 +50,8 @@ func TestGet(t *testing.T) {
 	}
 	assert.NotNil(t, apiResponse)
 	assert.NotEmpty(t, apiResponse.OrderRisk)
-	assert.Equal(t, "21056921623197625897868288", apiResponse.OrderRisk.OrderID)
-	assert.Equal(t, "1", apiResponse.OrderRisk.ID)
+	assert.Equal(t, "21056921623197625897868288", apiResponse.OrderRisk.OrderId)
+	assert.Equal(t, "1", apiResponse.OrderRisk.Id)
 }
 
 func TestCreate(t *testing.T) {
@@ -63,7 +63,7 @@ func TestCreate(t *testing.T) {
 		httpmock.NewBytesResponder(200, test.LoadTestData("order/risk.json")))
 
 	apiReq := &CreateOrderRiskAPIReq{
-		OrderID: "21056921623197625897868288",
+		OrderId: "21056921623197625897868288",
 		CreateOrderRisk: CreateOrderRisk{
 			Display: true,
 		},
@@ -75,8 +75,8 @@ func TestCreate(t *testing.T) {
 	}
 	assert.NotNil(t, apiResponse)
 	assert.NotEmpty(t, apiResponse.OrderRisk)
-	assert.Equal(t, "21056921623197625897868288", apiResponse.OrderRisk.OrderID)
-	assert.Equal(t, "1", apiResponse.OrderRisk.ID)
+	assert.Equal(t, "21056921623197625897868288", apiResponse.OrderRisk.OrderId)
+	assert.Equal(t, "1", apiResponse.OrderRisk.Id)
 }
 
 func TestUpdate(t *testing.T) {
@@ -88,8 +88,8 @@ func TestUpdate(t *testing.T) {
 		httpmock.NewBytesResponder(200, test.LoadTestData("order/risk.json")))
 
 	apiReq := &UpdateOrderRiskAPIReq{
-		OrderID: "21056921623197625897868288",
-		RiskID:  "1",
+		OrderId: "21056921623197625897868288",
+		RiskId:  "1",
 		UpdateOrderRisk: UpdateOrderRisk{
 			Display: true,
 		},
@@ -101,8 +101,8 @@ func TestUpdate(t *testing.T) {
 	}
 	assert.NotNil(t, apiResponse)
 	assert.NotEmpty(t, apiResponse.OrderRisk)
-	assert.Equal(t, "21056921623197625897868288", apiResponse.OrderRisk.OrderID)
-	assert.Equal(t, "1", apiResponse.OrderRisk.ID)
+	assert.Equal(t, "21056921623197625897868288", apiResponse.OrderRisk.OrderId)
+	assert.Equal(t, "1", apiResponse.OrderRisk.Id)
 }
 
 func TestDelete(t *testing.T) {
@@ -114,8 +114,8 @@ func TestDelete(t *testing.T) {
 		httpmock.NewStringResponder(200, ""))
 
 	apiReq := &DeleteOrderRiskAPIReq{
-		OrderID: "21056921623197625897868288",
-		RiskID:  "1",
+		OrderId: "21056921623197625897868288",
+		RiskId:  "1",
 	}
 
 	apiResponse, err := GetOrderRiskService().Delete(context.Background(), apiReq)
@@ -134,7 +134,7 @@ func TestDeleteAll(t *testing.T) {
 		httpmock.NewStringResponder(200, ""))
 
 	apiReq := &DeleteOrderRisksAPIReq{
-		OrderID: "21056921623197625897868288",
+		OrderId: "21056921623197625897868288",
 	}
 
 	apiResponse, err := GetOrderRiskService().DeleteAll(context.Background(), apiReq)

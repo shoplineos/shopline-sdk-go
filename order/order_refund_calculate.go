@@ -10,7 +10,7 @@ import (
 // 中文：https://developer.shopline.com/zh-hans-cn/docs/admin-rest-api/order/order-management/order-refund-trial?version=v20251201
 // En：https://developer.shopline.com/docs/admin-rest-api/order/order-management/order-refund-trial?version=v20251201
 type CalculateOrderRefundAPIReq struct {
-	OrderID         string           `url:"order_id,omitempty"`
+	OrderId         string           `url:"order_id,omitempty"`
 	Currency        string           `json:"currency,omitempty"`
 	RefundLineItems []RefundLineItem `json:"refund_line_items,omitempty"`
 
@@ -24,14 +24,14 @@ type RefundLineItem struct {
 }
 
 func (r CalculateOrderRefundAPIReq) Verify() error {
-	if r.OrderID == "" {
-		return errors.New("OrderID is required")
+	if r.OrderId == "" {
+		return errors.New("OrderId is required")
 	}
 	return nil
 }
 
 func (r CalculateOrderRefundAPIReq) Endpoint() string {
-	return fmt.Sprintf("orders/%s/refunds/calculate.json", r.OrderID)
+	return fmt.Sprintf("orders/%s/refunds/calculate.json", r.OrderId)
 }
 
 type CalculateOrderRefundAPIResp struct {
@@ -54,7 +54,7 @@ type CalculateRefundTransaction struct {
 	Gateway           string `json:"gateway,omitempty"` // Pay Gateways
 	Kind              string `json:"kind,omitempty"`
 	MaximumRefundable string `json:"maximum_refundable,omitempty"`
-	OrderID           string `json:"order_id,omitempty"`
+	OrderId           string `json:"order_id,omitempty"`
 	ParentId          string `json:"parent_id,omitempty"`
 	Amount            string `json:"amount,omitempty"` // Amount
 	Currency          string `json:"currency,omitempty"`

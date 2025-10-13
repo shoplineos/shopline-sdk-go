@@ -9,7 +9,7 @@ import (
 // 中文：https://developer.shopline.com/zh-hans-cn/docs/admin-rest-api/order/order-management/order-refund?version=v20251201
 // en：https://developer.shopline.com/docs/admin-rest-api/order/order-management/order-refund?version=v20251201
 type RefundAPIReq struct {
-	OrderID         string          `json:"order_id,omitempty"`
+	OrderId         string          `json:"order_id,omitempty"`
 	Notify          string          `json:"notify,omitempty"`
 	ProcessedAt     string          `json:"processed_at,omitempty"` // 2023-04-12T22:59:52+08:00
 	RefundLineItems []RefundLine    `json:"refund_line_items,omitempty"`
@@ -21,7 +21,7 @@ type RefundAPIReq struct {
 }
 
 type RefundLine struct {
-	LineItemID   string `json:"line_item_id"`
+	LineItemId   string `json:"line_item_id"`
 	Quantity     int    `json:"quantity,omitempty"`
 	RefundAmount string `json:"refund_amount,omitempty"`
 }
@@ -37,7 +37,7 @@ type RefundAPIResp struct {
 }
 
 type Refund struct {
-	ID              string        `json:"id,omitempty"` // refund id
+	Id              string        `json:"id,omitempty"` // refund id
 	OrderId         string        `json:"order_id,omitempty"`
 	CreatedAt       string        `json:"created_at,omitempty"` // ISO 8601
 	Note            string        `json:"note,omitempty"`
@@ -52,9 +52,9 @@ type OrderAdjustment struct {
 	Id           string       `json:"id,omitempty"`
 	AmountSet    AmountSet    `json:"amount_set,omitempty"`
 	Kind         string       `json:"kind,omitempty"`
-	RefundID     string       `json:"refund_id,omitempty"`
+	RefundId     string       `json:"refund_id,omitempty"`
 	Amount       string       `json:"amount,omitempty"`
-	OrderID      string       `json:"order_id,omitempty"`
+	OrderId      string       `json:"order_id,omitempty"`
 	TaxAmount    string       `json:"tax_amount,omitempty"`
 	TaxAmountSet TaxAmountSet `json:"tax_amount_set,omitempty"`
 	Reason       string       `json:"reason,omitempty"`

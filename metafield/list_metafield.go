@@ -26,7 +26,7 @@ type ListMetafieldAPIReq struct {
 
 	Fields   string `url:"fields,omitempty"`
 	Limit    string `url:"limit,omitempty"`
-	SinceID  string `url:"since_id,omitempty"`
+	SinceId  string `url:"since_id,omitempty"`
 	PageInfo string `url:"page_info,omitempty"`
 }
 

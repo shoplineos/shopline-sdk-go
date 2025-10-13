@@ -75,7 +75,7 @@ import (
 //		log.Fatal(err)
 //	}
 //
-//	log.Printf("New product ID: %v\n", apiResp.Product.Id)
+//	log.Printf("New product Id: %v\n", apiResp.Product.Id)
 //
 //	// option
 //	log.Printf("Create product resp: %+v", apiResp)

@@ -108,7 +108,7 @@ func TestProductListFilterByIds(t *testing.T) {
 		httpmock.NewStringResponder(200, `{"products": [{"id":"1"},{"id":"2"},{"id":"3"}]}`))
 
 	requestParams := &ListProductsAPIReq{
-		IDs: "1,2,3",
+		Ids: "1,2,3",
 	}
 	productsAPIResp, err := GetProductService().List(context.Background(), requestParams)
 

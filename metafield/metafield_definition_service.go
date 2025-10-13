@@ -110,9 +110,9 @@ func (m MetafieldDefinitionService) Get(ctx context.Context, apiReq *GetMetafiel
 func (m MetafieldDefinitionService) Delete(ctx context.Context, apiReq *DeleteMetafieldDefinitionAPIReq) (*DeleteMetafieldDefinitionAPIResp, error) {
 
 	query := struct {
-		ID string `url:"id"`
+		Id string `url:"id"`
 	}{
-		ID: apiReq.ID,
+		Id: apiReq.Id,
 	}
 
 	// 1. API request

@@ -20,7 +20,7 @@ type ListOrdersAPIReq struct {
 	Location      string `url:"location,omitempty"`       // Location ids, Separate multiple with commas
 	SearchContent string `url:"search_content,omitempty"` // Search Content（Order id、Product title and so on）
 
-	BuyerID     string `url:"buyer_id,omitempty"`     // Buyer ID
+	BuyerID     string `url:"buyer_id,omitempty"`     // Buyer Id
 	Fields      string `url:"fields,omitempty"`       // Fields, Separate multiple with commas
 	HiddenOrder string `url:"hidden_order,omitempty"` // Is Hidden Order（true/false）
 	IDs         string `url:"ids,omitempty"`          // Order ids, Separate multiple with commas
@@ -28,7 +28,7 @@ type ListOrdersAPIReq struct {
 	Status          string `url:"status,omitempty"`           // Status（open/cancelled/any）
 	FinancialStatus string `url:"financial_status,omitempty"` // Financial Status（unpaid/authorized）
 
-	SinceID  string `url:"since_id,omitempty"`  // Order Since ID
+	SinceID  string `url:"since_id,omitempty"`  // Order Since Id
 	Limit    string `url:"limit,omitempty"`     // Limit
 	PageInfo string `url:"page_info,omitempty"` // Page Info
 }

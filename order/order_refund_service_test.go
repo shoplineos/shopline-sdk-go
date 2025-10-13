@@ -19,7 +19,7 @@ func TestOrderRefund(t *testing.T) {
 		httpmock.NewStringResponder(200, `{"data":{"id":"5144142", "order_id":"123"}}`))
 
 	apiReq := &RefundAPIReq{
-		OrderID: "123",
+		OrderId: "123",
 	}
 
 	apiResponse, err := GetOrderRefundService().Refund(context.Background(), apiReq)
@@ -38,7 +38,7 @@ func TestOrderRefundList(t *testing.T) {
 		httpmock.NewBytesResponder(200, test.LoadTestData("order/refunds.json")))
 
 	apiReq := &ListOrderRefundsAPIReq{
-		OrderID: "1",
+		OrderId: "1",
 	}
 
 	apiResponse, err := GetOrderRefundService().List(context.Background(), apiReq)
@@ -53,7 +53,7 @@ func TestOrderRefundList(t *testing.T) {
 	refund := apiResponse.Refunds[0]
 	assert.NotEmpty(t, refund)
 
-	assert.Equal(t, "ref_1234567890abcdef01234567", refund.ID)
+	assert.Equal(t, "ref_1234567890abcdef01234567", refund.Id)
 
 }
 
@@ -66,8 +66,8 @@ func TestOrderRefundGet(t *testing.T) {
 		httpmock.NewBytesResponder(200, test.LoadTestData("order/refund.json")))
 
 	apiReq := &GetOrderRefundAPIReq{
-		OrderID:  "1",
-		RefundID: "ref_1234567890abcdef01234567",
+		OrderId:  "1",
+		RefundId: "ref_1234567890abcdef01234567",
 	}
 
 	apiResponse, err := GetOrderRefundService().Get(context.Background(), apiReq)
@@ -81,7 +81,7 @@ func TestOrderRefundGet(t *testing.T) {
 	refund := apiResponse.Refund
 	assert.NotEmpty(t, refund)
 
-	assert.Equal(t, "ref_1234567890abcdef01234567", refund.ID)
+	assert.Equal(t, "ref_1234567890abcdef01234567", refund.Id)
 
 }
 
@@ -94,7 +94,7 @@ func TestOrderRefundCalc(t *testing.T) {
 		httpmock.NewBytesResponder(200, test.LoadTestData("order/calculate.json")))
 
 	apiReq := &CalculateOrderRefundAPIReq{
-		OrderID:  "1",
+		OrderId:  "1",
 		Currency: "CNY",
 	}
 
