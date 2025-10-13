@@ -29,12 +29,3 @@ type GetStoreStaffAPIResp struct {
 	client.BaseAPIResponse
 	StoreStaff StoreStaff `json:"data,omitempty"`
 }
-
-type StoreStaff struct {
-	AccountOwner bool   `json:"account_owner,omitempty"`
-	Email        string `json:"email,omitempty"`
-	Name         string `json:"name,omitempty"`
-	Phone        string `json:"phone,omitempty"`
-	UID          string `json:"uid,omitempty"`
-	UserType     string `json:"user_type,omitempty"`
-}

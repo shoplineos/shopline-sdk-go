@@ -45,11 +45,3 @@ type ListStorePayoutsAPIResp struct {
 	client.BaseAPIResponse
 	Payouts []Payout `json:"payouts,omitempty"`
 }
-
-type Payout struct {
-	Amount              string `json:"amount,omitempty"`
-	Currency            string `json:"currency,omitempty"`
-	PayoutTransactionNo string `json:"payout_transaction_no,omitempty"`
-	Status              string `json:"status,omitempty"`
-	Time                string `json:"time,omitempty"`
-}

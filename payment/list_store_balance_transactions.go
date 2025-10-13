@@ -35,23 +35,3 @@ type ListStoreBalanceTransactionsAPIResp struct {
 	client.BaseAPIResponse
 	BalanceTransactions []BalanceTransaction `json:"transactions,omitempty"`
 }
-
-type BalanceTransaction struct {
-	ID                       string `json:"id"`
-	Amount                   string `json:"amount,omitempty"`
-	Currency                 string `json:"currency,omitempty"`
-	SourceOrderTransactionId string `json:"source_order_transaction_id,omitempty"`
-	Fee                      string `json:"fee,omitempty"`
-	Net                      string `json:"net,omitempty"`
-	SettlementAmount         string `json:"settlement_amount,omitempty"`
-	ProcessedAt              string `json:"processed_at,omitempty"`
-	Type                     string `json:"type,omitempty"`
-	SourcePaymentId          string `json:"source_payment_id,omitempty"`
-	ExchangeRate             string `json:"exchange_rate,omitempty"`
-	PayoutId                 string `json:"payout_id,omitempty"`
-	SettlementCurrency       string `json:"settlement_currency,omitempty"`
-	SourceType               string `json:"source_type,omitempty"`
-	TransactionTime          string `json:"transaction_time,omitempty"`
-	PayoutStatus             string `json:"payout_status,omitempty"`
-	SourceOrderId            string `json:"source_order_id,omitempty"`
-}

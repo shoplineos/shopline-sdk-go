@@ -29,13 +29,3 @@ type GetStoreOperationLogAPIResp struct {
 	client.BaseAPIResponse
 	OperationLog OperationLog `json:"data,omitempty"`
 }
-
-type OperationLog struct {
-	Author      string `json:"author,omitempty"`
-	CreatedAt   string `json:"created_at,omitempty"`
-	Detail      string `json:"detail,omitempty"`
-	ID          string `json:"id,omitempty"`
-	SubjectId   string `json:"subject_id,omitempty"`
-	SubjectType string `json:"subject_type,omitempty"`
-	Verb        string `json:"verb,omitempty"`
-}
