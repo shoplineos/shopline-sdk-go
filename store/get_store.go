@@ -3,7 +3,6 @@ package store
 import (
 	"context"
 	"github.com/shoplineos/shopline-sdk-go/client"
-	"log"
 )
 
 // GetStoreAPIReq
@@ -123,10 +122,10 @@ func GetStoreInfo(c *client.Client, apiReq *GetStoreAPIReq) (*GetStoreAPIResp, e
 
 	// 4. Call API
 	_, err := c.Get(context.Background(), endpoint, shopLineReq, apiResp)
-	if err != nil {
-		log.Printf("Failed to send request: %v\n", err)
-		return nil, err
-	}
+	//if err != nil {
+	//	log.Printf("Failed to send request: %v\n", err)
+	//	return nil, err
+	//}
 
-	return apiResp, nil
+	return apiResp, err
 }

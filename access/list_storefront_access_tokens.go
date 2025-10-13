@@ -20,6 +20,6 @@ func (c ListStorefrontAccessTokensAPIReq) Endpoint() string {
 }
 
 type ListStorefrontAccessTokensAPIResp struct {
-	StorefrontAccessTokens []StorefrontAccessToken `json:"storefront_access_tokens,omitempty"`
 	client.BaseAPIResponse
+	StorefrontAccessTokens []StorefrontAccessToken `json:"storefront_access_tokens,omitempty"`
 }

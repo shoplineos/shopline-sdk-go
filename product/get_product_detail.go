@@ -21,9 +21,8 @@ func (req *GetProductDetailAPIReq) Endpoint() string {
 }
 
 type GetProductDetailAPIResp struct {
-	Product ProductRespData `json:"product"`
-
 	client.BaseAPIResponse
+	Product ProductRespData `json:"product"`
 }
 
 // GetProductDetail

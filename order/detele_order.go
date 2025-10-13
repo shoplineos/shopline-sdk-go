@@ -45,10 +45,10 @@ func DeleteOrder(c *client.Client, apiReq *DeleteOrderAPIReq) (*DeleteOrderAPIRe
 
 	// 4. Call API
 	_, err := c.Delete(context.Background(), endpoint, shopLineReq, apiResp)
-	if err != nil {
-		fmt.Printf("Execute Request failed，endpoint: %s, shopLineReq: %v, err: %v\n", endpoint, shopLineReq, err)
-		return nil, err
-	}
+	//if err != nil {
+	//	fmt.Printf("Execute Request failed，endpoint: %s, shopLineReq: %v, err: %v\n", endpoint, shopLineReq, err)
+	//	return nil, err
+	//}
 
-	return apiResp, nil
+	return apiResp, err
 }

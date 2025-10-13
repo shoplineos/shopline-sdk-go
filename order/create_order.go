@@ -22,8 +22,8 @@ func (req *CreateOrderAPIReq) Endpoint() string {
 
 // CreateOrderAPIResp Define the request structure for creating an order (corresponding to the API request body)
 type CreateOrderAPIResp struct {
-	Order Order `json:"order"`
 	client.BaseAPIResponse
+	Order Order `json:"order"`
 }
 
 // Order Order structure

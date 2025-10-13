@@ -6,9 +6,8 @@ import (
 )
 
 type ListProductsAPIResp struct {
-	Products []ProductRespData `json:"products"`
-
 	client.BaseAPIResponse
+	Products []ProductRespData `json:"products"`
 }
 
 type ListProductsAPIReq struct {

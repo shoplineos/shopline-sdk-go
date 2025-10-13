@@ -22,8 +22,8 @@ func (req *UpdateOrderAPIReq) Endpoint() string {
 
 // UpdateOrderAPIResp Define the request structure for upate an order (corresponding to the API request body)
 type UpdateOrderAPIResp struct {
-	Order Order `json:"order"`
 	client.BaseAPIResponse
+	Order Order `json:"order"`
 }
 
 // UpdateOrder
@@ -45,10 +45,10 @@ func UpdateOrder(c *client.Client, apiReq *UpdateOrderAPIReq) (*UpdateOrderAPIRe
 
 	// 4. Call API
 	_, err := c.Put(context.Background(), endpoint, shopLineReq, apiResp)
-	if err != nil {
-		fmt.Printf("Execute Request failed，endpoint: %s, shopLineReq: %v, err: %v\n", endpoint, shopLineReq, err)
-		return nil, err
-	}
+	//if err != nil {
+	//	fmt.Printf("Execute Request failed，endpoint: %s, shopLineReq: %v, err: %v\n", endpoint, shopLineReq, err)
+	//	return nil, err
+	//}
 
-	return apiResp, nil
+	return apiResp, err
 }

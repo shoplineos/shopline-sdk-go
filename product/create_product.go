@@ -3,7 +3,6 @@ package product
 import (
 	"context"
 	"github.com/shoplineos/shopline-sdk-go/client"
-	"log"
 )
 
 // CreateProductAPIReq Create Product Request Params
@@ -119,9 +118,9 @@ func CreateProduct(c *client.Client, apiReq *CreateProductAPIReq) (*CreateProduc
 
 	// 4. Call API
 	_, err := c.Post(context.Background(), endpoint, request, apiResp)
-	if err != nil {
-		log.Printf("CreateProduct request failed: %v\n", err)
-		return nil, err
-	}
+	//if err != nil {
+	//	log.Printf("CreateProduct request failed: %v\n", err)
+	//	return nil, err
+	//}
 	return apiResp, err
 }

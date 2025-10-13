@@ -2,7 +2,6 @@ package order
 
 import (
 	"context"
-	"fmt"
 	"github.com/shoplineos/shopline-sdk-go/client"
 )
 
@@ -33,8 +32,8 @@ type RefundShipping struct {
 }
 
 type RefundAPIResp struct {
-	Refund RefundResultDTO `json:"data,omitempty"`
 	client.BaseAPIResponse
+	Refund RefundResultDTO `json:"data,omitempty"`
 }
 
 type RefundResultDTO struct {
@@ -109,10 +108,10 @@ func OrderRefund(c *client.Client, apiReq *RefundAPIReq) (*RefundAPIResp, error)
 
 	// 4. Call API
 	_, err := c.Post(context.Background(), endpoint, shopLineReq, apiResp)
-	if err != nil {
-		fmt.Printf("Execute Request failed，endpoint: %s, shopLineReq: %v, err: %v\n", endpoint, shopLineReq, err)
-		return nil, err
-	}
+	//if err != nil {
+	//	fmt.Printf("Execute Request failed，endpoint: %s, shopLineReq: %v, err: %v\n", endpoint, shopLineReq, err)
+	//	return nil, err
+	//}
 
-	return apiResp, nil
+	return apiResp, err
 }

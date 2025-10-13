@@ -39,14 +39,12 @@ func (req *ListOrdersAPIReq) Verify() error {
 }
 
 func (req *ListOrdersAPIReq) Endpoint() string {
-	endpoint := "orders.json"
-	return endpoint
+	return "orders.json"
 }
 
 type ListOrdersAPIResp struct {
-	Orders []Order `json:"orders"`
-
 	client.BaseAPIResponse
+	Orders []Order `json:"orders"`
 }
 
 // ListOrders

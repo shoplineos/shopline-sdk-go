@@ -3,7 +3,6 @@ package order
 import (
 	"context"
 	"github.com/shoplineos/shopline-sdk-go/client"
-	"log"
 )
 
 type GetOrdersCountAPIReq struct {
@@ -28,8 +27,8 @@ func (req *GetOrdersCountAPIReq) Endpoint() string {
 }
 
 type GetOrdersCountAPIResp struct {
-	Count int `json:"count"`
 	client.BaseAPIResponse
+	Count int `json:"count"`
 }
 
 // QueryOrdersCount
@@ -52,12 +51,12 @@ func QueryOrdersCount(c *client.Client, apiReq *GetOrdersCountAPIReq) (*GetOrder
 
 	// 4. Call API
 	_, err := c.Get(context.Background(), endpoint, shopLineReq, apiResp)
-	if err != nil {
-		log.Printf("Failed to Get: %v\n", err)
-		return apiResp, err
-	}
+	//if err != nil {
+	//	log.Printf("Failed to Get: %v\n", err)
+	//	return apiResp, err
+	//}
 
 	//fmt.Printf("body:%s\n", string(body))
 
-	return apiResp, nil
+	return apiResp, err
 }

@@ -34,6 +34,6 @@ func (c CountMetafieldAPIReq) Endpoint() string {
 }
 
 type CountMetafieldAPIResp struct {
-	Count int `json:"count,omitempty"`
 	client.BaseAPIResponse
+	Count int `json:"count,omitempty"`
 }

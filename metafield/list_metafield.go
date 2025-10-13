@@ -45,6 +45,6 @@ func (l ListMetafieldAPIReq) Endpoint() string {
 }
 
 type ListMetafieldAPIResp struct {
-	Metafields []Metafield `json:"metafields,omitempty"`
 	client.BaseAPIResponse
+	Metafields []Metafield `json:"metafields,omitempty"`
 }

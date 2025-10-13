@@ -37,8 +37,8 @@ func (l ListMetafieldDefinitionAPIReq) Endpoint() string {
 }
 
 type ListMetafieldDefinitionAPIResp struct {
-	Data ListMetafieldDefinitionAPIRespData `json:"data,omitempty"`
 	client.BaseAPIResponse
+	Data ListMetafieldDefinitionAPIRespData `json:"data,omitempty"`
 }
 
 type ListMetafieldDefinitionAPIRespData struct {

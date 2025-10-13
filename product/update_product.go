@@ -4,7 +4,6 @@ import (
 	"context"
 	"fmt"
 	"github.com/shoplineos/shopline-sdk-go/client"
-	"log"
 )
 
 type UpdateProductAPIReq struct {
@@ -22,9 +21,8 @@ func (req *UpdateProductAPIReq) Endpoint() string {
 }
 
 type UpdateProductAPIResp struct {
-	Product ProductRespData `json:"product"`
-
 	client.BaseAPIResponse
+	Product ProductRespData `json:"product"`
 }
 
 // UpdateProduct
@@ -46,14 +44,14 @@ func UpdateProduct(c *client.Client, apiReq *UpdateProductAPIReq) (*UpdateProduc
 	apiResp := &UpdateProductAPIResp{}
 
 	// 4. Call API
-	shopLineResp, err := c.Put(context.Background(), endpoint, request, apiResp)
+	_, err := c.Put(context.Background(), endpoint, request, apiResp)
 
-	if err != nil {
-		log.Printf("Update product failed，shopLineResp: %v, err: %v\n", shopLineResp, err)
-		return nil, err
-	}
+	//if err != nil {
+	//	log.Printf("Update product failed，shopLineResp: %v, err: %v\n", shopLineResp, err)
+	//	return nil, err
+	//}
 
 	//apiResp.TraceId = shopLineResp.TraceId
 
-	return apiResp, nil
+	return apiResp, err
 }
