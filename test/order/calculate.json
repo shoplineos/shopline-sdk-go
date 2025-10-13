@@ -1,0 +1,55 @@
+{
+  "refund": {
+    "currency": "USD",
+    "total_refundable_amount": "129.99",
+    "suggested_refund_amount": "109.99",
+    "remaining_refundable_amount": "20.00",
+    "calculated_at": "2024-09-01T15:30:45+08:00",
+    "refund_line_items": [
+      {
+        "line_item_id": "12343423111",
+        "product_id": "16057850264845250791280282",
+        "product_title": "2024夏季纯棉短袖T恤",
+        "sku": "TS-WHT-M-2024",
+        "quantity": 1,
+        "type": "Unshipped",
+        "unit_price": "99.99",
+        "subtotal_refund": "99.99",
+        "tax_refund": "8.99",
+        "discount_refund": "0.00",
+        "total_refund": "108.98"
+      }
+    ],
+    "shipping": {
+      "full_refund": true,
+      "requested_amount": "10.00",
+      "actual_refund_amount": "1.01",
+      "remaining_shipping_refundable": "0.00",
+      "tax_refund": "0.00"
+    },
+    "transactons": [
+      {
+        "gateway": "Paypal",
+        "kind": "suggested_refund",
+        "transaction_id": "23057520029306658561302511",
+        "maximum_refundable": "129.99",
+        "suggested_refund_amount": "109.99",
+        "currency": "USD",
+        "refund_method": "original_payment_method",
+        "estimated_refund_fee": "0.50",
+        "net_refund_to_customer": "109.49"
+      }
+    ],
+    "total_duties_set": {
+      "presentment_money": {
+        "amount": "8.99",
+        "currency_code": "USD"
+      },
+      "shop_money": {
+        "amount": "8.99",
+        "currency_code": "USD"
+      }
+
+    }
+  }
+}

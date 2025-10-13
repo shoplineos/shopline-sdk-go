@@ -1,0 +1,112 @@
+{
+  "data": [
+    {
+      "order_seq": "21071058873779430237494658",
+      "order_time": "2025-03-21T17:48:57+08:00",
+      "days_for_conversion": 2,
+      "total_traffics": 5,
+      "first_interaction": {
+        "first_interact_time": "2025-03-19T10:23:45+08:00",
+        "first_interaction_source": "Social",
+        "first_landing_page_url": "https://fafafa.myshopline.com/collections/summer-dresses?utm_source=facebook&utm_medium=social&utm_campaign=summer_sale_2025&utm_name=dress_banner&utm_content=carousel_ad&utm_term=women+dress",
+        "first_referrer_name": "Facebook",
+        "first_referrer_url": "https://www.facebook.com/ads/summer-dress-collection",
+        "first_utm_parameters": {
+          "first_utm_campaign": "summer_sale_2025",
+          "first_utm_content": "carousel_ad",
+          "first_utm_medium": "social",
+          "first_utm_name": "dress_banner",
+          "first_utm_source": "facebook",
+          "first_utm_term": "women+dress"
+        }
+      },
+      "last_interaction": {
+        "last_interact_time": "2025-03-21T17:46:12+08:00",
+        "last_interaction_source": "Search",
+        "last_landing_page": "https://fafafa.myshopline.com/products/floral-midi-dress?utm_source=google&utm_medium=search&utm_campaign=summer_sale_2025&utm_name=product_ads&utm_content=text_ad&utm_term=floral+midi+dress",
+        "last_referrer_name": "Google",
+        "last_referrer_url": "https://www.google.com/search?q=floral+midi+dress&oq=floral+midi+dress",
+        "last_utm_parameters": {
+          "last_utm_campaign": "summer_sale_2025",
+          "last_utm_content": "text_ad",
+          "last_utm_medium": "search",
+          "last_utm_name": "product_ads",
+          "last_utm_source": "google",
+          "last_utm_term": "floral+midi+dress"
+        }
+      }
+    },
+    {
+      "order_seq": "21069159447203440732216088",
+      "order_time": "2025-03-20T09:15:30+08:00",
+      "days_for_conversion": 0,
+      "total_traffics": 1,
+      "first_interaction": {
+        "first_interact_time": "2025-03-20T09:14:20+08:00",
+        "first_interaction_source": "Direct",
+        "first_landing_page_url": "https://fafafa.myshopline.com/products/leather-backpack",
+        "first_referrer_name": "Direct",
+        "first_referrer_url": null,
+        "first_utm_parameters": {
+          "first_utm_campaign": null,
+          "first_utm_content": null,
+          "first_utm_medium": null,
+          "first_utm_name": null,
+          "first_utm_source": null,
+          "first_utm_term": null
+        }
+      },
+      "last_interaction": {
+        "last_interact_time": "2025-03-20T09:14:20+08:00",
+        "last_interaction_source": "Direct",
+        "last_landing_page": "https://fafafa.myshopline.com/products/leather-backpack",
+        "last_referrer_name": "Direct",
+        "last_referrer_url": null,
+        "last_utm_parameters": {
+          "last_utm_campaign": null,
+          "last_utm_content": null,
+          "last_utm_medium": null,
+          "last_utm_name": null,
+          "last_utm_source": null,
+          "last_utm_term": null
+        }
+      }
+    },
+    {
+      "order_seq": "21069159447203440732129066",
+      "order_time": "2025-03-22T15:20:18+08:00",
+      "days_for_conversion": 3,
+      "total_traffics": 4,
+      "first_interaction": {
+        "first_interact_time": "2025-03-19T16:40:05+08:00",
+        "first_interaction_source": "AI Chat",
+        "first_landing_page_url": "https://fafafa.myshopline.com/collections/electronics?utm_source=shopline_ai&utm_medium=ai_chat&utm_campaign=tech_promo_2025&utm_name=ai_recommendation&utm_content=voice_prompt&utm_term=wireless_headphones",
+        "first_referrer_name": "Shopline AI Chat",
+        "first_referrer_url": "https://fafafa.myshopline.com/ai-chatbot",
+        "first_utm_parameters": {
+          "first_utm_campaign": "tech_promo_2025",
+          "first_utm_content": "voice_prompt",
+          "first_utm_medium": "ai_chat",
+          "first_utm_name": "ai_recommendation",
+          "first_utm_source": "shopline_ai",
+          "first_utm_term": "wireless_headphones"
+        }
+      },
+      "last_interaction": {
+        "last_interact_time": "2025-03-22T15:18:30+08:00",
+        "last_interaction_source": "Other",
+        "last_landing_page": "https://fafafa.myshopline.com/products/wireless-noise-canceling-headphones",
+        "last_referrer_name": "Tech Review Blog",
+        "last_referrer_url": "https://techreview.example.com/best-wireless-headphones-2025",
+        "last_utm_parameters": {
+          "last_utm_campaign": "tech_promo_2025",
+          "last_utm_content": "review_link",
+          "last_utm_medium": "blog",
+          "last_utm_name": "review_placement",
+          "last_utm_source": "tech_review_blog",
+          "last_utm_term": "noise+canceling+headphones"
+        }
+      }
+    }
+  ]
+}

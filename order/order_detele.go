@@ -10,7 +10,7 @@ import (
 // 中文：https://developer.shopline.com/zh-hans-cn/docs/admin-rest-api/order/order-management/delete-an-order?version=v20251201
 // en：https://developer.shopline.com/docs/admin-rest-api/order/order-management/delete-an-order?version=v20251201
 type DeleteOrderAPIReq struct {
-	OrderId string
+	OrderID string
 }
 
 func (req *DeleteOrderAPIReq) Verify() error {
@@ -19,7 +19,7 @@ func (req *DeleteOrderAPIReq) Verify() error {
 }
 
 func (req *DeleteOrderAPIReq) Endpoint() string {
-	endpoint := fmt.Sprintf("orders/%s.json", req.OrderId)
+	endpoint := fmt.Sprintf("orders/%s.json", req.OrderID)
 	return endpoint
 }
 

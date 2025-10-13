@@ -17,7 +17,11 @@ func setup() {
 		AppSecret: config.AppSecretForUnitTest,
 	}
 
-	cli = client.MustNewClient(app, config.StoreHandelForUnitTest, config.AccessTokenForUnitTest, client.WithClientAware(GetOrderService()))
+	cli = client.MustNewClient(app, config.StoreHandelForUnitTest, config.AccessTokenForUnitTest, client.WithClientAwares([]client.Aware{
+		GetOrderService(),
+		GetOrderRefundService(),
+		GetOrderRiskService(),
+	}))
 	if cli == nil {
 		panic("client is nil")
 	}

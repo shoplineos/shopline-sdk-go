@@ -16,7 +16,8 @@ type IOrderService interface {
 	Update(context.Context, *UpdateOrderAPIReq) (*UpdateOrderAPIResp, error)
 	Delete(context.Context, *DeleteOrderAPIReq) (*DeleteOrderAPIResp, error)
 	Cancel(context.Context, *CancelOrderAPIReq) (*CancelOrderAPIResp, error)
-	Refund(context.Context, *RefundAPIReq) (*RefundAPIResp, error)
+
+	ListAttributionInfos(context.Context, *ListOrderAttributionInfosAPIReq) (*ListOrderAttributionInfosAPIResp, error)
 }
 
 var serviceInst = &OrderService{}
@@ -29,21 +30,15 @@ type OrderService struct {
 	client.BaseService
 }
 
-// Refund
-// 中文：https://developer.shopline.com/zh-hans-cn/docs/admin-rest-api/order/order-management/order-refund?version=v20251201
-// en：https://developer.shopline.com/docs/admin-rest-api/order/order-management/order-refund?version=v20251201
-func (o *OrderService) Refund(ctx context.Context, req *RefundAPIReq) (*RefundAPIResp, error) {
+func (o *OrderService) ListAttributionInfos(ctx context.Context, req *ListOrderAttributionInfosAPIReq) (*ListOrderAttributionInfosAPIResp, error) {
 	// 1. API request
 	shopLineReq := &client.ShopLineRequest{
 		Data: req, // API request params
 	}
-
 	// 2. API response data
-	apiResp := &RefundAPIResp{}
-
+	apiResp := &ListOrderAttributionInfosAPIResp{}
 	// 3. Call API
 	_, err := o.Client.Post(ctx, req.Endpoint(), shopLineReq, apiResp)
-
 	return apiResp, err
 }
 
@@ -52,10 +47,8 @@ func (o *OrderService) Cancel(ctx context.Context, apiReq *CancelOrderAPIReq) (*
 	shopLineReq := &client.ShopLineRequest{
 		Data: apiReq, // API request params
 	}
-
 	// 2. API response data
 	apiResp := &CancelOrderAPIResp{}
-
 	// 3. Call API
 	_, err := o.Client.Post(ctx, apiReq.Endpoint(), shopLineReq, apiResp)
 	return apiResp, err

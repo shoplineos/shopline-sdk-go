@@ -14,7 +14,7 @@ import (
 //func TestCancelOrder(t *testing.T) {
 //
 //	apiReq := &CancelOrderAPIReq{
-//		OrderId: "123",
+//		OrderID: "123",
 //	}
 //
 //	c := manager.GetDefaultClient()
@@ -35,7 +35,7 @@ import (
 //func TestCancelOrderCase2(t *testing.T) {
 //
 //	apiReq := &CancelOrderAPIReq{
-//		OrderId: "21071580496925210798359811",
+//		OrderID: "21071580496925210798359811",
 //	}
 //
 //	c := manager.GetDefaultClient()
@@ -56,7 +56,7 @@ import (
 //func TestCancelOrderCase3(t *testing.T) {
 //
 //	apiReq := &CancelOrderAPIReq{
-//		OrderId: "21071580496925210798359834",
+//		OrderID: "21071580496925210798359834",
 //	}
 //
 //	c := manager.GetDefaultClient()
@@ -120,7 +120,7 @@ func TestOrderCancel(t *testing.T) {
 		httpmock.NewBytesResponder(200, test.LoadTestData("order/order.json")))
 
 	apiReq := &CancelOrderAPIReq{
-		OrderId: "123",
+		OrderID: "123",
 	}
 
 	apiResp, err := GetOrderService().Cancel(context.Background(), apiReq)

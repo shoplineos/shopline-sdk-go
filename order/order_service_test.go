@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"github.com/jarcoal/httpmock"
 	"github.com/shoplineos/shopline-sdk-go/test"
+	"github.com/stretchr/testify/assert"
 	"testing"
 )
 
@@ -59,4 +60,30 @@ func TestOrderServiceList(t *testing.T) {
 
 	order := apiResp.Orders[0]
 	orderTests(t, order)
+}
+
+func TestListAttributionInfos(t *testing.T) {
+	setup()
+	defer teardown()
+
+	httpmock.RegisterResponder("POST",
+		fmt.Sprintf("https://%s.myshopline.com/%s/%s/orders/order_attribution_info.json", cli.StoreHandle, cli.PathPrefix, cli.ApiVersion),
+		httpmock.NewBytesResponder(200, test.LoadTestData("order/order_attribution_info.json")))
+
+	apiReq := &ListOrderAttributionInfosAPIReq{
+		OrderIDs: []string{"1"},
+	}
+	apiResp, err := GetOrderService().ListAttributionInfos(context.Background(), apiReq)
+	if err != nil {
+		t.Errorf("Order.ListAttributionInfos error: %v", err)
+	}
+
+	if len(apiResp.OrderAttributionInfos) != 3 {
+		t.Errorf("Order.List got %v orders, expected: 3", len(apiResp.OrderAttributionInfos))
+	}
+
+	attributionInfo := apiResp.OrderAttributionInfos[0]
+	assert.NotNil(t, attributionInfo)
+	assert.Equal(t, "21071058873779430237494658", attributionInfo.OrderSeq)
+
 }

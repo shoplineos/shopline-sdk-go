@@ -1,0 +1,76 @@
+{
+  "risks": [
+    {
+      "id": "2905687834858288060687",
+      "order_id": "21056921623197625897868288",
+      "checkout_id": "2405664692071577423882",
+      "score": "0.98",
+      "recommendation": "cancel",
+      "display": true,
+      "cause_cancel": true,
+      "source": "External",
+      "detected_at": "2025-03-25T10:15:30+08:00",
+      "updated_at": "2025-03-25T10:16:45+08:00",
+      "risk_detail_msg_list": [
+        {
+          "message": "支付卡归属地与收货地址国家不一致（卡归属地：美国，收货地址：尼日利亚）",
+          "risk_detail_level": "cancel",
+          "risk_type": "payment_card_geo_mismatch",
+          "evidence": "card_country=US, shipping_country=NG"
+        },
+        {
+          "message": "1小时内同一IP地址尝试3次不同支付卡支付该订单，均失败后成功使用当前卡片",
+          "risk_detail_level": "cancel",
+          "risk_type": "multiple_payment_attempts",
+          "evidence": "ip=198.51.100.78, failed_attempts=3, success_attempts=1"
+        }
+      ]
+    },
+    {
+      "id": "2905687834858288060688",
+      "order_id": "21056921623197625897868288",
+      "checkout_id": "2405664692071577423882",
+      "score": "0.65",
+      "recommendation": "investigate",
+      "display": true,
+      "cause_cancel": false,
+      "source": "Internal",
+      "detected_at": "2025-03-25T10:17:20+08:00",
+      "updated_at": "2025-03-25T10:17:20+08:00",
+      "risk_detail_msg_list": [
+        {
+          "message": "收货地址为临时仓储地址（历史订单中该地址存在3次欺诈退款记录）",
+          "risk_detail_level": "investigate",
+          "risk_type": "suspicious_shipping_address",
+          "evidence": "address=123 Warehouse St, Lagos, NG, fraud_refund_count=3"
+        },
+        {
+          "message": "客户邮箱域名为免费临时邮箱（domain：temp-mail.org）",
+          "risk_detail_level": "investigate",
+          "risk_type": "temporary_email",
+          "evidence": "email=user123@temp-mail.org"
+        }
+      ]
+    },
+    {
+      "id": "2905687834858288060689",
+      "order_id": "21056921623197625897868288",
+      "checkout_id": "2405664692071577423882",
+      "score": "0.12",
+      "recommendation": "accept",
+      "display": false,
+      "cause_cancel": false,
+      "source": "Internal",
+      "detected_at": "2025-03-25T10:18:05+08:00",
+      "updated_at": "2025-03-25T10:18:05+08:00",
+      "risk_detail_msg_list": [
+        {
+          "message": "订单金额超出该客户历史平均订单金额2倍（历史平均：$50，当前：$120）",
+          "risk_detail_level": "accept",
+          "risk_type": "unusual_order_amount",
+          "evidence": "avg_historical_amount=$50, current_amount=$120"
+        }
+      ]
+    }
+  ]
+}

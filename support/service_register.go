@@ -16,6 +16,8 @@ func GetClientAwares() []client.Aware {
 	var awares = []client.Aware{
 		product.GetProductService(),
 		order.GetOrderService(),
+		order.GetOrderRiskService(),
+		order.GetOrderRefundService(),
 		metafield.GetMetafieldDefinitionService(),
 		metafield.GetMetafieldService(),
 		access.GetStorefrontAccessTokenService(),

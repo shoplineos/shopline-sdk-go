@@ -9,7 +9,7 @@ import (
 // 中文：https://developer.shopline.com/zh-hans-cn/docs/admin-rest-api/order/order-management/order-refund?version=v20251201
 // en：https://developer.shopline.com/docs/admin-rest-api/order/order-management/order-refund?version=v20251201
 type RefundAPIReq struct {
-	OrderId         string          `json:"order_id,omitempty"`
+	OrderID         string          `json:"order_id,omitempty"`
 	Notify          string          `json:"notify,omitempty"`
 	ProcessedAt     string          `json:"processed_at,omitempty"` // 2023-04-12T22:59:52+08:00
 	RefundLineItems []RefundLine    `json:"refund_line_items,omitempty"`
@@ -33,10 +33,10 @@ type RefundShipping struct {
 
 type RefundAPIResp struct {
 	client.BaseAPIResponse
-	Refund RefundResultDTO `json:"data,omitempty"`
+	Refund Refund `json:"data,omitempty"`
 }
 
-type RefundResultDTO struct {
+type Refund struct {
 	ID              string        `json:"id,omitempty"` // refund id
 	OrderId         string        `json:"order_id,omitempty"`
 	CreatedAt       string        `json:"created_at,omitempty"` // ISO 8601
