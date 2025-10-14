@@ -455,7 +455,7 @@ token, err := app.RefreshAccessToken(context.Background(), storeHandle)
 
 ### <span id="zh">中文</span>
 
-**注意**：对于使用 https://developer.shopline.com 的开发者来说，当前 SDK 尚处于积极开发阶段，是一个功能正在不断完善的预览版本。该库尚未实现所有 SHOPLINE 资源。我们欢迎您通过提交 Pull Request 来添加新的资源或端点，您也可以根据“使用您自己的数据模型”部分的指引自行实现。期待您的贡献！
+**注意**：对于使用 https://developer.shopline.com 的开发者来说，当前 SDK 尚处于积极开发阶段，是一个功能正在不断完善的预览版本。该库尚未实现所有 SHOPLINE 资源。我们欢迎你通过提交 Pull Request 来添加新的资源或端点，你也可以根据“使用你自己的数据模型”部分的指引自行实现。期待你的贡献！
 
 
 #### Install
@@ -705,7 +705,7 @@ apiResp, err := product.GetProductService().Create(context.Background(), apiReq)
 
 ```
 
-#### 使用您自己的数据模型
+#### 使用你自己的数据模型
 
 目前为止不是所有的 API 都已经实现，你可以发起1个 Pull Request，或者自己实现数据模型对象。
 下面这个例子是获取商品数量:
