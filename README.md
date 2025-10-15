@@ -316,9 +316,9 @@ func GetProductsCount(c *client.Client, apiReq *GetProductCountAPIReq) (*GetProd
 ```
 
 
-#### Use your own Service Interface
-* step1:Define a Service Interface
-  * See product_service.go or order_service.go
+#### Implementing your own service interface
+* step 1: Define a service interface
+  * Refer to product_service.go or order_service.go for examples.
   ```
     type IOrderService interface {
         List(context.Context, *ListOrdersAPIReq) (*ListOrdersAPIResp, error)
@@ -326,7 +326,7 @@ func GetProductsCount(c *client.Client, apiReq *GetProductCountAPIReq) (*GetProd
         ...
     }
   ```
-* step2:Define a Service struct and implements the Service Interface
+* step 2: Define a service struct and implement the service interface
   ```
     type OrderService struct {
       client.BaseService
@@ -341,7 +341,7 @@ func GetProductsCount(c *client.Client, apiReq *GetProductCountAPIReq) (*GetProd
     }
 
   ```
-* step3:Create a Service Instance
+* step 3: Create a service instance
   ```
     var serviceInst = &OrderService{}
     func GetOrderService() *OrderService {
@@ -349,12 +349,12 @@ func GetProductsCount(c *client.Client, apiReq *GetProductCountAPIReq) (*GetProd
     }
   ```
   
-* step4:Register the Service
-  * way 1: Use client.WithClientAware
+* step 4: Register the service
+  * method 1: Use client.WithClientAware to register.
     ```
     cli = support.MustNewClient(app, cfg.DefaultStoreHandle, cfg.DefaultAccessToken, client.WithClientAware(order.GetOrderService()))
     ```
-  * way 2: Modify the source code 'service_register.go'
+  * method 2: Modify the source code in service_register.go.
     
   ``` see: service_register.go
     func GetClientAwares() []client.Aware {
@@ -394,7 +394,7 @@ Server-side testing is primarily used by developers to verify application functi
 * If you haven't created an application yet, create one
   first：[Create an App](https://developer.shopline.com/docs/apps/application-management/creating-an-app?version=v20251201)
 
-##### step1、Replace App Data
+##### step 1、Replace App Data
 
 Find "app_config.go" and replace the variable data inside.
 
@@ -412,40 +412,45 @@ const (
 
 ```
 
-##### step2、Start the program(Only for local test)
+##### step 2、Start the program(Only for local test)
 
 Execute server/main.go. If successful, port 80 will be started locally. <br>
 The console prints "Server started on :80," indicating successful startup.
 
-##### step3、Local hosts bind 1 test domain name
+##### step 3、Local hosts bind 1 test domain name
 
 127.0.0.1 appdemo.myshopline.com <br>
 Mac: /etc/hosts <br>
 Windows: C:\Windows\System32\drivers\etc\hosts
 
-##### step4、Go to "App Settings" and set the App URL and App callback URL
+##### step 4、Go to "App Settings" and set the App URL and App callback URL
 
-path：[Partner Portal](https://developer.myshopline.com/) -> [App list](https://developer.myshopline.com/app/list) -> App Detail -> App settings <br>
-App loading mode: You can select the "Redirected" mode first, because the "embedded" mode must be the https
-protocol.<br>
-App URL：http://appdemo.myshopline.com/install <br>
-App callback URL：http://appdemo.myshopline.com/auth/callback
+1. Find [Apps]([App list](https://developer.myshopline.com/app/list) ) in the [Partner Portal](https://developer.myshopline.com/) .
 
-##### step5、App Receive the authorization code
+2. Click the name of the app you want to test.
 
-* Path：[Partner Portal](https://developer.myshopline.com/) -> [App list](https://developer.myshopline.com/app/list) -> App Detail -> Test App
-* Into App Detail，select「Test App」, click the「Install App」. At this point, the platform will first request
+3. Click App Settings under Basic Settings.
+
+4. Set the App URL and App Callback URL to http://appdemo.myshopline.com/install and http://appdemo.myshopline.com/auth/callback, respectively.
+
+5. Select 'Redirected' for the App Opening Method, as the 'Embedded' mode requires HTTPS.
+
+
+##### step 5、App Receive the authorization code
+
+1. Path：[Partner Portal](https://developer.myshopline.com/) -> [App list](https://developer.myshopline.com/app/list) -> App Detail -> Test App
+2. Into App Detail，select「Test App」, click the「Install App」. At this point, the platform will first request
   our [App URL] -> [Platform Auth Page] -> [App Callback URL] in step 4.
   If successful, it will print: Auth callback received ... code: xxx, where code is what we will use to exchange for
   Access Token later.
   For more details, see：[Receive the authorization code](https://developer.shopline.com/docs/apps/api-instructions-for-use/app-authorization?version=v20260301#step3)
   Example: server/main.go function 'CallbackHandler'
 
-##### step6、App Create Access Token
+##### step 6、App Create Access Token
 
-* Find the TestCreateAccessToken function in oauth_test.go and replace the code variable in the function with the
+1. Find the TestCreateAccessToken function in oauth_test.go and replace the code variable in the function with the
   code obtained in step 5.
-* Executing the TestCreateAccessToken function will request the platform to create an Access Token, and the result
+2. Executing the TestCreateAccessToken function will request the platform to create an Access Token, and the result
   will be printed in the console if successful.
   For more details, see: [App Create Access Token](https://developer.shopline.com/docs/apps/api-instructions-for-use/app-authorization?version=v20260301#step-4-request-an-access-token)
 
@@ -459,17 +464,17 @@ token, err := app.CreateAccessToken(context.Background(), code)
 
 ```
 
-##### step7、Use Access Token to call an API
+##### step 7、Use Access Token to call an API
 
 Use Access Token to call the [Create Product](https://developer.shopline.com/docs/admin-rest-api/product/product/create-a-product?version=v20251201) API
 
-* Find app_config.go and replace the AccessToken variable value with the Access Token obtained in step 6.
-* Find create_product_test.go and execute the TestCreateProduct function. If successful, it will print "New product
+1. Find app_config.go and replace the AccessToken variable value with the Access Token obtained in step 6.
+2. Find create_product_test.go and execute the TestCreateProduct function. If successful, it will print "New product
   ID: xxx", eg: "New product ID: 16071495214036953630973380".
   For more examples, see the xxx_test.go files in each package.  <br>
   For more details, see: [Create a product](https://developer.shopline.com/docs/admin-rest-api/product/product/create-a-product?version=v20251201)
 
-##### step8、App Refresh Access Token
+##### step 8、App Refresh Access Token
 
 Access tokens expire periodically, so we need to refresh them regularly. Executing the TestRefreshAccessToken function
 in oauth_test.go will request the platform to refresh the Access Token. Successful refreshes will be printed to the
@@ -547,68 +552,67 @@ import "github.com/shoplineos/shopline-sdk-go/client"
 如果还没有 Access Token，可以通过 OAuth 流程来获取 Access Token，流程如下：
 
 ```
-// For more details, see: server/main.go
-// Create an OAuth authorization URL for the app and redirect to it.
-// The following shows an example:
+// 详细见：server/main.go
+// 为应用创建一个 OAuth 授权 URL 并重定向到该 URL。
+// 如下展示了一个样例：
 func InstallHandler(w http.ResponseWriter, r *http.Request) {
-    // 1. verify http method
-	if r.Method != http.MethodGet {
-		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
-		return
-	}
+    // 1. 验证 HTTP 方法
+    if r.Method != http.MethodGet {
+        http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+        return
+    }
 
-	// 2. Parse request parameters
-	appkey := r.URL.Query().Get("appkey")
-	handle := r.URL.Query().Get("handle")
-	lang := r.URL.Query().Get("lang")
-	timestampStr := r.URL.Query().Get("timestamp")
-	sign := r.URL.Query().Get("sign")
+    // 2. 解析请求参数
+    appkey := r.URL.Query().Get("appkey")
+    handle := r.URL.Query().Get("handle")
+    lang := r.URL.Query().Get("lang")
+    timestampStr := r.URL.Query().Get("timestamp")
+    sign := r.URL.Query().Get("sign")
 
-	// 3. Verify parameters
-	if appkey == "" || timestampStr == "" || sign == "" {
-		http.Error(w, "Missing required parameters", http.StatusBadRequest)
-		return
-	}
+    // 3. 验证参数
+    if appkey == "" || timestampStr == "" || sign == "" {
+        http.Error(w, "Missing required parameters", http.StatusBadRequest)
+        return
+    }
+  
+    // 4. TODO: 验证时间戳
+    // timestamp, err := strconv.ParseInt(timestampStr, 10, 64)
+    // if err != nil || time.Now().Unix()-timestamp > 6000 {
+    //     http.Error(w, "Invalid timestamp", http.StatusBadRequest)
+    //     return
+    // }
 
-	// 4. TODO Verify the timestamp
-	//timestamp, err := strconv.ParseInt(timestampStr, 10, 64)
-	//if err != nil || time.Now().Unix()-timestamp > 6000 {
-	//	http.Error(w, "Invalid timestamp", http.StatusBadRequest)
-	//	return
-	//}
-	
-	
-	app := manager.GetApp(appkey)
+    app := manager.GetApp(appkey)
 
-	// 5. Verify the signature
-	isSignValid := app.VerifySign(r.URL.Query(), sign)
-	if !isSignValid {
-		log.Printf("sign verification failed, appkey: %s, sign: %s\n", appkey, sign)
-		http.Error(w, "Invalid signature", http.StatusUnauthorized)
-		return
-	}
+    // 5. 验证签名
+    isSignValid := app.VerifySign(r.URL.Query(), sign)
+    if !isSignValid {
+        log.Printf("sign verification failed, appkey: %s, sign: %s\n", appkey, sign)
+        http.Error(w, "Invalid signature", http.StatusUnauthorized)
+        return
+    }
 
-	// 6. TODO process business logic
-	log.Printf("install received - appkey: %s, handle: %s, lang: %s", appkey, handle, lang)
+    // 6. TODO: 执行业务逻辑
+    log.Printf("install received - appkey: %s, handle: %s, lang: %s", appkey, handle, lang)
 
-	w.Header().Set("Content-Type", "application/json")
+    w.Header().Set("Content-Type", "application/json")
 
-	// App Request an authorization code
-	// 中文: https://developer.shopline.com/zh-hans-cn/docs/apps/api-instructions-for-use/app-authorization?version=v20260301#%E7%AC%AC%E4%B8%89%E6%AD%A5app-%E8%AF%B7%E6%B1%82%E6%8E%88%E6%9D%83%E7%A0%81
-	// en: https://developer.shopline.com/docs/apps/api-instructions-for-use/app-authorization?version=v20260301#step2
-	// url := fmt.Sprintf("https://%s.myshopline.com/admin/oauth-web/#/oauth/authorize?appKey=%s&responseType=code&scope=%s&redirectUri=%s", storeHandle, appKey, scope, redirectUri)
+    // 应用请求授权码
+    // 中文: https://developer.shopline.com/zh-hans-cn/docs/apps/api-instructions-for-use/app-authorization?version=v20260301#%E7%AC%AC%E4%B8%89%E6%AD%A5app-%E8%AF%B7%E6%B1%82%E6%8E%88%E6%9D%83%E7%A0%81
+    // en: https://developer.shopline.com/docs/apps/api-instructions-for-use/app-authorization?version=v20260301#step2
+    // url := fmt.Sprintf("https://%s.myshopline.com/admin/oauth-web/#/oauth/authorize?appKey=%s&responseType=code&scope=%s&redirectUri=%s", storeHandle, appKey, scope, redirectUri)
 
-	url, err := app.AuthorizeUrl(handle, "")
-	if err != nil {
-		log.Printf("Authorize url error, appkey: %s, handle: %s, err: %v\n", appkey, handle, err)
-		http.Error(w, "server error", http.StatusInternalServerError)
-		return
-	}
+    url, err := app.AuthorizeUrl(handle, "")
+    if err != nil {
+        log.Printf("Authorize URL error, appkey: %s, handle: %s, err: %v\n", appkey, handle, err)
+        http.Error(w, "server error", http.StatusInternalServerError)
+        return
+    }
 
-	http.Redirect(w, r, url, http.StatusTemporaryRedirect)
+    http.Redirect(w, r, url, http.StatusTemporaryRedirect)
 }
 
-// Fetch an Access Token in the callback
+// 在回调中获取访问令牌
 func CallbackHandler(w http.ResponseWriter, r *http.Request) {
     appkey := r.URL.Query().Get("appkey")
     code := r.URL.Query().Get("code")
@@ -617,26 +621,26 @@ func CallbackHandler(w http.ResponseWriter, r *http.Request) {
     timestampStr := r.URL.Query().Get("timestamp")
     sign := r.URL.Query().Get("sign")
     
-    // Check that the callback signature is valid
+    // 检查回调签名是否有效
     app := manager.GetApp(appkey)
-	isSignValid := app.VerifySign(r.URL.Query(), sign)
+    isSignValid := app.VerifySign(r.URL.Query(), sign)
     
     if isSignValid {
-        log.Println("sign verified successfully")
+        log.Println("Sign verified successfully")
     } else {
-        log.Printf("sign verification failed, sign=%s\n", sign)
+        log.Printf("Sign verification failed, sign=%s\n", sign)
         return
     }
     
-    // Create an Access token
+    // 创建访问令牌
     token, err := app.CreateAccessToken(context.Background(), code)
     
-    // Do something with the token, like store it in a DB or Cache.
+    // 使用令牌执行某些操作，例如将其存储在数据库或缓存中。
 }
 ```
 
 #### 使用 Access Token 调用 APIs
-
+以下是以商品相关接口为例：
 查询商品数量：
 https://developer.shopline.com/zh-hans-cn/docs/admin-rest-api/product/product/get-product-count?version=v20251201
 ``` Get Product Count
@@ -899,29 +903,29 @@ const (
 Mac径路: /etc/hosts <br>
 Windows路径: C:\Windows\System32\drivers\etc\hosts
 
-##### 步骤 四：去「应用设置」，设置 应用地址 和 应用回调地址
-
-路径：合作伙伴后台 -> [应用列表](https://developer.myshopline.com/app/list) -> 应用详情 -> 应用设置 <br>
-应用打开方式：可以先选择“外跳”模式，因为“内嵌”模式，必须是https协议。 <br>
-应用地址: http://appdemo.myshopline.com/install <br>
-应用回调地址: http://appdemo.myshopline.com/auth/callback
+##### 步骤 四：在 合作伙伴后台 设置 应用地址 和 应用回调地址
+1. 在 [合作伙伴后台](https://developer.shopline.com) 中找到 [应用](https://developer.myshopline.com/app/list)。
+2. 点击需要测试的应用名称。
+3. 点击 基础设置 下的 应用设置。
+4. 设置 应用地址 和 应用回调地址 分别为 http://appdemo.myshopline.com/install 和  http://appdemo.myshopline.com/auth/callback。
+5. 应用打开方式 选择 外跳，因为 内嵌 模式必须是 HTTPS 协议。
 
 ##### 步骤 五：应用接收授权码
 
-* 路径：合作伙伴后台 -> [应用列表](https://developer.myshopline.com/app/list) -> 应用详情 -> 应用测试
-* 进入应用详情，选择「应用测试」，点击「安装应用」。此时，平台会先请求我们第4步的【应用地址】 -> 【平台认证页面】 -> 【应用回调地址】
+1. 路径：[合作伙伴后台](https://developer.shopline.com) -> [应用列表](https://developer.myshopline.com/app/list) -> 应用详情 -> 应用测试
+2. 进入应用详情，选择「应用测试」，点击「安装应用」。此时，平台会先请求我们第4步的【应用地址】 -> 【平台认证页面】 -> 【应用回调地址】
   成功后会打印: Auth callback received ... code: xxx，其中 code 就是我们后续用来交换 Access Token。 <br>
   详细文档见：[App 收到授权码](https://developer.shopline.com/zh-hans-cn/docs/apps/api-instructions-for-use/app-authorization/?lang=zh-hans-cn#%E7%AC%AC%E4%BA%94%E6%AD%A5app-%E6%94%B6%E5%88%B0%E6%8E%88%E6%9D%83%E7%A0%81)  <br>
   代码示例见：server/main.go 函数 CallbackHandler
 
 ##### 步骤 六：App 获取 Access Token
 
-* 找到 oauth_test.go 里的 TestCreateAccessToken 函数，用第5步获取到的 code，替换函数里的 code 变量。
-* 执行 TestCreateAccessToken 函数，会请求平台获取 Access Token，成功后会打印在控制台。
+1. 找到 oauth_test.go 里的 TestCreateAccessToken 函数，用第5步获取到的 code，替换函数里的 code 变量。
+2. 执行 TestCreateAccessToken 函数，会请求平台获取 Access Token，成功后会打印在控制台。
   可参考: [应用请求 Access Token](https://developer.shopline.com/zh-hans-cn/docs/apps/api-instructions-for-use/app-authorization/?lang=zh-hans-cn#%E7%AC%AC%E5%85%AD%E6%AD%A5app-%E8%AF%B7%E6%B1%82-access-token)  <br>
 
 ```
-// Create Access Token
+// Create an Access Token
 appkey := "appkey"
 code := "code"
 app := manager.GetApp(appKey)
@@ -937,8 +941,8 @@ token, err := app.CreateAccessToken(context.Background(), code)
 调用 [创建商品](https://developer.shopline.com/zh-hans-cn/docs/admin-rest-api/product/product/create-a-product?version=v20251201)
 接口。
 
-* 找到 app_config.go，用第6步获取到的 Access Token，替换 AccessToken 变量值。
-* 找到 create_product_test.go，执行 TestCreateProduct 函数，成功后会打印 “新商品ID: xxx”，如：新商品ID:
+1. 找到 app_config.go，用第6步获取到的 Access Token，替换 AccessToken 变量值。
+2. 找到 create_product_test.go，执行 TestCreateProduct 函数，成功后会打印 “新商品ID: xxx”，如：新商品ID:
   16071495214036953630973380。
   更多例子见：各个包下面的 xxx_test.go 文件。  <br>
 
