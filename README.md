@@ -6,7 +6,7 @@
 
 ### <span id="en">English</span>
 
-**Note**: For developers using https://developer.shopline.com, the SDK is currently under active development and is a preview release with ongoing improvements. This library doesn't yet implement all SHOPLINE resources. We welcome you to submit Pull Requests to add new resources or endpoints, or you can implement your own by following the instructions in the "Using Your Own Data Model" section. We look forward to your contributions!
+**Note**: For developers using [SHOPLINE](https://developer.shopline.com), the SDK is currently under active development and is a preview release with ongoing improvements. This library doesn't yet implement all SHOPLINE resources. We welcome you to submit Pull Requests to add new resources or endpoints, or you can implement your own by following the instructions in the "Using Your Own Data Model" section. We look forward to your contributions!
 
 
 #### Install
@@ -161,8 +161,7 @@ https://developer.shopline.com/docs/admin-rest-api/product/product/get-product-c
   fmt.Printf("count:%d", apiResp.Count)
 ```
 
-Get Products:
-https://developer.shopline.com/docs/admin-rest-api/product/product/get-products?version=v20251201
+[Get Products](https://developer.shopline.com/docs/admin-rest-api/product/product/get-products?version=v20251201):
 ```Get Products
   requestParams := &ListProductsAPIReq{
       // IDs: "1,2,3",
@@ -171,8 +170,7 @@ https://developer.shopline.com/docs/admin-rest-api/product/product/get-products?
 ```
 
 
-Get Products Pagination:
-https://developer.shopline.com/docs/admin-rest-api/product/product/get-products?version=v20251201
+[Get Products Pagination](https://developer.shopline.com/docs/admin-rest-api/product/product/get-products?version=v20251201):
 ```Get Products
   requestParams := &ListProductsAPIReq{
       // IDs: "1,2,3",
@@ -180,16 +178,14 @@ https://developer.shopline.com/docs/admin-rest-api/product/product/get-products?
   productsAPIResp, err := product.GetProductService().ListWithPagination(context.Background(), requestParams)
 ```
 
-Query all products:
-https://developer.shopline.com/docs/admin-rest-api/product/product/get-products?version=v20251201
+[Query all products](https://developer.shopline.com/docs/admin-rest-api/product/product/get-products?version=v20251201):
 ``` query all products
   requestParams := &ListProductsAPIReq{}
   Products, err := product.GetProductService().ListAll(context.Background(), requestParams)
   
 ```
 
-Create a product:
-https://developer.shopline.com/docs/admin-rest-api/product/product/create-a-product?version=v20251201
+[Create a product](https://developer.shopline.com/docs/admin-rest-api/product/product/create-a-product?version=v20251201):
 ``` create a product
 // see create_product_test.go
 // create product
@@ -493,7 +489,7 @@ token, err := app.RefreshAccessToken(context.Background(), storeHandle)
 
 ### <span id="zh">中文</span>
 
-**注意**：对于使用 https://developer.shopline.com 的开发者来说，当前 SDK 封装了通用对接逻辑，旨在帮助开发者高效地构建应用，让你能更专注于业务功能的实现。当前 SDK 尚处于积极开发阶段，是一个功能正在不断完善的预览版本，当前已支持 OAuth 授权、商品、订单、Webhook等核心 API，并提供了清晰的客户端初始化、请求构建与响应处理模式。我们欢迎你通过提交 Pull Request 来添加新的资源或端点，你也可以根据“使用你自己的数据模型”部分的指引自行实现。期待你的贡献！
+**注意**：对于使用 [SHOPLINE](https://developer.shopline.com) 的开发者来说，当前 SDK 封装了通用对接逻辑，旨在帮助开发者高效地构建应用，让你能更专注于业务功能的实现。当前 SDK 尚处于 Beta 阶段，功能持续完善中，已支持 OAuth 授权、商品、订单等核心 API，并提供了清晰的客户端初始化、请求构建与响应处理模式。我们欢迎社区贡献代码，您可通过提交 Pull Request 补充新的资源或端点。如果遇到尚未实现的 API，可以参照 “使用你自己的数据模型” 自行封装。
 
 
 #### 安装
@@ -509,7 +505,7 @@ import "github.com/shoplineos/shopline-sdk-go/client"
 
 #### 初始化 App 和 Client
 ```
-  // 1. Create an app
+  // 1. 创建应用实例
   appInstance := client.App{
       AppKey:      "",              // replace your data
       AppSecret:   "",              // replace your data
@@ -520,7 +516,7 @@ import "github.com/shoplineos/shopline-sdk-go/client"
   handle := "zwapptest" // replace your data
   accessToken := ""  // replace your data
   
-  // 2. Create the client instance
+  // 2. 创建客户端实例
   // c := client.MustNewClient(appInstance, handle, accessToken)
   // appInstance.Client = c
 
@@ -528,20 +524,20 @@ import "github.com/shoplineos/shopline-sdk-go/client"
   c := support.MustNewClient(appInstance, handle, accessToken)
   appInstance.Client = c
 
-  // 3. Use the client to call the API
-  // 3.1 API request
+  // 3. 调用 API
+  // 3.1 API 请求
   getProductCountAPIReq := &GetProductCountAPIReq{}
   shoplineReq := &client.ShopLineRequest{
       Query: getProductCountAPIReq,
   }
 
-  // 3.2 API endpoint
+  // 3.2 API 端点
   endpoint := getProductCountAPIReq.Endpoint()
 
-  // 3.3 API response
+  // 3.3 API 响应
   apiResp := &GetProductCountAPIResp{}
 
-  // 3.4 Call an API
+  // 3.4 调用 API
   shoplineResp, err := c.Get(context.Background(), endpoint, shoplineReq, apiResp)
   fmt.Printf("count:%d", apiResp.Count)
     
@@ -640,17 +636,15 @@ func CallbackHandler(w http.ResponseWriter, r *http.Request) {
 ```
 
 #### 使用 Access Token 调用 APIs
-以下是以商品相关接口为例：
-查询商品数量：
-https://developer.shopline.com/zh-hans-cn/docs/admin-rest-api/product/product/get-product-count?version=v20251201
+以下是以商品相关接口为例：</br>
+[查询商品数量](https://developer.shopline.com/zh-hans-cn/docs/admin-rest-api/product/product/get-product-count?version=v20251201)：
 ``` Get Product Count
   apiReq := &GetProductCountAPIReq{}
   apiResp, err := product.GetProductService().Count(context.Background(), apiReq)
   fmt.Printf("count:%d", apiResp.Count)
 ```
 
-批量查询商品数据:
-https://developer.shopline.com/zh-hans-cn/docs/admin-rest-api/product/product/get-products?version=v20251201
+[批量查询商品数据](https://developer.shopline.com/zh-hans-cn/docs/admin-rest-api/product/product/get-products?version=v20251201):
 ```Query Products
   requestParams := &ListProductsAPIReq{
       // IDs: "1,2,3",
@@ -658,8 +652,7 @@ https://developer.shopline.com/zh-hans-cn/docs/admin-rest-api/product/product/ge
   productsAPIResp, err := product.GetProductService().List(context.Background(), requestParams)
 ```
 
-分页查询商品数据：
-https://developer.shopline.com/zh-hans-cn/docs/admin-rest-api/product/product/get-products?version=v20251201
+[分页查询商品数据](https://developer.shopline.com/zh-hans-cn/docs/admin-rest-api/product/product/get-products?version=v20251201)：
 ```Query Products
   requestParams := &ListProductsAPIReq{
       //IDs: "1,2,3",
@@ -668,8 +661,7 @@ https://developer.shopline.com/zh-hans-cn/docs/admin-rest-api/product/product/ge
 
 ```
 
-查询所有商品:
-https://developer.shopline.com/zh-hans-cn/docs/admin-rest-api/product/product/get-products?version=v20251201
+[查询所有商品](https://developer.shopline.com/zh-hans-cn/docs/admin-rest-api/product/product/get-products?version=v20251201):
 ``` Query all products
   requestParams := &ListProductsAPIReq{}
   Products, err := product.GetProductService().ListAll(context.Background(), requestParams)
@@ -677,11 +669,10 @@ https://developer.shopline.com/zh-hans-cn/docs/admin-rest-api/product/product/ge
 ```
 
 
-创建商品:
-https://developer.shopline.com/zh-hans-cn/docs/admin-rest-api/product/product/create-a-product?version=v20251201
+[创建商品](https://developer.shopline.com/zh-hans-cn/docs/admin-rest-api/product/product/create-a-product?version=v20251201):
 ```
-// See create_product_test.go
-// Create a product
+// 详细见：create_product_test.go
+// 创建商品
 // https://developer.shopline.com/docs/admin-rest-api/product/product/create-a-product/?version=v20251201
 apiReq := &product.CreateProductAPIReq{
     Product: Product{
@@ -752,7 +743,7 @@ apiResp, err := product.GetProductService().Create(context.Background(), apiReq)
 下面这个例子是获取商品数量:
 
 ```
-// See get_product_count.go
+// 详细见：get_product_count.go
 type GetProductCountAPIReq struct {
 	Status       string `url:"status,omitempty"`
 	CollectionId string `url:"collection_id,omitempty"`
@@ -778,25 +769,13 @@ type GetProductCountAPIResp struct {
 }
 
 func GetProductsCount(c *client.Client, apiReq *GetProductCountAPIReq) (*GetProductCountAPIResp, error) {
-
-    // 1. API request
     shoplineReq := &client.ShopLineRequest{
         Query: apiReq, // http url query params
         // Data: apiReq, // http body params
     }
-    
-    // 2. API endpoint
     endpoint := apiReq.Endpoint()
-    
-    // 3. API response
     apiResp := &GetProductCountAPIResp{}
-    
-    // 4. Call an API
     shoplineResp, err := c.Get(context.Background(), endpoint, shoplineReq, apiResp)
-    
-    // option
-    // apiResp.TraceId = shoplineResp.TraceId
-    
     return apiResp, err
 }
 
@@ -859,7 +838,7 @@ func GetProductsCount(c *client.Client, apiReq *GetProductCountAPIReq) (*GetProd
 例子:
 
 ```
-// see server/main.go
+// 详细见：server/main.go
 func WebhookHandler(w http.ResponseWriter, r *http.Request) {
     app := manager.GetDefaultApp()
     app.VerifyWebhookRequest(r)
@@ -925,7 +904,7 @@ Windows路径: C:\Windows\System32\drivers\etc\hosts
   可参考: [应用请求 Access Token](https://developer.shopline.com/zh-hans-cn/docs/apps/api-instructions-for-use/app-authorization/?lang=zh-hans-cn#%E7%AC%AC%E5%85%AD%E6%AD%A5app-%E8%AF%B7%E6%B1%82-access-token)  <br>
 
 ```
-// Create an Access Token
+// 创建 Access Token
 appkey := "appkey"
 code := "code"
 app := manager.GetApp(appKey)
@@ -953,11 +932,11 @@ Access Token 每隔一段时间会过期，因此我们需要定期刷新 Access
 详细见: [App 刷新 Access Token](https://developer.shopline.com/zh-hans-cn/docs/apps/api-instructions-for-use/app-authorization/?lang=zh-hans-cn#%E7%AC%AC%E5%85%AB%E6%AD%A5app-%E8%AF%B7%E6%B1%82%E5%88%B7%E6%96%B0-access-token)  <br>
 
 ```
-// Refresh the access token
+// 刷新 Access Token
 storeHandle := ""
 appKey := ""
 app := manager.GetApp(appKey)
 token, err := app.RefreshAccessToken(context.Background(), storeHandle)
 
-// Store the token in a database or cache for future use. 
+// 将 Access Token 存在数据库或者缓存里，方便后续使用
 ```
