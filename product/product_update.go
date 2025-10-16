@@ -6,8 +6,16 @@ import (
 	"github.com/shoplineos/shopline-sdk-go/client"
 )
 
+// UpdateProductAPIReq
+// 中文: https://developer.shopline.com/zh-hans-cn/docs/admin-rest-api/product/product/update-a-product?version=v20251201
+// en: https://developer.shopline.com/docs/admin-rest-api/product/product/update-a-product?version=v20251201
 type UpdateProductAPIReq struct {
+	client.BaseAPIRequest
 	Product Product `json:"product"`
+}
+
+func (req *UpdateProductAPIReq) Method() string {
+	return "PUT"
 }
 
 func (req *UpdateProductAPIReq) Verify() error {

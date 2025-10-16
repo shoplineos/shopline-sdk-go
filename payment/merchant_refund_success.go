@@ -10,6 +10,7 @@ import (
 // 中文：https://developer.shopline.com/zh-hans-cn/docs/admin-rest-api/payments-app-api/refund-successful-notification?version=v20251201
 // En：https://developer.shopline.com/docs/admin-rest-api/payments-app-api/refund-successful-notification?version=v20251201
 type MerchantRefundSuccessAPIReq struct {
+	client.BaseAPIRequest
 	ChannelId     string // required
 	PaymentMethod string // required
 
@@ -19,6 +20,10 @@ type MerchantRefundSuccessAPIReq struct {
 	Currency                   string `json:"currency,omitempty"`                      // required
 	RefundTransactionId        string `json:"refund_transaction_id,omitempty"`         // required
 	Status                     string `json:"status,omitempty"`                        // required
+}
+
+func (req *MerchantRefundSuccessAPIReq) Method() string {
+	return "POST"
 }
 
 func (req *MerchantRefundSuccessAPIReq) Verify() error {

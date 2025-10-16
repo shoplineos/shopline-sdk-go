@@ -10,11 +10,17 @@ import (
 // 中文：https://developer.shopline.com/zh-hans-cn/docs/admin-rest-api/order/order-management/query-risk-fraud-for-order-specify?version=v20251201
 // En：https://developer.shopline.com/docs/admin-rest-api/order/order-management/query-risk-fraud-for-order-specify?version=v20251201
 type GetOrderRiskAPIReq struct {
+	client.BaseAPIRequest
+
 	OrderId string `url:"order_id,omitempty"`
 	RiskId  string `url:"id,omitempty"`
 }
 
-func (r GetOrderRiskAPIReq) Verify() error {
+func (r *GetOrderRiskAPIReq) Method() string {
+	return "GET"
+}
+
+func (r *GetOrderRiskAPIReq) Verify() error {
 	if r.OrderId == "" {
 		return errors.New("order_id is required")
 	}
@@ -24,7 +30,7 @@ func (r GetOrderRiskAPIReq) Verify() error {
 	return nil
 }
 
-func (r GetOrderRiskAPIReq) Endpoint() string {
+func (r *GetOrderRiskAPIReq) Endpoint() string {
 	return fmt.Sprintf("orders/v2/%s/risks/%s.json", r.OrderId, r.RiskId)
 }
 

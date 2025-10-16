@@ -6,6 +6,11 @@ import "github.com/shoplineos/shopline-sdk-go/client"
 // 中文：https://developer.shopline.com/zh-hans-cn/docs/admin-rest-api/store/query-store-settlement-currency?version=v20251201
 // En：https://developer.shopline.com/docs/admin-rest-api/store/query-store-settlement-currency?version=v20251201
 type ListStoreCurrenciesAPIReq struct {
+	client.BaseAPIRequest
+}
+
+func (req *ListStoreCurrenciesAPIReq) Method() string {
+	return "GET"
 }
 
 func (req *ListStoreCurrenciesAPIReq) Verify() error {

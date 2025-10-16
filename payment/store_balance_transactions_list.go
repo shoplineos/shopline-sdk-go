@@ -8,6 +8,7 @@ import (
 // 中文:https://developer.shopline.com/zh-hans-cn/docs/admin-rest-api/shopline-payments/balance-transactions?version=v20251201
 // En:https://developer.shopline.com/docs/admin-rest-api/shopline-payments/balance-transactions?version=v20251201
 type ListStoreBalanceTransactionsAPIReq struct {
+	client.BaseAPIRequest
 	PageInfo string `url:"page_info,omitempty"`
 	SinceId  string `url:"since_id,omitempty"`
 
@@ -17,6 +18,10 @@ type ListStoreBalanceTransactionsAPIReq struct {
 	PayoutStatus string `url:"payout_status,omitempty"`
 
 	Status string `url:"status,omitempty"`
+}
+
+func (req *ListStoreBalanceTransactionsAPIReq) Method() string {
+	return "GET"
 }
 
 func (req *ListStoreBalanceTransactionsAPIReq) Verify() error {

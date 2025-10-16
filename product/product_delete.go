@@ -6,8 +6,16 @@ import (
 	"github.com/shoplineos/shopline-sdk-go/client"
 )
 
+// DeleteProductAPIReq
+// 中文: https://developer.shopline.com/zh-hans-cn/docs/admin-rest-api/product/product/delete-a-product?version=v20251201
+// en: https://developer.shopline.com/docs/admin-rest-api/product/product/delete-a-product?version=v20251201
 type DeleteProductAPIReq struct {
+	client.BaseAPIRequest
 	ProductId string
+}
+
+func (req *DeleteProductAPIReq) Method() string {
+	return "DELETE"
 }
 
 func (req *DeleteProductAPIReq) Verify() error {

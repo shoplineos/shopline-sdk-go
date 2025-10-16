@@ -58,8 +58,8 @@ type App struct {
 	Client *Client // API Client
 }
 
-// ShopLineRequestOptions Request options
-type ShopLineRequestOptions struct {
+// RequestOptions Request options
+type RequestOptions struct {
 
 	// Enable signature calculation, default is false
 	EnableSign bool
@@ -79,10 +79,10 @@ type ShopLineRequestOptions struct {
 // 中文: https://developer.shopline.com/zh-hans-cn/docs/apps/api-instructions-for-use/paging-mechanism?version=v20251201
 // en: https://developer.shopline.com/docs/apps/api-instructions-for-use/paging-mechanism?version=v20251201
 type ShopLineRequest struct {
-	Headers map[string]string       // http header
-	Query   interface{}             // your own struct or an APIRequest, for http url query params
-	Data    interface{}             // your own struct or an APIRequest, for http body params
-	Options *ShopLineRequestOptions // option params
+	Headers map[string]string // http header
+	Query   interface{}       // your own struct or an APIRequest, for http url query params
+	Data    interface{}       // your own struct or an APIRequest, for http body params
+	Options *RequestOptions   // option params
 }
 
 func (r *ShopLineRequest) isSignEnabled() bool {
@@ -218,6 +218,35 @@ func NewClientWithAwares(app App, storeHandle, token string, awares []Aware, opt
 		aware.SetClient(c)
 	}
 	return c, nil
+}
+
+// Call an API
+// resource : An API response resource, to specify the return type of the request, you can specify your own resource or an APIResponse
+func (c *Client) Call(ctx context.Context, req APIRequest, resource interface{}) error {
+
+	// 1. SHOPLINE API request
+	shopLineReq := newShopLineRequest(req)
+
+	// 2. Execute API
+	_, err := c.Execute(ctx, HTTPMethod(req.Method()), req.Endpoint(), shopLineReq, resource)
+	return err
+}
+
+func newShopLineRequest(req APIRequest) *ShopLineRequest {
+	shopLineReq := &ShopLineRequest{}
+	if req == nil {
+		return shopLineReq
+	}
+
+	if req.Method() == "GET" {
+		shopLineReq.Query = req.GetQuery()
+	} else {
+		shopLineReq.Query = req.GetQuery()
+		shopLineReq.Data = req.GetData()
+	}
+
+	shopLineReq.Options = req.GetRequestOptions()
+	return shopLineReq
 }
 
 // Put performs a PUT request for the given endpoint and saves the result in the given resource.

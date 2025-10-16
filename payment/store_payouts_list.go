@@ -9,6 +9,7 @@ import (
 // 中文:https://developer.shopline.com/zh-hans-cn/docs/admin-rest-api/shopline-payments/get-payouts?version=v20251201
 // En:https://developer.shopline.com/docs/admin-rest-api/shopline-payments/get-payouts?version=v20251201
 type ListStorePayoutsAPIReq struct {
+	client.BaseAPIRequest
 	PageInfo string `url:"page_info,omitempty"`
 	SinceId  string `url:"since_id,omitempty"`
 
@@ -21,6 +22,10 @@ type ListStorePayoutsAPIReq struct {
 	// 2025-04-30T00:00:00+08:00
 	EndTime string `url:"end_time,omitempty"` // required
 	Status  string `url:"status,omitempty"`
+}
+
+func (req *ListStorePayoutsAPIReq) Method() string {
+	return "GET"
 }
 
 func (req *ListStorePayoutsAPIReq) Verify() error {

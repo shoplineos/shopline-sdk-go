@@ -7,6 +7,8 @@ import (
 )
 
 type ListOrdersAPIReq struct {
+	client.BaseAPIRequest
+
 	ContractIDs       string `url:"contract_ids,omitempty"`       // Contract IDs, Separate multiple with commas
 	FulfillmentStatus string `url:"fulfillment_status,omitempty"` // Fulfillment Status（unshipped/partial/shipped）
 
@@ -31,6 +33,10 @@ type ListOrdersAPIReq struct {
 	SinceID  string `url:"since_id,omitempty"`  // Order Since Id
 	Limit    string `url:"limit,omitempty"`     // Limit
 	PageInfo string `url:"page_info,omitempty"` // Page Info
+}
+
+func (req *ListOrdersAPIReq) Method() string {
+	return "GET"
 }
 
 func (req *ListOrdersAPIReq) Verify() error {

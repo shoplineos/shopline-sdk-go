@@ -6,8 +6,16 @@ import (
 	"github.com/shoplineos/shopline-sdk-go/client"
 )
 
+// UpdateOrderAPIReq
+// 中文: https://developer.shopline.com/zh-hans-cn/docs/admin-rest-api/order/order-management/update-an-order?version=v20251201
+// en: https://developer.shopline.com/docs/admin-rest-api/order/order-management/update-an-order?version=v20251201
 type UpdateOrderAPIReq struct {
+	client.BaseAPIRequest
 	Order Order `json:"order"`
+}
+
+func (req *UpdateOrderAPIReq) Method() string {
+	return "PUT"
 }
 
 func (req *UpdateOrderAPIReq) Verify() error {

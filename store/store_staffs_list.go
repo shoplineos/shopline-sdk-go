@@ -9,7 +9,12 @@ import (
 // 中文：https://developer.shopline.com/zh-hans-cn/docs/admin-rest-api/store/get-all-store-staff-members?version=v20251201
 // En：https://developer.shopline.com/docs/admin-rest-api/store/get-all-store-staff-members?version=v20251201
 type ListStoreStaffsAPIReq struct {
+	client.BaseAPIRequest
 	Limit string `url:"limit,omitempty"` // required
+}
+
+func (req *ListStoreStaffsAPIReq) Method() string {
+	return "GET"
 }
 
 func (req *ListStoreStaffsAPIReq) Verify() error {

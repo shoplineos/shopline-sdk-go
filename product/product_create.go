@@ -9,7 +9,12 @@ import (
 // 中文: https://developer.shopline.com/zh-hans-cn/docs/admin-rest-api/product/product/create-a-product?version=v20251201
 // en: https://developer.shopline.com/docs/admin-rest-api/product/product/create-a-product?version=v20251201
 type CreateProductAPIReq struct {
+	client.BaseAPIRequest
 	Product Product `json:"product"`
+}
+
+func (req *CreateProductAPIReq) Method() string {
+	return "POST"
 }
 
 func (req *CreateProductAPIReq) Verify() error {

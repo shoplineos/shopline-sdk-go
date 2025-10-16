@@ -5,12 +5,12 @@ import (
 	"github.com/shoplineos/shopline-sdk-go/client"
 )
 
-type ListProductsAPIResp struct {
-	client.BaseAPIResponse
-	Products []ProductRespData `json:"products"`
-}
-
+// ListProductsAPIReq
+// 中文: https://developer.shopline.com/zh-hans-cn/docs/admin-rest-api/product/product/get-products?version=v20251201
+// en: https://developer.shopline.com/docs/admin-rest-api/product/product/get-products?version=v20251201
 type ListProductsAPIReq struct {
+	client.BaseAPIRequest
+
 	Status       string `url:"status,omitempty"`
 	CollectionId string `url:"collection_id,omitempty"`
 	CreatedAtMin string `url:"created_at_min,omitempty"` // Minimum order creation time（ISO 8601）
@@ -32,6 +32,10 @@ type ListProductsAPIReq struct {
 	Vendor string `url:"vendor,omitempty"` // Vendor
 }
 
+func (req *ListProductsAPIReq) Method() string {
+	return "GET"
+}
+
 func (req *ListProductsAPIReq) Verify() error {
 	// Verify the api request params
 	return nil
@@ -39,6 +43,11 @@ func (req *ListProductsAPIReq) Verify() error {
 
 func (req *ListProductsAPIReq) Endpoint() string {
 	return "products/products.json" // endpoint
+}
+
+type ListProductsAPIResp struct {
+	client.BaseAPIResponse
+	Products []ProductRespData `json:"products"`
 }
 
 // ListProducts

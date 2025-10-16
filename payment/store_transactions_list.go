@@ -8,6 +8,7 @@ import (
 // 中文:https://developer.shopline.com/zh-hans-cn/docs/admin-rest-api/shopline-payments/query-store-transaction-records?version=v20251201
 // En:https://developer.shopline.com/docs/admin-rest-api/shopline-payments/query-store-transaction-records?version=v20251201
 type ListStoreTransactionsAPIReq struct {
+	client.BaseAPIRequest
 	PageInfo string `url:"page_info,omitempty"`
 	SinceId  string `url:"since_id,omitempty"`
 
@@ -21,6 +22,10 @@ type ListStoreTransactionsAPIReq struct {
 
 	TradeOrderId    string `url:"trade_order_id,omitempty"`
 	TransactionType string `url:"transaction_type,omitempty"`
+}
+
+func (req *ListStoreTransactionsAPIReq) Method() string {
+	return "GET"
 }
 
 func (req *ListStoreTransactionsAPIReq) Verify() error {

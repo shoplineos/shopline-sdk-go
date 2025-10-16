@@ -143,11 +143,54 @@ type ProductStruct struct {
 }
 
 type CreateProductAPIReqStruct struct {
+	BaseAPIRequest
 	Product ProductStruct `json:"product"`
 }
 
+func (c CreateProductAPIReqStruct) Endpoint() string {
+	return "/products/products.json"
+}
+
+func (c CreateProductAPIReqStruct) Verify() error {
+	return nil
+}
+
+func (c CreateProductAPIReqStruct) Method() string {
+	return "POST"
+}
+
 type CreateProductAPIRespStruct struct {
+	BaseAPIResponse
 	Product ProductStruct `json:"product"`
+}
+
+func TestCall(t *testing.T) {
+	setup()
+	defer teardown()
+
+	// test create product
+	httpmock.RegisterResponder("POST", fmt.Sprintf("https://%s.myshopline.com/%s/%s/products/products.json", client.StoreHandle, client.PathPrefix, client.ApiVersion),
+		httpmock.NewBytesResponder(200, test.LoadTestData("product/product.json")))
+
+	// 1. build request
+	product := ProductStruct{
+		Title:    "Hello shopline Freestyle 111",
+		BodyHTML: "<strong>Hello shopline!<\\/strong>",
+		Vendor:   "shopline",
+	}
+
+	apiReq := CreateProductAPIReqStruct{
+		Product: product,
+	}
+
+	apiResp := &CreateProductAPIRespStruct{}
+
+	// 2. Call API
+	err := client.Call(context.Background(), apiReq, apiResp)
+	assert.Nil(t, err)
+
+	//fmt.Printf("apiResp: %+v\n", apiResp.Product)
+	assert.Equal(t, "111", apiResp.Product.Id)
 }
 
 func TestExecuteInternal(t *testing.T) {

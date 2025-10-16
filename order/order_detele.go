@@ -10,7 +10,12 @@ import (
 // 中文：https://developer.shopline.com/zh-hans-cn/docs/admin-rest-api/order/order-management/delete-an-order?version=v20251201
 // en：https://developer.shopline.com/docs/admin-rest-api/order/order-management/delete-an-order?version=v20251201
 type DeleteOrderAPIReq struct {
+	client.BaseAPIRequest
 	OrderId string
+}
+
+func (req *DeleteOrderAPIReq) Method() string {
+	return "DELETE"
 }
 
 func (req *DeleteOrderAPIReq) Verify() error {

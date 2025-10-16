@@ -9,6 +9,8 @@ import (
 // 中文：https://developer.shopline.com/zh-hans-cn/docs/admin-rest-api/order/order-management/order-refund?version=v20251201
 // en：https://developer.shopline.com/docs/admin-rest-api/order/order-management/order-refund?version=v20251201
 type RefundAPIReq struct {
+	client.BaseAPIRequest
+
 	OrderId         string          `json:"order_id,omitempty"`
 	Notify          string          `json:"notify,omitempty"`
 	ProcessedAt     string          `json:"processed_at,omitempty"` // 2023-04-12T22:59:52+08:00
@@ -18,6 +20,10 @@ type RefundAPIReq struct {
 
 	Currency string `json:"currency,omitempty"`
 	Note     string `json:"note,omitempty"`
+}
+
+func (req *RefundAPIReq) Method() string {
+	return "POST"
 }
 
 type RefundLine struct {

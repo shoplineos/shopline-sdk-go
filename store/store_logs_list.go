@@ -9,6 +9,7 @@ import (
 // 中文：https://developer.shopline.com/zh-hans-cn/docs/admin-rest-api/store/get-store-operation-logs?version=v20251201
 // En：https://developer.shopline.com/docs/admin-rest-api/store/get-store-operation-logs?version=v20251201
 type ListStoreOperationLogsAPIReq struct {
+	client.BaseAPIRequest
 	CreatedAtMin string `url:"created_at_min,omitempty"` // required
 	CreatedAtMax string `url:"created_at_max,omitempty"` // required
 
@@ -16,6 +17,10 @@ type ListStoreOperationLogsAPIReq struct {
 	SubjectType string `url:"subject_type,omitempty"`
 	Verb        string `url:"verb,omitempty"`
 	Limit       string `url:"limit,omitempty"`
+}
+
+func (req *ListStoreOperationLogsAPIReq) Method() string {
+	return "GET"
 }
 
 func (req *ListStoreOperationLogsAPIReq) Verify() error {

@@ -8,7 +8,12 @@ import (
 // 中文：https://developer.shopline.com/zh-hans-cn/docs/admin-rest-api/store/subscribe/get-active-store-plans?version=v20251201
 // En：https://developer.shopline.com/docs/admin-rest-api/store/subscribe/get-active-store-plans?version=v20251201
 type ListStoreSubscriptionsAPIReq struct {
+	client.BaseAPIRequest
 	IncludeTrial bool `url:"include_trial,omitempty"`
+}
+
+func (req *ListStoreSubscriptionsAPIReq) Method() string {
+	return "GET"
 }
 
 func (req *ListStoreSubscriptionsAPIReq) Verify() error {

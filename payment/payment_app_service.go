@@ -26,22 +26,12 @@ type MerchantAppService struct {
 }
 
 func (m MerchantAppService) MerchantBindSuccess(ctx context.Context, req *MerchantBindSuccessAPIReq) (*MerchantBindSuccessAPIResp, error) {
-	// 1. API request
-	shopLineReq := &client.ShopLineRequest{
-		Data: req,
-		Options: &client.ShopLineRequestOptions{
-			NotDecodeBody: true,
-		},
-	}
 
-	// 2. API endpoint
-	endpoint := req.Endpoint()
-
-	// 3. API response data
+	// 1. API response data
 	apiResp := &MerchantBindSuccessAPIResp{}
 
-	// 4. Call API
-	_, err := m.Client.Post(ctx, endpoint, shopLineReq, apiResp)
+	// 2. Call API
+	err := m.Client.Call(ctx, req, apiResp)
 
 	return apiResp, err
 }
@@ -50,7 +40,7 @@ func (m MerchantAppService) MerchantPaySuccess(ctx context.Context, req *Merchan
 	// 1. API request
 	shopLineReq := &client.ShopLineRequest{
 		Data: req,
-		Options: &client.ShopLineRequestOptions{
+		Options: &client.RequestOptions{
 			NotDecodeBody: true,
 		},
 	}
@@ -71,7 +61,7 @@ func (m MerchantAppService) MerchantRefundSuccess(ctx context.Context, req *Merc
 	// 1. API request
 	shopLineReq := &client.ShopLineRequest{
 		Data: req,
-		Options: &client.ShopLineRequestOptions{
+		Options: &client.RequestOptions{
 			NotDecodeBody: true,
 		},
 	}
@@ -92,7 +82,7 @@ func (m MerchantAppService) MerchantDeviceBindSuccess(ctx context.Context, req *
 	// 1. API request
 	shopLineReq := &client.ShopLineRequest{
 		Data: req,
-		Options: &client.ShopLineRequestOptions{
+		Options: &client.RequestOptions{
 			NotDecodeBody: true,
 		},
 	}

@@ -9,7 +9,12 @@ import (
 // 中文:https://developer.shopline.com/zh-hans-cn/docs/admin-rest-api/shopline-payments/payout?version=v20251201
 // En:https://developer.shopline.com/docs/admin-rest-api/shopline-payments/payout?version=v20251201
 type GetStorePayoutAPIReq struct {
+	client.BaseAPIRequest
 	PayoutId string `url:"payout_id,omitempty"` // required
+}
+
+func (req *GetStorePayoutAPIReq) Method() string {
+	return "GET"
 }
 
 func (req *GetStorePayoutAPIReq) Verify() error {

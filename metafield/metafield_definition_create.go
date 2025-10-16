@@ -6,14 +6,19 @@ import "github.com/shoplineos/shopline-sdk-go/client"
 // 中文：https://developer.shopline.com/zh-hans-cn/docs/admin-rest-api/shopline-metafields/metafield-definition/create-a-metafield-definition?version=v20251201
 // En：https://developer.shopline.com/docs/admin-rest-api/shopline-metafields/metafield-definition/create-a-metafield-definition?version=v20251201
 type CreateMetafieldDefinitionAPIReq struct {
+	client.BaseAPIRequest
 	MetafieldDefinition CreateMetafieldDefinition `json:"definition"`
 }
 
-func (c CreateMetafieldDefinitionAPIReq) Verify() error {
+func (c *CreateMetafieldDefinitionAPIReq) Method() string {
+	return "POST"
+}
+
+func (c *CreateMetafieldDefinitionAPIReq) Verify() error {
 	return nil
 }
 
-func (c CreateMetafieldDefinitionAPIReq) Endpoint() string {
+func (c *CreateMetafieldDefinitionAPIReq) Endpoint() string {
 	return "metafield_definition.json"
 }
 

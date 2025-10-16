@@ -90,19 +90,12 @@ func (p *ProductService) ListWithPagination(ctx context.Context, apiReq *ListPro
 }
 
 func (p *ProductService) Count(ctx context.Context, apiReq *GetProductCountAPIReq) (*GetProductCountAPIResp, error) {
-	// 1. API request
-	shoplineReq := &client.ShopLineRequest{
-		Query: apiReq, // API request data
-	}
 
-	// 2. API endpoint
-	endpoint := apiReq.Endpoint()
-
-	// 3. API response data
+	// 1. API response data
 	apiResp := &GetProductCountAPIResp{}
 
-	// 4. Call API
-	_, err := p.Client.Get(ctx, endpoint, shoplineReq, apiResp)
+	// 2. Call API
+	err := p.Client.Call(context.Background(), apiReq, apiResp)
 
 	return apiResp, err
 }

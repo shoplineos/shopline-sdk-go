@@ -25,19 +25,11 @@ type StorefrontAccessTokenService struct {
 }
 
 func (s StorefrontAccessTokenService) List(ctx context.Context, apiReq *ListStorefrontAccessTokensAPIReq) (*ListStorefrontAccessTokensAPIResp, error) {
-	// 1. API request
-	shopLineReq := &client.ShopLineRequest{
-		Data: apiReq, // API request params
-	}
-
-	// 2. API endpoint
-	endpoint := apiReq.Endpoint()
-
-	// 3. API response data
+	// 1. API response resource
 	apiResp := &ListStorefrontAccessTokensAPIResp{}
 
-	// 4. Call API
-	_, err := s.Client.Get(ctx, endpoint, shopLineReq, apiResp)
+	// 2. Call the API
+	err := s.Client.Call(ctx, apiReq, apiResp)
 	return apiResp, err
 }
 

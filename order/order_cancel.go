@@ -10,6 +10,8 @@ import (
 // 中文: https://developer.shopline.com/zh-hans-cn/docs/admin-rest-api/order/order-management/cancel-order?version=v20251201
 // en: https://developer.shopline.com/docs/admin-rest-api/order/order-management/cancel-order?version=v20251201
 type CancelOrderAPIReq struct {
+	client.BaseAPIRequest
+
 	OrderId      string
 	Amount       string `json:"amount,omitempty"`
 	CancelReason string `json:"cancel_reason,omitempty"`
@@ -18,6 +20,10 @@ type CancelOrderAPIReq struct {
 	ProcessedAt  string `json:"processed_at,omitempty"`
 	RefundType   string `json:"refund_type,omitempty"`
 	Restock      string `json:"restock,omitempty"`
+}
+
+func (req *CancelOrderAPIReq) Method() string {
+	return "POST"
 }
 
 func (req *CancelOrderAPIReq) Verify() error {

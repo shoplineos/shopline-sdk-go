@@ -10,7 +10,12 @@ import (
 // 中文：https://developer.shopline.com/zh-hans-cn/docs/admin-rest-api/access/storefront-api/create-an-access-token?version=v20251201
 // En：https://developer.shopline.com/docs/admin-rest-api/access/storefront-api/create-an-access-token?version=v20251201
 type DeleteStorefrontAccessTokenAPIReq struct {
+	client.BaseAPIRequest
 	Id string
+}
+
+func (c DeleteStorefrontAccessTokenAPIReq) Method() string {
+	return "DELETE"
 }
 
 func (c DeleteStorefrontAccessTokenAPIReq) Verify() error {

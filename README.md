@@ -1,32 +1,31 @@
 # SHOPLINE API Library for Go
 
-## Getting Started
 
 [中文](#zh)、[English](#en)
 
-### <span id="en">English</span>
+## <span id="en">English</span>
 
-**Note**: For developers using [SHOPLINE](https://developer.shopline.com), this library provides support for Go [SHOPLINE apps](https://apps.shopline.com/) to access the [SHOPLINE Admin API](https://developer.shopline.com/docs/apps/api-instructions-for-use/rest-admin-api/overview?version=v20260301), by making it easier to perform the [actions](#en-actions), and this library is currently under active development and is a preview release with ongoing improvements. This library doesn't yet implement all [SHOPLINE](https://developer.shopline.com) resources. We welcome you to submit Pull Requests to add new resources or endpoints, or you can implement your own by following the instructions in the <a href="#en-use-your-own-model">Using Your Own Data Model</a> section. We look forward to your contributions!
+For developers using [SHOPLINE](https://developer.shopline.com), this library provides support for Go [SHOPLINE apps](https://apps.shopline.com/) to access the [SHOPLINE Admin API](https://developer.shopline.com/docs/apps/api-instructions-for-use/rest-admin-api/overview?version=v20260301), by making it easier to perform the following [actions](#en-actions):
 
 Current supported <span id="en-actions">actions</span>:
 1. Creating Access Tokens for the Admin API via [OAuth](https://developer.shopline.com/docs/apps/api-instructions-for-use/app-authorization?version=v20260301)
 2. Making requests to the [REST Admin API](https://developer.shopline.com/docs/apps/api-instructions-for-use/rest-admin-api/overview?version=v20260301)
-3. Registering/processing [webhooks](https://developer.shopline.com/docs/apps/api-instructions-for-use/webhooks/overview?version=v20260301)
+3. Registering/processing [Webhooks](https://developer.shopline.com/docs/apps/api-instructions-for-use/webhooks/overview?version=v20260301)
 
+**Note**: This library is currently under active development and is a preview release with ongoing improvements. This library doesn't yet implement all [SHOPLINE](https://developer.shopline.com) resources. We welcome you to submit Pull Requests to add new resources or endpoints, or you can implement your own by following the instructions in the <a href="#en-use-your-own-model">Using Your Own Data Model</a> section. We look forward to your contributions!
 
-
-#### Install SDK
+### Install SDK
 ```
 $ go get github.com/shoplineos/shopline-sdk-go
 ```
 
-#### Use SDK
+### Use SDK
 ```
 import "github.com/shoplineos/shopline-sdk-go/client"
 ```
 
 
-#### Init App and Client
+### Init App and Client
 ```
     // 1. Create an app
   appInstance := client.App{
@@ -44,26 +43,21 @@ import "github.com/shoplineos/shopline-sdk-go/client"
   c := support.MustNewClient(appInstance, handle, accessToken)
   appInstance.Client = c
   
-    
+  
   // 3. Use the client to call the API
   // 3.1 API request
   getProductCountAPIReq := &GetProductCountAPIReq{}
-  shoplineReq := &client.ShopLineRequest{
-      Query: getProductCountAPIReq,
-  }
-
-  // 3.2 API endpoint
-  endpoint := getProductCountAPIReq.Endpoint()
-
-  // 3.3 API response
+  
+  // 3.2 API response data
   apiResp := &GetProductCountAPIResp{}
 
-  // 3.4 Call an API
-  shoplineResp, err := c.Get(context.Background(), endpoint, shoplineReq, apiResp)
+  // 3.3 Call API
+  err := client.Call(context.Background(), apiReq, apiResp)
+
   fmt.Printf("count:%d", apiResp.Count)
 ```
 
-#### OAuth
+### OAuth
 
 If you don't have an Access Token yet, you can obtain one with the oauth flow. Something like this will work:
 
@@ -128,7 +122,7 @@ func InstallHandler(w http.ResponseWriter, r *http.Request) {
     http.Redirect(w, r, url, http.StatusTemporaryRedirect)
 }
 
-// Fetch an access token in the callback
+// Fetch an Access Token in the callback
 func CallbackHandler(w http.ResponseWriter, r *http.Request) {
     appkey := r.URL.Query().Get("appkey")
     code := r.URL.Query().Get("code")
@@ -148,19 +142,34 @@ func CallbackHandler(w http.ResponseWriter, r *http.Request) {
         return
     }
     
-    // Create an access token
+    // Create an Access Token
     token, err := app.CreateAccessToken(context.Background(), code)
     
     // Do something with the token, like store it in a DB or Cache.
 }
 ```
 
-#### API calls with an Access Token
+### API calls with an Access Token
 
 With an Access Token, you can make API calls like this:
+```
+  // Use the client to call the API
+  // 1. API request
+  getProductCountAPIReq := &GetProductCountAPIReq{}
+  
+  // 2 API response data
+  apiResp := &GetProductCountAPIResp{}
 
-Get Product Count:
-https://developer.shopline.com/docs/admin-rest-api/product/product/get-product-count?version=v20251201
+  // 3 Call API
+  err := client.Call(context.Background(), apiReq, apiResp)
+
+  fmt.Printf("count:%d", apiResp.Count)
+```
+
+The following are examples of product APIs:
+
+[Get Product Count](https://developer.shopline.com/docs/admin-rest-api/product/product/get-product-count?version=v20251201):
+
 ``` Get Product Count
   apiReq := &GetProductCountAPIReq{}
   apiResp, err := product.GetProductService().Count(context.Background(), apiReq)
@@ -253,11 +262,12 @@ apiReq := &product.CreateProductAPIReq{
     },
 }
 
+// Use Service to call the API or to use client.Call
 apiResp, err := product.GetProductService().Create(context.Background(), apiReq)
 
 ```
 
-#### <span id="en-use-your-own-model">Using Your Own Data Model</span>
+### <span id="en-use-your-own-model">Using Your Own Data Model</span>
 
 Not all endpoints are implemented right now. In those case, feel free to implement them and make a Pull Request, or you
 can create your own struct for the data and use the client to call APIs. This is how the existing endpoints are
@@ -277,6 +287,10 @@ type GetProductCountAPIReq struct {
 	UpdatedAtMax string `url:"updated_at_max,omitempty"` // Max product update time（ISO 8601）
 }
 
+func (req *GetProductCountAPIReq) Method() string {
+	return "GET"
+}
+
 func (req *GetProductCountAPIReq) Verify() error {
 	// Verify the API request params
 	return nil
@@ -292,33 +306,24 @@ type GetProductCountAPIResp struct {
 	client.BaseAPIResponse
 }
 
-func GetProductsCount(c *client.Client, apiReq *GetProductCountAPIReq) (*GetProductCountAPIResp, error) {
+func TestGetProductsCount(c *client.Client) (*GetProductCountAPIResp, error) {
 
-    // 1. API request
-    shoplineReq := &client.ShopLineRequest{
-        Query: apiReq, // http url query params
-        // Data: apiReq, // http body params
-    }
+    // 1 API request
+    getProductCountAPIReq := &GetProductCountAPIReq{}
     
-    // 2. API endpoint
-    endpoint := apiReq.Endpoint()
-    
-    // 3. API response
+    // 2 API response data
     apiResp := &GetProductCountAPIResp{}
-    
-    // 4. Call an API
-    shoplineResp, err := c.Get(context.Background(), endpoint, shoplineReq, apiResp)
-    
-    // option
-    // apiResp.TraceId = shoplineResp.TraceId
-    
+  
+    // 3 Call API
+    err := c.Call(context.Background(), apiReq, apiResp)
+
     return apiResp, err
 }
 
 ```
 
 
-#### Implementing your own service interface
+### Implementing your own service interface
 * step 1: Define a service interface
   * Refer to product_service.go or order_service.go for examples.
   ```
@@ -369,7 +374,7 @@ func GetProductsCount(c *client.Client, apiReq *GetProductCountAPIReq) (*GetProd
 
   ```
 
-#### Webhooks verification
+### Webhooks verification
 
 In order to be sure that a webhook is sent from SHOPLINE API you could easily verify it with the VerifyWebhookRequest
 method. For more details, see: [Webhooks](https://developer.shopline.com/docs/apps/api-instructions-for-use/webhooks/overview?version=v20260301)
@@ -386,7 +391,7 @@ func WebhookHandler(w http.ResponseWriter, r *http.Request) {
 
 ```
 
-#### <span id="Test_for_Server">Test for Server</span>
+### <span id="Test_for_Server">Test for Server</span>
 
 Server-side testing is primarily used by developers to verify application functionality in a local environment. The following sample code is for demonstration purposes only and cannot be used directly in a production environment.
 . Please complete the code if you want to use it in production.<br>
@@ -396,7 +401,7 @@ Server-side testing is primarily used by developers to verify application functi
 * If you haven't created an application yet, create one
   first：[Create an App](https://developer.shopline.com/docs/apps/application-management/creating-an-app?version=v20251201)
 
-##### step 1、Replace App Data
+#### step 1、Replace App Data
 
 Find "app_config.go" and replace the variable data inside.
 
@@ -414,41 +419,38 @@ const (
 
 ```
 
-##### step 2、Start the program(Only for local test)
+#### step 2、Start the program(Only for local test)
 
 Execute server/main.go. If successful, port 80 will be started locally. <br>
 The console prints "Server started on :80," indicating successful startup.
 
-##### step 3、Local hosts bind 1 test domain name
+#### step 3、Local hosts bind 1 test domain name
 
 127.0.0.1 appdemo.myshopline.com <br>
 Mac: /etc/hosts <br>
 Windows: C:\Windows\System32\drivers\etc\hosts
 
-##### step 4、Go to "App Settings" and set the App URL and App callback URL
+#### step 4、Go to "App Settings" and set the App URL and App callback URL
 
-1. Find [Apps]([App list](https://developer.myshopline.com/app/list) ) in the [Partner Portal](https://developer.myshopline.com/) .
-
-2. Click the name of the app you want to test.
-
+1. Find [Apps](https://developer.myshopline.com/app/list) in the [Partner Portal](https://developer.myshopline.com/) .
+2. Click the name of the App you want to test.
 3. Click App Settings under Basic Settings.
-
 4. Set the App URL and App Callback URL to http://appdemo.myshopline.com/install and http://appdemo.myshopline.com/auth/callback, respectively.
-
 5. Select 'Redirected' for the App Opening Method, as the 'Embedded' mode requires HTTPS.
 
 
-##### step 5、App Receive the authorization code
+#### step 5、App Receive the authorization code
 
 1. Path：[Partner Portal](https://developer.myshopline.com/) -> [App list](https://developer.myshopline.com/app/list) -> App Detail -> Test App
 2. Into App Detail，select「Test App」, click the「Install App」. At this point, the platform will first request
   our [App URL] -> [Platform Auth Page] -> [App Callback URL] in step 4.
   If successful, it will print: Auth callback received ... code: xxx, where code is what we will use to exchange for
   Access Token later.
-  For more details, see：[Receive the authorization code](https://developer.shopline.com/docs/apps/api-instructions-for-use/app-authorization?version=v20260301#step3)
+
+  For more details, see：[Receive the authorization code](https://developer.shopline.com/docs/apps/api-instructions-for-use/app-authorization?version=v20260301#step3) </br>
   Example: server/main.go function 'CallbackHandler'
 
-##### step 6、App Create Access Token
+#### step 6、App Create Access Token
 
 1. Find the TestCreateAccessToken function in oauth_test.go and replace the code variable in the function with the
   code obtained in step 5.
@@ -466,7 +468,7 @@ token, err := app.CreateAccessToken(context.Background(), code)
 
 ```
 
-##### step 7、Use Access Token to call an API
+#### step 7、Use Access Token to call an API
 
 Use Access Token to call the [Create Product](https://developer.shopline.com/docs/admin-rest-api/product/product/create-a-product?version=v20251201) API
 
@@ -476,7 +478,7 @@ Use Access Token to call the [Create Product](https://developer.shopline.com/doc
   For more examples, see the xxx_test.go files in each package.  <br>
   For more details, see: [Create a product](https://developer.shopline.com/docs/admin-rest-api/product/product/create-a-product?version=v20251201)
 
-##### step 8、App Refresh Access Token
+#### step 8、App Refresh Access Token
 
 Access tokens expire periodically, so we need to refresh them regularly. Executing the TestRefreshAccessToken function
 in oauth_test.go will request the platform to refresh the Access Token. Successful refreshes will be printed to the
@@ -493,28 +495,30 @@ token, err := app.RefreshAccessToken(context.Background(), storeHandle)
 // Store the token in a database or cache for future use. 
 ```
 
-### <span id="zh">中文</span>
+## <span id="zh">中文</span>
 
-**注意**：对于使用 [SHOPLINE](https://developer.shopline.com) 的开发者来说，当前 SDK 封装了通用对接逻辑，旨在帮助开发者高效地构建应用，让你能更专注于业务功能的实现。当前 SDK 尚处于 Beta 阶段，功能持续完善中，已支持 OAuth 授权、商品、订单等核心 API，并提供了清晰的客户端初始化、请求构建与响应处理模式。我们欢迎社区贡献代码，您可通过提交 Pull Request 补充新的资源或端点。如果遇到尚未实现的 API，可以参照 <a href="#zh-use-your-own-model">使用你自己的数据模型</a> 自行封装。
+对于使用 [SHOPLINE](https://developer.shopline.com) 的开发者来说，当前 SDK 封装了通用对接逻辑，旨在帮助开发者高效地构建应用，让你能更专注于业务功能的实现。
 
 当前支持的能力：
 1. 通过 [OAuth](https://developer.shopline.com/zh-hans-cn/docs/apps/api-instructions-for-use/app-authorization?version=v20260301) 创建 Admin API 用到的 Access Tokens
 2. 调用 [REST Admin API](https://developer.shopline.com/zh-hans-cn/docs/apps/api-instructions-for-use/rest-admin-api/overview?version=v20260301)
-3. 注册和处理 [webhooks](https://developer.shopline.com/zh-hans-cn/docs/apps/api-instructions-for-use/webhooks/overview?version=v20260301)
+3. 注册和处理 [Webhooks](https://developer.shopline.com/zh-hans-cn/docs/apps/api-instructions-for-use/webhooks/overview?version=v20260301)
+
+**注意**：当前 SDK 尚处于 Beta 阶段，功能持续完善中，已支持 OAuth 授权、商品、订单等核心 API，并提供了清晰的客户端初始化、请求构建与响应处理模式。我们欢迎社区贡献代码，您可通过提交 Pull Request 补充新的资源或端点。如果遇到尚未实现的 API，可以参照 <a href="#zh-use-your-own-model">使用你自己的数据模型</a> 自行封装。
 
 
-#### 安装 SDK
+### 安装 SDK
 ```
 $ go get github.com/shoplineos/shopline-sdk-go
 ```
 
-#### 使用 SDK
+### 使用 SDK
 ```
 import "github.com/shoplineos/shopline-sdk-go/client"
 ```
 
 
-#### 初始化 App 和 Client
+### 初始化 App 和 Client
 ```
   // 1. 创建应用实例
   appInstance := client.App{
@@ -538,23 +542,17 @@ import "github.com/shoplineos/shopline-sdk-go/client"
   // 3. 调用 API
   // 3.1 API 请求
   getProductCountAPIReq := &GetProductCountAPIReq{}
-  shoplineReq := &client.ShopLineRequest{
-      Query: getProductCountAPIReq,
-  }
-
-  // 3.2 API 端点
-  endpoint := getProductCountAPIReq.Endpoint()
-
-  // 3.3 API 响应
+  
+  // 3.2 指定 API response data
   apiResp := &GetProductCountAPIResp{}
 
-  // 3.4 调用 API
-  shoplineResp, err := c.Get(context.Background(), endpoint, shoplineReq, apiResp)
+  // 3.3 调用 API
+  err := c.Call(context.Background(), apiReq, apiResp)
   fmt.Printf("count:%d", apiResp.Count)
     
 ```
 
-#### OAuth 授权
+### OAuth 授权
 
 如果还没有 Access Token，可以通过 OAuth 流程来获取 Access Token，流程如下：
 
@@ -646,7 +644,21 @@ func CallbackHandler(w http.ResponseWriter, r *http.Request) {
 }
 ```
 
-#### 使用 Access Token 调用 APIs
+### 使用 Access Token 调用 APIs
+
+```
+  // 使用客户端调用 API
+  // 1. 指定 API request
+  getProductCountAPIReq := &GetProductCountAPIReq{}
+  
+  // 2 指定 API 响应数据
+  apiResp := &GetProductCountAPIResp{}
+
+  // 3 调用 API
+  err := client.Call(context.Background(), apiReq, apiResp)
+  fmt.Printf("count:%d", apiResp.Count)
+```
+
 以下是以商品相关接口为例：</br>
 [查询商品数量](https://developer.shopline.com/zh-hans-cn/docs/admin-rest-api/product/product/get-product-count?version=v20251201)：
 ``` Get Product Count
@@ -743,13 +755,13 @@ apiReq := &product.CreateProductAPIReq{
     },
 }
 
-
+// 使用 service 调用 API 或者 直接使用 client.Call
 apiResp, err := product.GetProductService().Create(context.Background(), apiReq)
 
 ```
 
 
-#### <span id="zh-use-your-own-model">使用你自己的数据模型</span>
+### <span id="zh-use-your-own-model">使用你自己的数据模型</span>
 
 目前为止不是所有的 API 都已经实现，你可以发起1个 Pull Request，或者自己实现数据模型对象。
 下面这个例子是获取商品数量:
@@ -763,6 +775,10 @@ type GetProductCountAPIReq struct {
 	CreatedAtMax string `url:"created_at_max,omitempty"` // Max product creation time（ISO 8601）
 	UpdatedAtMin string `url:"updated_at_min,omitempty"` // Minimum product update time（ISO 8601）
 	UpdatedAtMax string `url:"updated_at_max,omitempty"` // Max product update time（ISO 8601）
+}
+
+func (req *GetProductCountAPIReq) Method() string {
+	return "GET"
 }
 
 func (req *GetProductCountAPIReq) Verify() error {
@@ -781,19 +797,18 @@ type GetProductCountAPIResp struct {
 }
 
 func GetProductsCount(c *client.Client, apiReq *GetProductCountAPIReq) (*GetProductCountAPIResp, error) {
-    shoplineReq := &client.ShopLineRequest{
-        Query: apiReq, // http url query params
-        // Data: apiReq, // http body params
-    }
-    endpoint := apiReq.Endpoint()
-    apiResp := &GetProductCountAPIResp{}
-    shoplineResp, err := c.Get(context.Background(), endpoint, shoplineReq, apiResp)
+    // 1. 指定 API 响应数据
+	apiResp := &GetProductCountAPIResp{}
+
+	// 2. 调用 API
+	err := c.Call(context.Background(), apiReq, apiResp)
+
     return apiResp, err
 }
 
 ```
 
-#### 实现你自己的服务接口 Service Interface
+### 实现你自己的服务接口 Service Interface
 * 步骤 1: 定义一个服务接口
   * See product_service.go or order_service.go
   ```
@@ -845,7 +860,7 @@ func GetProductsCount(c *client.Client, apiReq *GetProductCountAPIReq) (*GetProd
   ```
 
 
-#### 验证 Webhooks
+### 验证 Webhooks
 为了确保 Webhook 确实从 SHOPLINE 发送的，你可以使用 VerifyWebhookRequest 方法轻松验证。更多信息见：[Webhooks](https://developer.shopline.com/zh-hans-cn/docs/apps/api-instructions-for-use/webhooks/overview/?version=v20260301) </br>
 例子:
 
@@ -858,14 +873,14 @@ func WebhookHandler(w http.ResponseWriter, r *http.Request) {
 }
 ```
 
-#### <span id="服务端测试">服务端测试</span>
+### <span id="服务端测试">服务端测试</span>
 
 服务端测试主要用于开发者在本地环境中验证应用功能，以下示例代码仅作为基础演示，不可直接用于生产环境。如需使用，请先完善代码。<br>
 
 * 如尚未入驻 SHOPLINE 开发者平台，参考 [SHOPLINE 开发者入驻指引](https://developer.shopline.com/zh-hans-cn/docs/apps/get-started/onboarding-guidelines-for-shopline-developer-s?version=v20251201) 完成入驻
 * 如尚未创建应用，参考 [创建应用](https://developer.shopline.com/zh-hans-cn/docs/apps/application-management/creating-an-app?version=v20251201) 完成应用创建。
 
-##### 步骤 一：替换 App 数据
+#### 步骤 一：替换 App 数据
 
 找到 app_config.go 替换里面的变量数据。
 
@@ -883,33 +898,33 @@ const (
 
 ```
 
-##### 步骤 二：启动程序
+#### 步骤 二：启动程序
 
 执行 server/main.go，成功后，会在本地启动80端口。<br>
 控制台打印“Server started on :80” 表示启动成功了。
 
-##### 步骤 三：本地 hosts 绑定1个测试域名
+#### 步骤 三：本地 hosts 绑定1个测试域名
 
 127.0.0.1 appdemo.myshopline.com <br>
 Mac径路: /etc/hosts <br>
 Windows路径: C:\Windows\System32\drivers\etc\hosts
 
-##### 步骤 四：在 合作伙伴后台 设置 应用地址 和 应用回调地址
+#### 步骤 四：在 合作伙伴后台 设置 应用地址 和 应用回调地址
 1. 在 [合作伙伴后台](https://developer.shopline.com) 中找到 [应用](https://developer.myshopline.com/app/list)。
 2. 点击需要测试的应用名称。
 3. 点击 基础设置 下的 应用设置。
 4. 设置 应用地址 和 应用回调地址 分别为 http://appdemo.myshopline.com/install 和  http://appdemo.myshopline.com/auth/callback。
 5. 应用打开方式 选择 外跳，因为 内嵌 模式必须是 HTTPS 协议。
 
-##### 步骤 五：应用接收授权码
+#### 步骤 五：应用接收授权码
 
-1. 路径：[合作伙伴后台](https://developer.shopline.com) -> [应用列表](https://developer.myshopline.com/app/list) -> 应用详情 -> 应用测试
-2. 进入应用详情，选择「应用测试」，点击「安装应用」。此时，平台会先请求我们第4步的【应用地址】 -> 【平台认证页面】 -> 【应用回调地址】
+1. 路径：[合作伙伴后台](https://developer.shopline.com) -> [应用列表](https://developer.myshopline.com/app/list) -> 选择“应用” -> 应用测试
+2. 选择“应用”进入详情页，点击「应用测试」，点击「安装应用」。此时，平台会先请求我们第4步的【应用地址】 -> 【平台认证页面】 -> 【应用回调地址】
   成功后会打印: Auth callback received ... code: xxx，其中 code 就是我们后续用来交换 Access Token。 <br>
   详细文档见：[App 收到授权码](https://developer.shopline.com/zh-hans-cn/docs/apps/api-instructions-for-use/app-authorization/?lang=zh-hans-cn#%E7%AC%AC%E4%BA%94%E6%AD%A5app-%E6%94%B6%E5%88%B0%E6%8E%88%E6%9D%83%E7%A0%81)  <br>
   代码示例见：server/main.go 函数 CallbackHandler
 
-##### 步骤 六：App 获取 Access Token
+#### 步骤 六：App 获取 Access Token
 
 1. 找到 oauth_test.go 里的 TestCreateAccessToken 函数，用第5步获取到的 code，替换函数里的 code 变量。
 2. 执行 TestCreateAccessToken 函数，会请求平台获取 Access Token，成功后会打印在控制台。
@@ -926,7 +941,7 @@ token, err := app.CreateAccessToken(context.Background(), code)
 
 ```
 
-##### 步骤 七：使用 Access Token 调用1个接口
+#### 步骤 七：使用 Access Token 调用接口
 
 使用 Access Token
 调用 [创建商品](https://developer.shopline.com/zh-hans-cn/docs/admin-rest-api/product/product/create-a-product?version=v20251201)
@@ -937,7 +952,7 @@ token, err := app.CreateAccessToken(context.Background(), code)
   16071495214036953630973380。
   更多例子见：各个包下面的 xxx_test.go 文件。  <br>
 
-##### 步骤 八：App 刷新 Access Token
+#### 步骤 八：App 刷新 Access Token
 
 Access Token 每隔一段时间会过期，因此我们需要定期刷新 Access Token。执行 oauth_test.go 里的 TestRefreshAccessToken
 函数，会请求平台刷新 Access Token，成功后会打印在控制台。 <br>

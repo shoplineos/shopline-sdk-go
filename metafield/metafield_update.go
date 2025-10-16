@@ -10,10 +10,15 @@ import (
 // 中文：https://developer.shopline.com/zh-hans-cn/docs/admin-rest-api/shopline-metafields/metafields/resource-metafields/update-a-metafield-for-a-resource?version=v20251201
 // En：https://developer.shopline.com/docs/admin-rest-api/shopline-metafields/metafields/resource-metafields/update-a-metafield-for-a-resource?version=v20251201
 type UpdateMetafieldAPIReq struct {
+	client.BaseAPIRequest
 	Metafield UpdateMetafield `json:"metafield"`
 }
 
-func (c UpdateMetafieldAPIReq) Verify() error {
+func (c *UpdateMetafieldAPIReq) Method() string {
+	return "PUT"
+}
+
+func (c *UpdateMetafieldAPIReq) Verify() error {
 	if c.Metafield.OwnerId == "" {
 		return errors.New("OwnerId is required")
 	}
@@ -28,7 +33,7 @@ func (c UpdateMetafieldAPIReq) Verify() error {
 	return nil
 }
 
-func (c UpdateMetafieldAPIReq) Endpoint() string {
+func (c *UpdateMetafieldAPIReq) Endpoint() string {
 	return fmt.Sprintf("%s/%s/metafields/%s.json", c.Metafield.OwnerResource, c.Metafield.OwnerId, c.Metafield.Id)
 }
 

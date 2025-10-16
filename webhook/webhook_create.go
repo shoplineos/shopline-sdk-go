@@ -9,10 +9,15 @@ import (
 // 中文：https://developer.shopline.com/zh-hans-cn/docs/admin-rest-api/webhook/subscribe-to-a-webhook?version=v20251201
 // En：https://developer.shopline.com/docs/admin-rest-api/webhook/subscribe-to-a-webhook?version=v20251201
 type CreateWebhookAPIReq struct {
+	client.BaseAPIRequest
 	Webhook CreateWebhook `json:"webhook,omitempty"`
 }
 
-func (c CreateWebhookAPIReq) Verify() error {
+func (c *CreateWebhookAPIReq) Method() string {
+	return "POST"
+}
+
+func (c *CreateWebhookAPIReq) Verify() error {
 	if c.Webhook.Address == "" {
 		return errors.New("webhook.address is required")
 	}
@@ -25,7 +30,7 @@ func (c CreateWebhookAPIReq) Verify() error {
 	return nil
 }
 
-func (c CreateWebhookAPIReq) Endpoint() string {
+func (c *CreateWebhookAPIReq) Endpoint() string {
 	return "webhooks.json"
 }
 

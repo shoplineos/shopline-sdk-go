@@ -7,7 +7,12 @@ import (
 )
 
 type CreateOrderAPIReq struct {
+	client.BaseAPIRequest
 	Order Order `json:"order"`
+}
+
+func (req *CreateOrderAPIReq) Method() string {
+	return "POST"
 }
 
 func (req *CreateOrderAPIReq) Verify() error {

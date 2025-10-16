@@ -10,6 +10,7 @@ import (
 // 中文：https://developer.shopline.com/zh-hans-cn/docs/admin-rest-api/shopline-metafields/metafields/resource-metafields/delete-a-metafield?version=v20251201
 // En：https://developer.shopline.com/docs/admin-rest-api/shopline-metafields/metafields/resource-metafields/delete-a-metafield?version=v20251201
 type DeleteMetafieldAPIReq struct {
+	client.BaseAPIRequest
 	// enum：product、order、customer、collection、
 	// shop、variant、draft_order
 	// eg："product"
@@ -18,7 +19,11 @@ type DeleteMetafieldAPIReq struct {
 	Id            string
 }
 
-func (c DeleteMetafieldAPIReq) Verify() error {
+func (c *DeleteMetafieldAPIReq) Method() string {
+	return "DELETE"
+}
+
+func (c *DeleteMetafieldAPIReq) Verify() error {
 	if c.OwnerId == "" {
 		return errors.New("OwnerId is required")
 	}
@@ -33,7 +38,7 @@ func (c DeleteMetafieldAPIReq) Verify() error {
 	return nil
 }
 
-func (c DeleteMetafieldAPIReq) Endpoint() string {
+func (c *DeleteMetafieldAPIReq) Endpoint() string {
 	return fmt.Sprintf("%s/%s/metafields/%s.json", c.OwnerResource, c.OwnerId, c.Id)
 }
 

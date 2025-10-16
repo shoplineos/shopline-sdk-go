@@ -8,13 +8,18 @@ import (
 // 中文：https://developer.shopline.com/zh-hans-cn/docs/admin-rest-api/webhook/get-the-subscribed-webhook-count?version=v20251201
 // En：https://developer.shopline.com/docs/admin-rest-api/webhook/get-the-subscribed-webhook-count?version=v20251201
 type CountWebhooksAPIReq struct {
+	client.BaseAPIRequest
 }
 
-func (c CountWebhooksAPIReq) Verify() error {
+func (c *CountWebhooksAPIReq) Method() string {
+	return "GET"
+}
+
+func (c *CountWebhooksAPIReq) Verify() error {
 	return nil
 }
 
-func (c CountWebhooksAPIReq) Endpoint() string {
+func (c *CountWebhooksAPIReq) Endpoint() string {
 	return "webhooks/count.json"
 }
 

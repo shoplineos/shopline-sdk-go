@@ -10,6 +10,8 @@ import (
 // 中文：https://developer.shopline.com/zh-hans-cn/docs/admin-rest-api/order/order-management/order-refund-trial?version=v20251201
 // En：https://developer.shopline.com/docs/admin-rest-api/order/order-management/order-refund-trial?version=v20251201
 type CalculateOrderRefundAPIReq struct {
+	client.BaseAPIRequest
+
 	OrderId         string           `url:"order_id,omitempty"`
 	Currency        string           `json:"currency,omitempty"`
 	RefundLineItems []RefundLineItem `json:"refund_line_items,omitempty"`
@@ -17,21 +19,25 @@ type CalculateOrderRefundAPIReq struct {
 	RefundShipping RefundShipping `json:"shipping,omitempty"`
 }
 
-type RefundLineItem struct {
-	LineItemID string `json:"line_item_id"`
-	Quantity   uint64 `json:"quantity,omitempty"`
-	Type       string `json:"type,omitempty"`
+func (r *CalculateOrderRefundAPIReq) Method() string {
+	return "POST"
 }
 
-func (r CalculateOrderRefundAPIReq) Verify() error {
+func (r *CalculateOrderRefundAPIReq) Verify() error {
 	if r.OrderId == "" {
 		return errors.New("OrderId is required")
 	}
 	return nil
 }
 
-func (r CalculateOrderRefundAPIReq) Endpoint() string {
+func (r *CalculateOrderRefundAPIReq) Endpoint() string {
 	return fmt.Sprintf("orders/%s/refunds/calculate.json", r.OrderId)
+}
+
+type RefundLineItem struct {
+	LineItemID string `json:"line_item_id"`
+	Quantity   uint64 `json:"quantity,omitempty"`
+	Type       string `json:"type,omitempty"`
 }
 
 type CalculateOrderRefundAPIResp struct {

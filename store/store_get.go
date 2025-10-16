@@ -9,6 +9,11 @@ import (
 // 中文: https://developer.shopline.com/zh-hans-cn/docs/admin-rest-api/store/query-store-information?version=v20251201
 // en: https://developer.shopline.com/docs/admin-rest-api/store/query-store-information?version=v20251201
 type GetStoreAPIReq struct {
+	client.BaseAPIRequest
+}
+
+func (req *GetStoreAPIReq) Method() string {
+	return "GET"
 }
 
 func (req *GetStoreAPIReq) Verify() error {

@@ -9,13 +9,18 @@ import (
 // 中文：https://developer.shopline.com/zh-hans-cn/docs/admin-rest-api/access/storefront-api/create-an-access-token?version=v20251201
 // En：https://developer.shopline.com/docs/admin-rest-api/access/storefront-api/create-an-access-token?version=v20251201
 type ListStorefrontAccessTokensAPIReq struct {
+	client.BaseAPIRequest
 }
 
-func (c ListStorefrontAccessTokensAPIReq) Verify() error {
+func (c *ListStorefrontAccessTokensAPIReq) Method() string {
+	return "GET"
+}
+
+func (c *ListStorefrontAccessTokensAPIReq) Verify() error {
 	return nil
 }
 
-func (c ListStorefrontAccessTokensAPIReq) Endpoint() string {
+func (c *ListStorefrontAccessTokensAPIReq) Endpoint() string {
 	return fmt.Sprintf("storefront_access_tokens.json")
 }
 

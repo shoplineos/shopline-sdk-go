@@ -62,7 +62,7 @@ func (app App) CreateAccessToken(ctx context.Context, code string) (*TokenRespon
 	}
 
 	shopLineReq := &ShopLineRequest{
-		Options: &ShopLineRequestOptions{EnableSign: true},
+		Options: &RequestOptions{EnableSign: true},
 		Data:    requestBody,
 	}
 
@@ -94,7 +94,7 @@ func (app App) RefreshAccessToken(ctx context.Context, storeHandle string) (*Tok
 
 	// 1. build request
 	shopLineReq := &ShopLineRequest{
-		Options: &ShopLineRequestOptions{EnableSign: true},
+		Options: &RequestOptions{EnableSign: true},
 	}
 
 	// 2. new http request

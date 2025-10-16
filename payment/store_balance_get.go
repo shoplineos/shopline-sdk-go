@@ -8,6 +8,11 @@ import (
 // 中文：https://developer.shopline.com/zh-hans-cn/docs/admin-rest-api/shopline-payments/balance?version=v20251201
 // En：https://developer.shopline.com/docs/admin-rest-api/shopline-payments/balance?version=v20251201
 type GetStoreBalanceAPIReq struct {
+	client.BaseAPIRequest
+}
+
+func (req *GetStoreBalanceAPIReq) Method() string {
+	return "GET"
 }
 
 func (req *GetStoreBalanceAPIReq) Verify() error {
