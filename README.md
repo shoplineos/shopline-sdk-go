@@ -1,4 +1,4 @@
-# shopline sdk go
+# SHOPLINE API Library for Go
 
 ## Getting Started
 
@@ -6,15 +6,21 @@
 
 ### <span id="en">English</span>
 
-**Note**: For developers using [SHOPLINE](https://developer.shopline.com), the SDK is currently under active development and is a preview release with ongoing improvements. This library doesn't yet implement all SHOPLINE resources. We welcome you to submit Pull Requests to add new resources or endpoints, or you can implement your own by following the instructions in the <a href="#en-use-your-own-model">Using Your Own Data Model</a> section. We look forward to your contributions!
+**Note**: For developers using [SHOPLINE](https://developer.shopline.com), this library provides support for Go [SHOPLINE apps](https://apps.shopline.com/) to access the [SHOPLINE Admin API](https://developer.shopline.com/docs/apps/api-instructions-for-use/rest-admin-api/overview?version=v20260301), by making it easier to perform the [actions](#en-actions), and this library is currently under active development and is a preview release with ongoing improvements. This library doesn't yet implement all [SHOPLINE](https://developer.shopline.com) resources. We welcome you to submit Pull Requests to add new resources or endpoints, or you can implement your own by following the instructions in the <a href="#en-use-your-own-model">Using Your Own Data Model</a> section. We look forward to your contributions!
+
+Current supported <span id="en-actions">actions</span>:
+1. Creating Access Tokens for the Admin API via [OAuth](https://developer.shopline.com/docs/apps/api-instructions-for-use/app-authorization?version=v20260301)
+2. Making requests to the [REST Admin API](https://developer.shopline.com/docs/apps/api-instructions-for-use/rest-admin-api/overview?version=v20260301)
+3. Registering/processing [webhooks](https://developer.shopline.com/docs/apps/api-instructions-for-use/webhooks/overview?version=v20260301)
 
 
-#### Install
+
+#### Install SDK
 ```
 $ go get github.com/shoplineos/shopline-sdk-go
 ```
 
-#### Use
+#### Use SDK
 ```
 import "github.com/shoplineos/shopline-sdk-go/client"
 ```
@@ -491,13 +497,18 @@ token, err := app.RefreshAccessToken(context.Background(), storeHandle)
 
 **注意**：对于使用 [SHOPLINE](https://developer.shopline.com) 的开发者来说，当前 SDK 封装了通用对接逻辑，旨在帮助开发者高效地构建应用，让你能更专注于业务功能的实现。当前 SDK 尚处于 Beta 阶段，功能持续完善中，已支持 OAuth 授权、商品、订单等核心 API，并提供了清晰的客户端初始化、请求构建与响应处理模式。我们欢迎社区贡献代码，您可通过提交 Pull Request 补充新的资源或端点。如果遇到尚未实现的 API，可以参照 <a href="#zh-use-your-own-model">使用你自己的数据模型</a> 自行封装。
 
+当前支持的能力：
+1. 通过 [OAuth](https://developer.shopline.com/zh-hans-cn/docs/apps/api-instructions-for-use/app-authorization?version=v20260301) 创建 Admin API 用到的 Access Tokens
+2. 调用 [REST Admin API](https://developer.shopline.com/zh-hans-cn/docs/apps/api-instructions-for-use/rest-admin-api/overview?version=v20260301)
+3. 注册和处理 [webhooks](https://developer.shopline.com/zh-hans-cn/docs/apps/api-instructions-for-use/webhooks/overview?version=v20260301)
 
-#### 安装
+
+#### 安装 SDK
 ```
 $ go get github.com/shoplineos/shopline-sdk-go
 ```
 
-#### 使用
+#### 使用 SDK
 ```
 import "github.com/shoplineos/shopline-sdk-go/client"
 ```
