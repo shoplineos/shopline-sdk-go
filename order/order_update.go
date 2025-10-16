@@ -18,6 +18,10 @@ func (req *UpdateOrderAPIReq) Method() string {
 	return "PUT"
 }
 
+func (r *UpdateOrderAPIReq) GetData() interface{} {
+	return r
+}
+
 func (req *UpdateOrderAPIReq) Verify() error {
 	// Verify the api request params
 	return nil

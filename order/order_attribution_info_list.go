@@ -17,6 +17,10 @@ func (r *ListOrderAttributionInfosAPIReq) Method() string {
 	return "GET"
 }
 
+func (r *ListOrderAttributionInfosAPIReq) GetQuery() interface{} {
+	return r
+}
+
 func (r *ListOrderAttributionInfosAPIReq) Verify() error {
 	if r.OrderIds == nil || len(r.OrderIds) == 0 {
 		return errors.New("OrderIds is required")

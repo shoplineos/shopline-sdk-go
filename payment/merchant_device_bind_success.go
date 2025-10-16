@@ -21,6 +21,10 @@ func (req *MerchantDeviceBindSuccessAPIReq) Method() string {
 	return "POST"
 }
 
+func (req *MerchantDeviceBindSuccessAPIReq) GetData() interface{} {
+	return req
+}
+
 func (req *MerchantDeviceBindSuccessAPIReq) Verify() error {
 	// Verify the api request params
 	if req.ResourceId == "" {

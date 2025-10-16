@@ -19,6 +19,10 @@ func (req *MerchantBindSuccessAPIReq) Method() string {
 	return "POST"
 }
 
+func (req *MerchantBindSuccessAPIReq) GetData() interface{} {
+	return req
+}
+
 func (req *MerchantBindSuccessAPIReq) GetRequestOptions() *client.RequestOptions {
 	opts := &client.RequestOptions{
 		NotDecodeBody: true,

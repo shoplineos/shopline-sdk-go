@@ -26,6 +26,10 @@ func (req *MerchantRefundSuccessAPIReq) Method() string {
 	return "POST"
 }
 
+func (req *MerchantRefundSuccessAPIReq) GetData() interface{} {
+	return req
+}
+
 func (req *MerchantRefundSuccessAPIReq) Verify() error {
 	// Verify the api request params
 	if req.ChannelId == "" {

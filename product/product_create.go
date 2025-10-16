@@ -17,6 +17,10 @@ func (req *CreateProductAPIReq) Method() string {
 	return "POST"
 }
 
+func (req *CreateProductAPIReq) GetData() interface{} {
+	return req
+}
+
 func (req *CreateProductAPIReq) Verify() error {
 	// Verify the api request params
 	return nil

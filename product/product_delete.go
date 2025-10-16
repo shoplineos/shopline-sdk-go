@@ -18,6 +18,10 @@ func (req *DeleteProductAPIReq) Method() string {
 	return "DELETE"
 }
 
+func (req *DeleteProductAPIReq) GetData() interface{} {
+	return req
+}
+
 func (req *DeleteProductAPIReq) Verify() error {
 	// Verify the api request params
 	return nil

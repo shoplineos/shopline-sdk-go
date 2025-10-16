@@ -35,6 +35,10 @@ func (l *ListMetafieldAPIReq) Method() string {
 	return "GET"
 }
 
+func (l *ListMetafieldAPIReq) GetQuery() interface{} {
+	return l
+}
+
 func (l *ListMetafieldAPIReq) Verify() error {
 	if l.OwnerResource == "" {
 		return errors.New("owner_resource is required")

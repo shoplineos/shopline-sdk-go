@@ -18,6 +18,10 @@ func (d *DeleteMetafieldDefinitionAPIReq) Method() string {
 	return "DELETE"
 }
 
+func (c *DeleteMetafieldDefinitionAPIReq) GetData() interface{} {
+	return c
+}
+
 func (d *DeleteMetafieldDefinitionAPIReq) Verify() error {
 	if d.Id == "" {
 		return errors.New("MetafieldDefinition Id is empty")

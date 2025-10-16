@@ -18,6 +18,10 @@ func (req *GetProductDetailAPIReq) Method() string {
 	return "GET"
 }
 
+func (req *GetProductDetailAPIReq) GetQuery() interface{} {
+	return req
+}
+
 func (req *GetProductDetailAPIReq) Verify() error {
 	// Verify the api request params
 	return nil

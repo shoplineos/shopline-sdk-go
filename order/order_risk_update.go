@@ -20,6 +20,10 @@ func (r *UpdateOrderRiskAPIReq) Method() string {
 	return "PUT"
 }
 
+func (r *UpdateOrderRiskAPIReq) GetData() interface{} {
+	return r
+}
+
 func (r *UpdateOrderRiskAPIReq) Verify() error {
 	if r.OrderId == "" {
 		return errors.New("order_id is required")

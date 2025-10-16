@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"context"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"github.com/shoplineos/shopline-sdk-go/common"
 	"github.com/shoplineos/shopline-sdk-go/config"
@@ -223,11 +224,17 @@ func NewClientWithAwares(app App, storeHandle, token string, awares []Aware, opt
 // Call an API
 // resource : An API response resource, to specify the return type of the request, you can specify your own resource or an APIResponse
 func (c *Client) Call(ctx context.Context, req APIRequest, resource interface{}) error {
+	if req == nil {
+		return errors.New("request is required")
+	}
+	if resource == nil {
+		return errors.New("resource is required")
+	}
 
-	// 1. SHOPLINE API request
+	// 1. New a SHOPLINE API request
 	shopLineReq := newShopLineRequest(req)
 
-	// 2. Execute API
+	// 2. Call an API
 	_, err := c.Execute(ctx, HTTPMethod(req.Method()), req.Endpoint(), shopLineReq, resource)
 	return err
 }
@@ -238,13 +245,10 @@ func newShopLineRequest(req APIRequest) *ShopLineRequest {
 		return shopLineReq
 	}
 
-	if req.Method() == "GET" {
-		shopLineReq.Query = req.GetQuery()
-	} else {
-		shopLineReq.Query = req.GetQuery()
-		shopLineReq.Data = req.GetData()
-	}
+	shopLineReq.Query = req.GetQuery()
+	shopLineReq.Data = req.GetData()
 
+	shopLineReq.Headers = req.GetHeaders()
 	shopLineReq.Options = req.GetRequestOptions()
 	return shopLineReq
 }

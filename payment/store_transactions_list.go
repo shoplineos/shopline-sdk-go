@@ -28,6 +28,10 @@ func (req *ListStoreTransactionsAPIReq) Method() string {
 	return "GET"
 }
 
+func (req *ListStoreTransactionsAPIReq) GetQuery() interface{} {
+	return req
+}
+
 func (req *ListStoreTransactionsAPIReq) Verify() error {
 	// Verify the api request params
 	//if req.Limit == "" {

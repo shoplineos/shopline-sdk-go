@@ -16,6 +16,10 @@ func (req *GetStoreAPIReq) Method() string {
 	return "GET"
 }
 
+func (req *GetStoreAPIReq) GetQuery() interface{} {
+	return req
+}
+
 func (req *GetStoreAPIReq) Verify() error {
 	// Verify the api request params
 	return nil

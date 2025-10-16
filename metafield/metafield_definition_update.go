@@ -14,6 +14,10 @@ func (u *UpdateMetafieldDefinitionAPIReq) Method() string {
 	return "PUT"
 }
 
+func (u *UpdateMetafieldDefinitionAPIReq) GetData() interface{} {
+	return u
+}
+
 func (u *UpdateMetafieldDefinitionAPIReq) Verify() error {
 	return nil
 }

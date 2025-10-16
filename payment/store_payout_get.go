@@ -17,6 +17,10 @@ func (req *GetStorePayoutAPIReq) Method() string {
 	return "GET"
 }
 
+func (req *GetStorePayoutAPIReq) GetQuery() interface{} {
+	return req
+}
+
 func (req *GetStorePayoutAPIReq) Verify() error {
 	// Verify the api request params
 	if req.PayoutId == "" {

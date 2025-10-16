@@ -16,6 +16,10 @@ func (req *ListStoreSubscriptionsAPIReq) Method() string {
 	return "GET"
 }
 
+func (req *ListStoreSubscriptionsAPIReq) GetQuery() interface{} {
+	return req
+}
+
 func (req *ListStoreSubscriptionsAPIReq) Verify() error {
 	// Verify the api request params
 	return nil

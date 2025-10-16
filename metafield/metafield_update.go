@@ -18,6 +18,10 @@ func (c *UpdateMetafieldAPIReq) Method() string {
 	return "PUT"
 }
 
+func (c *UpdateMetafieldAPIReq) GetData() interface{} {
+	return c
+}
+
 func (c *UpdateMetafieldAPIReq) Verify() error {
 	if c.Metafield.OwnerId == "" {
 		return errors.New("OwnerId is required")

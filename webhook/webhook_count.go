@@ -11,15 +11,19 @@ type CountWebhooksAPIReq struct {
 	client.BaseAPIRequest
 }
 
-func (c *CountWebhooksAPIReq) Method() string {
+func (r *CountWebhooksAPIReq) Method() string {
 	return "GET"
 }
 
-func (c *CountWebhooksAPIReq) Verify() error {
+func (r *CountWebhooksAPIReq) GetQuery() interface{} {
+	return r
+}
+
+func (r *CountWebhooksAPIReq) Verify() error {
 	return nil
 }
 
-func (c *CountWebhooksAPIReq) Endpoint() string {
+func (r *CountWebhooksAPIReq) Endpoint() string {
 	return "webhooks/count.json"
 }
 

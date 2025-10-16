@@ -23,6 +23,10 @@ func (c *DeleteMetafieldAPIReq) Method() string {
 	return "DELETE"
 }
 
+func (c *DeleteMetafieldAPIReq) GetData() interface{} {
+	return c
+}
+
 func (c *DeleteMetafieldAPIReq) Verify() error {
 	if c.OwnerId == "" {
 		return errors.New("OwnerId is required")

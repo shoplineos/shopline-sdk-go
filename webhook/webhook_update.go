@@ -19,6 +19,10 @@ func (c *UpdateWebhookAPIReq) Method() string {
 	return "PUT"
 }
 
+func (c *UpdateWebhookAPIReq) GetData() interface{} {
+	return c
+}
+
 func (c *UpdateWebhookAPIReq) Verify() error {
 	if c.Id == 0 {
 		return errors.New("id is required")

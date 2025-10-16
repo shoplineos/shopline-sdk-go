@@ -21,6 +21,10 @@ func (req *CountStoreOperationLogsAPIReq) Method() string {
 	return "GET"
 }
 
+func (req *CountStoreOperationLogsAPIReq) GetQuery() interface{} {
+	return req
+}
+
 func (req *CountStoreOperationLogsAPIReq) Verify() error {
 	if req.CreatedAtMin == "" {
 		return errors.New("CreatedAtMin is required")

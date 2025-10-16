@@ -15,6 +15,10 @@ func (c *ListWebhooksAPIReq) Method() string {
 	return "GET"
 }
 
+func (c *ListWebhooksAPIReq) GetQuery() interface{} {
+	return c
+}
+
 func (c *ListWebhooksAPIReq) Verify() error {
 	return nil
 }

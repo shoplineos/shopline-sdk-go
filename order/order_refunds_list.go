@@ -20,6 +20,10 @@ func (r *ListOrderRefundsAPIReq) Method() string {
 	return "GET"
 }
 
+func (r *ListOrderRefundsAPIReq) GetQuery() interface{} {
+	return r
+}
+
 func (r *ListOrderRefundsAPIReq) Verify() error {
 	if r.OrderId == "" {
 		return errors.New("order_id is required")

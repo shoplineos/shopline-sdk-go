@@ -13,24 +13,28 @@ type CreateWebhookAPIReq struct {
 	Webhook CreateWebhook `json:"webhook,omitempty"`
 }
 
-func (c *CreateWebhookAPIReq) Method() string {
+func (r *CreateWebhookAPIReq) Method() string {
 	return "POST"
 }
 
-func (c *CreateWebhookAPIReq) Verify() error {
-	if c.Webhook.Address == "" {
+func (r *CreateWebhookAPIReq) GetData() interface{} {
+	return r
+}
+
+func (r *CreateWebhookAPIReq) Verify() error {
+	if r.Webhook.Address == "" {
 		return errors.New("webhook.address is required")
 	}
-	if c.Webhook.Topic == "" {
+	if r.Webhook.Topic == "" {
 		return errors.New("webhook.topic is required")
 	}
-	if c.Webhook.ApiVersion == "" {
+	if r.Webhook.ApiVersion == "" {
 		return errors.New("webhook.api_version is required")
 	}
 	return nil
 }
 
-func (c *CreateWebhookAPIReq) Endpoint() string {
+func (r *CreateWebhookAPIReq) Endpoint() string {
 	return "webhooks.json"
 }
 

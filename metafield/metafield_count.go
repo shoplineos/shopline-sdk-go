@@ -22,6 +22,10 @@ func (c *CountMetafieldAPIReq) Method() string {
 	return "GET"
 }
 
+func (c *CountMetafieldAPIReq) GetQuery() interface{} {
+	return c
+}
+
 func (c *CountMetafieldAPIReq) Verify() error {
 	if c.OwnerId == "" {
 		return errors.New("OwnerId is required")

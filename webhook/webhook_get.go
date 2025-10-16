@@ -18,6 +18,10 @@ func (c *GetWebhookAPIReq) Method() string {
 	return "GET"
 }
 
+func (c *GetWebhookAPIReq) GetQuery() interface{} {
+	return c
+}
+
 func (c *GetWebhookAPIReq) Verify() error {
 	if c.Id == 0 {
 		return errors.New("id is required")

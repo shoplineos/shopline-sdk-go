@@ -14,19 +14,23 @@ type DeleteStorefrontAccessTokenAPIReq struct {
 	Id string
 }
 
-func (c DeleteStorefrontAccessTokenAPIReq) Method() string {
+func (r *DeleteStorefrontAccessTokenAPIReq) Method() string {
 	return "DELETE"
 }
 
-func (c DeleteStorefrontAccessTokenAPIReq) Verify() error {
-	if c.Id == "" {
+func (r *DeleteStorefrontAccessTokenAPIReq) GetData() interface{} {
+	return r
+}
+
+func (r *DeleteStorefrontAccessTokenAPIReq) Verify() error {
+	if r.Id == "" {
 		return errors.New("storefront access token id is empty")
 	}
 	return nil
 }
 
-func (c DeleteStorefrontAccessTokenAPIReq) Endpoint() string {
-	return fmt.Sprintf("storefront_access_tokens/%s.json", c.Id)
+func (r *DeleteStorefrontAccessTokenAPIReq) Endpoint() string {
+	return fmt.Sprintf("storefront_access_tokens/%s.json", r.Id)
 }
 
 type DeleteStorefrontAccessTokenAPIResp struct {

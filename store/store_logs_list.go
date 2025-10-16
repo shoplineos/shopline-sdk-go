@@ -23,6 +23,10 @@ func (req *ListStoreOperationLogsAPIReq) Method() string {
 	return "GET"
 }
 
+func (req *ListStoreOperationLogsAPIReq) GetQuery() interface{} {
+	return req
+}
+
 func (req *ListStoreOperationLogsAPIReq) Verify() error {
 	// Verify the api request params
 	if req.CreatedAtMin == "" {

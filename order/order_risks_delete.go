@@ -18,6 +18,10 @@ func (r *DeleteOrderRisksAPIReq) Method() string {
 	return "DELETE"
 }
 
+func (r *DeleteOrderRisksAPIReq) GetData() interface{} {
+	return r
+}
+
 func (r *DeleteOrderRisksAPIReq) Verify() error {
 	if r.OrderId == "" {
 		return errors.New("order_id is required")

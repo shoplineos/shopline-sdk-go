@@ -18,6 +18,10 @@ func (req *GetStoreStaffAPIReq) Method() string {
 	return "GET"
 }
 
+func (req *GetStoreStaffAPIReq) GetQuery() interface{} {
+	return req
+}
+
 func (req *GetStoreStaffAPIReq) Verify() error {
 	// Verify the api request params
 	if req.UID == "" {

@@ -39,6 +39,10 @@ func (req *ListOrdersAPIReq) Method() string {
 	return "GET"
 }
 
+func (req *ListOrdersAPIReq) GetQuery() interface{} {
+	return req
+}
+
 func (req *ListOrdersAPIReq) Verify() error {
 	// Verify the api request params
 	return nil

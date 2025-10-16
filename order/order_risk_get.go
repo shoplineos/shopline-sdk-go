@@ -20,6 +20,10 @@ func (r *GetOrderRiskAPIReq) Method() string {
 	return "GET"
 }
 
+func (r *GetOrderRiskAPIReq) GetQuery() interface{} {
+	return r
+}
+
 func (r *GetOrderRiskAPIReq) Verify() error {
 	if r.OrderId == "" {
 		return errors.New("order_id is required")

@@ -26,6 +26,10 @@ func (req *CancelOrderAPIReq) Method() string {
 	return "POST"
 }
 
+func (req *CancelOrderAPIReq) GetData() interface{} {
+	return req
+}
+
 func (req *CancelOrderAPIReq) Verify() error {
 	// Verify the api request params
 	return nil

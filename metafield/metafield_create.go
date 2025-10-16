@@ -14,6 +14,10 @@ type CreateMetafieldAPIReq struct {
 	Metafield CreateMetafield `json:"metafield"`
 }
 
+func (c *CreateMetafieldAPIReq) GetData() interface{} {
+	return c
+}
+
 func (c *CreateMetafieldAPIReq) Method() string {
 	return "POST"
 }

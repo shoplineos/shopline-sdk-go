@@ -13,6 +13,10 @@ func (req *ListStoreCurrenciesAPIReq) Method() string {
 	return "GET"
 }
 
+func (req *ListStoreCurrenciesAPIReq) GetQuery() interface{} {
+	return req
+}
+
 func (req *ListStoreCurrenciesAPIReq) Verify() error {
 	// Verify the api request params
 	return nil

@@ -14,19 +14,23 @@ type DeleteWebhookAPIReq struct {
 	Id uint64
 }
 
-func (c *DeleteWebhookAPIReq) Method() string {
+func (r *DeleteWebhookAPIReq) Method() string {
 	return "DELETE"
 }
 
-func (c *DeleteWebhookAPIReq) Verify() error {
-	if c.Id == 0 {
+func (r *DeleteWebhookAPIReq) GetData() interface{} {
+	return r
+}
+
+func (r *DeleteWebhookAPIReq) Verify() error {
+	if r.Id == 0 {
 		return errors.New("webhook.id is required")
 	}
 	return nil
 }
 
-func (c *DeleteWebhookAPIReq) Endpoint() string {
-	return fmt.Sprintf("%d/webhooks.json", c.Id)
+func (r *DeleteWebhookAPIReq) Endpoint() string {
+	return fmt.Sprintf("%d/webhooks.json", r.Id)
 }
 
 type DeleteWebhookAPIResp struct {

@@ -25,6 +25,10 @@ func (req *MerchantPaySuccessAPIReq) Method() string {
 	return "POST"
 }
 
+func (req *MerchantPaySuccessAPIReq) GetData() interface{} {
+	return req
+}
+
 func (req *MerchantPaySuccessAPIReq) Verify() error {
 	// Verify the api request params
 	if req.ChannelId == "" {

@@ -17,6 +17,10 @@ func (req *ListStoreStaffsAPIReq) Method() string {
 	return "GET"
 }
 
+func (req *ListStoreStaffsAPIReq) GetQuery() interface{} {
+	return req
+}
+
 func (req *ListStoreStaffsAPIReq) Verify() error {
 	// Verify the api request params
 	if req.Limit == "" {

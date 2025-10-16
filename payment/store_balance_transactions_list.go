@@ -24,6 +24,10 @@ func (req *ListStoreBalanceTransactionsAPIReq) Method() string {
 	return "GET"
 }
 
+func (req *ListStoreBalanceTransactionsAPIReq) GetQuery() interface{} {
+	return req
+}
+
 func (req *ListStoreBalanceTransactionsAPIReq) Verify() error {
 	// Verify the api request params
 	//if req.Limit == "" {

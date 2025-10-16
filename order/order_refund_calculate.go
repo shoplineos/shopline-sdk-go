@@ -23,6 +23,10 @@ func (r *CalculateOrderRefundAPIReq) Method() string {
 	return "POST"
 }
 
+func (r *CalculateOrderRefundAPIReq) GetData() interface{} {
+	return r
+}
+
 func (r *CalculateOrderRefundAPIReq) Verify() error {
 	if r.OrderId == "" {
 		return errors.New("OrderId is required")

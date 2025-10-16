@@ -17,6 +17,10 @@ func (d *GetMetafieldDefinitionAPIReq) Method() string {
 	return "GET"
 }
 
+func (d *GetMetafieldDefinitionAPIReq) GetQuery() interface{} {
+	return d
+}
+
 func (d *GetMetafieldDefinitionAPIReq) Verify() error {
 	if d.Id == "" {
 		return errors.New("MetafieldDefinition Id is empty")

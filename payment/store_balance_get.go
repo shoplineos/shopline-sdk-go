@@ -15,6 +15,10 @@ func (req *GetStoreBalanceAPIReq) Method() string {
 	return "GET"
 }
 
+func (req *GetStoreBalanceAPIReq) GetQuery() interface{} {
+	return req
+}
+
 func (req *GetStoreBalanceAPIReq) Verify() error {
 	// Verify the api request params
 	return nil

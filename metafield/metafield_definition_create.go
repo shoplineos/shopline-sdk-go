@@ -14,6 +14,10 @@ func (c *CreateMetafieldDefinitionAPIReq) Method() string {
 	return "POST"
 }
 
+func (c *CreateMetafieldDefinitionAPIReq) GetData() interface{} {
+	return c
+}
+
 func (c *CreateMetafieldDefinitionAPIReq) Verify() error {
 	return nil
 }

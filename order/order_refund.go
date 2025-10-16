@@ -26,6 +26,10 @@ func (req *RefundAPIReq) Method() string {
 	return "POST"
 }
 
+func (req *RefundAPIReq) GetData() interface{} {
+	return req
+}
+
 type RefundLine struct {
 	LineItemId   string `json:"line_item_id"`
 	Quantity     int    `json:"quantity,omitempty"`

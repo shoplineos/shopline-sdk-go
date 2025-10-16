@@ -28,6 +28,10 @@ func (req *ListStorePayoutsAPIReq) Method() string {
 	return "GET"
 }
 
+func (req *ListStorePayoutsAPIReq) GetQuery() interface{} {
+	return req
+}
+
 func (req *ListStorePayoutsAPIReq) Verify() error {
 	// Verify the api request params
 	if req.Limit == "" {

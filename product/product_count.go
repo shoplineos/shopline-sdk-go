@@ -22,6 +22,10 @@ func (req *GetProductCountAPIReq) Method() string {
 	return "GET"
 }
 
+func (req *GetProductCountAPIReq) GetQuery() interface{} {
+	return req
+}
+
 func (req *GetProductCountAPIReq) Verify() error {
 	// Verify the api request params
 	return nil
@@ -47,7 +51,7 @@ func GetProductsCount(c *client.Client, apiReq *GetProductCountAPIReq) (*GetProd
 	// 1. API response data
 	apiResp := &GetProductCountAPIResp{}
 
-	// 2. Call API
+	// 2. Call the API
 	err := c.Call(context.Background(), apiReq, apiResp)
 
 	return apiResp, err

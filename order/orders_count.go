@@ -25,6 +25,10 @@ func (req *GetOrdersCountAPIReq) Method() string {
 	return "GET"
 }
 
+func (req *GetOrdersCountAPIReq) GetQuery() interface{} {
+	return req
+}
+
 func (req *GetOrdersCountAPIReq) Verify() error {
 	// Verify the api request params
 	return nil

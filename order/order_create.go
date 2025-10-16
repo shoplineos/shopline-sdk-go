@@ -15,6 +15,10 @@ func (req *CreateOrderAPIReq) Method() string {
 	return "POST"
 }
 
+func (req *CreateOrderAPIReq) GetData() interface{} {
+	return req
+}
+
 func (req *CreateOrderAPIReq) Verify() error {
 	// Verify the api request params
 	return nil
