@@ -6,7 +6,7 @@
 
 ### <span id="en">English</span>
 
-**Note**: For developers using [SHOPLINE](https://developer.shopline.com), the SDK is currently under active development and is a preview release with ongoing improvements. This library doesn't yet implement all SHOPLINE resources. We welcome you to submit Pull Requests to add new resources or endpoints, or you can implement your own by following the instructions in the "Using Your Own Data Model" section. We look forward to your contributions!
+**Note**: For developers using [SHOPLINE](https://developer.shopline.com), the SDK is currently under active development and is a preview release with ongoing improvements. This library doesn't yet implement all SHOPLINE resources. We welcome you to submit Pull Requests to add new resources or endpoints, or you can implement your own by following the instructions in the <a href="#en-use-your-own-model">Using Your Own Data Model</a> section. We look forward to your contributions!
 
 
 #### Install
@@ -251,7 +251,7 @@ apiResp, err := product.GetProductService().Create(context.Background(), apiReq)
 
 ```
 
-#### Using Your Own Data Model
+#### <span id="en-use-your-own-model">Using Your Own Data Model</span>
 
 Not all endpoints are implemented right now. In those case, feel free to implement them and make a Pull Request, or you
 can create your own struct for the data and use the client to call APIs. This is how the existing endpoints are
@@ -366,7 +366,7 @@ func GetProductsCount(c *client.Client, apiReq *GetProductCountAPIReq) (*GetProd
 #### Webhooks verification
 
 In order to be sure that a webhook is sent from SHOPLINE API you could easily verify it with the VerifyWebhookRequest
-method.
+method. For more details, see: [Webhooks](https://developer.shopline.com/docs/apps/api-instructions-for-use/webhooks/overview?version=v20260301)
 
 For example:
 
@@ -489,7 +489,7 @@ token, err := app.RefreshAccessToken(context.Background(), storeHandle)
 
 ### <span id="zh">中文</span>
 
-**注意**：对于使用 [SHOPLINE](https://developer.shopline.com) 的开发者来说，当前 SDK 封装了通用对接逻辑，旨在帮助开发者高效地构建应用，让你能更专注于业务功能的实现。当前 SDK 尚处于 Beta 阶段，功能持续完善中，已支持 OAuth 授权、商品、订单等核心 API，并提供了清晰的客户端初始化、请求构建与响应处理模式。我们欢迎社区贡献代码，您可通过提交 Pull Request 补充新的资源或端点。如果遇到尚未实现的 API，可以参照 “使用你自己的数据模型” 自行封装。
+**注意**：对于使用 [SHOPLINE](https://developer.shopline.com) 的开发者来说，当前 SDK 封装了通用对接逻辑，旨在帮助开发者高效地构建应用，让你能更专注于业务功能的实现。当前 SDK 尚处于 Beta 阶段，功能持续完善中，已支持 OAuth 授权、商品、订单等核心 API，并提供了清晰的客户端初始化、请求构建与响应处理模式。我们欢迎社区贡献代码，您可通过提交 Pull Request 补充新的资源或端点。如果遇到尚未实现的 API，可以参照 <a href="#zh-use-your-own-model">使用你自己的数据模型</a> 自行封装。
 
 
 #### 安装
@@ -737,7 +737,8 @@ apiResp, err := product.GetProductService().Create(context.Background(), apiReq)
 
 ```
 
-#### 使用你自己的数据模型
+
+#### <span id="zh-use-your-own-model">使用你自己的数据模型</span>
 
 目前为止不是所有的 API 都已经实现，你可以发起1个 Pull Request，或者自己实现数据模型对象。
 下面这个例子是获取商品数量:
@@ -833,8 +834,8 @@ func GetProductsCount(c *client.Client, apiReq *GetProductCountAPIReq) (*GetProd
   ```
 
 
-#### 验证Webhooks
-
+#### 验证 Webhooks
+为了确保 Webhook 确实从 SHOPLINE 发送的，你可以使用 VerifyWebhookRequest 方法轻松验证。更多信息见：[Webhooks](https://developer.shopline.com/zh-hans-cn/docs/apps/api-instructions-for-use/webhooks/overview/?version=v20260301) </br>
 例子:
 
 ```
