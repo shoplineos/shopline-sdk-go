@@ -270,6 +270,7 @@ apiResp, err := product.GetProductService().Create(context.Background(), apiReq)
 
 Not all API endpoints are implemented, so feel free to add them yourself and submit a Pull Request. Alternatively, you can create your own struct for the data and use the client to call APIs.
 
+#### Implement a POST request
 For example, if you want to retrieve a product count, there is a helper function called Get that is specifically designed for such retrievals:
 
 ```
@@ -322,6 +323,130 @@ func TestGetProductsCount(c *client.Client) (*GetProductCountAPIResp, error) {
 }
 
 ```
+
+
+#### Implement a POST request
+
+For example to create a Webhook:
+```
+type CreateWebhookAPIReq struct {
+	client.BaseAPIRequest
+	Webhook CreateWebhook `json:"webhook,omitempty"`
+}
+
+func (r *CreateWebhookAPIReq) Method() string {
+	return "POST"
+}
+
+func (r *CreateWebhookAPIReq) GetData() interface{} {
+	return r
+}
+
+func (r *CreateWebhookAPIReq) Verify() error {
+	if r.Webhook.Address == "" {
+		return errors.New("webhook.address is required")
+	}
+	if r.Webhook.Topic == "" {
+		return errors.New("webhook.topic is required")
+	}
+	if r.Webhook.ApiVersion == "" {
+		return errors.New("webhook.api_version is required")
+	}
+	return nil
+}
+
+func (r *CreateWebhookAPIReq) Endpoint() string {
+	return "webhooks.json"
+}
+
+type CreateWebhook struct {
+	Address    string `json:"address,omitempty"`
+	Topic      string `json:"topic,omitempty"`
+	ApiVersion string `json:"api_version,omitempty"`
+}
+
+type CreateWebhookAPIResp struct {
+	client.BaseAPIResponse
+	Webhook Webhook `json:"webhook,omitempty"`
+}
+
+```
+
+#### Implement a PUT request
+For example to update a Webhook:
+```
+type UpdateWebhookAPIReq struct {
+	client.BaseAPIRequest
+	Id      uint64
+	Webhook UpdateWebhook `json:"webhook,omitempty"`
+}
+
+func (c *UpdateWebhookAPIReq) Method() string {
+	return "PUT"
+}
+
+func (c *UpdateWebhookAPIReq) GetData() interface{} {
+	return c
+}
+
+func (c *UpdateWebhookAPIReq) Verify() error {
+	if c.Id == 0 {
+		return errors.New("id is required")
+	}
+	if c.Webhook.Address == "" {
+		return errors.New("webhook.address is required")
+	}
+	return nil
+}
+
+func (c *UpdateWebhookAPIReq) Endpoint() string {
+	return fmt.Sprintf("%d/webhooks.json", c.Id)
+}
+
+type UpdateWebhook struct {
+	Address string `json:"address,omitempty"`
+}
+
+type UpdateWebhookAPIResp struct {
+	client.BaseAPIResponse
+	Webhook Webhook `json:"webhook,omitempty"`
+}
+
+```
+
+#### Implement a DELETE request
+For example to delete a Webhook:
+```
+type DeleteWebhookAPIReq struct {
+	client.BaseAPIRequest
+	Id uint64
+}
+
+func (r *DeleteWebhookAPIReq) Method() string {
+	return "DELETE"
+}
+
+func (r *DeleteWebhookAPIReq) GetData() interface{} {
+	return r
+}
+
+func (r *DeleteWebhookAPIReq) Verify() error {
+	if r.Id == 0 {
+		return errors.New("webhook.id is required")
+	}
+	return nil
+}
+
+func (r *DeleteWebhookAPIReq) Endpoint() string {
+	return fmt.Sprintf("%d/webhooks.json", r.Id)
+}
+
+type DeleteWebhookAPIResp struct {
+	client.BaseAPIResponse
+}
+
+```
+
 
 
 ### Implementing your own service interface(Optional)
@@ -765,12 +890,16 @@ apiResp, err := product.GetProductService().Create(context.Background(), apiReq)
 ### <span id="zh-use-your-own-model">使用你自己的数据模型</span>
 
 目前为止不是所有的 API 都已经实现，你可以发起1个 Pull Request，或者自己实现数据模型对象。
+
+
+#### 实现1个 GET 请求
 下面这个例子是获取商品数量:
 
 ```
 // 详细见：get_product_count.go
 type GetProductCountAPIReq struct {
     client.BaseAPIRequest // 基础结构体
+    
 	Status       string `url:"status,omitempty"`
 	CollectionId string `url:"collection_id,omitempty"`
 	CreatedAtMin string `url:"created_at_min,omitempty"`
@@ -813,6 +942,129 @@ func GetProductsCount(c *client.Client, apiReq *GetProductCountAPIReq) (*GetProd
 }
 
 ```
+
+#### 实现1个 POST 请求
+
+下面以创建 Webhook 举例：
+```
+type CreateWebhookAPIReq struct {
+	client.BaseAPIRequest
+	Webhook CreateWebhook `json:"webhook,omitempty"`
+}
+
+func (r *CreateWebhookAPIReq) Method() string {
+	return "POST"
+}
+
+func (r *CreateWebhookAPIReq) GetData() interface{} {
+	return r
+}
+
+func (r *CreateWebhookAPIReq) Verify() error {
+	if r.Webhook.Address == "" {
+		return errors.New("webhook.address is required")
+	}
+	if r.Webhook.Topic == "" {
+		return errors.New("webhook.topic is required")
+	}
+	if r.Webhook.ApiVersion == "" {
+		return errors.New("webhook.api_version is required")
+	}
+	return nil
+}
+
+func (r *CreateWebhookAPIReq) Endpoint() string {
+	return "webhooks.json"
+}
+
+type CreateWebhook struct {
+	Address    string `json:"address,omitempty"`
+	Topic      string `json:"topic,omitempty"`
+	ApiVersion string `json:"api_version,omitempty"`
+}
+
+type CreateWebhookAPIResp struct {
+	client.BaseAPIResponse
+	Webhook Webhook `json:"webhook,omitempty"`
+}
+
+```
+
+#### 实现1个 PUT 请求
+下面以修改 Webhook 举例：
+```
+type UpdateWebhookAPIReq struct {
+	client.BaseAPIRequest
+	Id      uint64
+	Webhook UpdateWebhook `json:"webhook,omitempty"`
+}
+
+func (c *UpdateWebhookAPIReq) Method() string {
+	return "PUT"
+}
+
+func (c *UpdateWebhookAPIReq) GetData() interface{} {
+	return c
+}
+
+func (c *UpdateWebhookAPIReq) Verify() error {
+	if c.Id == 0 {
+		return errors.New("id is required")
+	}
+	if c.Webhook.Address == "" {
+		return errors.New("webhook.address is required")
+	}
+	return nil
+}
+
+func (c *UpdateWebhookAPIReq) Endpoint() string {
+	return fmt.Sprintf("%d/webhooks.json", c.Id)
+}
+
+type UpdateWebhook struct {
+	Address string `json:"address,omitempty"`
+}
+
+type UpdateWebhookAPIResp struct {
+	client.BaseAPIResponse
+	Webhook Webhook `json:"webhook,omitempty"`
+}
+
+```
+
+#### 实现1个 DELETE 请求
+下面以删除 Webhook 举例：
+```
+type DeleteWebhookAPIReq struct {
+	client.BaseAPIRequest
+	Id uint64
+}
+
+func (r *DeleteWebhookAPIReq) Method() string {
+	return "DELETE"
+}
+
+func (r *DeleteWebhookAPIReq) GetData() interface{} {
+	return r
+}
+
+func (r *DeleteWebhookAPIReq) Verify() error {
+	if r.Id == 0 {
+		return errors.New("webhook.id is required")
+	}
+	return nil
+}
+
+func (r *DeleteWebhookAPIReq) Endpoint() string {
+	return fmt.Sprintf("%d/webhooks.json", r.Id)
+}
+
+type DeleteWebhookAPIResp struct {
+	client.BaseAPIResponse
+}
+
+```
+
 
 ### 实现你自己的服务接口 Service Interface（可选）
 
