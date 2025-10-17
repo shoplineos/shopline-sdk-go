@@ -12,14 +12,14 @@ Current supported <span id="en-actions">actions</span>:
 2. Making requests to the [REST Admin API](https://developer.shopline.com/docs/apps/api-instructions-for-use/rest-admin-api/overview?version=v20260301)
 3. Registering and processing [Webhooks](https://developer.shopline.com/docs/apps/api-instructions-for-use/webhooks/overview?version=v20260301)
 
-**Note**: This SDK is in its Beta phase, meaning that it is actively being developed and improved. This SDK doesn't yet implement all [SHOPLINE](https://developer.shopline.com) resources. We welcome you to submit Pull Requests to add new resources or endpoints, or you can implement your own by following the instructions in the <a href="#en-use-your-own-model">Using Your Own Data Model</a> section. We look forward to your contributions!
+**Note**: This SDK is in its Beta phase, meaning that it is actively being developed and improved. This SDK doesn't yet implement all [SHOPLINE](https://developer.shopline.com) resources. We welcome you to submit Pull Requests to add new resources or endpoints, or you can implement your own by following the instructions in the <a href="#en-use-your-own-model">Using your own data model</a> section. We look forward to your contributions!
 
-### Install SDK
+### Install the SDK
 ```
 $ go get github.com/shoplineos/shopline-sdk-go
 ```
 
-### Use SDK
+### Use the SDK
 ```
 import "github.com/shoplineos/shopline-sdk-go/client"
 ```
