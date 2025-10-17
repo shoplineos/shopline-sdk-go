@@ -151,10 +151,6 @@ func (c CreateProductAPIReqStruct) Endpoint() string {
 	return "/products/products.json"
 }
 
-func (c CreateProductAPIReqStruct) Verify() error {
-	return nil
-}
-
 func (c CreateProductAPIReqStruct) Method() string {
 	return "POST"
 }
