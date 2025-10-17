@@ -52,7 +52,7 @@ import "github.com/shoplineos/shopline-sdk-go/client"
   apiResp := &GetProductCountAPIResp{}
 
   // 3.3 Call the API
-  err := client.Call(context.Background(), apiReq, apiResp)
+  err := c.Call(context.Background(), apiReq, apiResp)
 
   fmt.Printf("count:%d", apiResp.Count)
 ```
@@ -269,8 +269,10 @@ apiResp, err := product.GetProductService().Create(context.Background(), apiReq)
 ### <span id="en-use-your-own-model">Using your own data model</span>
 
 Not all API endpoints are implemented, so feel free to add them yourself and submit a Pull Request. Alternatively, you can create your own struct for the data and use the client to call APIs.
+1. Your request structs to implement the **client.APIRequest** interface
+2. Your response structs to implement the **client.APIResponse** interface
 
-#### Implement a POST request
+#### Implement a GET request
 For example, if you want to retrieve a product count, there is a helper function called Get that is specifically designed for such retrievals:
 
 ```
@@ -890,13 +892,15 @@ apiResp, err := product.GetProductService().Create(context.Background(), apiReq)
 ### <span id="zh-use-your-own-model">使用你自己的数据模型</span>
 
 目前为止不是所有的 API 都已经实现，你可以发起1个 Pull Request，或者自己实现数据模型对象。
-
+1. 请求结构体实现 client.APIRequest 接口
+2. 响应结构体实现 client.APIResponse 接口
 
 #### 实现1个 GET 请求
 下面这个例子是获取商品数量:
 
 ```
 // 详细见：get_product_count.go
+// 实现 client.APIRequest 接口
 type GetProductCountAPIReq struct {
     client.BaseAPIRequest // 基础结构体
     
@@ -926,6 +930,7 @@ func (req *GetProductCountAPIReq) Endpoint() string {
 	return endpoint
 }
 
+// 实现 client.APIResponse 接口
 type GetProductCountAPIResp struct {
 	client.BaseAPIResponse
 	Count int `json:"count"`

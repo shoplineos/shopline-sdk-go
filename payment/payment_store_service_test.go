@@ -35,14 +35,15 @@ func TestListStorePayouts(t *testing.T) {
 	setup()
 	defer teardown()
 	//end_time=2025-09-30T00:00:00+08:00&limit=1&start_time=2025-04-30T00:00:00+08:00
-	httpmock.RegisterResponder("GET", fmt.Sprintf("https://%s.myshopline.com/%s/%s/payments/store/payouts.json?limit=1", cli.StoreHandle, cli.PathPrefix, cli.ApiVersion),
+	//httpmock.RegisterResponder("GET", fmt.Sprintf("https://%s.myshopline.com/%s/%s/payments/store/payouts.json?limit=1", cli.StoreHandle, cli.PathPrefix, cli.ApiVersion),
+	httpmock.RegisterResponder("GET", "https://zwapptest.myshopline.com/admin/openapi/v20251201/payments/store/payouts.json?end_time=2025-09-30T00%3A00%3A00%2B08%3A00&limit=1&start_time=2025-04-30T00%3A00%3A00%2B08%3A00",
 		httpmock.NewBytesResponder(200, test.LoadTestData("payment/payouts.json")))
 
 	apiReq := &ListStorePayoutsAPIReq{
 		Limit: "1",
 		//Status:    "SUCCESS",
-		//StartTime: "2025-04-30T00:00:00+08:00",
-		//EndTime:   "2025-09-30T00:00:00+08:00",
+		StartTime: "2025-04-30T00:00:00+08:00",
+		EndTime:   "2025-09-30T00:00:00+08:00",
 	}
 
 	apiResp, err := GetPaymentStoreService().ListStorePayouts(context.Background(), apiReq)

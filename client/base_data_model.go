@@ -1,13 +1,13 @@
 package client
 
 type APIRequest interface {
-	Endpoint() string      // API Endpoint (required)
-	Method() string        // http method  (required)
-	GetQuery() interface{} // your own struct or an APIRequest, for http url query params
-	GetData() interface{}  // your own struct or an APIRequest, for http body params
-	Verify() error         // Verify API request params
-	GetHeaders() map[string]string
-	GetRequestOptions() *RequestOptions
+	Endpoint() string                   // API Endpoint (required)
+	Method() string                     // Http method  (required)
+	GetQuery() interface{}              // Your own struct or an APIRequest, for http url query parameters
+	GetData() interface{}               // Your own struct or an APIRequest, for http body parameters
+	Verify() error                      // Verify API request parameters
+	GetHeaders() map[string]string      // Http headers
+	GetRequestOptions() *RequestOptions // Request options
 }
 
 type APIResponse interface {
