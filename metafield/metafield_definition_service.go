@@ -50,7 +50,7 @@ func (m MetafieldDefinitionService) ListAll(ctx context.Context, apiReq *ListMet
 
 	for {
 		// 2. API endpoint
-		endpoint := apiReq.Endpoint()
+		endpoint := apiReq.GetEndpoint()
 
 		// 3. API response data
 		apiResp := &ListMetafieldDefinitionAPIResp{}

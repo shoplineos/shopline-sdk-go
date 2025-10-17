@@ -14,7 +14,7 @@ type UpdateProductAPIReq struct {
 	Product Product `json:"product"`
 }
 
-func (req *UpdateProductAPIReq) Method() string {
+func (req *UpdateProductAPIReq) GetMethod() string {
 	return "PUT"
 }
 
@@ -27,7 +27,7 @@ func (req *UpdateProductAPIReq) Verify() error {
 	return nil
 }
 
-func (req *UpdateProductAPIReq) Endpoint() string {
+func (req *UpdateProductAPIReq) GetEndpoint() string {
 	endpoint := fmt.Sprintf("products/%s.json", req.Product.Id)
 	return endpoint
 }
@@ -50,7 +50,7 @@ func UpdateProduct(c *client.Client, apiReq *UpdateProductAPIReq) (*UpdateProduc
 	}
 
 	// 2. API endpoint
-	endpoint := apiReq.Endpoint()
+	endpoint := apiReq.GetEndpoint()
 
 	// 3. API response data
 	apiResp := &UpdateProductAPIResp{}

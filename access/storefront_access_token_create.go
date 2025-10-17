@@ -13,7 +13,7 @@ type CreateStorefrontAccessTokenAPIReq struct {
 	StorefrontAccessToken CreateStorefrontAccessToken `json:"storefront_access_token,omitempty"`
 }
 
-func (req *CreateStorefrontAccessTokenAPIReq) Method() string {
+func (req *CreateStorefrontAccessTokenAPIReq) GetMethod() string {
 	return "POST"
 }
 
@@ -25,7 +25,7 @@ func (req *CreateStorefrontAccessTokenAPIReq) Verify() error {
 	return nil
 }
 
-func (req *CreateStorefrontAccessTokenAPIReq) Endpoint() string {
+func (req *CreateStorefrontAccessTokenAPIReq) GetEndpoint() string {
 	return fmt.Sprintf("storefront_access_tokens.json")
 }
 

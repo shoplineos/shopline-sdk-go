@@ -66,7 +66,7 @@ func (o *OrderService) ListAll(ctx context.Context, apiReq *ListOrdersAPIReq) ([
 
 	for {
 		// 2. API endpoint
-		endpoint := apiReq.Endpoint()
+		endpoint := apiReq.GetEndpoint()
 
 		// 3. API response data
 		apiResp := &ListOrdersAPIResp{}

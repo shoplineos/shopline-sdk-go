@@ -13,7 +13,7 @@ type CreateWebhookAPIReq struct {
 	Webhook CreateWebhook `json:"webhook,omitempty"`
 }
 
-func (r *CreateWebhookAPIReq) Method() string {
+func (r *CreateWebhookAPIReq) GetMethod() string {
 	return "POST"
 }
 
@@ -34,7 +34,7 @@ func (r *CreateWebhookAPIReq) Verify() error {
 	return nil
 }
 
-func (r *CreateWebhookAPIReq) Endpoint() string {
+func (r *CreateWebhookAPIReq) GetEndpoint() string {
 	return "webhooks.json"
 }
 

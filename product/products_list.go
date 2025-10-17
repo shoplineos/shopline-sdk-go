@@ -32,7 +32,7 @@ type ListProductsAPIReq struct {
 	Vendor string `url:"vendor,omitempty"` // Vendor
 }
 
-func (req *ListProductsAPIReq) Method() string {
+func (req *ListProductsAPIReq) GetMethod() string {
 	return "GET"
 }
 
@@ -45,7 +45,7 @@ func (req *ListProductsAPIReq) Verify() error {
 	return nil
 }
 
-func (req *ListProductsAPIReq) Endpoint() string {
+func (req *ListProductsAPIReq) GetEndpoint() string {
 	return "products/products.json" // endpoint
 }
 
@@ -67,7 +67,7 @@ func ListProducts(c *client.Client, apiReq *ListProductsAPIReq) (*ListProductsAP
 	}
 
 	// 2. API endpoint
-	endpoint := apiReq.Endpoint()
+	endpoint := apiReq.GetEndpoint()
 
 	// 3. API response data
 	apiResp := &ListProductsAPIResp{}
@@ -99,7 +99,7 @@ func ListProductsAll(c *client.Client, apiReq *ListProductsAPIReq) ([]ProductRes
 
 	for {
 		// 2. API endpoint
-		endpoint := apiReq.Endpoint()
+		endpoint := apiReq.GetEndpoint()
 
 		// 3. API response data
 		apiResp := &ListProductsAPIResp{}

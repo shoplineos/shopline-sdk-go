@@ -18,7 +18,7 @@ func (c *CreateMetafieldAPIReq) GetData() interface{} {
 	return c
 }
 
-func (c *CreateMetafieldAPIReq) Method() string {
+func (c *CreateMetafieldAPIReq) GetMethod() string {
 	return "POST"
 }
 
@@ -34,7 +34,7 @@ func (c *CreateMetafieldAPIReq) Verify() error {
 	return nil
 }
 
-func (c *CreateMetafieldAPIReq) Endpoint() string {
+func (c *CreateMetafieldAPIReq) GetEndpoint() string {
 	return fmt.Sprintf("%s/%s/metafields.json", c.Metafield.OwnerResource, c.Metafield.OwnerId)
 }
 

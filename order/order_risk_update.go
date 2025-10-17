@@ -16,7 +16,7 @@ type UpdateOrderRiskAPIReq struct {
 	UpdateOrderRisk UpdateOrderRisk `json:"risk,omitempty"`
 }
 
-func (r *UpdateOrderRiskAPIReq) Method() string {
+func (r *UpdateOrderRiskAPIReq) GetMethod() string {
 	return "PUT"
 }
 
@@ -31,7 +31,7 @@ func (r *UpdateOrderRiskAPIReq) Verify() error {
 	return nil
 }
 
-func (r *UpdateOrderRiskAPIReq) Endpoint() string {
+func (r *UpdateOrderRiskAPIReq) GetEndpoint() string {
 	return fmt.Sprintf("orders/v2/%s/risks/%s.json", r.OrderId, r.RiskId)
 }
 

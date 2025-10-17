@@ -14,7 +14,7 @@ type UpdateMetafieldAPIReq struct {
 	Metafield UpdateMetafield `json:"metafield"`
 }
 
-func (c *UpdateMetafieldAPIReq) Method() string {
+func (c *UpdateMetafieldAPIReq) GetMethod() string {
 	return "PUT"
 }
 
@@ -37,7 +37,7 @@ func (c *UpdateMetafieldAPIReq) Verify() error {
 	return nil
 }
 
-func (c *UpdateMetafieldAPIReq) Endpoint() string {
+func (c *UpdateMetafieldAPIReq) GetEndpoint() string {
 	return fmt.Sprintf("%s/%s/metafields/%s.json", c.Metafield.OwnerResource, c.Metafield.OwnerId, c.Metafield.Id)
 }
 

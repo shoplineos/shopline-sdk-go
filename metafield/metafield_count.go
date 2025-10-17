@@ -18,7 +18,7 @@ type CountMetafieldAPIReq struct {
 	OwnerId       string
 }
 
-func (c *CountMetafieldAPIReq) Method() string {
+func (c *CountMetafieldAPIReq) GetMethod() string {
 	return "GET"
 }
 
@@ -38,7 +38,7 @@ func (c *CountMetafieldAPIReq) Verify() error {
 	return nil
 }
 
-func (c *CountMetafieldAPIReq) Endpoint() string {
+func (c *CountMetafieldAPIReq) GetEndpoint() string {
 	return fmt.Sprintf("%s/%s/metafields/count.json", c.OwnerResource, c.OwnerId)
 }
 

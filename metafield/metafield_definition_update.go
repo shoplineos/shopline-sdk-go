@@ -10,7 +10,7 @@ type UpdateMetafieldDefinitionAPIReq struct {
 	MetafieldDefinition UpdateMetafieldDefinition `json:"definition"`
 }
 
-func (u *UpdateMetafieldDefinitionAPIReq) Method() string {
+func (u *UpdateMetafieldDefinitionAPIReq) GetMethod() string {
 	return "PUT"
 }
 
@@ -22,7 +22,7 @@ func (u *UpdateMetafieldDefinitionAPIReq) Verify() error {
 	return nil
 }
 
-func (u *UpdateMetafieldDefinitionAPIReq) Endpoint() string {
+func (u *UpdateMetafieldDefinitionAPIReq) GetEndpoint() string {
 	return "metafield_definition.json"
 }
 

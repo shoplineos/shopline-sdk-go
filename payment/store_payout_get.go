@@ -13,7 +13,7 @@ type GetStorePayoutAPIReq struct {
 	PayoutId string `url:"payout_id,omitempty"` // required
 }
 
-func (req *GetStorePayoutAPIReq) Method() string {
+func (req *GetStorePayoutAPIReq) GetMethod() string {
 	return "GET"
 }
 
@@ -29,7 +29,7 @@ func (req *GetStorePayoutAPIReq) Verify() error {
 	return nil
 }
 
-func (req *GetStorePayoutAPIReq) Endpoint() string {
+func (req *GetStorePayoutAPIReq) GetEndpoint() string {
 	return "payments/store/payout.json"
 }
 

@@ -20,7 +20,7 @@ type ListStoreBalanceTransactionsAPIReq struct {
 	Status string `url:"status,omitempty"`
 }
 
-func (req *ListStoreBalanceTransactionsAPIReq) Method() string {
+func (req *ListStoreBalanceTransactionsAPIReq) GetMethod() string {
 	return "GET"
 }
 
@@ -36,7 +36,7 @@ func (req *ListStoreBalanceTransactionsAPIReq) Verify() error {
 	return nil
 }
 
-func (req *ListStoreBalanceTransactionsAPIReq) Endpoint() string {
+func (req *ListStoreBalanceTransactionsAPIReq) GetEndpoint() string {
 	return "payments/store/balance_transactions.json"
 }
 

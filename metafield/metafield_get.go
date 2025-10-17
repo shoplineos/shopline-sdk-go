@@ -19,7 +19,7 @@ type GetMetafieldAPIReq struct {
 	Id            string `json:"id,omitempty"`
 }
 
-func (c *GetMetafieldAPIReq) Method() string {
+func (c *GetMetafieldAPIReq) GetMethod() string {
 	return "GET"
 }
 
@@ -42,7 +42,7 @@ func (c *GetMetafieldAPIReq) Verify() error {
 	return nil
 }
 
-func (c *GetMetafieldAPIReq) Endpoint() string {
+func (c *GetMetafieldAPIReq) GetEndpoint() string {
 	return fmt.Sprintf("%s/%s/metafields/%s.json", c.OwnerResource, c.OwnerId, c.Id)
 }
 

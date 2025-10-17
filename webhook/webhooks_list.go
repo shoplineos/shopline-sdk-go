@@ -11,7 +11,7 @@ type ListWebhooksAPIReq struct {
 	client.BaseAPIRequest
 }
 
-func (c *ListWebhooksAPIReq) Method() string {
+func (c *ListWebhooksAPIReq) GetMethod() string {
 	return "GET"
 }
 
@@ -23,7 +23,7 @@ func (c *ListWebhooksAPIReq) Verify() error {
 	return nil
 }
 
-func (c *ListWebhooksAPIReq) Endpoint() string {
+func (c *ListWebhooksAPIReq) GetEndpoint() string {
 	return "webhooks.json"
 }
 

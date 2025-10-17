@@ -1,8 +1,8 @@
 package client
 
 type APIRequest interface {
-	Endpoint() string                   // API Endpoint (required)
-	Method() string                     // Http method  (required)
+	GetEndpoint() string                // API Endpoint (required)
+	GetMethod() string                  // Http method  (required)
 	GetQuery() interface{}              // Your own struct or an APIRequest, for http url query parameters
 	GetData() interface{}               // Your own struct or an APIRequest, for http body parameters
 	Verify() error                      // Verify API request parameters
@@ -30,11 +30,11 @@ func (req BaseAPIRequest) GetData() interface{} {
 	return nil
 }
 
-//func (req BaseAPIRequest) Endpoint() string {
+//func (req BaseAPIRequest) GetEndpoint() string {
 //	return ""
 //}
 //
-//func (req BaseAPIRequest) Method() string {
+//func (req BaseAPIRequest) GetMethod() string {
 //	return ""
 //}
 

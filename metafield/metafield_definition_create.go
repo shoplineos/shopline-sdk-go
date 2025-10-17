@@ -10,7 +10,7 @@ type CreateMetafieldDefinitionAPIReq struct {
 	MetafieldDefinition CreateMetafieldDefinition `json:"definition"`
 }
 
-func (c *CreateMetafieldDefinitionAPIReq) Method() string {
+func (c *CreateMetafieldDefinitionAPIReq) GetMethod() string {
 	return "POST"
 }
 
@@ -22,7 +22,7 @@ func (c *CreateMetafieldDefinitionAPIReq) Verify() error {
 	return nil
 }
 
-func (c *CreateMetafieldDefinitionAPIReq) Endpoint() string {
+func (c *CreateMetafieldDefinitionAPIReq) GetEndpoint() string {
 	return "metafield_definition.json"
 }
 

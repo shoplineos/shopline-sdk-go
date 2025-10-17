@@ -14,7 +14,7 @@ type GetWebhookAPIReq struct {
 	Id uint64 // required
 }
 
-func (c *GetWebhookAPIReq) Method() string {
+func (c *GetWebhookAPIReq) GetMethod() string {
 	return "GET"
 }
 
@@ -29,7 +29,7 @@ func (c *GetWebhookAPIReq) Verify() error {
 	return nil
 }
 
-func (c *GetWebhookAPIReq) Endpoint() string {
+func (c *GetWebhookAPIReq) GetEndpoint() string {
 	return fmt.Sprintf("%d/webhooks.json", c.Id)
 }
 

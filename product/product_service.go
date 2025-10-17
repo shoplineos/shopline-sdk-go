@@ -47,7 +47,7 @@ func (p *ProductService) ListAll(ctx context.Context, apiReq *ListProductsAPIReq
 
 	for {
 		// 2. API endpoint
-		endpoint := apiReq.Endpoint()
+		endpoint := apiReq.GetEndpoint()
 
 		// 3. API response data
 		apiResp := &ListProductsAPIResp{}

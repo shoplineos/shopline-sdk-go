@@ -235,7 +235,7 @@ func (c *Client) Call(ctx context.Context, req APIRequest, resource interface{})
 	shopLineReq := newShopLineRequest(req)
 
 	// 2. Call an API
-	_, err := c.Execute(ctx, HTTPMethod(req.Method()), req.Endpoint(), shopLineReq, resource)
+	_, err := c.Execute(ctx, HTTPMethod(req.GetMethod()), req.GetEndpoint(), shopLineReq, resource)
 	return err
 }
 
@@ -311,7 +311,7 @@ func (c *Client) Get(ctx context.Context, endpoint string, request *ShopLineRequ
 //	中文: https://developer.shopline.com/zh-hans-cn/docs/apps/api-instructions-for-use/app-authorization?version=v20251201#%E7%AC%AC%E4%B8%83%E6%AD%A5app-%E6%94%B6%E5%88%B0-access-token
 //	en: https://developer.shopline.com/docs/apps/api-instructions-for-use/app-authorization/?version=v20251201#step-5-receive-the-access-token
 //
-// method: HTTP Method
+// method: HTTP GetMethod
 // endpoint: API request endpoint, eg: orders.json
 // request: ShopLineRequest
 // resource : API response, To specify the return type of the request
@@ -620,7 +620,7 @@ func (c *Client) verify(endpoint string, method HTTPMethod, request *ShopLineReq
 		return "", "", fmt.Errorf("ShopLineRequest is required")
 	}
 	if method == "" {
-		return "", "", fmt.Errorf("HTTP Method is required")
+		return "", "", fmt.Errorf("HTTP GetMethod is required")
 	}
 	if endpoint == "" {
 		return "", "", fmt.Errorf("API endpoint is required")

@@ -16,7 +16,7 @@ type ListOrderRefundsAPIReq struct {
 	Limit   uint64 `url:"limit,omitempty"`
 }
 
-func (r *ListOrderRefundsAPIReq) Method() string {
+func (r *ListOrderRefundsAPIReq) GetMethod() string {
 	return "GET"
 }
 
@@ -31,7 +31,7 @@ func (r *ListOrderRefundsAPIReq) Verify() error {
 	return nil
 }
 
-func (r *ListOrderRefundsAPIReq) Endpoint() string {
+func (r *ListOrderRefundsAPIReq) GetEndpoint() string {
 	return fmt.Sprintf("orders/%s/refunds.json", r.OrderId)
 }
 

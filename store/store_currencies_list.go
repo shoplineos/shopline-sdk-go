@@ -9,7 +9,7 @@ type ListStoreCurrenciesAPIReq struct {
 	client.BaseAPIRequest
 }
 
-func (req *ListStoreCurrenciesAPIReq) Method() string {
+func (req *ListStoreCurrenciesAPIReq) GetMethod() string {
 	return "GET"
 }
 
@@ -22,7 +22,7 @@ func (req *ListStoreCurrenciesAPIReq) Verify() error {
 	return nil
 }
 
-func (req *ListStoreCurrenciesAPIReq) Endpoint() string {
+func (req *ListStoreCurrenciesAPIReq) GetEndpoint() string {
 	return "currency/currencies.json"
 }
 

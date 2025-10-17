@@ -24,7 +24,7 @@ type ListStoreTransactionsAPIReq struct {
 	TransactionType string `url:"transaction_type,omitempty"`
 }
 
-func (req *ListStoreTransactionsAPIReq) Method() string {
+func (req *ListStoreTransactionsAPIReq) GetMethod() string {
 	return "GET"
 }
 
@@ -40,7 +40,7 @@ func (req *ListStoreTransactionsAPIReq) Verify() error {
 	return nil
 }
 
-func (req *ListStoreTransactionsAPIReq) Endpoint() string {
+func (req *ListStoreTransactionsAPIReq) GetEndpoint() string {
 	return "payments/store/transactions.json"
 }
 

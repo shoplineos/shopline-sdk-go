@@ -24,7 +24,7 @@ type ListStorePayoutsAPIReq struct {
 	Status  string `url:"status,omitempty"`
 }
 
-func (req *ListStorePayoutsAPIReq) Method() string {
+func (req *ListStorePayoutsAPIReq) GetMethod() string {
 	return "GET"
 }
 
@@ -46,7 +46,7 @@ func (req *ListStorePayoutsAPIReq) Verify() error {
 	return nil
 }
 
-func (req *ListStorePayoutsAPIReq) Endpoint() string {
+func (req *ListStorePayoutsAPIReq) GetEndpoint() string {
 	return "payments/store/payouts.json"
 }
 

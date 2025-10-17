@@ -31,7 +31,7 @@ type ListMetafieldAPIReq struct {
 	PageInfo string `url:"page_info,omitempty"`
 }
 
-func (l *ListMetafieldAPIReq) Method() string {
+func (l *ListMetafieldAPIReq) GetMethod() string {
 	return "GET"
 }
 
@@ -49,7 +49,7 @@ func (l *ListMetafieldAPIReq) Verify() error {
 	return nil
 }
 
-func (l *ListMetafieldAPIReq) Endpoint() string {
+func (l *ListMetafieldAPIReq) GetEndpoint() string {
 	return fmt.Sprintf("/%s/%s/metafields.json", l.OwnerResource, l.OwnerId)
 }
 

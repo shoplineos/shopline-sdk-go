@@ -35,7 +35,7 @@ type ListOrdersAPIReq struct {
 	PageInfo string `url:"page_info,omitempty"` // Page Info
 }
 
-func (req *ListOrdersAPIReq) Method() string {
+func (req *ListOrdersAPIReq) GetMethod() string {
 	return "GET"
 }
 
@@ -48,7 +48,7 @@ func (req *ListOrdersAPIReq) Verify() error {
 	return nil
 }
 
-func (req *ListOrdersAPIReq) Endpoint() string {
+func (req *ListOrdersAPIReq) GetEndpoint() string {
 	return "orders.json"
 }
 
@@ -69,7 +69,7 @@ func ListOrders(c *client.Client, apiReq *ListOrdersAPIReq) (*ListOrdersAPIResp,
 	}
 
 	// 2. API endpoint
-	endpoint := apiReq.Endpoint()
+	endpoint := apiReq.GetEndpoint()
 
 	// 3. API response data
 	apiResp := &ListOrdersAPIResp{}
@@ -98,7 +98,7 @@ func ListOrdersAll(c *client.Client, apiReq *ListOrdersAPIReq) ([]Order, error) 
 
 	for {
 		// 2. API endpoint
-		endpoint := apiReq.Endpoint()
+		endpoint := apiReq.GetEndpoint()
 
 		// 3. API response data
 		apiResp := &ListOrdersAPIResp{}

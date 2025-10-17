@@ -22,7 +22,7 @@ type MerchantRefundSuccessAPIReq struct {
 	Status                     string `json:"status,omitempty"`                        // required
 }
 
-func (req *MerchantRefundSuccessAPIReq) Method() string {
+func (req *MerchantRefundSuccessAPIReq) GetMethod() string {
 	return "POST"
 }
 
@@ -60,7 +60,7 @@ func (req *MerchantRefundSuccessAPIReq) Verify() error {
 	return nil
 }
 
-func (req *MerchantRefundSuccessAPIReq) Endpoint() string {
+func (req *MerchantRefundSuccessAPIReq) GetEndpoint() string {
 	return fmt.Sprintf("payment/notify/%s/%s/refund.json", req.ChannelId, req.PaymentMethod)
 }
 

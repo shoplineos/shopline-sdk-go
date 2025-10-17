@@ -17,7 +17,7 @@ type CountStoreOperationLogsAPIReq struct {
 	Verb        string `url:"verb,omitempty"`
 }
 
-func (req *CountStoreOperationLogsAPIReq) Method() string {
+func (req *CountStoreOperationLogsAPIReq) GetMethod() string {
 	return "GET"
 }
 
@@ -35,7 +35,7 @@ func (req *CountStoreOperationLogsAPIReq) Verify() error {
 	return nil
 }
 
-func (req *CountStoreOperationLogsAPIReq) Endpoint() string {
+func (req *CountStoreOperationLogsAPIReq) GetEndpoint() string {
 	return "store/operation_logs/count.json"
 }
 

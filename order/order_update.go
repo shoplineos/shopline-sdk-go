@@ -14,7 +14,7 @@ type UpdateOrderAPIReq struct {
 	Order Order `json:"order"`
 }
 
-func (req *UpdateOrderAPIReq) Method() string {
+func (req *UpdateOrderAPIReq) GetMethod() string {
 	return "PUT"
 }
 
@@ -27,7 +27,7 @@ func (req *UpdateOrderAPIReq) Verify() error {
 	return nil
 }
 
-func (req *UpdateOrderAPIReq) Endpoint() string {
+func (req *UpdateOrderAPIReq) GetEndpoint() string {
 	endpoint := fmt.Sprintf("orders/%s.json", req.Order.Id)
 	return endpoint
 }
@@ -50,7 +50,7 @@ func UpdateOrder(c *client.Client, apiReq *UpdateOrderAPIReq) (*UpdateOrderAPIRe
 	}
 
 	// 2. API endpoint
-	endpoint := apiReq.Endpoint()
+	endpoint := apiReq.GetEndpoint()
 
 	// 3. API response data
 	apiResp := &UpdateOrderAPIResp{}

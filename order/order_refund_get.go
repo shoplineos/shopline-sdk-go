@@ -16,7 +16,7 @@ type GetOrderRefundAPIReq struct {
 	RefundId string `url:"refund_id,omitempty"`
 }
 
-func (r *GetOrderRefundAPIReq) Method() string {
+func (r *GetOrderRefundAPIReq) GetMethod() string {
 	return "GET"
 }
 
@@ -34,7 +34,7 @@ func (r *GetOrderRefundAPIReq) Verify() error {
 	return nil
 }
 
-func (r *GetOrderRefundAPIReq) Endpoint() string {
+func (r *GetOrderRefundAPIReq) GetEndpoint() string {
 	return fmt.Sprintf("orders/%s/refunds/%s.json", r.OrderId, r.RefundId)
 }
 

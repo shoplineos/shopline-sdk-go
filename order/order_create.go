@@ -11,7 +11,7 @@ type CreateOrderAPIReq struct {
 	Order Order `json:"order"`
 }
 
-func (req *CreateOrderAPIReq) Method() string {
+func (req *CreateOrderAPIReq) GetMethod() string {
 	return "POST"
 }
 
@@ -24,7 +24,7 @@ func (req *CreateOrderAPIReq) Verify() error {
 	return nil
 }
 
-func (req *CreateOrderAPIReq) Endpoint() string {
+func (req *CreateOrderAPIReq) GetEndpoint() string {
 	endpoint := "orders.json"
 	return endpoint
 }
@@ -47,7 +47,7 @@ func CreateOrder(c *client.Client, apiReq *CreateOrderAPIReq) (*CreateOrderAPIRe
 	}
 
 	// 2. API endpoint
-	endpoint := apiReq.Endpoint()
+	endpoint := apiReq.GetEndpoint()
 
 	// 3. API response data
 	apiResp := &CreateOrderAPIResp{}

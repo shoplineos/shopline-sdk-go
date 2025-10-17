@@ -21,7 +21,7 @@ type MerchantPaySuccessAPIReq struct {
 	Status                    string `json:"status,omitempty"`                       // required
 }
 
-func (req *MerchantPaySuccessAPIReq) Method() string {
+func (req *MerchantPaySuccessAPIReq) GetMethod() string {
 	return "POST"
 }
 
@@ -55,7 +55,7 @@ func (req *MerchantPaySuccessAPIReq) Verify() error {
 	return nil
 }
 
-func (req *MerchantPaySuccessAPIReq) Endpoint() string {
+func (req *MerchantPaySuccessAPIReq) GetEndpoint() string {
 	return fmt.Sprintf("payment/notify/%s/%s/pay.json", req.ChannelId, req.PaymentMethod)
 }
 

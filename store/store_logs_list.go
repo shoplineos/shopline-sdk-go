@@ -19,7 +19,7 @@ type ListStoreOperationLogsAPIReq struct {
 	Limit       string `url:"limit,omitempty"`
 }
 
-func (req *ListStoreOperationLogsAPIReq) Method() string {
+func (req *ListStoreOperationLogsAPIReq) GetMethod() string {
 	return "GET"
 }
 
@@ -38,7 +38,7 @@ func (req *ListStoreOperationLogsAPIReq) Verify() error {
 	return nil
 }
 
-func (req *ListStoreOperationLogsAPIReq) Endpoint() string {
+func (req *ListStoreOperationLogsAPIReq) GetEndpoint() string {
 	return "store/operation_logs.json"
 }
 

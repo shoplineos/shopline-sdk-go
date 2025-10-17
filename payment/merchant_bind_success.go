@@ -15,7 +15,7 @@ type MerchantBindSuccessAPIReq struct {
 	AppKey string `json:"app_key,omitempty"` // required
 }
 
-func (req *MerchantBindSuccessAPIReq) Method() string {
+func (req *MerchantBindSuccessAPIReq) GetMethod() string {
 	return "POST"
 }
 
@@ -41,7 +41,7 @@ func (req *MerchantBindSuccessAPIReq) Verify() error {
 	return nil
 }
 
-func (req *MerchantBindSuccessAPIReq) Endpoint() string {
+func (req *MerchantBindSuccessAPIReq) GetEndpoint() string {
 	return "app/notify/bind.json"
 }
 

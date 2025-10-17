@@ -12,7 +12,7 @@ type GetStoreAPIReq struct {
 	client.BaseAPIRequest
 }
 
-func (req *GetStoreAPIReq) Method() string {
+func (req *GetStoreAPIReq) GetMethod() string {
 	return "GET"
 }
 
@@ -25,7 +25,7 @@ func (req *GetStoreAPIReq) Verify() error {
 	return nil
 }
 
-func (req *GetStoreAPIReq) Endpoint() string {
+func (req *GetStoreAPIReq) GetEndpoint() string {
 	return "merchants/shop.json"
 }
 
@@ -45,7 +45,7 @@ func GetStoreInfo(c *client.Client, apiReq *GetStoreAPIReq) (*GetStoreAPIResp, e
 	shopLineReq := &client.ShopLineRequest{}
 
 	// 2. API endpoint
-	endpoint := apiReq.Endpoint()
+	endpoint := apiReq.GetEndpoint()
 
 	// 3. API response
 	apiResp := &GetStoreAPIResp{}

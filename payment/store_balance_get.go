@@ -11,7 +11,7 @@ type GetStoreBalanceAPIReq struct {
 	client.BaseAPIRequest
 }
 
-func (req *GetStoreBalanceAPIReq) Method() string {
+func (req *GetStoreBalanceAPIReq) GetMethod() string {
 	return "GET"
 }
 
@@ -24,7 +24,7 @@ func (req *GetStoreBalanceAPIReq) Verify() error {
 	return nil
 }
 
-func (req *GetStoreBalanceAPIReq) Endpoint() string {
+func (req *GetStoreBalanceAPIReq) GetEndpoint() string {
 	return "payments/store/balance.json"
 }
 

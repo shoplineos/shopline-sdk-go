@@ -18,7 +18,7 @@ type GetProductCountAPIReq struct {
 	UpdatedAtMax string `url:"updated_at_max,omitempty"` // Max order update time（ISO 8601）
 }
 
-func (req *GetProductCountAPIReq) Method() string {
+func (req *GetProductCountAPIReq) GetMethod() string {
 	return "GET"
 }
 
@@ -31,7 +31,7 @@ func (req *GetProductCountAPIReq) Verify() error {
 	return nil
 }
 
-func (req *GetProductCountAPIReq) Endpoint() string {
+func (req *GetProductCountAPIReq) GetEndpoint() string {
 	return "products/count.json"
 }
 

@@ -14,7 +14,7 @@ type GetStoreStaffAPIReq struct {
 	UID string // required
 }
 
-func (req *GetStoreStaffAPIReq) Method() string {
+func (req *GetStoreStaffAPIReq) GetMethod() string {
 	return "GET"
 }
 
@@ -30,7 +30,7 @@ func (req *GetStoreStaffAPIReq) Verify() error {
 	return nil
 }
 
-func (req *GetStoreStaffAPIReq) Endpoint() string {
+func (req *GetStoreStaffAPIReq) GetEndpoint() string {
 	return fmt.Sprintf("store/staff/%s.json", req.UID)
 }
 

@@ -15,7 +15,7 @@ type ListOrderRisksAPIReq struct {
 	OrderId string `url:"order_id"`
 }
 
-func (r *ListOrderRisksAPIReq) Method() string {
+func (r *ListOrderRisksAPIReq) GetMethod() string {
 	return "GET"
 }
 
@@ -26,7 +26,7 @@ func (r *ListOrderRisksAPIReq) Verify() error {
 	return nil
 }
 
-func (r *ListOrderRisksAPIReq) Endpoint() string {
+func (r *ListOrderRisksAPIReq) GetEndpoint() string {
 	return fmt.Sprintf("orders/v2/%s/risks.json", r.OrderId)
 }
 

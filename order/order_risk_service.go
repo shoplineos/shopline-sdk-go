@@ -32,7 +32,7 @@ func (o OrderRiskService) List(ctx context.Context, req *ListOrderRisksAPIReq) (
 	// 2. API response data
 	apiResp := &ListOrderRisksAPIResp{}
 	// 3. Call API
-	_, err := o.Client.Get(ctx, req.Endpoint(), shopLineReq, apiResp)
+	_, err := o.Client.Get(ctx, req.GetEndpoint(), shopLineReq, apiResp)
 	return apiResp, err
 }
 
@@ -44,7 +44,7 @@ func (o OrderRiskService) Get(ctx context.Context, req *GetOrderRiskAPIReq) (*Ge
 	// 2. API response data
 	apiResp := &GetOrderRiskAPIResp{}
 	// 3. Call API
-	_, err := o.Client.Get(ctx, req.Endpoint(), shopLineReq, apiResp)
+	_, err := o.Client.Get(ctx, req.GetEndpoint(), shopLineReq, apiResp)
 	return apiResp, err
 }
 
@@ -56,7 +56,7 @@ func (o OrderRiskService) Create(ctx context.Context, req *CreateOrderRiskAPIReq
 	// 2. API response data
 	apiResp := &CreateOrderRiskAPIResp{}
 	// 3. Call API
-	_, err := o.Client.Post(ctx, req.Endpoint(), shopLineReq, apiResp)
+	_, err := o.Client.Post(ctx, req.GetEndpoint(), shopLineReq, apiResp)
 	return apiResp, err
 }
 
@@ -68,7 +68,7 @@ func (o OrderRiskService) Update(ctx context.Context, req *UpdateOrderRiskAPIReq
 	// 2. API response data
 	apiResp := &UpdateOrderRiskAPIResp{}
 	// 3. Call API
-	_, err := o.Client.Put(ctx, req.Endpoint(), shopLineReq, apiResp)
+	_, err := o.Client.Put(ctx, req.GetEndpoint(), shopLineReq, apiResp)
 	return apiResp, err
 }
 
@@ -80,7 +80,7 @@ func (o OrderRiskService) DeleteAll(ctx context.Context, req *DeleteOrderRisksAP
 	// 2. API response data
 	apiResp := &DeleteOrderRisksAPIResp{}
 	// 3. Call API
-	_, err := o.Client.Delete(ctx, req.Endpoint(), shopLineReq, apiResp)
+	_, err := o.Client.Delete(ctx, req.GetEndpoint(), shopLineReq, apiResp)
 	return apiResp, err
 }
 
@@ -92,6 +92,6 @@ func (o OrderRiskService) Delete(ctx context.Context, req *DeleteOrderRiskAPIReq
 	// 2. API response data
 	apiResp := &DeleteOrderRiskAPIResp{}
 	// 3. Call API
-	_, err := o.Client.Delete(ctx, req.Endpoint(), shopLineReq, apiResp)
+	_, err := o.Client.Delete(ctx, req.GetEndpoint(), shopLineReq, apiResp)
 	return apiResp, err
 }

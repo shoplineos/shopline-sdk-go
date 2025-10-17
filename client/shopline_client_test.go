@@ -147,11 +147,11 @@ type CreateProductAPIReqStruct struct {
 	Product ProductStruct `json:"product"`
 }
 
-func (c CreateProductAPIReqStruct) Endpoint() string {
+func (c CreateProductAPIReqStruct) GetEndpoint() string {
 	return "/products/products.json"
 }
 
-func (c CreateProductAPIReqStruct) Method() string {
+func (c CreateProductAPIReqStruct) GetMethod() string {
 	return "POST"
 }
 

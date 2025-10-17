@@ -17,7 +17,7 @@ type MerchantDeviceBindSuccessAPIReq struct {
 	Passthrough      string `json:"passthrough,omitempty"`
 }
 
-func (req *MerchantDeviceBindSuccessAPIReq) Method() string {
+func (req *MerchantDeviceBindSuccessAPIReq) GetMethod() string {
 	return "POST"
 }
 
@@ -39,7 +39,7 @@ func (req *MerchantDeviceBindSuccessAPIReq) Verify() error {
 	return nil
 }
 
-func (req *MerchantDeviceBindSuccessAPIReq) Endpoint() string {
+func (req *MerchantDeviceBindSuccessAPIReq) GetEndpoint() string {
 	return "app/notify/device_bind.json"
 }
 

@@ -39,7 +39,7 @@ func (o *OrderRefundService) Get(ctx context.Context, req *GetOrderRefundAPIReq)
 	// 2. API response data
 	apiResp := &GetOrderRefundAPIResp{}
 	// 3. Call API
-	_, err := o.Client.Get(ctx, req.Endpoint(), shopLineReq, apiResp)
+	_, err := o.Client.Get(ctx, req.GetEndpoint(), shopLineReq, apiResp)
 	return apiResp, err
 }
 
@@ -51,7 +51,7 @@ func (o *OrderRefundService) Calculate(ctx context.Context, req *CalculateOrderR
 	// 2. API response data
 	apiResp := &CalculateOrderRefundAPIResp{}
 	// 3. Call API
-	_, err := o.Client.Post(ctx, req.Endpoint(), shopLineReq, apiResp)
+	_, err := o.Client.Post(ctx, req.GetEndpoint(), shopLineReq, apiResp)
 	return apiResp, err
 }
 
@@ -66,6 +66,6 @@ func (o *OrderRefundService) Refund(ctx context.Context, req *RefundAPIReq) (*Re
 	// 2. API response data
 	apiResp := &RefundAPIResp{}
 	// 3. Call API
-	_, err := o.Client.Post(ctx, req.Endpoint(), shopLineReq, apiResp)
+	_, err := o.Client.Post(ctx, req.GetEndpoint(), shopLineReq, apiResp)
 	return apiResp, err
 }

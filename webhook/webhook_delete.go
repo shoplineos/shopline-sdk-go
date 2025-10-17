@@ -14,7 +14,7 @@ type DeleteWebhookAPIReq struct {
 	Id uint64
 }
 
-func (r *DeleteWebhookAPIReq) Method() string {
+func (r *DeleteWebhookAPIReq) GetMethod() string {
 	return "DELETE"
 }
 
@@ -29,7 +29,7 @@ func (r *DeleteWebhookAPIReq) Verify() error {
 	return nil
 }
 
-func (r *DeleteWebhookAPIReq) Endpoint() string {
+func (r *DeleteWebhookAPIReq) GetEndpoint() string {
 	return fmt.Sprintf("%d/webhooks.json", r.Id)
 }
 

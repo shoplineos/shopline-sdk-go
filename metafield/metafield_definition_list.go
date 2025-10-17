@@ -26,7 +26,7 @@ type ListMetafieldDefinitionAPIReq struct {
 	PageInfo string `url:"page_info,omitempty"`
 }
 
-func (l *ListMetafieldDefinitionAPIReq) Method() string {
+func (l *ListMetafieldDefinitionAPIReq) GetMethod() string {
 	return "GET"
 }
 
@@ -41,7 +41,7 @@ func (l *ListMetafieldDefinitionAPIReq) Verify() error {
 	return nil
 }
 
-func (l *ListMetafieldDefinitionAPIReq) Endpoint() string {
+func (l *ListMetafieldDefinitionAPIReq) GetEndpoint() string {
 	return "metafield_definitions.json"
 }
 

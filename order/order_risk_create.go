@@ -25,7 +25,7 @@ type CreateOrderRisk struct {
 	CheckoutId     string          `json:"checkout_id,omitempty"`
 }
 
-func (r *CreateOrderRiskAPIReq) Method() string {
+func (r *CreateOrderRiskAPIReq) GetMethod() string {
 	return "POST"
 }
 
@@ -40,7 +40,7 @@ func (r *CreateOrderRiskAPIReq) Verify() error {
 	return nil
 }
 
-func (r *CreateOrderRiskAPIReq) Endpoint() string {
+func (r *CreateOrderRiskAPIReq) GetEndpoint() string {
 	return fmt.Sprintf("orders/v2/%s/risks.json", r.OrderId)
 }
 

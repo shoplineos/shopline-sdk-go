@@ -13,7 +13,7 @@ type ListStoreStaffsAPIReq struct {
 	Limit string `url:"limit,omitempty"` // required
 }
 
-func (req *ListStoreStaffsAPIReq) Method() string {
+func (req *ListStoreStaffsAPIReq) GetMethod() string {
 	return "GET"
 }
 
@@ -29,7 +29,7 @@ func (req *ListStoreStaffsAPIReq) Verify() error {
 	return nil
 }
 
-func (req *ListStoreStaffsAPIReq) Endpoint() string {
+func (req *ListStoreStaffsAPIReq) GetEndpoint() string {
 	return "store/list/staff.json"
 }
 

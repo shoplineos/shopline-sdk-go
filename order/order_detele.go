@@ -14,7 +14,7 @@ type DeleteOrderAPIReq struct {
 	OrderId string
 }
 
-func (req *DeleteOrderAPIReq) Method() string {
+func (req *DeleteOrderAPIReq) GetMethod() string {
 	return "DELETE"
 }
 
@@ -27,7 +27,7 @@ func (req *DeleteOrderAPIReq) Verify() error {
 	return nil
 }
 
-func (req *DeleteOrderAPIReq) Endpoint() string {
+func (req *DeleteOrderAPIReq) GetEndpoint() string {
 	endpoint := fmt.Sprintf("orders/%s.json", req.OrderId)
 	return endpoint
 }

@@ -15,7 +15,7 @@ type UpdateWebhookAPIReq struct {
 	Webhook UpdateWebhook `json:"webhook,omitempty"`
 }
 
-func (c *UpdateWebhookAPIReq) Method() string {
+func (c *UpdateWebhookAPIReq) GetMethod() string {
 	return "PUT"
 }
 
@@ -33,7 +33,7 @@ func (c *UpdateWebhookAPIReq) Verify() error {
 	return nil
 }
 
-func (c *UpdateWebhookAPIReq) Endpoint() string {
+func (c *UpdateWebhookAPIReq) GetEndpoint() string {
 	return fmt.Sprintf("%d/webhooks.json", c.Id)
 }
 

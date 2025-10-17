@@ -13,7 +13,7 @@ type ListOrderAttributionInfosAPIReq struct {
 	OrderIds []string `json:"orders,omitempty"`
 }
 
-func (r *ListOrderAttributionInfosAPIReq) Method() string {
+func (r *ListOrderAttributionInfosAPIReq) GetMethod() string {
 	return "GET"
 }
 
@@ -28,7 +28,7 @@ func (r *ListOrderAttributionInfosAPIReq) Verify() error {
 	return nil
 }
 
-func (r *ListOrderAttributionInfosAPIReq) Endpoint() string {
+func (r *ListOrderAttributionInfosAPIReq) GetEndpoint() string {
 	return "orders/order_attribution_info.json"
 }
 

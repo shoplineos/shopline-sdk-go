@@ -16,7 +16,7 @@ type DeleteOrderRiskAPIReq struct {
 	RiskId  string `url:"id,omitempty"`
 }
 
-func (r *DeleteOrderRiskAPIReq) Method() string {
+func (r *DeleteOrderRiskAPIReq) GetMethod() string {
 	return "DELETE"
 }
 
@@ -34,7 +34,7 @@ func (r *DeleteOrderRiskAPIReq) Verify() error {
 	return nil
 }
 
-func (r *DeleteOrderRiskAPIReq) Endpoint() string {
+func (r *DeleteOrderRiskAPIReq) GetEndpoint() string {
 	return fmt.Sprintf("orders/v2/%s/risks/%s.json", r.OrderId, r.RiskId)
 }
 

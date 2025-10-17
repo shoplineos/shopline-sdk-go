@@ -287,7 +287,7 @@ type GetProductCountAPIReq struct {
 	UpdatedAtMax string `url:"updated_at_max,omitempty"` // Max product update time（ISO 8601）
 }
 
-func (req *GetProductCountAPIReq) Method() string {
+func (req *GetProductCountAPIReq) GetMethod() string {
 	return "GET"
 }
 
@@ -300,7 +300,7 @@ func (req *GetProductCountAPIReq) Verify() error {
 	return nil
 }
 
-func (req *GetProductCountAPIReq) Endpoint() string {
+func (req *GetProductCountAPIReq) GetEndpoint() string {
 	endpoint := "products/count.json"
 	return endpoint
 }
@@ -336,7 +336,7 @@ type CreateWebhookAPIReq struct {
 	Webhook CreateWebhook `json:"webhook,omitempty"`
 }
 
-func (r *CreateWebhookAPIReq) Method() string {
+func (r *CreateWebhookAPIReq) GetMethod() string {
 	return "POST"
 }
 
@@ -357,7 +357,7 @@ func (r *CreateWebhookAPIReq) Verify() error {
 	return nil
 }
 
-func (r *CreateWebhookAPIReq) Endpoint() string {
+func (r *CreateWebhookAPIReq) GetEndpoint() string {
 	return "webhooks.json"
 }
 
@@ -383,7 +383,7 @@ type UpdateWebhookAPIReq struct {
 	Webhook UpdateWebhook `json:"webhook,omitempty"`
 }
 
-func (c *UpdateWebhookAPIReq) Method() string {
+func (c *UpdateWebhookAPIReq) GetMethod() string {
 	return "PUT"
 }
 
@@ -401,7 +401,7 @@ func (c *UpdateWebhookAPIReq) Verify() error {
 	return nil
 }
 
-func (c *UpdateWebhookAPIReq) Endpoint() string {
+func (c *UpdateWebhookAPIReq) GetEndpoint() string {
 	return fmt.Sprintf("%d/webhooks.json", c.Id)
 }
 
@@ -424,7 +424,7 @@ type DeleteWebhookAPIReq struct {
 	Id uint64
 }
 
-func (r *DeleteWebhookAPIReq) Method() string {
+func (r *DeleteWebhookAPIReq) GetMethod() string {
 	return "DELETE"
 }
 
@@ -439,7 +439,7 @@ func (r *DeleteWebhookAPIReq) Verify() error {
 	return nil
 }
 
-func (r *DeleteWebhookAPIReq) Endpoint() string {
+func (r *DeleteWebhookAPIReq) GetEndpoint() string {
 	return fmt.Sprintf("%d/webhooks.json", r.Id)
 }
 
@@ -912,7 +912,7 @@ type GetProductCountAPIReq struct {
 	UpdatedAtMax string `url:"updated_at_max,omitempty"`
 }
 
-func (req *GetProductCountAPIReq) Method() string {
+func (req *GetProductCountAPIReq) GetMethod() string {
 	return "GET"
 }
 
@@ -925,7 +925,7 @@ func (req *GetProductCountAPIReq) Verify() error {
 	return nil
 }
 
-func (req *GetProductCountAPIReq) Endpoint() string {
+func (req *GetProductCountAPIReq) GetEndpoint() string {
 	endpoint := "products/count.json"
 	return endpoint
 }
@@ -957,7 +957,7 @@ type CreateWebhookAPIReq struct {
 	Webhook CreateWebhook `json:"webhook,omitempty"`
 }
 
-func (r *CreateWebhookAPIReq) Method() string {
+func (r *CreateWebhookAPIReq) GetMethod() string {
 	return "POST"
 }
 
@@ -978,7 +978,7 @@ func (r *CreateWebhookAPIReq) Verify() error {
 	return nil
 }
 
-func (r *CreateWebhookAPIReq) Endpoint() string {
+func (r *CreateWebhookAPIReq) GetEndpoint() string {
 	return "webhooks.json"
 }
 
@@ -1004,7 +1004,7 @@ type UpdateWebhookAPIReq struct {
 	Webhook UpdateWebhook `json:"webhook,omitempty"`
 }
 
-func (c *UpdateWebhookAPIReq) Method() string {
+func (c *UpdateWebhookAPIReq) GetMethod() string {
 	return "PUT"
 }
 
@@ -1022,7 +1022,7 @@ func (c *UpdateWebhookAPIReq) Verify() error {
 	return nil
 }
 
-func (c *UpdateWebhookAPIReq) Endpoint() string {
+func (c *UpdateWebhookAPIReq) GetEndpoint() string {
 	return fmt.Sprintf("%d/webhooks.json", c.Id)
 }
 
@@ -1045,7 +1045,7 @@ type DeleteWebhookAPIReq struct {
 	Id uint64
 }
 
-func (r *DeleteWebhookAPIReq) Method() string {
+func (r *DeleteWebhookAPIReq) GetMethod() string {
 	return "DELETE"
 }
 
@@ -1060,7 +1060,7 @@ func (r *DeleteWebhookAPIReq) Verify() error {
 	return nil
 }
 
-func (r *DeleteWebhookAPIReq) Endpoint() string {
+func (r *DeleteWebhookAPIReq) GetEndpoint() string {
 	return fmt.Sprintf("%d/webhooks.json", r.Id)
 }
 

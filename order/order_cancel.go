@@ -22,7 +22,7 @@ type CancelOrderAPIReq struct {
 	Restock      string `json:"restock,omitempty"`
 }
 
-func (req *CancelOrderAPIReq) Method() string {
+func (req *CancelOrderAPIReq) GetMethod() string {
 	return "POST"
 }
 
@@ -35,7 +35,7 @@ func (req *CancelOrderAPIReq) Verify() error {
 	return nil
 }
 
-func (req *CancelOrderAPIReq) Endpoint() string {
+func (req *CancelOrderAPIReq) GetEndpoint() string {
 	endpoint := fmt.Sprintf("orders/%s/cancel.json", req.OrderId)
 	return endpoint
 }
@@ -58,7 +58,7 @@ func CancelOrder(c *client.Client, apiReq *CancelOrderAPIReq) (*CancelOrderAPIRe
 	}
 
 	// 2. API endpoint
-	endpoint := apiReq.Endpoint()
+	endpoint := apiReq.GetEndpoint()
 
 	// 3. API response data
 	apiResp := &CancelOrderAPIResp{}

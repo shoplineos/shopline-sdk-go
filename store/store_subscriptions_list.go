@@ -12,7 +12,7 @@ type ListStoreSubscriptionsAPIReq struct {
 	IncludeTrial bool `url:"include_trial,omitempty"`
 }
 
-func (req *ListStoreSubscriptionsAPIReq) Method() string {
+func (req *ListStoreSubscriptionsAPIReq) GetMethod() string {
 	return "GET"
 }
 
@@ -25,7 +25,7 @@ func (req *ListStoreSubscriptionsAPIReq) Verify() error {
 	return nil
 }
 
-func (req *ListStoreSubscriptionsAPIReq) Endpoint() string {
+func (req *ListStoreSubscriptionsAPIReq) GetEndpoint() string {
 	return "store/subscription"
 }
 

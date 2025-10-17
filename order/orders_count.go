@@ -21,7 +21,7 @@ type GetOrdersCountAPIReq struct {
 	OrderSource       string `url:"order_source,omitempty"`
 }
 
-func (req *GetOrdersCountAPIReq) Method() string {
+func (req *GetOrdersCountAPIReq) GetMethod() string {
 	return "GET"
 }
 
@@ -34,7 +34,7 @@ func (req *GetOrdersCountAPIReq) Verify() error {
 	return nil
 }
 
-func (req *GetOrdersCountAPIReq) Endpoint() string {
+func (req *GetOrdersCountAPIReq) GetEndpoint() string {
 	endpoint := "orders/count.json"
 	return endpoint
 }
@@ -57,7 +57,7 @@ func QueryOrdersCount(c *client.Client, apiReq *GetOrdersCountAPIReq) (*GetOrder
 	}
 
 	// 2. API endpoint
-	endpoint := apiReq.Endpoint()
+	endpoint := apiReq.GetEndpoint()
 
 	// 3. API response data
 	apiResp := &GetOrdersCountAPIResp{}

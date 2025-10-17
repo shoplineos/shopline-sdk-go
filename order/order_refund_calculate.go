@@ -19,7 +19,7 @@ type CalculateOrderRefundAPIReq struct {
 	RefundShipping RefundShipping `json:"shipping,omitempty"`
 }
 
-func (r *CalculateOrderRefundAPIReq) Method() string {
+func (r *CalculateOrderRefundAPIReq) GetMethod() string {
 	return "POST"
 }
 
@@ -34,7 +34,7 @@ func (r *CalculateOrderRefundAPIReq) Verify() error {
 	return nil
 }
 
-func (r *CalculateOrderRefundAPIReq) Endpoint() string {
+func (r *CalculateOrderRefundAPIReq) GetEndpoint() string {
 	return fmt.Sprintf("orders/%s/refunds/calculate.json", r.OrderId)
 }
 

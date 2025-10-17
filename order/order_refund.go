@@ -22,7 +22,7 @@ type RefundAPIReq struct {
 	Note     string `json:"note,omitempty"`
 }
 
-func (req *RefundAPIReq) Method() string {
+func (req *RefundAPIReq) GetMethod() string {
 	return "POST"
 }
 
@@ -95,7 +95,7 @@ func (req *RefundAPIReq) Verify() error {
 	return nil
 }
 
-func (req *RefundAPIReq) Endpoint() string {
+func (req *RefundAPIReq) GetEndpoint() string {
 	return "order/refund.json"
 }
 
@@ -111,7 +111,7 @@ func OrderRefund(c *client.Client, apiReq *RefundAPIReq) (*RefundAPIResp, error)
 	}
 
 	// 2. API endpoint
-	endpoint := apiReq.Endpoint()
+	endpoint := apiReq.GetEndpoint()
 
 	// 3. API response data
 	apiResp := &RefundAPIResp{}

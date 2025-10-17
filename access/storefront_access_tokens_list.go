@@ -12,7 +12,7 @@ type ListStorefrontAccessTokensAPIReq struct {
 	client.BaseAPIRequest
 }
 
-func (r *ListStorefrontAccessTokensAPIReq) Method() string {
+func (r *ListStorefrontAccessTokensAPIReq) GetMethod() string {
 	return "GET"
 }
 
@@ -20,7 +20,7 @@ func (r *ListStorefrontAccessTokensAPIReq) Verify() error {
 	return nil
 }
 
-func (r *ListStorefrontAccessTokensAPIReq) Endpoint() string {
+func (r *ListStorefrontAccessTokensAPIReq) GetEndpoint() string {
 	return fmt.Sprintf("storefront_access_tokens.json")
 }
 

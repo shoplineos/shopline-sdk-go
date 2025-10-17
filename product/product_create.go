@@ -13,7 +13,7 @@ type CreateProductAPIReq struct {
 	Product Product `json:"product"`
 }
 
-func (req *CreateProductAPIReq) Method() string {
+func (req *CreateProductAPIReq) GetMethod() string {
 	return "POST"
 }
 
@@ -26,7 +26,7 @@ func (req *CreateProductAPIReq) Verify() error {
 	return nil
 }
 
-func (req *CreateProductAPIReq) Endpoint() string {
+func (req *CreateProductAPIReq) GetEndpoint() string {
 	endpoint := "products/products.json"
 	return endpoint
 }
@@ -49,7 +49,7 @@ func CreateProduct(c *client.Client, apiReq *CreateProductAPIReq) (*CreateProduc
 	}
 
 	// 2. API endpoint
-	endpoint := apiReq.Endpoint()
+	endpoint := apiReq.GetEndpoint()
 
 	// 3. API response data
 	apiResp := &CreateProductAPIResp{}

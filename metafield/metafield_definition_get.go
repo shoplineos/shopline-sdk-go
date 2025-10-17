@@ -13,7 +13,7 @@ type GetMetafieldDefinitionAPIReq struct {
 	Id string
 }
 
-func (d *GetMetafieldDefinitionAPIReq) Method() string {
+func (d *GetMetafieldDefinitionAPIReq) GetMethod() string {
 	return "GET"
 }
 
@@ -28,7 +28,7 @@ func (d *GetMetafieldDefinitionAPIReq) Verify() error {
 	return nil
 }
 
-func (d *GetMetafieldDefinitionAPIReq) Endpoint() string {
+func (d *GetMetafieldDefinitionAPIReq) GetEndpoint() string {
 	return "metafield_definition.json"
 }
 

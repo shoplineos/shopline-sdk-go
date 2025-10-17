@@ -14,7 +14,7 @@ type DeleteMetafieldDefinitionAPIReq struct {
 	DeleteAllAssociatedMetafields bool `json:"delete_all_associated_metafields,omitempty"`
 }
 
-func (d *DeleteMetafieldDefinitionAPIReq) Method() string {
+func (d *DeleteMetafieldDefinitionAPIReq) GetMethod() string {
 	return "DELETE"
 }
 
@@ -38,7 +38,7 @@ func (d *DeleteMetafieldDefinitionAPIReq) Verify() error {
 	return nil
 }
 
-func (d *DeleteMetafieldDefinitionAPIReq) Endpoint() string {
+func (d *DeleteMetafieldDefinitionAPIReq) GetEndpoint() string {
 	return "metafield_definition.json"
 }
 

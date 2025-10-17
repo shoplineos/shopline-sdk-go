@@ -14,7 +14,7 @@ type DeleteStorefrontAccessTokenAPIReq struct {
 	Id string
 }
 
-func (r *DeleteStorefrontAccessTokenAPIReq) Method() string {
+func (r *DeleteStorefrontAccessTokenAPIReq) GetMethod() string {
 	return "DELETE"
 }
 
@@ -29,7 +29,7 @@ func (r *DeleteStorefrontAccessTokenAPIReq) Verify() error {
 	return nil
 }
 
-func (r *DeleteStorefrontAccessTokenAPIReq) Endpoint() string {
+func (r *DeleteStorefrontAccessTokenAPIReq) GetEndpoint() string {
 	return fmt.Sprintf("storefront_access_tokens/%s.json", r.Id)
 }
 

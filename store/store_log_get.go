@@ -14,7 +14,7 @@ type GetStoreOperationLogAPIReq struct {
 	ID string // required
 }
 
-func (req *GetStoreOperationLogAPIReq) Method() string {
+func (req *GetStoreOperationLogAPIReq) GetMethod() string {
 	return "GET"
 }
 
@@ -26,7 +26,7 @@ func (req *GetStoreOperationLogAPIReq) Verify() error {
 	return nil
 }
 
-func (req *GetStoreOperationLogAPIReq) Endpoint() string {
+func (req *GetStoreOperationLogAPIReq) GetEndpoint() string {
 	return fmt.Sprintf("store/operation_logs/%s.json", req.ID)
 }
 

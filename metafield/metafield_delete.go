@@ -19,7 +19,7 @@ type DeleteMetafieldAPIReq struct {
 	Id            string
 }
 
-func (c *DeleteMetafieldAPIReq) Method() string {
+func (c *DeleteMetafieldAPIReq) GetMethod() string {
 	return "DELETE"
 }
 
@@ -42,7 +42,7 @@ func (c *DeleteMetafieldAPIReq) Verify() error {
 	return nil
 }
 
-func (c *DeleteMetafieldAPIReq) Endpoint() string {
+func (c *DeleteMetafieldAPIReq) GetEndpoint() string {
 	return fmt.Sprintf("%s/%s/metafields/%s.json", c.OwnerResource, c.OwnerId, c.Id)
 }
 
