@@ -30,137 +30,73 @@ type StoreService struct {
 }
 
 func (s StoreService) Get(ctx context.Context, req *GetStoreAPIReq) (*GetStoreAPIResp, error) {
-	// 1. API request
-	shopLineReq := &client.ShopLineRequest{}
-
-	// 2. API endpoint
-	endpoint := req.Endpoint()
-
-	// 3. API response data
+	// 1. API response data
 	apiResp := &GetStoreAPIResp{}
 
-	// 4. Call API
-	_, err := s.Client.Get(ctx, endpoint, shopLineReq, apiResp)
-
+	// 2. Call API
+	err := s.Client.Call(ctx, req, apiResp)
 	return apiResp, err
 }
 
 func (s StoreService) ListCurrencies(ctx context.Context, req *ListStoreCurrenciesAPIReq) (*ListStoreCurrenciesAPIResp, error) {
-	// 1. API request
-	shopLineReq := &client.ShopLineRequest{}
-
-	// 2. API endpoint
-	endpoint := req.Endpoint()
-
-	// 3. API response data
+	// 1. API response data
 	apiResp := &ListStoreCurrenciesAPIResp{}
 
-	// 4. Call API
-	_, err := s.Client.Get(ctx, endpoint, shopLineReq, apiResp)
-
+	// 2. Call API
+	err := s.Client.Call(ctx, req, apiResp)
 	return apiResp, err
 }
 
 func (s StoreService) GetStaff(ctx context.Context, req *GetStoreStaffAPIReq) (*GetStoreStaffAPIResp, error) {
-	// 1. API request
-	shopLineReq := &client.ShopLineRequest{}
-
-	// 2. API endpoint
-	endpoint := req.Endpoint()
-
-	// 3. API response data
+	// 1. API response data
 	apiResp := &GetStoreStaffAPIResp{}
 
-	// 4. Call API
-	_, err := s.Client.Get(ctx, endpoint, shopLineReq, apiResp)
-
+	// 2. Call API
+	err := s.Client.Call(ctx, req, apiResp)
 	return apiResp, err
 }
 
 func (s StoreService) ListStaffs(ctx context.Context, req *ListStoreStaffsAPIReq) (*ListStoreStaffsAPIResp, error) {
-	// 1. API request
-	shopLineReq := &client.ShopLineRequest{
-		Query: req,
-	}
-
-	// 2. API endpoint
-	endpoint := req.Endpoint()
-
-	// 3. API response data
+	// 1. API response data
 	apiResp := &ListStoreStaffsAPIResp{}
 
-	// 4. Call API
-	_, err := s.Client.Get(ctx, endpoint, shopLineReq, apiResp)
-
+	// 2. Call API
+	err := s.Client.Call(ctx, req, apiResp)
 	return apiResp, err
 }
 
 func (s StoreService) GetOperationLog(ctx context.Context, req *GetStoreOperationLogAPIReq) (*GetStoreOperationLogAPIResp, error) {
-	// 1. API request
-	shopLineReq := &client.ShopLineRequest{}
-
-	// 2. API endpoint
-	endpoint := req.Endpoint()
-
-	// 3. API response data
+	// 1. API response data
 	apiResp := &GetStoreOperationLogAPIResp{}
 
-	// 4. Call API
-	_, err := s.Client.Get(ctx, endpoint, shopLineReq, apiResp)
-
+	// 2. Call API
+	err := s.Client.Call(ctx, req, apiResp)
 	return apiResp, err
 }
 
 func (s StoreService) ListOperationLogs(ctx context.Context, req *ListStoreOperationLogsAPIReq) (*ListStoreOperationLogsAPIResp, error) {
-	// 1. API request
-	shopLineReq := &client.ShopLineRequest{
-		Query: req,
-	}
-
-	// 2. API endpoint
-	endpoint := req.Endpoint()
-
-	// 3. API response data
+	// 1. API response data
 	apiResp := &ListStoreOperationLogsAPIResp{}
 
-	// 4. Call API
-	_, err := s.Client.Get(ctx, endpoint, shopLineReq, apiResp)
-
+	// 2. Call API
+	err := s.Client.Call(ctx, req, apiResp)
 	return apiResp, err
 }
 
 func (s StoreService) CountOperationLogs(ctx context.Context, req *CountStoreOperationLogsAPIReq) (*CountStoreOperationLogsAPIResp, error) {
-	// 1. API request
-	shopLineReq := &client.ShopLineRequest{
-		Query: req,
-	}
-
-	// 2. API endpoint
-	endpoint := req.Endpoint()
-
-	// 3. API response data
+	// 1. API response data
 	apiResp := &CountStoreOperationLogsAPIResp{}
 
-	// 4. Call API
-	_, err := s.Client.Get(ctx, endpoint, shopLineReq, apiResp)
-
+	// 2. Call API
+	err := s.Client.Call(ctx, req, apiResp)
 	return apiResp, err
 }
 
 func (s StoreService) ListSubscriptions(ctx context.Context, req *ListStoreSubscriptionsAPIReq) (*ListStoreSubscriptionsAPIResp, error) {
-	// 1. API request
-	shopLineReq := &client.ShopLineRequest{
-		Query: req,
-	}
-
-	// 2. API endpoint
-	endpoint := req.Endpoint()
-
-	// 3. API response data
+	// 1. API response data
 	apiResp := &ListStoreSubscriptionsAPIResp{}
 
-	// 4. Call API
-	_, err := s.Client.Get(ctx, endpoint, shopLineReq, apiResp)
-
+	// 2. Call API
+	err := s.Client.Call(ctx, req, apiResp)
 	return apiResp, err
 }

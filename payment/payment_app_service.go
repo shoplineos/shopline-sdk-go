@@ -37,64 +37,31 @@ func (m MerchantAppService) MerchantBindSuccess(ctx context.Context, req *Mercha
 }
 
 func (m MerchantAppService) MerchantPaySuccess(ctx context.Context, req *MerchantPaySuccessAPIReq) (*MerchantPaySuccessAPIResp, error) {
-	// 1. API request
-	shopLineReq := &client.ShopLineRequest{
-		Data: req,
-		Options: &client.RequestOptions{
-			NotDecodeBody: true,
-		},
-	}
-
-	// 2. API endpoint
-	endpoint := req.Endpoint()
-
-	// 3. API response data
+	// 1. API response data
 	apiResp := &MerchantPaySuccessAPIResp{}
 
-	// 4. Call API
-	_, err := m.Client.Post(ctx, endpoint, shopLineReq, apiResp)
+	// 2. Call API
+	err := m.Client.Call(ctx, req, apiResp)
 
 	return apiResp, err
 }
 
 func (m MerchantAppService) MerchantRefundSuccess(ctx context.Context, req *MerchantRefundSuccessAPIReq) (*MerchantRefundSuccessAPIResp, error) {
-	// 1. API request
-	shopLineReq := &client.ShopLineRequest{
-		Data: req,
-		Options: &client.RequestOptions{
-			NotDecodeBody: true,
-		},
-	}
-
-	// 2. API endpoint
-	endpoint := req.Endpoint()
-
-	// 3. API response data
+	// 1. API response data
 	apiResp := &MerchantRefundSuccessAPIResp{}
 
-	// 4. Call API
-	_, err := m.Client.Post(ctx, endpoint, shopLineReq, apiResp)
+	// 2. Call API
+	err := m.Client.Call(ctx, req, apiResp)
 
 	return apiResp, err
 }
 
 func (m MerchantAppService) MerchantDeviceBindSuccess(ctx context.Context, req *MerchantDeviceBindSuccessAPIReq) (*MerchantDeviceBindSuccessAPIResp, error) {
-	// 1. API request
-	shopLineReq := &client.ShopLineRequest{
-		Data: req,
-		Options: &client.RequestOptions{
-			NotDecodeBody: true,
-		},
-	}
-
-	// 2. API endpoint
-	endpoint := req.Endpoint()
-
-	// 3. API response data
+	// 1. API response data
 	apiResp := &MerchantDeviceBindSuccessAPIResp{}
 
-	// 4. Call API
-	_, err := m.Client.Post(ctx, endpoint, shopLineReq, apiResp)
+	// 2. Call API
+	err := m.Client.Call(ctx, req, apiResp)
 
 	return apiResp, err
 }

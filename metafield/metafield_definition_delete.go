@@ -18,8 +18,17 @@ func (d *DeleteMetafieldDefinitionAPIReq) Method() string {
 	return "DELETE"
 }
 
-func (c *DeleteMetafieldDefinitionAPIReq) GetData() interface{} {
-	return c
+func (d *DeleteMetafieldDefinitionAPIReq) GetQuery() interface{} {
+	query := struct {
+		Id string `url:"id"`
+	}{
+		Id: d.Id,
+	}
+	return query
+}
+
+func (d *DeleteMetafieldDefinitionAPIReq) GetData() interface{} {
+	return d
 }
 
 func (d *DeleteMetafieldDefinitionAPIReq) Verify() error {

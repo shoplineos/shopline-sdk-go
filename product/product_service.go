@@ -29,27 +29,13 @@ type ProductService struct {
 	client.BaseService
 }
 
-func (p *ProductService) List(ctx context.Context, apiReq *ListProductsAPIReq) (*ListProductsAPIResp, error) {
-	// 1. API request
-	shopLineReq := &client.ShopLineRequest{
-		Query: apiReq, // API request params
-	}
-
-	// 2. API endpoint
-	endpoint := apiReq.Endpoint()
-
-	// 3. API response data
+func (p *ProductService) List(ctx context.Context, req *ListProductsAPIReq) (*ListProductsAPIResp, error) {
+	// 1. API response data
 	apiResp := &ListProductsAPIResp{}
 
-	// 4. Call API
-	_, err := p.Client.Get(ctx, endpoint, shopLineReq, apiResp)
-	if err != nil {
-		return nil, err
-	}
-
-	//apiResp.Pagination = shopLineResp.Pagination
-
-	return apiResp, nil
+	// 2. Call API
+	err := p.Client.Call(ctx, req, apiResp)
+	return apiResp, err
 }
 
 func (p *ProductService) ListAll(ctx context.Context, apiReq *ListProductsAPIReq) ([]ProductRespData, error) {
@@ -99,79 +85,38 @@ func (p *ProductService) Count(ctx context.Context, apiReq *GetProductCountAPIRe
 
 	return apiResp, err
 }
-func (p *ProductService) Get(ctx context.Context, apiReq *GetProductDetailAPIReq) (*GetProductDetailAPIResp, error) {
-	// 1. API request
-	shoplineReq := &client.ShopLineRequest{}
-
-	// 2. API endpoint
-	endpoint := apiReq.Endpoint()
-
-	// 3. API response data
+func (p *ProductService) Get(ctx context.Context, req *GetProductDetailAPIReq) (*GetProductDetailAPIResp, error) {
+	// 1. API response data
 	apiResp := &GetProductDetailAPIResp{}
 
-	// 4. Call API
-	_, err := p.Client.Get(ctx, endpoint, shoplineReq, apiResp)
-
+	// 2. Call API
+	err := p.Client.Call(ctx, req, apiResp)
 	return apiResp, err
 }
 
-func (p *ProductService) Create(ctx context.Context, apiReq *CreateProductAPIReq) (*CreateProductAPIResp, error) {
-	// 1. API request
-	request := &client.ShopLineRequest{ // client request
-		Data: apiReq, // API request data
-	}
-
-	// 2. API endpoint
-	endpoint := apiReq.Endpoint()
-
-	// 3. API response data
+func (p *ProductService) Create(ctx context.Context, req *CreateProductAPIReq) (*CreateProductAPIResp, error) {
+	// 1. API response data
 	apiResp := &CreateProductAPIResp{}
 
-	// 4. Call API
-	_, err := p.Client.Post(ctx, endpoint, request, apiResp)
-	//if err != nil {
-	//	log.Printf("CreateProduct request failed: %v\n", err)
-	//	return nil, err
-	//}
-
+	// 2. Call API
+	err := p.Client.Call(ctx, req, apiResp)
 	return apiResp, err
 }
 
-func (p *ProductService) Update(ctx context.Context, apiReq *UpdateProductAPIReq) (*UpdateProductAPIResp, error) {
-	// 1. API request
-	request := &client.ShopLineRequest{
-		Data: apiReq, // API request data
-	}
-
-	// 2. API endpoint
-	endpoint := apiReq.Endpoint()
-
-	// 3. API response data
+func (p *ProductService) Update(ctx context.Context, req *UpdateProductAPIReq) (*UpdateProductAPIResp, error) {
+	// 1. API response data
 	apiResp := &UpdateProductAPIResp{}
 
-	// 4. Call API
-	_, err := p.Client.Put(ctx, endpoint, request, apiResp)
-
-	//if err != nil {
-	//	log.Printf("Update product failed，shopLineResp: %v, err: %v\n", shopLineResp, err)
-	//	return nil, err
-	//}
-
+	// 2. Call API
+	err := p.Client.Call(ctx, req, apiResp)
 	return apiResp, err
 }
 
-func (p *ProductService) Delete(ctx context.Context, apiReq *DeleteProductAPIReq) (*DeleteProductAPIResp, error) {
-	// 1. API request
-	shoplineReq := &client.ShopLineRequest{}
-
-	// 2. API endpoint
-	endpoint := apiReq.Endpoint()
-
-	// 3. API response data
+func (p *ProductService) Delete(ctx context.Context, req *DeleteProductAPIReq) (*DeleteProductAPIResp, error) {
+	// 1. API response data
 	apiResp := &DeleteProductAPIResp{}
 
-	// 4. Call API
-	_, err := p.Client.Delete(ctx, endpoint, shoplineReq, apiResp)
-
+	// 2. Call API
+	err := p.Client.Call(ctx, req, apiResp)
 	return apiResp, err
 }

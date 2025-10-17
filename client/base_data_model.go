@@ -30,10 +30,6 @@ func (req BaseAPIRequest) GetData() interface{} {
 	return nil
 }
 
-func (req BaseAPIRequest) GetRequestOptions() *RequestOptions {
-	return nil
-}
-
 //func (req BaseAPIRequest) Endpoint() string {
 //	return ""
 //}
@@ -43,6 +39,10 @@ func (req BaseAPIRequest) GetRequestOptions() *RequestOptions {
 //}
 
 func (req BaseAPIRequest) Verify() error {
+	return nil
+}
+
+func (req BaseAPIRequest) GetRequestOptions() *RequestOptions {
 	return nil
 }
 

@@ -23,14 +23,11 @@ type OrderRefundService struct {
 }
 
 func (o *OrderRefundService) List(ctx context.Context, req *ListOrderRefundsAPIReq) (*ListOrderRefundsAPIResp, error) {
-	// 1. API request
-	shopLineReq := &client.ShopLineRequest{
-		Query: req, // API request params
-	}
-	// 2. API response data
+	// 1. API response resource
 	apiResp := &ListOrderRefundsAPIResp{}
-	// 3. Call API
-	_, err := o.Client.Get(ctx, req.Endpoint(), shopLineReq, apiResp)
+
+	// 2. Call the API
+	err := o.Client.Call(ctx, req, apiResp)
 	return apiResp, err
 }
 

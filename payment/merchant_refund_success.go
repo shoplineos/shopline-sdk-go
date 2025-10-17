@@ -64,6 +64,12 @@ func (req *MerchantRefundSuccessAPIReq) Endpoint() string {
 	return fmt.Sprintf("payment/notify/%s/%s/refund.json", req.ChannelId, req.PaymentMethod)
 }
 
+func (req *MerchantRefundSuccessAPIReq) GetRequestOptions() *client.RequestOptions {
+	return &client.RequestOptions{
+		NotDecodeBody: true,
+	}
+}
+
 type MerchantRefundSuccessAPIResp struct {
 	client.BaseAPIResponse
 }

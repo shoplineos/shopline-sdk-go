@@ -71,35 +71,19 @@ func (s StorefrontAccessTokenService) ListWithPagination(ctx context.Context, re
 }
 
 func (s StorefrontAccessTokenService) Delete(ctx context.Context, apiReq *DeleteStorefrontAccessTokenAPIReq) (*DeleteStorefrontAccessTokenAPIResp, error) {
-	// 1. API request
-	shopLineReq := &client.ShopLineRequest{
-		Data: apiReq, // API request params
-	}
-
-	// 2. API endpoint
-	endpoint := apiReq.Endpoint()
-
-	// 3. API response data
+	// 1. API response resource
 	apiResp := &DeleteStorefrontAccessTokenAPIResp{}
 
-	// 4. Call API
-	_, err := s.Client.Delete(ctx, endpoint, shopLineReq, apiResp)
+	// 2. Call the API
+	err := s.Client.Call(ctx, apiReq, apiResp)
 	return apiResp, err
 }
 
 func (s StorefrontAccessTokenService) Create(ctx context.Context, apiReq *CreateStorefrontAccessTokenAPIReq) (*CreateStorefrontAccessTokenAPIResp, error) {
-	// 1. API request
-	shopLineReq := &client.ShopLineRequest{
-		Data: apiReq, // API request params
-	}
-
-	// 2. API endpoint
-	endpoint := apiReq.Endpoint()
-
-	// 3. API response data
+	// 1. API response resource
 	apiResp := &CreateStorefrontAccessTokenAPIResp{}
 
-	// 4. Call API
-	_, err := s.Client.Post(ctx, endpoint, shopLineReq, apiResp)
+	// 2. Call the API
+	err := s.Client.Call(ctx, apiReq, apiResp)
 	return apiResp, err
 }

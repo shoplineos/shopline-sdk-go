@@ -34,34 +34,20 @@ func (m MetafieldService) ListWithPagination(ctx context.Context, req *ListMetaf
 }
 
 func (m MetafieldService) Get(ctx context.Context, apiReq *GetMetafieldAPIReq) (*GetMetafieldAPIResp, error) {
-	// 1. API request
-	shopLineReq := &client.ShopLineRequest{}
-
-	// 2. API endpoint
-	endpoint := apiReq.Endpoint()
-
-	// 3. API response data
+	// 1. API response resource
 	apiResp := &GetMetafieldAPIResp{}
 
-	// 4. Call API
-	_, err := m.Client.Get(ctx, endpoint, shopLineReq, apiResp)
-
+	// 2. Call the API
+	err := m.Client.Call(ctx, apiReq, apiResp)
 	return apiResp, err
 }
 
 func (m MetafieldService) List(ctx context.Context, apiReq *ListMetafieldAPIReq) (*ListMetafieldAPIResp, error) {
-	// 1. API request
-	shopLineReq := &client.ShopLineRequest{}
-
-	// 2. API endpoint
-	endpoint := apiReq.Endpoint()
-
-	// 3. API response data
+	// 1. API response resource
 	apiResp := &ListMetafieldAPIResp{}
 
-	// 4. Call API
-	_, err := m.Client.Get(ctx, endpoint, shopLineReq, apiResp)
-
+	// 2. Call the API
+	err := m.Client.Call(ctx, apiReq, apiResp)
 	return apiResp, err
 }
 
@@ -99,75 +85,37 @@ func (m MetafieldService) ListAll(ctx context.Context, apiReq *ListMetafieldAPIR
 }
 
 func (m MetafieldService) Count(ctx context.Context, apiReq *CountMetafieldAPIReq) (*CountMetafieldAPIResp, error) {
-	// 1. API request
-	shopLineReq := &client.ShopLineRequest{}
-
-	// 2. API endpoint
-	endpoint := apiReq.Endpoint()
-
-	// 3. API response data
+	// 1. API response resource
 	apiResp := &CountMetafieldAPIResp{}
 
-	// 4. Call API
-	_, err := m.Client.Get(ctx, endpoint, shopLineReq, apiResp)
-
+	// 2. Call the API
+	err := m.Client.Call(ctx, apiReq, apiResp)
 	return apiResp, err
 }
 
 func (m MetafieldService) Delete(ctx context.Context, apiReq *DeleteMetafieldAPIReq) (*DeleteMetafieldAPIResp, error) {
-	// 1. API request
-	shopLineReq := &client.ShopLineRequest{}
-
-	// 2. API endpoint
-	endpoint := apiReq.Endpoint()
-
-	// 3. API response data
+	// 1. API response resource
 	apiResp := &DeleteMetafieldAPIResp{}
 
-	// 4. Call API
-	_, err := m.Client.Delete(ctx, endpoint, shopLineReq, apiResp)
-
+	// 2. Call the API
+	err := m.Client.Call(ctx, apiReq, apiResp)
 	return apiResp, err
 }
 
 func (m MetafieldService) Update(ctx context.Context, apiReq *UpdateMetafieldAPIReq) (*UpdateMetafieldAPIResp, error) {
-	// 1. API request
-	shopLineReq := &client.ShopLineRequest{
-		Data: apiReq, // API request params
-	}
-
-	// 2. API endpoint
-	endpoint := apiReq.Endpoint()
-
-	// 3. API response data
+	// 1. API response resource
 	apiResp := &UpdateMetafieldAPIResp{}
 
-	// 4. Call API
-	_, err := m.Client.Put(ctx, endpoint, shopLineReq, apiResp)
-	if err != nil {
-		return nil, err
-	}
-
-	return apiResp, nil
+	// 2. Call the API
+	err := m.Client.Call(ctx, apiReq, apiResp)
+	return apiResp, err
 }
 
 func (m MetafieldService) Create(ctx context.Context, apiReq *CreateMetafieldAPIReq) (*CreateMetafieldAPIResp, error) {
-	// 1. API request
-	shopLineReq := &client.ShopLineRequest{
-		Data: apiReq, // API request params
-	}
-
-	// 2. API endpoint
-	endpoint := apiReq.Endpoint()
-
-	// 3. API response data
+	// 1. API response resource
 	apiResp := &CreateMetafieldAPIResp{}
 
-	// 4. Call API
-	_, err := m.Client.Post(ctx, endpoint, shopLineReq, apiResp)
-	if err != nil {
-		return nil, err
-	}
-
-	return apiResp, nil
+	// 2. Call the API
+	err := m.Client.Call(ctx, apiReq, apiResp)
+	return apiResp, err
 }

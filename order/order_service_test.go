@@ -66,7 +66,7 @@ func TestListAttributionInfos(t *testing.T) {
 	setup()
 	defer teardown()
 
-	httpmock.RegisterResponder("POST",
+	httpmock.RegisterResponder("GET",
 		fmt.Sprintf("https://%s.myshopline.com/%s/%s/orders/order_attribution_info.json", cli.StoreHandle, cli.PathPrefix, cli.ApiVersion),
 		httpmock.NewBytesResponder(200, test.LoadTestData("order/order_attribution_info.json")))
 

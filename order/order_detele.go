@@ -43,21 +43,10 @@ type DeleteOrderAPIResp struct {
 // Deprecated
 // see OrderService
 func DeleteOrder(c *client.Client, apiReq *DeleteOrderAPIReq) (*DeleteOrderAPIResp, error) {
-	// 1. API request
-	shopLineReq := &client.ShopLineRequest{}
-
-	// 2. API endpoint
-	endpoint := apiReq.Endpoint()
-
-	// 3. API response data
+	// 1. API response resource
 	apiResp := &DeleteOrderAPIResp{}
 
-	// 4. Call API
-	_, err := c.Delete(context.Background(), endpoint, shopLineReq, apiResp)
-	//if err != nil {
-	//	fmt.Printf("Execute Request failed，endpoint: %s, shopLineReq: %v, err: %v\n", endpoint, shopLineReq, err)
-	//	return nil, err
-	//}
-
+	// 2. Call the API
+	err := c.Call(context.Background(), apiReq, apiResp)
 	return apiResp, err
 }

@@ -28,101 +28,55 @@ func GetWebhookService() *WebhookService {
 }
 
 func (w WebhookService) List(ctx context.Context, req *ListWebhooksAPIReq) (*ListWebhooksAPIResp, error) {
-	// 1. API request
-	shopLineReq := &client.ShopLineRequest{}
-
-	// 2. API endpoint
-	endpoint := req.Endpoint()
-
-	// 3. API response data
+	// 1. API response resource
 	apiResp := &ListWebhooksAPIResp{}
 
-	// 4. Call API
-	_, err := w.Client.Get(ctx, endpoint, shopLineReq, apiResp)
-
+	// 2. Call the API
+	err := w.Client.Call(ctx, req, apiResp)
 	return apiResp, err
 }
 
 func (w WebhookService) Count(ctx context.Context, req *CountWebhooksAPIReq) (*CountWebhooksAPIResp, error) {
-	// 1. API request
-	shopLineReq := &client.ShopLineRequest{}
-
-	// 2. API endpoint
-	endpoint := req.Endpoint()
-
-	// 3. API response data
+	// 1. API response resource
 	apiResp := &CountWebhooksAPIResp{}
 
-	// 4. Call API
-	_, err := w.Client.Get(ctx, endpoint, shopLineReq, apiResp)
-
+	// 2. Call the API
+	err := w.Client.Call(ctx, req, apiResp)
 	return apiResp, err
 }
 
 func (w WebhookService) Get(ctx context.Context, req *GetWebhookAPIReq) (*GetWebhookAPIResp, error) {
-	// 1. API request
-	shopLineReq := &client.ShopLineRequest{}
-
-	// 2. API endpoint
-	endpoint := req.Endpoint()
-
-	// 3. API response data
+	// 1. API response resource
 	apiResp := &GetWebhookAPIResp{}
 
-	// 4. Call API
-	_, err := w.Client.Get(ctx, endpoint, shopLineReq, apiResp)
-
+	// 2. Call the API
+	err := w.Client.Call(ctx, req, apiResp)
 	return apiResp, err
 }
 
 func (w WebhookService) Create(ctx context.Context, req *CreateWebhookAPIReq) (*CreateWebhookAPIResp, error) {
-	// 1. API request
-	shopLineReq := &client.ShopLineRequest{
-		Data: req,
-	}
-
-	// 2. API endpoint
-	endpoint := req.Endpoint()
-
-	// 3. API response data
+	// 1. API response resource
 	apiResp := &CreateWebhookAPIResp{}
 
-	// 4. Call API
-	_, err := w.Client.Post(ctx, endpoint, shopLineReq, apiResp)
-
+	// 2. Call the API
+	err := w.Client.Call(ctx, req, apiResp)
 	return apiResp, err
 }
 
 func (w WebhookService) Update(ctx context.Context, req *UpdateWebhookAPIReq) (*UpdateWebhookAPIResp, error) {
-	// 1. API request
-	shopLineReq := &client.ShopLineRequest{
-		Data: req,
-	}
-
-	// 2. API endpoint
-	endpoint := req.Endpoint()
-
-	// 3. API response data
+	// 1. API response resource
 	apiResp := &UpdateWebhookAPIResp{}
 
-	// 4. Call API
-	_, err := w.Client.Put(ctx, endpoint, shopLineReq, apiResp)
-
+	// 2. Call the API
+	err := w.Client.Call(ctx, req, apiResp)
 	return apiResp, err
 }
 
 func (w WebhookService) Delete(ctx context.Context, req *DeleteWebhookAPIReq) (*DeleteWebhookAPIResp, error) {
-	// 1. API request
-	shopLineReq := &client.ShopLineRequest{}
-
-	// 2. API endpoint
-	endpoint := req.Endpoint()
-
-	// 3. API response data
+	// 1. API response resource
 	apiResp := &DeleteWebhookAPIResp{}
 
-	// 4. Call API
-	_, err := w.Client.Delete(ctx, endpoint, shopLineReq, apiResp)
-
+	// 2. Call the API
+	err := w.Client.Call(ctx, req, apiResp)
 	return apiResp, err
 }

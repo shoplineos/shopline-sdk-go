@@ -59,6 +59,12 @@ func (req *MerchantPaySuccessAPIReq) Endpoint() string {
 	return fmt.Sprintf("payment/notify/%s/%s/pay.json", req.ChannelId, req.PaymentMethod)
 }
 
+func (req *MerchantPaySuccessAPIReq) GetRequestOptions() *client.RequestOptions {
+	return &client.RequestOptions{
+		NotDecodeBody: true,
+	}
+}
+
 type MerchantPaySuccessAPIResp struct {
 	client.BaseAPIResponse
 }

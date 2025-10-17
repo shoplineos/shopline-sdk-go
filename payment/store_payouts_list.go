@@ -37,12 +37,12 @@ func (req *ListStorePayoutsAPIReq) Verify() error {
 	if req.Limit == "" {
 		return errors.New("limit can't be empty")
 	}
-	if req.StartTime == "" {
-		return errors.New("StartTime can't be empty")
-	}
-	if req.EndTime == "" {
-		return errors.New("EndTime can't be empty")
-	}
+	//if req.StartTime == "" {
+	//	return errors.New("StartTime can't be empty")
+	//}
+	//if req.EndTime == "" {
+	//	return errors.New("EndTime can't be empty")
+	//}
 	return nil
 }
 

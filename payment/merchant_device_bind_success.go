@@ -43,6 +43,12 @@ func (req *MerchantDeviceBindSuccessAPIReq) Endpoint() string {
 	return "app/notify/device_bind.json"
 }
 
+func (req *MerchantDeviceBindSuccessAPIReq) GetRequestOptions() *client.RequestOptions {
+	return &client.RequestOptions{
+		NotDecodeBody: true,
+	}
+}
+
 type MerchantDeviceBindSuccessAPIResp struct {
 	client.BaseAPIResponse
 }
