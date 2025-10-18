@@ -51,24 +51,12 @@ type CancelOrderAPIResp struct {
 // en: https://developer.shopline.com/docs/admin-rest-api/order/order-management/cancel-order?version=v20251201
 // Deprecated
 // see OrderService
-func CancelOrder(c *client.Client, apiReq *CancelOrderAPIReq) (*CancelOrderAPIResp, error) {
-	// 1. API request
-	shopLineReq := &client.ShopLineRequest{
-		Data: apiReq, // API request data
-	}
+func CancelOrder(c *client.Client, req *CancelOrderAPIReq) (*CancelOrderAPIResp, error) {
 
-	// 2. API endpoint
-	endpoint := apiReq.GetEndpoint()
-
-	// 3. API response data
+	// 1. API response data
 	apiResp := &CancelOrderAPIResp{}
 
-	// 4. Call API
-	_, err := c.Post(context.Background(), endpoint, shopLineReq, apiResp)
-	//if err != nil {
-	//	fmt.Printf("Execute Request failed，endpoint: %s, shopLineReq: %v, err: %v\n", endpoint, shopLineReq, err)
-	//	return nil, err
-	//}
-
+	// 2. Call API
+	err := c.Call(context.Background(), req, apiResp)
 	return apiResp, err
 }

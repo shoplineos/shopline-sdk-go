@@ -60,31 +60,12 @@ type ListProductsAPIResp struct {
 // Deprecated
 // see ProductService
 func ListProducts(c *client.Client, apiReq *ListProductsAPIReq) (*ListProductsAPIResp, error) {
-
-	// 1. API request
-	shopLineReq := &client.ShopLineRequest{
-		Query: apiReq, // API request params
-	}
-
-	// 2. API endpoint
-	endpoint := apiReq.GetEndpoint()
-
-	// 3. API response data
+	// 1. API response resource
 	apiResp := &ListProductsAPIResp{}
 
-	// 4. Call API
-	shopLineResp, err := c.Get(context.Background(), endpoint, shopLineReq, apiResp)
-	if err != nil {
-		return nil, err
-	}
-
-	//apiResp.TraceId = shopLineResp.TraceId
-	apiResp.Pagination = shopLineResp.Pagination
-
-	//log.Printf("product count:%v\n", len(apiResp.Products))
-	//log.Printf("body:%v\n", apiResp)¬
-
-	return apiResp, nil
+	// 2. Call the API
+	err := c.Call(context.Background(), apiReq, apiResp)
+	return apiResp, err
 }
 
 // ListProductsAll

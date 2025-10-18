@@ -2,7 +2,6 @@ package order
 
 import (
 	"context"
-	"fmt"
 	"github.com/shoplineos/shopline-sdk-go/client"
 )
 
@@ -62,27 +61,12 @@ type ListOrdersAPIResp struct {
 // en: https://developer.shopline.com/docs/admin-rest-api/order/order-management/get-orders?version=v20251201
 // Deprecated
 // see OrderService
-func ListOrders(c *client.Client, apiReq *ListOrdersAPIReq) (*ListOrdersAPIResp, error) {
-	// 1. API request
-	shoplineReq := &client.ShopLineRequest{
-		Query: apiReq, // API request data
-	}
-
-	// 2. API endpoint
-	endpoint := apiReq.GetEndpoint()
-
-	// 3. API response data
+func ListOrders(c *client.Client, req *ListOrdersAPIReq) (*ListOrdersAPIResp, error) {
+	// 1. API response data
 	apiResp := &ListOrdersAPIResp{}
 
-	// 4. Call API
-	shoplineResp, err := c.Get(context.Background(), endpoint, shoplineReq, apiResp)
-	if err != nil {
-		fmt.Printf("Execute request failed: %v\n", err)
-		return nil, err
-	}
-
-	apiResp.Pagination = shoplineResp.Pagination
-
+	// 2. Call API
+	err := c.Call(context.Background(), req, apiResp)
 	return apiResp, err
 }
 

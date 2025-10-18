@@ -71,7 +71,7 @@ type RequestOptions struct {
 	// API version(Optional)
 	ApiVersion string
 
-	// When call API successful, Some api return empty body
+	// When call an API successful, some APIs will return empty body
 	// eg:https://developer.shopline.com/zh-hans-cn/docs/admin-rest-api/payments-app-api/merchant-activation-successful-notification?version=v20251201
 	NotDecodeBody bool
 }
@@ -262,6 +262,7 @@ func newShopLineRequest(req APIRequest) *ShopLineRequest {
 // endpoint: API request endpoint, eg: API "https://xx.myshopline.com/admin/openapi/v20251201/orders.json" 's endpoint is "orders.json"
 // request: ShopLineRequest
 // resource : API response, To specify the return type of the request
+// See method Call
 func (c *Client) Put(ctx context.Context, endpoint string, request *ShopLineRequest, resource interface{}) (*ShopLineResponse, error) {
 	return c.Execute(ctx, MethodPut, endpoint, request, resource)
 }
@@ -275,6 +276,7 @@ func (c *Client) Put(ctx context.Context, endpoint string, request *ShopLineRequ
 // endpoint: API request endpoint, eg: API "https://xx.myshopline.com/admin/openapi/v20251201/orders.json" 's endpoint is "orders.json"
 // request: ShopLineRequest
 // resource : API response, To specify the return type of the request
+// See method Call
 func (c *Client) Delete(ctx context.Context, endpoint string, request *ShopLineRequest, resource interface{}) (*ShopLineResponse, error) {
 	return c.Execute(ctx, MethodDelete, endpoint, request, resource)
 }
@@ -288,6 +290,7 @@ func (c *Client) Delete(ctx context.Context, endpoint string, request *ShopLineR
 // endpoint: API request endpoint, eg: API "https://xx.myshopline.com/admin/openapi/v20251201/orders.json" 's endpoint is "orders.json"
 // request: ShopLineRequest
 // resource : API response, To specify the return type of the request
+// See method Call
 func (c *Client) Post(ctx context.Context, endpoint string, request *ShopLineRequest, resource interface{}) (*ShopLineResponse, error) {
 	return c.Execute(ctx, MethodPost, endpoint, request, resource)
 }
@@ -301,11 +304,12 @@ func (c *Client) Post(ctx context.Context, endpoint string, request *ShopLineReq
 // endpoint: API request endpoint, eg: API "https://xx.myshopline.com/admin/openapi/v20251201/orders.json" 's endpoint is "orders.json"
 // request: ShopLineRequest
 // resource : API response, To specify the return type of the request
+// See method Call
 func (c *Client) Get(ctx context.Context, endpoint string, request *ShopLineRequest, resource interface{}) (*ShopLineResponse, error) {
 	return c.Execute(ctx, MethodGet, endpoint, request, resource)
 }
 
-// Execute performs a http request for the given endpoint and saves the result in the given resource.
+// Execute performs an http request for the given endpoint and saves the result in the given resource.
 // accessToken:
 //
 //	中文: https://developer.shopline.com/zh-hans-cn/docs/apps/api-instructions-for-use/app-authorization?version=v20251201#%E7%AC%AC%E4%B8%83%E6%AD%A5app-%E6%94%B6%E5%88%B0-access-token
@@ -315,6 +319,7 @@ func (c *Client) Get(ctx context.Context, endpoint string, request *ShopLineRequ
 // endpoint: API request endpoint, eg: orders.json
 // request: ShopLineRequest
 // resource : API response, To specify the return type of the request
+// See method Call
 func (c *Client) Execute(ctx context.Context, method HTTPMethod, endpoint string, request *ShopLineRequest, resource interface{}) (*ShopLineResponse, error) {
 	return c.executeInternal(ctx, method, endpoint, request, resource)
 }

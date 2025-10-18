@@ -40,22 +40,10 @@ type GetStoreAPIResp struct {
 // Deprecated
 // see StoreService
 func GetStoreInfo(c *client.Client, apiReq *GetStoreAPIReq) (*GetStoreAPIResp, error) {
-
-	// 1. API request
-	shopLineReq := &client.ShopLineRequest{}
-
-	// 2. API endpoint
-	endpoint := apiReq.GetEndpoint()
-
-	// 3. API response
+	// 1. API response resource
 	apiResp := &GetStoreAPIResp{}
 
-	// 4. Call API
-	_, err := c.Get(context.Background(), endpoint, shopLineReq, apiResp)
-	//if err != nil {
-	//	log.Printf("Failed to send request: %v\n", err)
-	//	return nil, err
-	//}
-
+	// 2. Call the API
+	err := c.Call(context.Background(), apiReq, apiResp)
 	return apiResp, err
 }

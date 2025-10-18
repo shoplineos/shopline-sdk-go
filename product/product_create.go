@@ -41,24 +41,11 @@ type CreateProductAPIResp struct {
 // en: https://developer.shopline.com/docs/admin-rest-api/product/product/create-a-product?version=v20251201
 // Deprecated
 // see ProductService
-func CreateProduct(c *client.Client, apiReq *CreateProductAPIReq) (*CreateProductAPIResp, error) {
-
-	// 1. API request
-	request := &client.ShopLineRequest{ // client request
-		Data: apiReq, // API request data
-	}
-
-	// 2. API endpoint
-	endpoint := apiReq.GetEndpoint()
-
-	// 3. API response data
+func CreateProduct(c *client.Client, req *CreateProductAPIReq) (*CreateProductAPIResp, error) {
+	// 1. API response data
 	apiResp := &CreateProductAPIResp{}
 
-	// 4. Call API
-	_, err := c.Post(context.Background(), endpoint, request, apiResp)
-	//if err != nil {
-	//	log.Printf("CreateProduct request failed: %v\n", err)
-	//	return nil, err
-	//}
+	// 2. Call API
+	err := c.Call(context.Background(), req, apiResp)
 	return apiResp, err
 }

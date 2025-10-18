@@ -25,73 +25,55 @@ type OrderRiskService struct {
 }
 
 func (o OrderRiskService) List(ctx context.Context, req *ListOrderRisksAPIReq) (*ListOrderRisksAPIResp, error) {
-	// 1. API request
-	shopLineReq := &client.ShopLineRequest{
-		//Query: req, // API request params
-	}
-	// 2. API response data
+	// 1. API response data
 	apiResp := &ListOrderRisksAPIResp{}
-	// 3. Call API
-	_, err := o.Client.Get(ctx, req.GetEndpoint(), shopLineReq, apiResp)
+
+	// 2. Call API
+	err := o.Client.Call(ctx, req, apiResp)
 	return apiResp, err
 }
 
 func (o OrderRiskService) Get(ctx context.Context, req *GetOrderRiskAPIReq) (*GetOrderRiskAPIResp, error) {
-	// 1. API request
-	shopLineReq := &client.ShopLineRequest{
-		//Query: req, // API request params
-	}
-	// 2. API response data
+	// 1. API response data
 	apiResp := &GetOrderRiskAPIResp{}
-	// 3. Call API
-	_, err := o.Client.Get(ctx, req.GetEndpoint(), shopLineReq, apiResp)
+
+	// 2. Call API
+	err := o.Client.Call(ctx, req, apiResp)
 	return apiResp, err
 }
 
 func (o OrderRiskService) Create(ctx context.Context, req *CreateOrderRiskAPIReq) (*CreateOrderRiskAPIResp, error) {
-	// 1. API request
-	shopLineReq := &client.ShopLineRequest{
-		Data: req, // API request params
-	}
-	// 2. API response data
+	// 1. API response data
 	apiResp := &CreateOrderRiskAPIResp{}
-	// 3. Call API
-	_, err := o.Client.Post(ctx, req.GetEndpoint(), shopLineReq, apiResp)
+
+	// 2. Call API
+	err := o.Client.Call(ctx, req, apiResp)
 	return apiResp, err
 }
 
 func (o OrderRiskService) Update(ctx context.Context, req *UpdateOrderRiskAPIReq) (*UpdateOrderRiskAPIResp, error) {
-	// 1. API request
-	shopLineReq := &client.ShopLineRequest{
-		Data: req, // API request params
-	}
-	// 2. API response data
+	// 1. API response data
 	apiResp := &UpdateOrderRiskAPIResp{}
-	// 3. Call API
-	_, err := o.Client.Put(ctx, req.GetEndpoint(), shopLineReq, apiResp)
+
+	// 2. Call API
+	err := o.Client.Call(ctx, req, apiResp)
 	return apiResp, err
 }
 
 func (o OrderRiskService) DeleteAll(ctx context.Context, req *DeleteOrderRisksAPIReq) (*DeleteOrderRisksAPIResp, error) {
-	// 1. API request
-	shopLineReq := &client.ShopLineRequest{
-		//Data: req, // API request params
-	}
-	// 2. API response data
+	// 1. API response data
 	apiResp := &DeleteOrderRisksAPIResp{}
-	// 3. Call API
-	_, err := o.Client.Delete(ctx, req.GetEndpoint(), shopLineReq, apiResp)
+
+	// 2. Call API
+	err := o.Client.Call(ctx, req, apiResp)
 	return apiResp, err
 }
 
 func (o OrderRiskService) Delete(ctx context.Context, req *DeleteOrderRiskAPIReq) (*DeleteOrderRiskAPIResp, error) {
-	// 1. API request
-	shopLineReq := &client.ShopLineRequest{
-		//Query: req, // API request params
-	}
-	// 2. API response data
+	// 1. API response data
 	apiResp := &DeleteOrderRiskAPIResp{}
-	// 3. Call API
-	_, err := o.Client.Delete(ctx, req.GetEndpoint(), shopLineReq, apiResp)
+
+	// 2. Call API
+	err := o.Client.Call(ctx, req, apiResp)
 	return apiResp, err
 }

@@ -49,27 +49,11 @@ type GetOrdersCountAPIResp struct {
 // en: https://developer.shopline.com/docs/admin-rest-api/order/order-management/get-order-quantity?version=v20251201
 // Deprecated
 // see OrderService
-func QueryOrdersCount(c *client.Client, apiReq *GetOrdersCountAPIReq) (*GetOrdersCountAPIResp, error) {
-
-	// 1. API request
-	shopLineReq := &client.ShopLineRequest{
-		Query: apiReq, // API request data
-	}
-
-	// 2. API endpoint
-	endpoint := apiReq.GetEndpoint()
-
-	// 3. API response data
+func QueryOrdersCount(c *client.Client, req *GetOrdersCountAPIReq) (*GetOrdersCountAPIResp, error) {
+	// 1. API response data
 	apiResp := &GetOrdersCountAPIResp{}
 
-	// 4. Call API
-	_, err := c.Get(context.Background(), endpoint, shopLineReq, apiResp)
-	//if err != nil {
-	//	log.Printf("Failed to Get: %v\n", err)
-	//	return apiResp, err
-	//}
-
-	//fmt.Printf("body:%s\n", string(body))
-
+	// 2. Call API
+	err := c.Call(context.Background(), req, apiResp)
 	return apiResp, err
 }

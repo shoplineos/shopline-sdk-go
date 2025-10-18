@@ -41,21 +41,12 @@ type DeleteProductAPIResp struct {
 // en: https://developer.shopline.com/docs/admin-rest-api/product/product/delete-a-product?version=v20251201
 // Deprecated
 // see ProductService
-func DeleteProduct(c *client.Client, apiReq *DeleteProductAPIReq) (*DeleteProductAPIResp, error) {
+func DeleteProduct(c *client.Client, req *DeleteProductAPIReq) (*DeleteProductAPIResp, error) {
 
-	// 1. API request
-	shoplineReq := &client.ShopLineRequest{}
-
-	// 2. API endpoint
-	endpoint := apiReq.GetEndpoint()
-
-	// 3. API response data
+	// 1. API response data
 	apiResp := &DeleteProductAPIResp{}
 
-	// 4. Call API
-	_, err := c.Delete(context.Background(), endpoint, shoplineReq, apiResp)
-
-	//apiResp.TraceId = shoplineResp.TraceId
-
+	// 2. Call API
+	err := c.Call(context.Background(), req, apiResp)
 	return apiResp, err
 }

@@ -2,7 +2,6 @@ package order
 
 import (
 	"context"
-	"fmt"
 	"github.com/shoplineos/shopline-sdk-go/client"
 )
 
@@ -40,24 +39,12 @@ type CreateOrderAPIResp struct {
 // en: https://developer.shopline.com/docs/admin-rest-api/order/order-management/create-an-order?version=v20251201
 // Deprecated
 // see OrderService
-func CreateOrder(c *client.Client, apiReq *CreateOrderAPIReq) (*CreateOrderAPIResp, error) {
-	// 1. API request
-	shopLineReq := &client.ShopLineRequest{
-		Data: apiReq, // API request data
-	}
+func CreateOrder(c *client.Client, req *CreateOrderAPIReq) (*CreateOrderAPIResp, error) {
 
-	// 2. API endpoint
-	endpoint := apiReq.GetEndpoint()
-
-	// 3. API response data
+	// 1. API response data
 	apiResp := &CreateOrderAPIResp{}
 
-	// 4. Call API
-	_, err := c.Post(context.Background(), endpoint, shopLineReq, apiResp)
-	if err != nil {
-		fmt.Printf("Execute Request failed，endpoint: %s, shopLineReq: %v, err: %v\n", endpoint, shopLineReq, err)
-		return nil, err
-	}
-
-	return apiResp, nil
+	// 2. Call API
+	err := c.Call(context.Background(), req, apiResp)
+	return apiResp, err
 }

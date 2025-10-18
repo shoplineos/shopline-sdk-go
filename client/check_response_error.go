@@ -19,6 +19,11 @@ type ResponseError struct {
 	Errors  []string
 }
 
+type RateLimitError struct {
+	ResponseError
+	RetryAfter int
+}
+
 // GetStatus returns http response status
 func (e ResponseError) GetStatus() int {
 	return e.Status
