@@ -1,11 +1,11 @@
 package client
 
 type APIRequest interface {
-	GetEndpoint() string                // API Endpoint (required)
+	GetEndpoint() string                // API Endpoint (required), /admin/openapi/{version}/{Endpoint}
 	GetMethod() string                  // Http method  (required)
 	GetQuery() interface{}              // Your own struct or an APIRequest, for http url query parameters
 	GetData() interface{}               // Your own struct or an APIRequest, for http body parameters
-	Verify() error                      // Verify API request parameters
+	Verify() error                      // Verify the API request parameters
 	GetHeaders() map[string]string      // Http headers
 	GetRequestOptions() *RequestOptions // Request options
 }
@@ -38,6 +38,7 @@ func (req BaseAPIRequest) GetData() interface{} {
 //	return ""
 //}
 
+// Verify the api request parameters
 func (req BaseAPIRequest) Verify() error {
 	return nil
 }

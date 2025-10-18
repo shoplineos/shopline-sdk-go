@@ -108,7 +108,7 @@ func OrderRefund(c *client.Client, req *RefundAPIReq) (*RefundAPIResp, error) {
 	// 1. API response data
 	apiResp := &RefundAPIResp{}
 
-	// 2. Call API
+	// 2. Call the API
 	err := c.Call(context.Background(), req, apiResp)
 	return apiResp, err
 }

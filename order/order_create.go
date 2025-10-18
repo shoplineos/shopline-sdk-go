@@ -44,7 +44,7 @@ func CreateOrder(c *client.Client, req *CreateOrderAPIReq) (*CreateOrderAPIResp,
 	// 1. API response data
 	apiResp := &CreateOrderAPIResp{}
 
-	// 2. Call API
+	// 2. Call the API
 	err := c.Call(context.Background(), req, apiResp)
 	return apiResp, err
 }

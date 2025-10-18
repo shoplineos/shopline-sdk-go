@@ -18,8 +18,8 @@ func (req *UpdateOrderAPIReq) GetMethod() string {
 	return "PUT"
 }
 
-func (r *UpdateOrderAPIReq) GetData() interface{} {
-	return r
+func (req *UpdateOrderAPIReq) GetData() interface{} {
+	return req
 }
 
 func (req *UpdateOrderAPIReq) Verify() error {
@@ -32,7 +32,7 @@ func (req *UpdateOrderAPIReq) GetEndpoint() string {
 	return endpoint
 }
 
-// UpdateOrderAPIResp Define the request structure for upate an order (corresponding to the API request body)
+// UpdateOrderAPIResp Define the request structure for update an order (corresponding to the API request body)
 type UpdateOrderAPIResp struct {
 	client.BaseAPIResponse
 	Order Order `json:"order"`
@@ -44,10 +44,10 @@ type UpdateOrderAPIResp struct {
 // Deprecated
 // see OrderService
 func UpdateOrder(c *client.Client, req *UpdateOrderAPIReq) (*UpdateOrderAPIResp, error) {
-	// 1. API response data
+	// 1. API response resource
 	apiResp := &UpdateOrderAPIResp{}
 
-	// 2. Call API
+	// 2. Call the API
 	err := c.Call(context.Background(), req, apiResp)
 	return apiResp, err
 }

@@ -31,28 +31,28 @@ type OrderService struct {
 }
 
 func (o *OrderService) ListAttributionInfos(ctx context.Context, req *ListOrderAttributionInfosAPIReq) (*ListOrderAttributionInfosAPIResp, error) {
-	// 1. API response data
+	// 1. API response resource
 	apiResp := &ListOrderAttributionInfosAPIResp{}
 
-	// 2. Call API
+	// 2. Call the API
 	err := o.Client.Call(ctx, req, apiResp)
 	return apiResp, err
 }
 
 func (o *OrderService) Cancel(ctx context.Context, req *CancelOrderAPIReq) (*CancelOrderAPIResp, error) {
-	// 1. API response data
+	// 1. API response resource
 	apiResp := &CancelOrderAPIResp{}
 
-	// 2. Call API
+	// 2. Call the API
 	err := o.Client.Call(ctx, req, apiResp)
 	return apiResp, err
 }
 
 func (o *OrderService) List(ctx context.Context, req *ListOrdersAPIReq) (*ListOrdersAPIResp, error) {
-	// 1. API response data
+	// 1. API response resource
 	apiResp := &ListOrdersAPIResp{}
 
-	// 2. Call API
+	// 2. Call the API
 	err := o.Client.Call(ctx, req, apiResp)
 	return apiResp, err
 }
@@ -68,10 +68,10 @@ func (o *OrderService) ListAll(ctx context.Context, apiReq *ListOrdersAPIReq) ([
 		// 2. API endpoint
 		endpoint := apiReq.GetEndpoint()
 
-		// 3. API response data
+		// 3. API response resource
 		apiResp := &ListOrdersAPIResp{}
 
-		// 4. Call API
+		// 4. Call the API
 		shoplineResp, err := o.Client.Get(ctx, endpoint, shopLineReq, apiResp)
 
 		if err != nil {
@@ -95,10 +95,10 @@ func (o *OrderService) ListWithPagination(ctx context.Context, apiReq *ListOrder
 }
 
 func (o *OrderService) Count(ctx context.Context, req *GetOrdersCountAPIReq) (*GetOrdersCountAPIResp, error) {
-	// 1. API response data
+	// 1. API response resource
 	apiResp := &GetOrdersCountAPIResp{}
 
-	// 2. Call API
+	// 2. Call the API
 	err := o.Client.Call(ctx, req, apiResp)
 	return apiResp, err
 }
@@ -109,28 +109,28 @@ func (o *OrderService) Get(ctx context.Context, apiReq *GetOrderDetailAPIReq) (*
 }
 
 func (o *OrderService) Create(ctx context.Context, req *CreateOrderAPIReq) (*CreateOrderAPIResp, error) {
-	// 1. API response data
+	// 1. API response resource
 	apiResp := &CreateOrderAPIResp{}
 
-	// 2. Call API
+	// 2. Call the API
 	err := o.Client.Call(ctx, req, apiResp)
 	return apiResp, err
 }
 
 func (o *OrderService) Update(ctx context.Context, req *UpdateOrderAPIReq) (*UpdateOrderAPIResp, error) {
-	// 1. API response data
+	// 1. API response resource
 	apiResp := &UpdateOrderAPIResp{}
 
-	// 2. Call API
+	// 2. Call the API
 	err := o.Client.Call(ctx, req, apiResp)
 	return apiResp, err
 }
 
 func (o *OrderService) Delete(ctx context.Context, req *DeleteOrderAPIReq) (*DeleteOrderAPIResp, error) {
-	// 1. API response data
+	// 1. API response resource
 	apiResp := &DeleteOrderAPIResp{}
 
-	// 2. Call API
+	// 2. Call the API
 	err := o.Client.Call(ctx, req, apiResp)
 	return apiResp, err
 }

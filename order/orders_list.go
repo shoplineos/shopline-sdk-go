@@ -65,7 +65,7 @@ func ListOrders(c *client.Client, req *ListOrdersAPIReq) (*ListOrdersAPIResp, er
 	// 1. API response data
 	apiResp := &ListOrdersAPIResp{}
 
-	// 2. Call API
+	// 2. Call the API
 	err := c.Call(context.Background(), req, apiResp)
 	return apiResp, err
 }
@@ -87,7 +87,7 @@ func ListOrdersAll(c *client.Client, apiReq *ListOrdersAPIReq) ([]Order, error) 
 		// 3. API response data
 		apiResp := &ListOrdersAPIResp{}
 
-		// 4. Call API
+		// 4. Call the API
 		shoplineResp, err := c.Get(context.Background(), endpoint, shopLineReq, apiResp)
 
 		if err != nil {

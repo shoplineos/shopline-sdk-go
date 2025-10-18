@@ -45,7 +45,7 @@ func CreateProduct(c *client.Client, req *CreateProductAPIReq) (*CreateProductAP
 	// 1. API response data
 	apiResp := &CreateProductAPIResp{}
 
-	// 2. Call API
+	// 2. Call the API
 	err := c.Call(context.Background(), req, apiResp)
 	return apiResp, err
 }

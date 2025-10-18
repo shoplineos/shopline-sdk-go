@@ -55,7 +55,7 @@ func (m MetafieldDefinitionService) ListAll(ctx context.Context, apiReq *ListMet
 		// 3. API response data
 		apiResp := &ListMetafieldDefinitionAPIResp{}
 
-		// 4. Call API
+		// 4. Call the API
 		shoplineResp, err := m.Client.Get(ctx, endpoint, shopLineReq, apiResp)
 
 		if err != nil {

@@ -53,7 +53,7 @@ func QueryOrdersCount(c *client.Client, req *GetOrdersCountAPIReq) (*GetOrdersCo
 	// 1. API response data
 	apiResp := &GetOrdersCountAPIResp{}
 
-	// 2. Call API
+	// 2. Call the API
 	err := c.Call(context.Background(), req, apiResp)
 	return apiResp, err
 }

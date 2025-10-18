@@ -33,7 +33,7 @@ func (p *ProductService) List(ctx context.Context, req *ListProductsAPIReq) (*Li
 	// 1. API response data
 	apiResp := &ListProductsAPIResp{}
 
-	// 2. Call API
+	// 2. Call the API
 	err := p.Client.Call(ctx, req, apiResp)
 	return apiResp, err
 }
@@ -52,7 +52,7 @@ func (p *ProductService) ListAll(ctx context.Context, apiReq *ListProductsAPIReq
 		// 3. API response data
 		apiResp := &ListProductsAPIResp{}
 
-		// 4. Call API
+		// 4. Call the API
 		shoplineResp, err := p.Client.Get(ctx, endpoint, shopLineReq, apiResp)
 
 		if err != nil {
@@ -80,7 +80,7 @@ func (p *ProductService) Count(ctx context.Context, apiReq *GetProductCountAPIRe
 	// 1. API response data
 	apiResp := &GetProductCountAPIResp{}
 
-	// 2. Call API
+	// 2. Call the API
 	err := p.Client.Call(context.Background(), apiReq, apiResp)
 
 	return apiResp, err
@@ -89,7 +89,7 @@ func (p *ProductService) Get(ctx context.Context, req *GetProductDetailAPIReq) (
 	// 1. API response data
 	apiResp := &GetProductDetailAPIResp{}
 
-	// 2. Call API
+	// 2. Call the API
 	err := p.Client.Call(ctx, req, apiResp)
 	return apiResp, err
 }
@@ -98,7 +98,7 @@ func (p *ProductService) Create(ctx context.Context, req *CreateProductAPIReq) (
 	// 1. API response data
 	apiResp := &CreateProductAPIResp{}
 
-	// 2. Call API
+	// 2. Call the API
 	err := p.Client.Call(ctx, req, apiResp)
 	return apiResp, err
 }
@@ -107,7 +107,7 @@ func (p *ProductService) Update(ctx context.Context, req *UpdateProductAPIReq) (
 	// 1. API response data
 	apiResp := &UpdateProductAPIResp{}
 
-	// 2. Call API
+	// 2. Call the API
 	err := p.Client.Call(ctx, req, apiResp)
 	return apiResp, err
 }
@@ -116,7 +116,7 @@ func (p *ProductService) Delete(ctx context.Context, req *DeleteProductAPIReq) (
 	// 1. API response data
 	apiResp := &DeleteProductAPIResp{}
 
-	// 2. Call API
+	// 2. Call the API
 	err := p.Client.Call(ctx, req, apiResp)
 	return apiResp, err
 }

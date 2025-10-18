@@ -13,7 +13,7 @@ type CountMetafieldAPIReq struct {
 	client.BaseAPIRequest
 	// enum：product、order、customer、collection、
 	// shop、variant、draft_order
-	// eg："product"
+	// eg: "product"
 	OwnerResource string
 	OwnerId       string
 }

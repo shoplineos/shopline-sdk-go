@@ -56,7 +56,7 @@ func CancelOrder(c *client.Client, req *CancelOrderAPIReq) (*CancelOrderAPIResp,
 	// 1. API response data
 	apiResp := &CancelOrderAPIResp{}
 
-	// 2. Call API
+	// 2. Call the API
 	err := c.Call(context.Background(), req, apiResp)
 	return apiResp, err
 }

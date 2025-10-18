@@ -48,7 +48,7 @@ type GetProductCountAPIResp struct {
 // see ProductService
 func GetProductsCount(c *client.Client, apiReq *GetProductCountAPIReq) (*GetProductCountAPIResp, error) {
 
-	// 1. API response data
+	// 1. API response resource
 	apiResp := &GetProductCountAPIResp{}
 
 	// 2. Call the API

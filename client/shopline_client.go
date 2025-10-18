@@ -76,7 +76,7 @@ type RequestOptions struct {
 	NotDecodeBody bool
 }
 
-// ShopLineRequest request params, pagination see detail：
+// ShopLineRequest request parameters, pagination see detail：
 // 中文: https://developer.shopline.com/zh-hans-cn/docs/apps/api-instructions-for-use/paging-mechanism?version=v20251201
 // en: https://developer.shopline.com/docs/apps/api-instructions-for-use/paging-mechanism?version=v20251201
 type ShopLineRequest struct {
@@ -122,7 +122,7 @@ type ShopLineResponse struct {
 
 	//Headers    map[string]string
 
-	// API Response Data, the return type of the request when call APIs specify
+	// API response resource, the return type of the request when call APIs specify
 	Data interface{}
 
 	// Pagination, see detail：
@@ -262,7 +262,7 @@ func newShopLineRequest(req APIRequest) *ShopLineRequest {
 // endpoint: API request endpoint, eg: API "https://xx.myshopline.com/admin/openapi/v20251201/orders.json" 's endpoint is "orders.json"
 // request: ShopLineRequest
 // resource : API response, To specify the return type of the request
-// See method Call
+// See the method Call
 func (c *Client) Put(ctx context.Context, endpoint string, request *ShopLineRequest, resource interface{}) (*ShopLineResponse, error) {
 	return c.Execute(ctx, MethodPut, endpoint, request, resource)
 }
@@ -276,7 +276,7 @@ func (c *Client) Put(ctx context.Context, endpoint string, request *ShopLineRequ
 // endpoint: API request endpoint, eg: API "https://xx.myshopline.com/admin/openapi/v20251201/orders.json" 's endpoint is "orders.json"
 // request: ShopLineRequest
 // resource : API response, To specify the return type of the request
-// See method Call
+// See the method Call
 func (c *Client) Delete(ctx context.Context, endpoint string, request *ShopLineRequest, resource interface{}) (*ShopLineResponse, error) {
 	return c.Execute(ctx, MethodDelete, endpoint, request, resource)
 }
@@ -290,7 +290,7 @@ func (c *Client) Delete(ctx context.Context, endpoint string, request *ShopLineR
 // endpoint: API request endpoint, eg: API "https://xx.myshopline.com/admin/openapi/v20251201/orders.json" 's endpoint is "orders.json"
 // request: ShopLineRequest
 // resource : API response, To specify the return type of the request
-// See method Call
+// See the method Call
 func (c *Client) Post(ctx context.Context, endpoint string, request *ShopLineRequest, resource interface{}) (*ShopLineResponse, error) {
 	return c.Execute(ctx, MethodPost, endpoint, request, resource)
 }
@@ -304,7 +304,7 @@ func (c *Client) Post(ctx context.Context, endpoint string, request *ShopLineReq
 // endpoint: API request endpoint, eg: API "https://xx.myshopline.com/admin/openapi/v20251201/orders.json" 's endpoint is "orders.json"
 // request: ShopLineRequest
 // resource : API response, To specify the return type of the request
-// See method Call
+// See the method Call
 func (c *Client) Get(ctx context.Context, endpoint string, request *ShopLineRequest, resource interface{}) (*ShopLineResponse, error) {
 	return c.Execute(ctx, MethodGet, endpoint, request, resource)
 }
@@ -319,7 +319,7 @@ func (c *Client) Get(ctx context.Context, endpoint string, request *ShopLineRequ
 // endpoint: API request endpoint, eg: orders.json
 // request: ShopLineRequest
 // resource : API response, To specify the return type of the request
-// See method Call
+// See the method Call
 func (c *Client) Execute(ctx context.Context, method HTTPMethod, endpoint string, request *ShopLineRequest, resource interface{}) (*ShopLineResponse, error) {
 	return c.executeInternal(ctx, method, endpoint, request, resource)
 }
@@ -340,7 +340,7 @@ func (c *Client) executeInternal(ctx context.Context, method HTTPMethod, endpoin
 	return c.executeHttpRequest(request, httpReq, resource)
 }
 
-// return the http url's path '/admin/openapi/{version}/{relPath}'
+// Return the http url's path '/admin/openapi/{version}/{relPath}'
 // eg: /admin/openapi/v20251201/orders.json
 func (c *Client) resolveUrlPath(relPath string, request *ShopLineRequest) string {
 	if strings.HasPrefix(relPath, "/") {
@@ -371,7 +371,7 @@ func (c *Client) executeHttpRequest(request *ShopLineRequest, httpReq *http.Requ
 
 	log.Printf("Execute request finished！status: %d\n", resp.StatusCode)
 
-	// build response
+	// Build response
 	shopLineResp, err := buildShopLineResponse(httpReq.Method, request, resp, resource)
 	if err != nil {
 		return shopLineResp, err
@@ -424,14 +424,14 @@ func resolveTimeout(req *ShopLineRequest) time.Duration {
 	return TimeoutInMillisecond
 }
 
-// set Headers
+// Set Headers
 func (c *Client) setHeaders(appKey string, appSecret string, httpReq *http.Request, wrapper *shopLineRequestWrapper) error {
 	httpReq.Header.Set("Content-Type", "application/json")
 	httpReq.Header.Set("Accept", "application/json")
 	httpReq.Header.Set("appkey", appKey)
 	httpReq.Header.Set("User-Agent", config.UserAgent)
 
-	// create access Token & refresh access Token is not required
+	// Create access Token & refresh access Token is not required
 	if c.Token != "" {
 		httpReq.Header.Set("Authorization", "Bearer "+c.Token)
 	}
@@ -476,7 +476,7 @@ func resolveAppSecret(app App) string {
 	return config.DefaultAppSecret
 }
 
-// generate sign string
+// Generate sign string
 func generateSign(appKey, appSecret, timestamp string, requestBodyJsonBytes []byte) (string, error) {
 	bodyJsonString, err := buildBodyJsonString(requestBodyJsonBytes)
 	if err != nil {
@@ -500,7 +500,7 @@ func buildBodyJsonString(bodyParams []byte) (string, error) {
 	return string(bodyParams), nil
 }
 
-// Build shopline response
+// Build SHOPLINE response
 func buildShopLineResponse(method string, request *ShopLineRequest, httpResp *http.Response, resource interface{}) (*ShopLineResponse, error) {
 	shopLineResp := &ShopLineResponse{}
 	shopLineResp.StatusCode = httpResp.StatusCode
@@ -576,7 +576,7 @@ func setCommonAPIRespData(shopLineResp *ShopLineResponse) {
 
 }
 
-// set traceId to api response
+// Set traceId to api response
 func setTraceId2APIResp(shopLineResp *ShopLineResponse, typ reflect.Type, apiRespVal reflect.Value) {
 	_, ok := typ.FieldByName("TraceId")
 	if ok {
@@ -711,7 +711,7 @@ func (c *Client) resolveApiVersion(req *ShopLineRequest) string {
 	return c.ApiVersion
 }
 
-// body params serialize to json bytes
+// Body parameters serialize to json bytes
 func (c *Client) serializeBodyDataIfNecessary(method HTTPMethod, request *ShopLineRequest) ([]byte, error) {
 	if method == MethodGet || request == nil || request.Data == nil {
 		return nil, nil

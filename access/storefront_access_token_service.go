@@ -44,10 +44,10 @@ func (s StorefrontAccessTokenService) ListAll(ctx context.Context, apiReq *ListS
 		// 2. API endpoint
 		endpoint := apiReq.GetEndpoint()
 
-		// 3. API response data
+		// 3. API response resource
 		apiResp := &ListStorefrontAccessTokensAPIResp{}
 
-		// 4. Call API
+		// 4. Call the API
 		shoplineResp, err := s.Client.Get(ctx, endpoint, shopLineReq, apiResp)
 
 		if err != nil {

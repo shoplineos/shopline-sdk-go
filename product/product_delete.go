@@ -46,7 +46,7 @@ func DeleteProduct(c *client.Client, req *DeleteProductAPIReq) (*DeleteProductAP
 	// 1. API response data
 	apiResp := &DeleteProductAPIResp{}
 
-	// 2. Call API
+	// 2. Call the API
 	err := c.Call(context.Background(), req, apiResp)
 	return apiResp, err
 }

@@ -30,7 +30,7 @@ func (p PaymentStoreService) GetStoreBalance(ctx context.Context, req *GetStoreB
 	// 1. API response data
 	apiResp := &GetStoreBalanceAPIResp{}
 
-	// 2. Call API
+	// 2. Call the API
 	err := p.Client.Call(ctx, req, apiResp)
 	return apiResp, err
 }
@@ -39,7 +39,7 @@ func (p PaymentStoreService) ListStorePayouts(ctx context.Context, req *ListStor
 	// 1. API response data
 	apiResp := &ListStorePayoutsAPIResp{}
 
-	// 2. Call API
+	// 2. Call the API
 	err := p.Client.Call(ctx, req, apiResp)
 	return apiResp, err
 }
@@ -48,7 +48,7 @@ func (p PaymentStoreService) ListStoreBalanceTransactions(ctx context.Context, r
 	// 1. API response data
 	apiResp := &ListStoreBalanceTransactionsAPIResp{}
 
-	// 2. Call API
+	// 2. Call the API
 	err := p.Client.Call(ctx, req, apiResp)
 	return apiResp, err
 }
@@ -57,7 +57,7 @@ func (p PaymentStoreService) GetStorePayout(ctx context.Context, req *GetStorePa
 	// 1. API response data
 	apiResp := &GetStorePayoutAPIResp{}
 
-	// 2. Call API
+	// 2. Call the API
 	err := p.Client.Call(ctx, req, apiResp)
 	return apiResp, err
 }
@@ -66,7 +66,7 @@ func (p PaymentStoreService) ListStoreTransactions(ctx context.Context, req *Lis
 	// 1. API response data
 	apiResp := &ListStoreTransactionsAPIResp{}
 
-	// 2. Call API
+	// 2. Call the API
 	err := p.Client.Call(ctx, req, apiResp)
 	return apiResp, err
 }

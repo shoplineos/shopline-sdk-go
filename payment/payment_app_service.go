@@ -30,7 +30,7 @@ func (m MerchantAppService) MerchantBindSuccess(ctx context.Context, req *Mercha
 	// 1. API response data
 	apiResp := &MerchantBindSuccessAPIResp{}
 
-	// 2. Call API
+	// 2. Call the API
 	err := m.Client.Call(ctx, req, apiResp)
 
 	return apiResp, err
@@ -40,7 +40,7 @@ func (m MerchantAppService) MerchantPaySuccess(ctx context.Context, req *Merchan
 	// 1. API response data
 	apiResp := &MerchantPaySuccessAPIResp{}
 
-	// 2. Call API
+	// 2. Call the API
 	err := m.Client.Call(ctx, req, apiResp)
 
 	return apiResp, err
@@ -50,7 +50,7 @@ func (m MerchantAppService) MerchantRefundSuccess(ctx context.Context, req *Merc
 	// 1. API response data
 	apiResp := &MerchantRefundSuccessAPIResp{}
 
-	// 2. Call API
+	// 2. Call the API
 	err := m.Client.Call(ctx, req, apiResp)
 
 	return apiResp, err
@@ -60,7 +60,7 @@ func (m MerchantAppService) MerchantDeviceBindSuccess(ctx context.Context, req *
 	// 1. API response data
 	apiResp := &MerchantDeviceBindSuccessAPIResp{}
 
-	// 2. Call API
+	// 2. Call the API
 	err := m.Client.Call(ctx, req, apiResp)
 
 	return apiResp, err

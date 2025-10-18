@@ -33,7 +33,7 @@ func (s StoreService) Get(ctx context.Context, req *GetStoreAPIReq) (*GetStoreAP
 	// 1. API response data
 	apiResp := &GetStoreAPIResp{}
 
-	// 2. Call API
+	// 2. Call the API
 	err := s.Client.Call(ctx, req, apiResp)
 	return apiResp, err
 }
@@ -42,7 +42,7 @@ func (s StoreService) ListCurrencies(ctx context.Context, req *ListStoreCurrenci
 	// 1. API response data
 	apiResp := &ListStoreCurrenciesAPIResp{}
 
-	// 2. Call API
+	// 2. Call the API
 	err := s.Client.Call(ctx, req, apiResp)
 	return apiResp, err
 }
@@ -51,7 +51,7 @@ func (s StoreService) GetStaff(ctx context.Context, req *GetStoreStaffAPIReq) (*
 	// 1. API response data
 	apiResp := &GetStoreStaffAPIResp{}
 
-	// 2. Call API
+	// 2. Call the API
 	err := s.Client.Call(ctx, req, apiResp)
 	return apiResp, err
 }
@@ -60,7 +60,7 @@ func (s StoreService) ListStaffs(ctx context.Context, req *ListStoreStaffsAPIReq
 	// 1. API response data
 	apiResp := &ListStoreStaffsAPIResp{}
 
-	// 2. Call API
+	// 2. Call the API
 	err := s.Client.Call(ctx, req, apiResp)
 	return apiResp, err
 }
@@ -69,7 +69,7 @@ func (s StoreService) GetOperationLog(ctx context.Context, req *GetStoreOperatio
 	// 1. API response data
 	apiResp := &GetStoreOperationLogAPIResp{}
 
-	// 2. Call API
+	// 2. Call the API
 	err := s.Client.Call(ctx, req, apiResp)
 	return apiResp, err
 }
@@ -78,7 +78,7 @@ func (s StoreService) ListOperationLogs(ctx context.Context, req *ListStoreOpera
 	// 1. API response data
 	apiResp := &ListStoreOperationLogsAPIResp{}
 
-	// 2. Call API
+	// 2. Call the API
 	err := s.Client.Call(ctx, req, apiResp)
 	return apiResp, err
 }
@@ -87,7 +87,7 @@ func (s StoreService) CountOperationLogs(ctx context.Context, req *CountStoreOpe
 	// 1. API response data
 	apiResp := &CountStoreOperationLogsAPIResp{}
 
-	// 2. Call API
+	// 2. Call the API
 	err := s.Client.Call(ctx, req, apiResp)
 	return apiResp, err
 }
@@ -96,7 +96,7 @@ func (s StoreService) ListSubscriptions(ctx context.Context, req *ListStoreSubsc
 	// 1. API response data
 	apiResp := &ListStoreSubscriptionsAPIResp{}
 
-	// 2. Call API
+	// 2. Call the API
 	err := s.Client.Call(ctx, req, apiResp)
 	return apiResp, err
 }

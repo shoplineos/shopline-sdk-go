@@ -48,7 +48,7 @@ import "github.com/shoplineos/shopline-sdk-go/client"
   // 3.1 API request
   getProductCountAPIReq := &GetProductCountAPIReq{}
   
-  // 3.2 API response data
+  // 3.2 API response resource
   apiResp := &GetProductCountAPIResp{}
 
   // 3.3 Call the API
@@ -156,7 +156,7 @@ With an access token, you can make API calls like this:
   // 1 API request
   getProductCountAPIReq := &GetProductCountAPIReq{}
   
-  // 2 API response data
+  // 2 API response resource
   apiResp := &GetProductCountAPIResp{}
 
   // 3 Call the API
@@ -315,7 +315,7 @@ func TestGetProductsCount(c *client.Client) (*GetProductCountAPIResp, error) {
     // 1 API request
     getProductCountAPIReq := &GetProductCountAPIReq{}
     
-    // 2 API response data
+    // 2 API response resource
     apiResp := &GetProductCountAPIResp{}
   
     // 3 Call the API
@@ -672,7 +672,7 @@ import "github.com/shoplineos/shopline-sdk-go/client"
   // 3.1 API 请求
   getProductCountAPIReq := &GetProductCountAPIReq{}
   
-  // 3.2 指定 API response data
+  // 3.2 指定 API response resource
   apiResp := &GetProductCountAPIResp{}
 
   // 3.3 调用 API

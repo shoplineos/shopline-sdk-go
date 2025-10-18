@@ -85,7 +85,7 @@ func ListProductsAll(c *client.Client, apiReq *ListProductsAPIReq) ([]ProductRes
 		// 3. API response data
 		apiResp := &ListProductsAPIResp{}
 
-		// 4. Call API
+		// 4. Call the API
 		shoplineResp, err := c.Get(context.Background(), endpoint, shopLineReq, apiResp)
 
 		if err != nil {

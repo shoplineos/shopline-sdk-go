@@ -28,7 +28,7 @@ func (o OrderRiskService) List(ctx context.Context, req *ListOrderRisksAPIReq) (
 	// 1. API response data
 	apiResp := &ListOrderRisksAPIResp{}
 
-	// 2. Call API
+	// 2. Call the API
 	err := o.Client.Call(ctx, req, apiResp)
 	return apiResp, err
 }
@@ -37,7 +37,7 @@ func (o OrderRiskService) Get(ctx context.Context, req *GetOrderRiskAPIReq) (*Ge
 	// 1. API response data
 	apiResp := &GetOrderRiskAPIResp{}
 
-	// 2. Call API
+	// 2. Call the API
 	err := o.Client.Call(ctx, req, apiResp)
 	return apiResp, err
 }
@@ -46,7 +46,7 @@ func (o OrderRiskService) Create(ctx context.Context, req *CreateOrderRiskAPIReq
 	// 1. API response data
 	apiResp := &CreateOrderRiskAPIResp{}
 
-	// 2. Call API
+	// 2. Call the API
 	err := o.Client.Call(ctx, req, apiResp)
 	return apiResp, err
 }
@@ -55,7 +55,7 @@ func (o OrderRiskService) Update(ctx context.Context, req *UpdateOrderRiskAPIReq
 	// 1. API response data
 	apiResp := &UpdateOrderRiskAPIResp{}
 
-	// 2. Call API
+	// 2. Call the API
 	err := o.Client.Call(ctx, req, apiResp)
 	return apiResp, err
 }
@@ -64,7 +64,7 @@ func (o OrderRiskService) DeleteAll(ctx context.Context, req *DeleteOrderRisksAP
 	// 1. API response data
 	apiResp := &DeleteOrderRisksAPIResp{}
 
-	// 2. Call API
+	// 2. Call the API
 	err := o.Client.Call(ctx, req, apiResp)
 	return apiResp, err
 }
@@ -73,7 +73,7 @@ func (o OrderRiskService) Delete(ctx context.Context, req *DeleteOrderRiskAPIReq
 	// 1. API response data
 	apiResp := &DeleteOrderRiskAPIResp{}
 
-	// 2. Call API
+	// 2. Call the API
 	err := o.Client.Call(ctx, req, apiResp)
 	return apiResp, err
 }

@@ -181,7 +181,7 @@ func TestCall(t *testing.T) {
 
 	apiResp := &CreateProductAPIRespStruct{}
 
-	// 2. Call API
+	// 2. Call the API
 	err := client.Call(context.Background(), apiReq, apiResp)
 	assert.Nil(t, err)
 
@@ -214,7 +214,7 @@ func TestExecuteInternal(t *testing.T) {
 		Data: apiReq,
 	}
 
-	// 2. Call API
+	// 2. Call the API
 	client.executeInternal(context.Background(), MethodPost, "products/products.json", shopLineReq, apiResp)
 
 	//fmt.Printf("apiResp: %+v\n", apiResp.Product)
