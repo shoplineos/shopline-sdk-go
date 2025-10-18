@@ -38,37 +38,45 @@ func (p *ProductService) List(ctx context.Context, req *ListProductsAPIReq) (*Li
 	return apiResp, err
 }
 
+func getResources(resp interface{}) []ProductRespData {
+	apiResp := resp.(*ListProductsAPIResp)
+	return apiResp.Products
+}
+
 func (p *ProductService) ListAll(ctx context.Context, apiReq *ListProductsAPIReq) ([]ProductRespData, error) {
-	collector := []ProductRespData{}
-	// 1. API request
-	shopLineReq := &client.ShopLineRequest{
-		Query: apiReq, // API request params
-	}
 
-	for {
-		// 2. API endpoint
-		endpoint := apiReq.GetEndpoint()
+	return client.ListAll(p.Client, ctx, apiReq, &ListProductsAPIResp{}, getResources)
 
-		// 3. API response data
-		apiResp := &ListProductsAPIResp{}
-
-		// 4. Call the API
-		shoplineResp, err := p.Client.Get(ctx, endpoint, shopLineReq, apiResp)
-
-		if err != nil {
-			return collector, err
-		}
-
-		collector = append(collector, apiResp.Products...)
-
-		if !shoplineResp.HasNext() {
-			break
-		}
-
-		shopLineReq.Query = shoplineResp.Pagination.Next
-	}
-
-	return collector, nil
+	//collector := []ProductRespData{}
+	//// 1. API request
+	//shopLineReq := &client.ShopLineRequest{
+	//	Query: apiReq, // API request params
+	//}
+	//
+	//for {
+	//	// 2. API endpoint
+	//	endpoint := apiReq.GetEndpoint()
+	//
+	//	// 3. API response data
+	//	apiResp := &ListProductsAPIResp{}
+	//
+	//	// 4. Call the API
+	//	shoplineResp, err := p.Client.Get(ctx, endpoint, shopLineReq, apiResp)
+	//
+	//	if err != nil {
+	//		return collector, err
+	//	}
+	//
+	//	collector = append(collector, apiResp.Products...)
+	//
+	//	if !shoplineResp.HasNext() {
+	//		break
+	//	}
+	//
+	//	shopLineReq.Query = shoplineResp.Pagination.Next
+	//}
+	//
+	//return collector, nil
 }
 
 func (p *ProductService) ListWithPagination(ctx context.Context, apiReq *ListProductsAPIReq) (*ListProductsAPIResp, error) {

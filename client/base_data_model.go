@@ -13,6 +13,7 @@ type APIRequest interface {
 type APIResponse interface {
 	SetTraceId(traceId string)
 	SetPagination(pagination *Pagination)
+	HasNext() bool
 }
 
 type BaseAPIRequest struct {
@@ -50,6 +51,10 @@ func (req BaseAPIRequest) GetRequestOptions() *RequestOptions {
 type BaseAPIResponse struct {
 	TraceId    string
 	Pagination *Pagination
+}
+
+func (api BaseAPIResponse) HasNext() bool {
+	return api.Pagination != nil && api.Pagination.Next != nil
 }
 
 func (api BaseAPIResponse) SetTraceId(traceId string) {

@@ -57,37 +57,46 @@ func (o *OrderService) List(ctx context.Context, req *ListOrdersAPIReq) (*ListOr
 	return apiResp, err
 }
 
+func getResources(resp interface{}) []Order {
+	apiResp := resp.(*ListOrdersAPIResp)
+	return apiResp.Orders
+}
+
 func (o *OrderService) ListAll(ctx context.Context, apiReq *ListOrdersAPIReq) ([]Order, error) {
-	collector := []Order{}
-	// 1. API request
-	shopLineReq := &client.ShopLineRequest{
-		Query: apiReq, // API request params
-	}
 
-	for {
-		// 2. API endpoint
-		endpoint := apiReq.GetEndpoint()
+	return client.ListAll(o.Client, ctx, apiReq, &ListOrdersAPIResp{}, getResources)
 
-		// 3. API response resource
-		apiResp := &ListOrdersAPIResp{}
-
-		// 4. Call the API
-		shoplineResp, err := o.Client.Get(ctx, endpoint, shopLineReq, apiResp)
-
-		if err != nil {
-			return collector, err
-		}
-
-		collector = append(collector, apiResp.Orders...)
-
-		if !shoplineResp.HasNext() {
-			break
-		}
-
-		shopLineReq.Query = shoplineResp.Pagination.Next
-	}
-
-	return collector, nil
+	//
+	//collector := []Order{}
+	//// 1. API request
+	//shopLineReq := &client.ShopLineRequest{
+	//	Query: apiReq, // API request params
+	//}
+	//
+	//for {
+	//	// 2. API endpoint
+	//	endpoint := apiReq.GetEndpoint()
+	//
+	//	// 3. API response resource
+	//	apiResp := &ListOrdersAPIResp{}
+	//
+	//	// 4. Call the API
+	//	shoplineResp, err := o.Client.Get(ctx, endpoint, shopLineReq, apiResp)
+	//
+	//	if err != nil {
+	//		return collector, err
+	//	}
+	//
+	//	collector = append(collector, apiResp.Orders...)
+	//
+	//	if !shoplineResp.HasNext() {
+	//		break
+	//	}
+	//
+	//	shopLineReq.Query = shoplineResp.Pagination.Next
+	//}
+	//
+	//return collector, nil
 }
 
 func (o *OrderService) ListWithPagination(ctx context.Context, apiReq *ListOrdersAPIReq) (*ListOrdersAPIResp, error) {
