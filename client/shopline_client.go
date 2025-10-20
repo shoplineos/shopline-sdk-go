@@ -76,7 +76,8 @@ type RequestOptions struct {
 	NotDecodeBody bool
 }
 
-// ShopLineRequest request parameters, pagination see detail：
+// ShopLineRequest request parameters
+// pagination for more details, see：
 // 中文: https://developer.shopline.com/zh-hans-cn/docs/apps/api-instructions-for-use/paging-mechanism?version=v20251201
 // en: https://developer.shopline.com/docs/apps/api-instructions-for-use/paging-mechanism?version=v20251201
 type ShopLineRequest struct {
@@ -125,7 +126,7 @@ type ShopLineResponse struct {
 	// API response resource, the return type of the request when call APIs specify
 	Data interface{}
 
-	// Pagination, see detail：
+	// Pagination, for more details, see：
 	// 中文: https://developer.shopline.com/zh-hans-cn/docs/apps/api-instructions-for-use/paging-mechanism?version=v20251201
 	// en: https://developer.shopline.com/docs/apps/api-instructions-for-use/paging-mechanism?version=v20251201
 	Link string
@@ -383,7 +384,7 @@ func (c *Client) executeHttpRequest(request *ShopLineRequest, httpReq *http.Requ
 }
 
 func (c *Client) NewHttpRequest(ctx context.Context, method HTTPMethod, path string, request *ShopLineRequest) (*http.Request, error) {
-	// build request URL
+	// Build request URL
 	// eg：requestURL := fmt.Sprintf("https://%s.myshopline.com/admin/openapi/%s/products/%s.json", shopHandle, ApiVersion, productId)
 	requestURL, err := c.buildRequestUrl(method, path, request)
 	if err != nil {
@@ -397,7 +398,7 @@ func (c *Client) NewHttpRequest(ctx context.Context, method HTTPMethod, path str
 		return nil, err
 	}
 
-	// create HTTP request
+	// Create HTTP request
 	httpReq, err := http.NewRequest(string(method), requestURL, bytes.NewBuffer(requestBodyJsonData))
 	if err != nil {
 		log.Printf("Failed to create request: %v\n", err)
@@ -597,17 +598,6 @@ func resolveLinkHeader(header http.Header) string {
 		return header.Get("Link")
 	}
 	return ""
-}
-
-// ResponseDecodingError occurs when the http response body from shopline not be parsed.
-type ResponseDecodingError struct {
-	Body    []byte
-	Message string
-	Status  int
-}
-
-func (e ResponseDecodingError) Error() string {
-	return e.Message
 }
 
 func (c *Client) logDetailIfNecessary(method string, apiURL string, req *ShopLineRequest, resp *ShopLineResponse) {

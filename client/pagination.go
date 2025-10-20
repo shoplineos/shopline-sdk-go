@@ -8,6 +8,9 @@ import (
 )
 
 // Pagination of results
+// For more details, see：
+// 中文: https://developer.shopline.com/zh-hans-cn/docs/apps/api-instructions-for-use/paging-mechanism?version=v20251201
+// en: https://developer.shopline.com/docs/apps/api-instructions-for-use/paging-mechanism?version=v20251201
 type Pagination struct {
 	Next     *ListOptions
 	Previous *ListOptions

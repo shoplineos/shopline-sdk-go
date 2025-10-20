@@ -19,6 +19,17 @@ type ResponseError struct {
 	Errors  []string
 }
 
+// ResponseDecodingError occurs when the http response body from shopline not be parsed.
+type ResponseDecodingError struct {
+	Body    []byte
+	Message string
+	Status  int
+}
+
+func (e ResponseDecodingError) Error() string {
+	return e.Message
+}
+
 type RateLimitError struct {
 	ResponseError
 	RetryAfter int

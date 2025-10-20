@@ -76,7 +76,7 @@ func GenerateSignForGet(appSecret string, params url.Values) string {
 	return expectedSign
 }
 
-// VerifyWebhookRequest Verify a Webhook http request, sent by shopline.
+// VerifyWebhookRequest Verify a Webhook http request, sent by SHOPLINE.
 // The body of the request is still readable after invoking the method.
 // 中文: https://developer.shopline.com/zh-hans-cn/docs/apps/api-instructions-for-use/webhooks/overview?version=v20260301#%E8%AF%B7%E6%B1%82header
 // en: https://developer.shopline.com/docs/apps/api-instructions-for-use/webhooks/overview?version=v20260301#%E8%AF%B7%E6%B1%82header
@@ -102,7 +102,7 @@ func VerifyWebhookMessage(appSecret, message, messageMAC string) bool {
 	mac.Write([]byte(message))
 	expectedMAC := mac.Sum(nil)
 
-	// shopline HMAC is in hex so it needs to be decoded
+	// SHOPLINE HMAC is in hex so it needs to be decoded
 	actualMac, _ := hex.DecodeString(messageMAC)
 
 	return hmac.Equal(actualMac, expectedMAC)
