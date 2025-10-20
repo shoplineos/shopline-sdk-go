@@ -1,3 +1,4 @@
+// Package manager for server-side
 package manager
 
 import (

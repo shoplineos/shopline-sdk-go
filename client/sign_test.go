@@ -1,4 +1,4 @@
-package signature
+package client
 
 import (
 	"encoding/json"
@@ -30,12 +30,12 @@ import (
 //	return client
 //}
 
-const (
-	AppKeyForTest      = "LDLLJJLflja2039203flaflaLLFLE"
-	AppSecretForTest   = "LDLLJJLflja2039203flaflaLLFLE"
-	StoreHandelForTest = "zwapptest"
-	LangForTest        = "zh"
-)
+//const (
+//	AppKeyForTest      = "LDLLJJLflja2039203flaflaLLFLE"
+//	AppSecretForTest   = "LDLLJJLflja2039203flaflaLLFLE"
+//	StoreHandelForTest = "zwapptest"
+//	LangForTest        = "zh"
+//)
 
 // no body
 func TestGenerateSign1(t *testing.T) {

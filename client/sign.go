@@ -1,4 +1,4 @@
-package signature
+package client
 
 import (
 	"bytes"

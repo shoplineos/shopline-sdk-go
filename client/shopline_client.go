@@ -6,9 +6,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"github.com/shoplineos/shopline-sdk-go/common"
 	"github.com/shoplineos/shopline-sdk-go/config"
-	"github.com/shoplineos/shopline-sdk-go/signature"
 	"io"
 	"log"
 	"net/http"
@@ -195,7 +193,7 @@ func MustNewClientWithAwares(app App, storeHandle, token string, awares []Aware,
 }
 
 func NewClientWithAwares(app App, storeHandle, token string, awares []Aware, opts ...Option) (*Client, error) {
-	baseURL, err := url.Parse(common.GetStoreBaseUrl(storeHandle))
+	baseURL, err := url.Parse(GetStoreBaseUrl(storeHandle))
 	if err != nil {
 		return nil, err
 	}
@@ -437,7 +435,7 @@ func (c *Client) setHeaders(appKey string, appSecret string, httpReq *http.Reque
 		httpReq.Header.Set("Authorization", "Bearer "+c.Token)
 	}
 
-	timestamp := common.BuildTimestamp()
+	timestamp := BuildTimestamp()
 	httpReq.Header.Set("timestamp", timestamp)
 
 	request := wrapper.shopLineRequest
@@ -484,7 +482,7 @@ func generateSign(appKey, appSecret, timestamp string, requestBodyJsonBytes []by
 		return "", err
 	}
 
-	sign := signature.GenerateSign(appKey, bodyJsonString, timestamp, appSecret)
+	sign := GenerateSign(appKey, bodyJsonString, timestamp, appSecret)
 	return sign, nil
 }
 

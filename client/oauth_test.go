@@ -140,7 +140,7 @@ func TestAuthorizeUrl(t *testing.T) {
 
 }
 
-func TestVerifySign(t *testing.T) {
+func TestAppVerifySign(t *testing.T) {
 
 	localApp := App{
 		AppKey:    AppKeyForTest,

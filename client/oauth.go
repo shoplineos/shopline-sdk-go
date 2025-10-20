@@ -3,7 +3,6 @@ package client
 import (
 	"context"
 	"fmt"
-	"github.com/shoplineos/shopline-sdk-go/signature"
 	"net/http"
 	"net/url"
 )
@@ -21,7 +20,7 @@ func (app App) AuthorizeUrl(storeHandle string, scope string) (string, error) {
 }
 
 func (app App) VerifySign(params url.Values, receivedSign string) bool {
-	isSignValid := signature.VerifySign(app.AppSecret, params, receivedSign)
+	isSignValid := VerifySign(app.AppSecret, params, receivedSign)
 	return isSignValid
 }
 
@@ -29,7 +28,7 @@ func (app App) VerifySign(params url.Values, receivedSign string) bool {
 // 中文: https://developer.shopline.com/zh-hans-cn/docs/apps/api-instructions-for-use/webhooks/overview?version=v20260301#%E8%AF%B7%E6%B1%82header
 // en: https://developer.shopline.com/docs/apps/api-instructions-for-use/webhooks/overview?version=v20260301#%E8%AF%B7%E6%B1%82header
 func (app App) VerifyWebhookMessage(message, messageMAC string) bool {
-	return signature.VerifyWebhookMessage(app.AppSecret, message, messageMAC)
+	return VerifyWebhookMessage(app.AppSecret, message, messageMAC)
 }
 
 // VerifyWebhookRequest Verify a Webhook http request, sent by shopline.
@@ -37,7 +36,7 @@ func (app App) VerifyWebhookMessage(message, messageMAC string) bool {
 // 中文: https://developer.shopline.com/zh-hans-cn/docs/apps/api-instructions-for-use/webhooks/overview?version=v20260301#%E8%AF%B7%E6%B1%82header
 // en: https://developer.shopline.com/docs/apps/api-instructions-for-use/webhooks/overview?version=v20260301#%E8%AF%B7%E6%B1%82header
 func (app App) VerifyWebhookRequest(r *http.Request) bool {
-	return signature.VerifyWebhookRequest(app.AppSecret, r)
+	return VerifyWebhookRequest(app.AppSecret, r)
 }
 
 func (app App) resolveScope(scope string) string {
