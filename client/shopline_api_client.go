@@ -221,7 +221,7 @@ func NewClientWithAwares(app App, storeHandle, token string, awares []Aware, opt
 }
 
 // Call an API
-// resource : An API response resource, to specify the return type of the request, you can specify your own resource or an APIResponse
+// resource : An API response resource, to specify the return type of the request, an APIResponse or your own resource
 func (c *Client) Call(ctx context.Context, req APIRequest, resource interface{}) error {
 	if req == nil {
 		return errors.New("request is required")
