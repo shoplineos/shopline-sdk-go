@@ -89,7 +89,9 @@ func VerifyWebhookRequest(appSecret string, r *http.Request) bool {
 	r.Body = io.NopCloser(bytes.NewBuffer(requestBody))
 	mac.Write(requestBody)
 	macSum := mac.Sum(nil)
-	expectedMac := []byte(hex.EncodeToString(macSum))
+
+	s := hex.EncodeToString(macSum)
+	expectedMac := []byte(s)
 
 	return hmac.Equal(actualMac, expectedMac)
 }

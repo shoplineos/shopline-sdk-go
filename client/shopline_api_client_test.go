@@ -22,11 +22,11 @@ var (
 
 func setup() {
 	app = App{
-		AppKey:    config.DefaultAppKey,
-		AppSecret: config.DefaultAppSecret,
+		AppKey:    AppKeyForTest,
+		AppSecret: AppSecretForTest,
 	}
 
-	client = MustNewClient(app, config.DefaultStoreHandle, config.DefaultAccessToken)
+	client = MustNewClient(app, StoreHandelForTest, config.AccessTokenForUnitTest)
 	if client == nil {
 		panic("client is nil")
 	}
@@ -351,7 +351,7 @@ func TestVerifyWebhookRequest(t *testing.T) {
 		message  string
 		expected bool
 	}{
-		{"1487c504fdb834b0ec315fc038e6f16ed0b51d5e7eb3f1d3aca862139673788b", "my secret message", true},
+		{"7d8b4cbec432e0c7e901881cc0f2490a910d56eaa73fc94bcc4276d14a61fe88", "my secret message", true},
 		{"a2344333", "my secret message", false},
 		{"432r2238480", "", false},
 		{"HFHFHKJFKFKLL1122=", "", false},
