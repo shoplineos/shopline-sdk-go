@@ -269,8 +269,8 @@ apiResp, err := product.GetProductService().Create(context.Background(), apiReq)
 ### <span id="en-use-your-own-model">Using your own data model</span>
 
 Not all API endpoints are implemented, so feel free to add them yourself and submit a Pull Request. Alternatively, you can create your own struct for the data and use the client to call APIs.
-1. Your request structs to implement the **client.APIRequest** interface
-2. Your response structs to implement the **client.APIResponse** interface
+* Your request structs must implement the **client.APIRequest** interface
+* Your response structs must implement the **client.APIResponse** interface
 
 #### Implement a GET request
 For example, if you want to retrieve a product count, there is a helper function called Get that is specifically designed for such retrievals:
@@ -453,7 +453,7 @@ type DeleteWebhookAPIResp struct {
 
 ### Implementing your own service interface(Optional)
 
-Step1: Define a service interface
+Step 1: Define a service interface
 
 Refer to product_service.go or order_service.go for examples.
   ```
@@ -463,7 +463,7 @@ Refer to product_service.go or order_service.go for examples.
         ...
     }
   ```
-Step2: Define a service struct and implement the service interface
+Step 2: Define a service struct and implement the service interface
   ```
     type OrderService struct {
       client.BaseService
@@ -479,7 +479,7 @@ Step2: Define a service struct and implement the service interface
 
   ```
 
-Step3: Create a service instance
+Step 3: Create a service instance
   ```
     var serviceInst = &OrderService{}
     func GetOrderService() *OrderService {
@@ -487,7 +487,7 @@ Step3: Create a service instance
     }
   ```
   
-Step4: Register the service
+Step 4: Register the service
   * Method 1: Use client.WithClientAware to register.
     ```
     cli = support.MustNewClient(app, cfg.DefaultStoreHandle, cfg.DefaultAccessToken, client.WithClientAware(order.GetOrderService()))
@@ -564,8 +564,8 @@ Windows: C:\Windows\System32\drivers\etc\hosts
 2. Click on the name of the app you want to test.
 3. Click on **App settings** under **Basic settings**.
 4. Set the **App URL** and **App callback** URL to:
-      ○ App URL: http://appdemo.myshopline.com/install
-      ○ App callback URL: http://appdemo.myshopline.com/auth/callback
+   * App URL: http://appdemo.myshopline.com/install
+   * App callback URL: http://appdemo.myshopline.com/auth/callback
 5. Choose **Redirect** as the app loading mode because the **Embedded** mode must use the HTTPS protocol.
 
 
@@ -574,7 +574,7 @@ Windows: C:\Windows\System32\drivers\etc\hosts
 1. Locate [Apps](https://developer.myshopline.com/app/list)  in the [Partner Portal](https://developer.myshopline.com/) 
 2. Click on the name of the app you want to test.
 3. Click on **Test App**.
-4. Click on **Install App**. At this point, the system will request the app URL set in step four, the browser will automatically redirect to the platform authentication page, and finally, it will callback to the app callback URL you set.
+4. Click on **Install App**. At this point, the system will request the app URL set in step four, the browser will automatically redirect to the system authentication page, and finally, it will callback to the app callback URL you set.
 5. Upon successful operation, **Auth callback received ... code: xxx**  will be printed. The code will be used later to exchange for an access token.
 
 For more details, refer to [Receive the authorization code](https://developer.shopline.com/docs/apps/api-instructions-for-use/app-authorization?version=v20260301#step3) </br>
@@ -611,7 +611,7 @@ For more details, see: [Create a product](https://developer.shopline.com/docs/ad
 
 #### Step 8: App refresh access token
 
-Access tokens expire periodically, so it is necessary to refresh them regularly to maintain access. Executing the TestRefreshAccessToken function in oauth_test.go will request the platform to refresh the access token. Upon success, the result will be printed to the console.<br>
+Access tokens expire periodically, so it is necessary to refresh them regularly to maintain access. Executing the TestRefreshAccessToken function in oauth_test.go will request the SHOPLINE's system to refresh the access token. Upon success, the result will be printed to the console.<br>
 For more details, see: [App refresh access token](https://developer.shopline.com/docs/apps/api-instructions-for-use/app-authorization?version=v20260301#step6)
 
 ```
@@ -892,8 +892,8 @@ apiResp, err := product.GetProductService().Create(context.Background(), apiReq)
 ### <span id="zh-use-your-own-model">使用你自己的数据模型</span>
 
 目前为止不是所有的 API 都已经实现，你可以发起1个 Pull Request，或者自己实现数据模型对象。
-1. 请求结构体实现 client.APIRequest 接口
-2. 响应结构体实现 client.APIResponse 接口
+* 请求结构体实现 client.APIRequest 接口
+* 响应结构体实现 client.APIResponse 接口
 
 #### 实现1个 GET 请求
 下面这个例子是获取商品数量:
@@ -1181,7 +1181,7 @@ Windows路径: C:\Windows\System32\drivers\etc\hosts
 2. 点击需要测试的应用名称。
 3. 点击 **基础设置** 下的 **应用设置**。
 4. 设置 **应用地址** 和 **应用回调地址** 分别为 http://appdemo.myshopline.com/install 和  http://appdemo.myshopline.com/auth/callback。
-5. **应用打开方式** 选择 外跳，因为 **内嵌** 模式必须是 HTTPS 协议。
+5. **应用打开方式** 选择 **外跳**，因为 **内嵌** 模式必须是 HTTPS 协议。
 
 #### 步骤五：应用接收授权码
 
@@ -1190,6 +1190,8 @@ Windows路径: C:\Windows\System32\drivers\etc\hosts
 3. 点击 **应用测试**。
 4. 点击 **安装应用**。此时，平台会请求步骤四设置的应用地址，浏览器自动跳转平台认证页面，最终回调至你设置的应用回调地址。
 5. 操作成功后会打印 Auth callback received ... code: xxx，其中 code 后续会用来交换 access token。
+   
+   
    更多详情可参考 App 收到授权码。
    代码示例见 server/main.go，函数 CallbackHandler。
 
@@ -1207,7 +1209,7 @@ code := "code"
 app := manager.GetApp(appKey)
 token, err := app.CreateAccessToken(context.Background(), code)
 
-// 可以将 token 保存到 数据库 或者 缓存
+// 可以将 token 保存到数据库或者缓存
 
 ```
 
