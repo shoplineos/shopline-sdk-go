@@ -269,8 +269,8 @@ apiResp, err := product.GetProductService().Create(context.Background(), apiReq)
 ### <span id="en-use-your-own-model">Using your own data model</span>
 
 Not all API endpoints are implemented, so feel free to add them yourself and submit a Pull Request. Alternatively, you can create your own struct for the data and use the client to call APIs.
-* Your request structs must implement the **client.APIRequest** interface
-* Your response structs must implement the **client.APIResponse** interface
+* Your request structs must implement the **client.APIRequest** interface.
+* Your response structs must implement the **client.APIResponse** interface.
 
 #### Implement a GET request
 For example, if you want to retrieve a product count, there is a helper function called Get that is specifically designed for such retrievals:
@@ -1192,7 +1192,7 @@ Windows路径: C:\Windows\System32\drivers\etc\hosts
 5. 操作成功后会打印 Auth callback received ... code: xxx，其中 code 后续会用来交换 access token。
    
    
-   更多详情可参考 App 收到授权码。
+   更多详情可参考 [App 收到授权码](https://developer.shopline.com/zh-hans-cn/docs/apps/api-instructions-for-use/app-authorization?version=v20260301#%E7%AC%AC%E4%BA%94%E6%AD%A5app-%E6%94%B6%E5%88%B0%E6%8E%88%E6%9D%83%E7%A0%81)。
    代码示例见 server/main.go，函数 CallbackHandler。
 
 
