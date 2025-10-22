@@ -310,8 +310,8 @@ func verifyTimestamp(t *testing.T, req *http.Request) {
 func verifyUserAgent(t *testing.T, req *http.Request) {
 	// Test user-agent is attached to the request
 	userAgent := req.Header.Get("User-Agent")
-	if userAgent != config.UserAgent {
-		t.Errorf("NewHttpRequest() User-Agent = %v, expected %v", userAgent, config.UserAgent)
+	if userAgent != UserAgent {
+		t.Errorf("NewHttpRequest() User-Agent = %v, expected %v", userAgent, UserAgent)
 	}
 }
 

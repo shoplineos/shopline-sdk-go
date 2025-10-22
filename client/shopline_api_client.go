@@ -6,7 +6,6 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"github.com/shoplineos/shopline-sdk-go/config"
 	"io"
 	"log"
 	"net/http"
@@ -39,7 +38,7 @@ type Client struct {
 	// URL Prefix, defaults to "admin/openapi"
 	PathPrefix string
 
-	// API version you're currently using of the api, defaults to "config.DefaultAPIVersion"
+	// API version you're currently using of the api
 	ApiVersion string
 
 	// Enable signature calculation, default is false
@@ -164,8 +163,9 @@ type TokenResponse struct {
 const (
 	// TimeoutInMillisecond default timeout time in millisecond
 	TimeoutInMillisecond = 10 * 1000 * time.Millisecond
-	defaultApiPathPrefix = config.DefaultApiPathPrefix
-	defaultApiVersion    = config.DefaultAPIVersion
+	defaultApiPathPrefix = "admin/openapi"
+	defaultApiVersion    = "v20251201"
+	UserAgent            = "shopline-sdk-go/0.0.10"
 )
 
 func MustNewClient(app App, storeHandle, token string, opts ...Option) *Client {
@@ -428,7 +428,7 @@ func (c *Client) setHeaders(appKey string, appSecret string, httpReq *http.Reque
 	httpReq.Header.Set("Content-Type", "application/json")
 	httpReq.Header.Set("Accept", "application/json")
 	httpReq.Header.Set("appkey", appKey)
-	httpReq.Header.Set("User-Agent", config.UserAgent)
+	httpReq.Header.Set("User-Agent", UserAgent)
 
 	// Create access Token & refresh access Token is not required
 	if c.Token != "" {
@@ -459,20 +459,12 @@ func (c *Client) setHeaders(appKey string, appSecret string, httpReq *http.Reque
 	return nil
 }
 
-// First get the App.AppKey in the request, if not exists then get the DefaultAppKey in app_constants.go
 func resolveAppKey(app App) string {
-	if len(app.AppKey) > 0 {
-		return app.AppKey
-	}
-	return config.DefaultAppKey
+	return app.AppKey
 }
 
-// First get the App.AppSecret in the request, if not exists then get the DefaultAppSecret in app_constants.go
 func resolveAppSecret(app App) string {
-	if len(app.AppSecret) > 0 {
-		return app.AppSecret
-	}
-	return config.DefaultAppSecret
+	return app.AppSecret
 }
 
 // Generate sign string

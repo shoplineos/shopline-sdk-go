@@ -5,11 +5,8 @@ const (
 	// DefaultRedirectUrl TODO replace real data
 	DefaultRedirectUrl = "http://appdemo.myshopline.com/auth/callback" // DefaultRedirectUrl, replace real DefaultRedirectUrl
 
-)
-
-const (
-	DefaultAppKey    = ""                                                      // DefaultAppKey, replace real AppKey
-	DefaultAppSecret = ""                                                      // DefaultAppSecret, replace real AppSecret
+	DefaultAppKey    = "test appkey"                                           // DefaultAppKey, replace real AppKey
+	DefaultAppSecret = "test appsecret"                                        // DefaultAppSecret, replace real AppSecret
 	DefaultAppScope  = "read_products,write_products,read_orders,write_orders" // DefaultAppScope, replace real AppScope
 
 	// DefaultAPIVersion see
@@ -20,10 +17,7 @@ const (
 	DefaultStoreHandle = "zwapptest" // replace real store handle
 
 	// DefaultAccessToken for test
-	DefaultAccessToken = ""
+	DefaultAccessToken = "test-access-token"
 
-	DefaultApiPathPrefix = "admin/openapi"
-)
-const (
-	UserAgent = "shopline-sdk-go/0.0.10"
+	//DefaultApiPathPrefix = "admin/openapi"
 )
