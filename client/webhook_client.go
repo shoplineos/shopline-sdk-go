@@ -11,9 +11,14 @@ import (
 	"net/http"
 )
 
+// IWebhookEvent
+// For more details, see:
+// 中文: https://developer.shopline.com/zh-hans-cn/docs/webhook/product/create-product?version=v20251201
+// En: https://developer.shopline.com/docs/webhook/product/create-product?version=v20251201
 type IWebhookEvent interface {
 	GetHeader() *WebhookEventHeader
 	SetHeader(*WebhookEventHeader)
+	GetSupportedTopic() string
 }
 
 type WebhookEventHeader struct {
@@ -125,13 +130,3 @@ func verifyHeader(r *http.Request) (*WebhookEventHeader, error) {
 
 	return weh, nil
 }
-
-//
-//func setCommonData(r *http.Request, we WebhookEvent) {
-//	we.ShopDomain = r.Header.Get("X-Shopline-Shop-Domain")
-//	we.MerchantId = r.Header.Get("X-Shopline-Merchant-Id")
-//	we.APIVersion = r.Header.Get("X-Shopline-Api-Version")
-//	we.WebhookId = r.Header.Get("X-Shopline-Webhook-Id")
-//	we.Topic = r.Header.Get("X-Shopline-Topic")
-//	we.ShopId = r.Header.Get("X-Shopline-Shop-Id")
-//}

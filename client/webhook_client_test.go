@@ -12,6 +12,10 @@ type ProductCreatedEvent struct {
 	BodyHtml string `json:"body_html,omitempty"`
 }
 
+func (p ProductCreatedEvent) GetSupportedTopic() string {
+	return "products/create"
+}
+
 func TestVerifyAndDecode(t *testing.T) {
 
 	setup()
