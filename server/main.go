@@ -3,7 +3,6 @@ package main
 import (
 	"context"
 	"github.com/shoplineos/shopline-sdk-go/client"
-	"github.com/shoplineos/shopline-sdk-go/manager"
 	"log"
 	"net/http"
 )
@@ -29,7 +28,7 @@ func main() {
 // WebhookHandler Verify a Webhook http request, sent by SHOPLine.
 // The body of the request is still readable after invoking the method.
 func WebhookHandler(w http.ResponseWriter, r *http.Request) {
-	app := manager.GetDefaultApp()
+	app := GetDefaultApp()
 	app.VerifyWebhookRequest(r)
 	// do something
 }
@@ -66,7 +65,7 @@ func InstallHandler(w http.ResponseWriter, r *http.Request) {
 	//}
 
 	// 5. Verify the Sign
-	app := manager.GetApp(appkey)
+	app := GetApp(appkey)
 	isSignValid := app.VerifySign(r.URL.Query(), sign)
 	if !isSignValid {
 		log.Printf("sign verification failed, appkey: %s, sign: %s\n", appkey, sign)
@@ -108,7 +107,7 @@ func CallbackHandler(w http.ResponseWriter, r *http.Request) {
 	timestampStr := r.URL.Query().Get("timestamp")
 	sign := r.URL.Query().Get("sign")
 
-	app := manager.GetApp(appkey)
+	app := GetApp(appkey)
 	isSignValid := app.VerifySign(r.URL.Query(), sign)
 	if isSignValid {
 		log.Println("sign verified successfully")
@@ -131,7 +130,7 @@ func CallbackHandler(w http.ResponseWriter, r *http.Request) {
 	log.Printf("Access Token created: %v\n", token)
 
 	accessToken := token.Data.AccessToken
-	cli := manager.GetClient(appkey, handle)
+	cli := GetClient(appkey, handle)
 	if cli != nil {
 		// reset token
 		cli.Token = accessToken
@@ -142,7 +141,7 @@ func CallbackHandler(w http.ResponseWriter, r *http.Request) {
 			log.Printf("new client error, appkey: %s, err: %v\n", appkey, err)
 		}
 		// todo to register client
-		manager.Register(cli)
+		Register(cli)
 	}
 
 }

@@ -1,5 +1,5 @@
 // Package manager for server-side
-package manager
+package main
 
 import (
 	"fmt"
