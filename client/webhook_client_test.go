@@ -51,9 +51,9 @@ func TestVerifyAndDecode(t *testing.T) {
 	webhookClient := NewWebhookClient(app)
 
 	e := &ProductCreatedEvent{}
-	err = webhookClient.VerifyAndDecode(req, e)
+	err = webhookClient.Decode(req, e)
 	if err != nil {
-		t.Fatalf("VerifyAndDecode(%v) err = %v, expected nil", inURL, err)
+		t.Fatalf("Decode(%v) err = %v, expected nil", inURL, err)
 	}
 
 	assert.Equal(t, "32398389389389", e.Id)

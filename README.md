@@ -516,7 +516,15 @@ For example:
 // see server/main.go
 func WebhookHandler(w http.ResponseWriter, r *http.Request) {
     app := manager.GetDefaultApp()
-    app.VerifyWebhookRequest(r)
+    
+    // Create or get the WebhookClient for the corresponding app. It is best to cache the WebhookClient.
+    webhookClient := client.NewWebhookClient(app)
+    webhookClient.VerifyWebhookRequest(r)
+    
+    // The Decode function contains webhook validation logic
+    // event := &OrderCreatedEvent{} // Create a WebhookEvent to parse
+    // err := webhookClient.Decode(r, event) // Parse the webhook event data from the request
+
     // do something
 }
 
@@ -1134,8 +1142,17 @@ type DeleteWebhookAPIResp struct {
 ```
 // 详细见：server/main.go
 func WebhookHandler(w http.ResponseWriter, r *http.Request) {
+    // 获取一个 app 实例
     app := manager.GetDefaultApp()
-    app.VerifyWebhookRequest(r)
+    
+    // 创建或者获取对应 app 的WebhookClient，最好是将 WebhookClient 缓存起来
+    webhookClient := client.NewWebhookClient(app)
+    webhookClient.VerifyWebhookRequest(r) // 验证 webhook
+    
+    // Decode 函数包含了验证 webhook 逻辑
+    // event := &OrderCreatedEvent{} // 创建1个需要解析的 WebhookEvent
+    // err := webhookClient.Decode(r, event) // 从请求中解析 webhook event 数据
+    
     // 处理业务
 }
 ```

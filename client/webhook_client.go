@@ -52,11 +52,20 @@ func NewWebhookClient(app App) *WebhookClient {
 	}
 }
 
-// VerifyAndDecode Verify a Webhook http request, sent by SHOPLINE.
+// VerifyWebhookRequest Verify a Webhook http request, sent by SHOPLINE.
+// The body of the request is still readable after invoking the method.
+// 中文: https://developer.shopline.com/zh-hans-cn/docs/apps/api-instructions-for-use/webhooks/overview?version=v20260301#%E8%AF%B7%E6%B1%82header
+// En: https://developer.shopline.com/docs/apps/api-instructions-for-use/webhooks/overview?version=v20260301#%E8%AF%B7%E6%B1%82header
+
+func (client *WebhookClient) VerifyWebhookRequest(r *http.Request) bool {
+	return client.App.VerifyWebhookRequest(r)
+}
+
+// Decode a Webhook http request, sent by SHOPLINE.
 // event To specify the return event resource, an WebhookEvent or your own event resource
 // 中文: https://developer.shopline.com/zh-hans-cn/docs/apps/api-instructions-for-use/webhooks/overview?version=v20260301#%E8%AF%B7%E6%B1%82header
-// en: https://developer.shopline.com/docs/apps/api-instructions-for-use/webhooks/overview?version=v20260301#%E8%AF%B7%E6%B1%82header
-func (client *WebhookClient) VerifyAndDecode(r *http.Request, event interface{}) error {
+// En: https://developer.shopline.com/docs/apps/api-instructions-for-use/webhooks/overview?version=v20260301#%E8%AF%B7%E6%B1%82header
+func (client *WebhookClient) Decode(r *http.Request, event interface{}) error {
 	if event == nil {
 		return errors.New("event is required")
 	}

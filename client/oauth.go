@@ -31,7 +31,7 @@ func (app App) VerifyWebhookMessage(message, messageMAC string) bool {
 	return VerifyWebhookMessage(app.AppSecret, message, messageMAC)
 }
 
-// VerifyWebhookRequest Verify a Webhook http request, sent by shopline.
+// VerifyWebhookRequest Verify a Webhook http request, sent by SHOPLINE.
 // The body of the request is still readable after invoking the method.
 // 中文: https://developer.shopline.com/zh-hans-cn/docs/apps/api-instructions-for-use/webhooks/overview?version=v20260301#%E8%AF%B7%E6%B1%82header
 // en: https://developer.shopline.com/docs/apps/api-instructions-for-use/webhooks/overview?version=v20260301#%E8%AF%B7%E6%B1%82header
