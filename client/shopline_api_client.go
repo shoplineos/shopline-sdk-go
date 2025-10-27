@@ -164,8 +164,6 @@ const (
 	// TimeoutInMillisecond default timeout time in millisecond
 	TimeoutInMillisecond = 10 * 1000 * time.Millisecond
 	defaultApiPathPrefix = "admin/openapi"
-	defaultApiVersion    = "v20251201"
-	UserAgent            = "shopline-sdk-go/0.0.10"
 )
 
 func MustNewClient(app App, storeHandle, token string, opts ...Option) *Client {
@@ -206,7 +204,7 @@ func NewClientWithAwares(app App, storeHandle, token string, awares []Aware, opt
 		StoreHandle: storeHandle,
 		baseURL:     baseURL,
 		Token:       token,
-		ApiVersion:  defaultApiVersion,
+		ApiVersion:  DefaultApiVersion,
 		PathPrefix:  defaultApiPathPrefix,
 	}
 
@@ -428,7 +426,7 @@ func (c *Client) setHeaders(appKey string, appSecret string, httpReq *http.Reque
 	httpReq.Header.Set("Content-Type", "application/json")
 	httpReq.Header.Set("Accept", "application/json")
 	httpReq.Header.Set("appkey", appKey)
-	httpReq.Header.Set("User-Agent", UserAgent)
+	httpReq.Header.Set("User-Agent", DefaultUserAgent)
 
 	// Create access Token & refresh access Token is not required
 	if c.Token != "" {

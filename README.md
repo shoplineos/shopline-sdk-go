@@ -522,7 +522,7 @@ func WebhookHandler(w http.ResponseWriter, r *http.Request) {
     webhookClient.VerifyWebhookRequest(r)
     
     // The Decode function contains webhook validation logic
-    // event := &OrderCreatedEvent{} // Create a WebhookEvent to parse
+    // event := &OrderCreatedEvent{} // Create a WebhookEvent to parse, you can specify your own model
     // err := webhookClient.Decode(r, event) // Parse the webhook event data from the request
 
     // do something
