@@ -401,6 +401,8 @@ func (c *Client) NewHttpRequest(ctx context.Context, method HTTPMethod, path str
 		return nil, err
 	}
 
+	httpReq = httpReq.WithContext(ctx)
+
 	shopLineRequestWrapper := &shopLineRequestWrapper{
 		shopLineRequest:      request,
 		requestBodyJsonBytes: requestBodyJsonData,
