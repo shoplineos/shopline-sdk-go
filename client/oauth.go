@@ -7,6 +7,19 @@ import (
 	"net/url"
 )
 
+// TokenResponse access Token struct
+type TokenResponse struct {
+	Code     int    `json:"code"`
+	I18nCode string `json:"i18nCode"`
+	Message  string `json:"message"`
+	Data     struct {
+		AccessToken string `json:"accessToken"`
+		ExpiresTime string `json:"expireTime"`
+		Scope       string `json:"scope"`
+		//RefreshToken string `json:"refresh_token"`
+	} `json:"data"`
+}
+
 // AuthorizeUrl
 // 中文: https://developer.shopline.com/zh-hans-cn/docs/apps/api-instructions-for-use/app-authorization/?lang=zh-hans-cn#%E7%AC%AC%E4%B8%89%E6%AD%A5app-%E8%AF%B7%E6%B1%82%E6%8E%88%E6%9D%83%E7%A0%81
 // en: https://developer.shopline.com/docs/apps/api-instructions-for-use/app-authorization/#step2

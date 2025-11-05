@@ -14,6 +14,13 @@ import (
 type GetResources[T any] func(resp interface{}) []T
 
 // ListAll List all resources
+// getResources example:
+//
+//	func getResources(resp interface{}) []Orde
+//	func getResources(resp interface{}) []Order {
+//		apiResp := resp.(*ListOrdersAPIResp)
+//		return apiResp.Orders
+//	}
 func ListAll[T any](cli *Client, ctx context.Context, req APIRequest, resp interface{}, getResources GetResources[T]) ([]T, error) {
 	collector := []T{}
 	// 1. API request

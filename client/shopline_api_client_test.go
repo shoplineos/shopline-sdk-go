@@ -5,7 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/shoplineos/shopline-sdk-go/config"
-	"github.com/shoplineos/shopline-sdk-go/test"
+	"github.com/shoplineos/shopline-sdk-go/rest/test"
 	"io"
 	"log"
 	"net/http"
@@ -160,13 +160,13 @@ type CreateProductAPIRespStruct struct {
 	Product ProductStruct `json:"product"`
 }
 
-func TestCall(t *testing.T) {
+func TestClientCall(t *testing.T) {
 	setup()
 	defer teardown()
 
 	// test create product
 	httpmock.RegisterResponder("POST", fmt.Sprintf("https://%s.myshopline.com/%s/%s/products/products.json", client.StoreHandle, client.PathPrefix, client.ApiVersion),
-		httpmock.NewBytesResponder(200, test.LoadTestDataV2("../test/", "product/product.json")))
+		httpmock.NewBytesResponder(200, test.LoadTestDataV2("../rest/test/", "product/product.json")))
 
 	// 1. build request
 	product := ProductStruct{
@@ -195,7 +195,7 @@ func TestExecuteInternal(t *testing.T) {
 
 	// test create product
 	httpmock.RegisterResponder("POST", fmt.Sprintf("https://%s.myshopline.com/%s/%s/products/products.json", client.StoreHandle, client.PathPrefix, client.ApiVersion),
-		httpmock.NewBytesResponder(200, test.LoadTestDataV2("../test/", "product/product.json")))
+		httpmock.NewBytesResponder(200, test.LoadTestDataV2("../rest/test/", "product/product.json")))
 
 	// 1. build request
 	product := ProductStruct{

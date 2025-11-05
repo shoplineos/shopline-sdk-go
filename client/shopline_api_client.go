@@ -78,10 +78,10 @@ type RequestOptions struct {
 // 中文: https://developer.shopline.com/zh-hans-cn/docs/apps/api-instructions-for-use/paging-mechanism?version=v20251201
 // en: https://developer.shopline.com/docs/apps/api-instructions-for-use/paging-mechanism?version=v20251201
 type ShopLineRequest struct {
-	Headers map[string]string // http header
-	Query   interface{}       // your own struct or an APIRequest, for http url query params
-	Data    interface{}       // your own struct or an APIRequest, for http body params
-	Options *RequestOptions   // option params
+	Headers map[string]string // Http header
+	Query   interface{}       // Your own struct or an APIRequest, for http url query params
+	Data    interface{}       // Your own struct or an APIRequest, for http body params
+	Options *RequestOptions   // Option parameters
 }
 
 func (r *ShopLineRequest) isSignEnabled() bool {
@@ -145,19 +145,6 @@ func (resp *ShopLineResponse) IsSuccess() bool {
 type shopLineRequestWrapper struct {
 	shopLineRequest      *ShopLineRequest
 	requestBodyJsonBytes []byte // nil able
-}
-
-// TokenResponse access Token struct
-type TokenResponse struct {
-	Code     int    `json:"code"`
-	I18nCode string `json:"i18nCode"`
-	Message  string `json:"message"`
-	Data     struct {
-		AccessToken string `json:"accessToken"`
-		ExpiresTime string `json:"expireTime"`
-		Scope       string `json:"scope"`
-		//RefreshToken string `json:"refresh_token"`
-	} `json:"data"`
 }
 
 const (
