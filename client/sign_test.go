@@ -38,6 +38,8 @@ import (
 //)
 
 // no body
+// scene: refresh access token
+// https://developer.shopline.com/zh-hans-cn/docs/apps/api-instructions-for-use/generate-and-verify-signatures?version=v20260301#post-%E8%AF%B7%E6%B1%82%E6%93%8D%E4%BD%9C%E6%AD%A5%E9%AA%A4
 func TestGenerateSign1(t *testing.T) {
 
 	appKey := AppKeyForTest
@@ -47,20 +49,16 @@ func TestGenerateSign1(t *testing.T) {
 	timestampInt := "21c335b3a"
 
 	//fmt.Printf("timestampInt: %s\n", timestampInt)
-
 	sign := GenerateSign(appKey, string(jsonBody), timestampInt, AppSecretForTest)
-
 	a := assert.New(t)
-
 	fmt.Printf("sign: %s\n", sign)
-
 	a.Equal("cf5edab6b92d740fe54b3ce9e2723788128384a1eb5c2a5d64c9210a31185b86", sign)
-
 }
 
 // has body
+// scene: create access token
+// https://developer.shopline.com/zh-hans-cn/docs/apps/api-instructions-for-use/generate-and-verify-signatures?version=v20260301#post-%E8%AF%B7%E6%B1%82%E6%93%8D%E4%BD%9C%E6%AD%A5%E9%AA%A4
 func TestGenerateSign2(t *testing.T) {
-
 	appKey := AppKeyForTest
 
 	requestBody := map[string]string{
@@ -81,7 +79,35 @@ func TestGenerateSign2(t *testing.T) {
 	a := assert.New(t)
 	//fmt.Printf("sign: %s\n", sign)
 	a.Equal(sign, "4c4cf0ac52439d1308b58897f857dcba8545efb6c0e8091fba64b148218d2074")
+}
 
+// TestGenerateSignForCreateAccessToken
+// https://developer.shopline.com/zh-hans-cn/docs/apps/api-instructions-for-use/generate-and-verify-signatures?version=v20260301#post-%E8%AF%B7%E6%B1%82%E6%93%8D%E4%BD%9C%E6%AD%A5%E9%AA%A4
+func TestGenerateSignForCreateAccessToken(t *testing.T) {
+	appKey := AppKeyForTest
+
+	timestampInt := "21c335b3a"
+
+	code := "code"
+	sign := GenerateSignForCreateAccessToken(appKey, code, timestampInt, AppSecretForTest)
+
+	a := assert.New(t)
+	//fmt.Printf("sign: %s\n", sign)
+	a.Equal(sign, "4c4cf0ac52439d1308b58897f857dcba8545efb6c0e8091fba64b148218d2074")
+}
+
+// TestGenerateSignForRefreshAccessToken
+// https://developer.shopline.com/zh-hans-cn/docs/apps/api-instructions-for-use/generate-and-verify-signatures?version=v20260301#post-%E8%AF%B7%E6%B1%82%E6%93%8D%E4%BD%9C%E6%AD%A5%E9%AA%A4
+func TestGenerateSignForRefreshAccessToken(t *testing.T) {
+	appKey := AppKeyForTest
+
+	timestampInt := "21c335b3a"
+
+	sign := GenerateSignForRefreshAccessToken(appKey, timestampInt, AppSecretForTest)
+
+	a := assert.New(t)
+	//fmt.Printf("sign: %s\n", sign)
+	a.Equal(sign, "cf5edab6b92d740fe54b3ce9e2723788128384a1eb5c2a5d64c9210a31185b86")
 }
 
 // has body & no timestamp

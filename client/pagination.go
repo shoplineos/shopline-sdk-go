@@ -1,6 +1,8 @@
 package client
 
 import (
+	"errors"
+	"fmt"
 	"net/url"
 	"regexp"
 	"strconv"
@@ -27,7 +29,7 @@ type ListOptions struct {
 	Fields  string  `url:"fields,omitempty"`
 }
 
-// linkRegex is used to parse the pagination link from shopline API search results.
+// linkRegex is used to parse the pagination link from SHOPLINE API search results.
 var linkRegex = regexp.MustCompile(`^ *<([^>]+)>; rel="(previous|next)" *$`)
 
 // parsePagination
@@ -41,61 +43,71 @@ func parsePagination(linkHeader string) (*Pagination, error) {
 
 	pagination := new(Pagination)
 	for _, link := range strings.Split(linkHeader, ",") {
-		match := linkRegex.FindStringSubmatch(link)
-		// Make sure the link is not empty or invalid
-		if len(match) != 3 {
-			// We expect 3 values:
-			// match[0] = full match
-			// match[1] is the URL and match[2] is either 'previous' or 'next'
-			err := ResponseDecodingError{
-				Message: "could not extract pagination link header",
-			}
-			return pagination, err
-		}
-
-		queryURL, err := url.Parse(match[1])
+		err := parseListOptions(link, pagination)
 		if err != nil {
-			err = ResponseDecodingError{
-				Message: "pagination does not contain a valid URL",
-			}
-			return pagination, err
-		}
-
-		params, err := url.ParseQuery(queryURL.RawQuery)
-		if err != nil {
-			return pagination, err
-		}
-
-		paginationListOptions := ListOptions{}
-
-		paginationListOptions.PageInfo = params.Get("page_info")
-		if paginationListOptions.PageInfo == "" {
-			err = ResponseDecodingError{
-				Message: "The page_info is missing",
-			}
-			return pagination, err
-		}
-
-		limit := params.Get("limit")
-		if limit != "" {
-			paginationListOptions.Limit, err = strconv.Atoi(params.Get("limit"))
-			if err != nil {
-				return pagination, err
-			}
-		}
-
-		fields := params.Get("fields")
-		if fields != "" {
-			paginationListOptions.Fields = params.Get("fields")
-		}
-
-		// 'rel' is either next or previous
-		if match[2] == "next" {
-			pagination.Next = &paginationListOptions
-		} else {
-			pagination.Previous = &paginationListOptions
+			return nil, err
 		}
 	}
 
 	return pagination, nil
+}
+
+// link <https://{handle}.myshopline.com/admin/openapi/{version}/products/products.json?limit=1&page_info=eyJzaW5jZUlkIjoiMTYwNTc1OTAxNTM4OTA4Mjk1MjExMTI3ODgiLCJkaXJlY3Rpb24iOiJuZXh0IiwibGltaXQiOjF9>; rel="next"
+func parseListOptions(link string, pagination *Pagination) error {
+	match := linkRegex.FindStringSubmatch(link)
+	// Make sure the link is not empty or invalid
+	if len(match) != 3 {
+		// We expect 3 values:
+		// match[0] = full match
+		// match[1] is the URL and match[2] is either 'previous' or 'next'
+		err := ResponseDecodingError{
+			Message: "could not extract pagination link header",
+		}
+		return err
+	}
+
+	queryURL, err := url.Parse(match[1])
+	if err != nil {
+		err = ResponseDecodingError{
+			Message: "pagination does not contain a valid URL",
+		}
+		return err
+	}
+
+	params, err := url.ParseQuery(queryURL.RawQuery)
+	if err != nil {
+		return err
+	}
+
+	paginationListOptions := ListOptions{}
+	paginationListOptions.PageInfo = params.Get("page_info")
+	if paginationListOptions.PageInfo == "" {
+		err = ResponseDecodingError{
+			Message: "The page_info is missing",
+		}
+		return err
+	}
+
+	limit := params.Get("limit")
+	if limit != "" {
+		paginationListOptions.Limit, err = strconv.Atoi(params.Get("limit"))
+		if err != nil {
+			return err
+		}
+	}
+
+	fields := params.Get("fields")
+	if fields != "" {
+		paginationListOptions.Fields = params.Get("fields")
+	}
+
+	// 'rel' is either next or previous
+	if match[2] == "next" {
+		pagination.Next = &paginationListOptions
+	} else if match[2] == "previous" {
+		pagination.Previous = &paginationListOptions
+	} else {
+		return errors.New(fmt.Sprintf("Invalid pagination link format, rel: %s", match[2]))
+	}
+	return nil
 }

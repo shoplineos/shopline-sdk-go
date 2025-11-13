@@ -30,8 +30,8 @@ func TestCheckResponseError(t *testing.T) {
 			nil,
 		},
 		{
-			httpmock.NewStringResponse(299, `{"foo": "bar"}`),
-			nil,
+			httpmock.NewStringResponse(201, `{"errors": "Has Created"}`),
+			ResponseError{Status: 201, Message: "Has Created"},
 		},
 		{
 			httpmock.NewStringResponse(400, `{"errors": "bad request"}`),

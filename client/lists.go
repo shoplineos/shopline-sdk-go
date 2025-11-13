@@ -16,7 +16,6 @@ type GetResources[T any] func(resp interface{}) []T
 // ListAll List all resources
 // getResources example:
 //
-//	func getResources(resp interface{}) []Orde
 //	func getResources(resp interface{}) []Order {
 //		apiResp := resp.(*ListOrdersAPIResp)
 //		return apiResp.Orders

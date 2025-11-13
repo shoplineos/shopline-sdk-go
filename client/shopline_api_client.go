@@ -18,10 +18,15 @@ import (
 	"github.com/google/go-querystring/query"
 )
 
+type IClient interface {
+	Call(ctx context.Context, req APIRequest, resource interface{}) error
+	NewHttpRequest(ctx context.Context, method HTTPMethod, path string, request *ShopLineRequest) (*http.Request, error)
+}
+
 type Client struct {
 	StoreHandle string
 
-	// app config
+	// App config
 	App App
 
 	// Http client
@@ -138,6 +143,8 @@ func (resp *ShopLineResponse) HasNext() bool {
 }
 
 func (resp *ShopLineResponse) IsSuccess() bool {
+	// 200 <= StatusCode < 300
+	// return http.StatusOK <= resp.StatusCode && resp.StatusCode < http.StatusMultipleChoices
 	return resp.StatusCode == http.StatusOK
 }
 
@@ -465,7 +472,7 @@ func generateSign(appKey, appSecret, timestamp string, requestBodyJsonBytes []by
 	return sign, nil
 }
 
-// Build params convert to json string
+// Build body params to json string
 func buildBodyJsonString(bodyParams []byte) (string, error) {
 	if bodyParams == nil {
 		return "", nil
@@ -627,20 +634,6 @@ func (c *Client) verify(endpoint string, method HTTPMethod, request *ShopLineReq
 	return appKey, appSecret, nil
 }
 
-func verifyForRefreshAccessToken(appkey, appSecret, shopHandle string) error {
-	if appkey == "" {
-		return fmt.Errorf("appKey is required")
-	}
-	if appSecret == "" {
-		return fmt.Errorf("appSecret is required")
-	}
-
-	if shopHandle == "" {
-		return fmt.Errorf("shopHandle is required")
-	}
-	return nil
-}
-
 // Add the request query parameters to the http query parameters
 func (c *Client) buildRequestUrl(method HTTPMethod, relPath string, request *ShopLineRequest) (string, error) {
 
@@ -678,7 +671,7 @@ func (c *Client) resolveApiVersion(req *ShopLineRequest) string {
 	return c.ApiVersion
 }
 
-// Body parameters serialize to json bytes
+// Serialize body parameters to json bytes
 func (c *Client) serializeBodyDataIfNecessary(method HTTPMethod, request *ShopLineRequest) ([]byte, error) {
 	if method == MethodGet || request == nil || request.Data == nil {
 		return nil, nil

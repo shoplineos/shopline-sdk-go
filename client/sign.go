@@ -5,12 +5,32 @@ import (
 	"crypto/hmac"
 	"crypto/sha256"
 	"encoding/hex"
+	"encoding/json"
 	"io"
+	"log"
 	"net/http"
 	"net/url"
 	"sort"
 	"strings"
 )
+
+// GenerateSignForCreateAccessToken Generate a signature for create access token
+func GenerateSignForCreateAccessToken(appKey, code, timestamp, appSecret string) string {
+	requestBody := map[string]string{
+		"code": code,
+	}
+
+	jsonBody, err := json.Marshal(requestBody)
+	if err != nil {
+		log.Fatalf("Failed to marshal request body: %v", err)
+	}
+	return GenerateSign(appKey, string(jsonBody), timestamp, appSecret)
+}
+
+// GenerateSignForRefreshAccessToken Generate a signature for refresh access token
+func GenerateSignForRefreshAccessToken(appKey, timestamp, appSecret string) string {
+	return GenerateSign(appKey, "", timestamp, appSecret)
+}
 
 // GenerateSign
 // 中文: https://developer.shopline.com/zh-hans-cn/docs/apps/api-instructions-for-use/generate-and-verify-signatures?version=v20251201

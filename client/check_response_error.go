@@ -11,7 +11,7 @@ import (
 )
 
 // ResponseError
-// A general http response error that follows a similar layout to shopline's response errors
+// A general http response error that follows a similar layout to SHOPLINE's response errors
 type ResponseError struct {
 	Status  int
 	Code    string
@@ -19,7 +19,7 @@ type ResponseError struct {
 	Errors  []string
 }
 
-// ResponseDecodingError occurs when the http response body from shopline not be parsed.
+// ResponseDecodingError occurs when the http response body from SHOPLINE not be parsed.
 type ResponseDecodingError struct {
 	Body    []byte
 	Message string
@@ -66,8 +66,7 @@ func (e ResponseError) Error() string {
 }
 
 func CheckHttpResponseError(resp *http.Response) error {
-	// 200 <= StatusCode < 300
-	if http.StatusOK <= resp.StatusCode && resp.StatusCode < http.StatusMultipleChoices {
+	if isSuccess(resp.StatusCode) {
 		return nil
 	}
 
@@ -82,7 +81,7 @@ func CheckHttpResponseError(resp *http.Response) error {
 		return err
 	}
 
-	// empty body, this probably means shopline returned an error with no response body
+	// empty body, this probably means SHOPLINE returned an error with no response body
 	if len(bodyBytes) > 0 {
 		err := json.Unmarshal(bodyBytes, &shoplineError)
 		if err != nil {
@@ -94,7 +93,7 @@ func CheckHttpResponseError(resp *http.Response) error {
 		}
 	}
 
-	// Create the response error from the shopline error.
+	// Create the response error from the SHOPLINE error.
 	responseError := ResponseError{
 		Status:  resp.StatusCode,
 		Code:    shoplineError.Code,
@@ -145,6 +144,12 @@ func CheckHttpResponseError(resp *http.Response) error {
 	}
 
 	return responseError
+}
+
+func isSuccess(code int) bool {
+	// 200 <= StatusCode < 300
+	// http.StatusOK <= resp.StatusCode && resp.StatusCode < http.StatusMultipleChoices
+	return http.StatusOK == code
 }
 
 func wrapSpecificError(r *http.Response, err ResponseError) error {

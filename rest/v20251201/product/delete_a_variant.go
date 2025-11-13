@@ -27,15 +27,7 @@ type DeleteAVariantAPIReq struct {
 	   Example: 18057850264851626133510282
 	*/
 	VariantId string `url:"-" json:"-"` // Required
-	/*
-	   Parameter code.
-	*/
-	Code string `json:"code,omitempty" url:"-"`
 
-	/*
-	   Error message.
-	*/
-	Message string `json:"message,omitempty" url:"-"`
 }
 
 func (req *DeleteAVariantAPIReq) GetEndpoint() string {

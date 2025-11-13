@@ -215,7 +215,12 @@ func TestExecuteInternal(t *testing.T) {
 	}
 
 	// 2. Call the API
-	client.executeInternal(context.Background(), MethodPost, "products/products.json", shopLineReq, apiResp)
+	shoplineResp, err := client.executeInternal(context.Background(), MethodPost, "products/products.json", shopLineReq, apiResp)
+	if err != nil {
+		t.Fatalf("ExecuteInternal() err = %v, expected nil", err)
+	}
+
+	assert.Equal(t, true, shoplineResp.IsSuccess())
 
 	//fmt.Printf("apiResp: %+v\n", apiResp.Product)
 	assert.Equal(t, "111", apiResp.Product.Id)
@@ -397,6 +402,7 @@ func TestBuildShopLineResponse(t *testing.T) {
 	a.NotNil(response.Data)
 	a2 := (*responseData)["foo"].(string)
 	a.Equal(a2, "bar")
+	a.Equal(true, response.IsSuccess())
 
 	// case 2
 	httpResp = httpmock.NewStringResponse(500, `{"errors": "system error"}`)
@@ -405,6 +411,7 @@ func TestBuildShopLineResponse(t *testing.T) {
 	a.NotNil(err)
 	a.Equal(err.Error(), "system error")
 	a.NotNil(response)
+	a.Equal(false, response.IsSuccess())
 
 }
 
