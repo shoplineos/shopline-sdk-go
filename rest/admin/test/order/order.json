@@ -125,7 +125,7 @@
         "title": "Generic Shipping",
         "price": "10.00",
         "code": null,
-        "source": "shopify",
+        "source": "shopline",
         "phone": null,
         "carrier_identifier": null,
         "tax_lines": [
