@@ -50,6 +50,9 @@ type Client struct {
 	EnableSign bool
 
 	Options *Options // Options
+
+	// Rete limit
+	RateLimits RateLimitInfo
 }
 
 type App struct {
@@ -59,6 +62,13 @@ type App struct {
 	RedirectUrl string // oauth redirect Url
 
 	Client *Client // API Client
+}
+
+type RateLimitInfo struct {
+	RequestCount      int
+	BucketSize        int
+	GraphQLCost       *GraphQLCost
+	RetryAfterSeconds float64
 }
 
 // RequestOptions Request options

@@ -19,6 +19,12 @@ func WithVersion(apiVersion string) Option {
 	}
 }
 
+func WithPathPrefix(pathPrefix string) Option {
+	return func(c *Client) {
+		c.PathPrefix = pathPrefix
+	}
+}
+
 func WithEnableSign(enableSign bool) Option {
 	return func(c *Client) {
 		c.EnableSign = enableSign
