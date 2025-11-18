@@ -38,37 +38,15 @@ func (s StorefrontAccessTokenService) List(ctx context.Context, apiReq *ListStor
 	return apiResp, err
 }
 
+func getResources(resp interface{}) []StorefrontAccessToken {
+	apiResp := resp.(*ListStorefrontAccessTokensAPIResp)
+	return apiResp.StorefrontAccessTokens
+}
+
 func (s StorefrontAccessTokenService) ListAll(ctx context.Context, apiReq *ListStorefrontAccessTokensAPIReq) ([]StorefrontAccessToken, error) {
-	collector := []StorefrontAccessToken{}
-	// 1. API request
-	shopLineReq := &client.ShopLineRequest{
-		Query: apiReq, // API request params
-	}
 
-	for {
-		// 2. API endpoint
-		endpoint := apiReq.GetEndpoint()
-
-		// 3. API response resource
-		apiResp := &ListStorefrontAccessTokensAPIResp{}
-
-		// 4. Call the API
-		shoplineResp, err := s.Client.Get(ctx, endpoint, shopLineReq, apiResp)
-
-		if err != nil {
-			return collector, err
-		}
-
-		collector = append(collector, apiResp.StorefrontAccessTokens...)
-
-		if !shoplineResp.HasNext() {
-			break
-		}
-
-		shopLineReq.Query = shoplineResp.Pagination.Next
-	}
-
-	return collector, nil
+	apiResp := &ListStorefrontAccessTokensAPIResp{}
+	return client.ListAll(s.Client, ctx, apiReq, apiResp, getResources)
 }
 
 func (s StorefrontAccessTokenService) ListWithPagination(ctx context.Context, req *ListStorefrontAccessTokensAPIReq) (*ListStorefrontAccessTokensAPIResp, error) {

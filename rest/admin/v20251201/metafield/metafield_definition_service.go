@@ -46,37 +46,14 @@ func (m MetafieldDefinitionService) List(ctx context.Context, apiReq *ListMetafi
 	return apiResp, err
 }
 
+func getMetafieldDefinitions(resp interface{}) []MetafieldDefinition {
+	apiResp := resp.(*ListMetafieldDefinitionAPIResp)
+	return apiResp.Data.MetafieldDefinitions
+}
+
 func (m MetafieldDefinitionService) ListAll(ctx context.Context, apiReq *ListMetafieldDefinitionAPIReq) ([]MetafieldDefinition, error) {
-	collector := []MetafieldDefinition{}
-	// 1. API request
-	shopLineReq := &client.ShopLineRequest{
-		Query: apiReq, // API request params
-	}
-
-	for {
-		// 2. API endpoint
-		endpoint := apiReq.GetEndpoint()
-
-		// 3. API response data
-		apiResp := &ListMetafieldDefinitionAPIResp{}
-
-		// 4. Call the API
-		shoplineResp, err := m.Client.Get(ctx, endpoint, shopLineReq, apiResp)
-
-		if err != nil {
-			return collector, err
-		}
-
-		collector = append(collector, apiResp.Data.MetafieldDefinitions...)
-
-		if !shoplineResp.HasNext() {
-			break
-		}
-
-		shopLineReq.Query = shoplineResp.Pagination.Next
-	}
-
-	return collector, nil
+	apiResp := &ListMetafieldDefinitionAPIResp{}
+	return client.ListAll(m.Client, ctx, apiReq, apiResp, getMetafieldDefinitions)
 }
 
 func (m MetafieldDefinitionService) Get(ctx context.Context, apiReq *GetMetafieldDefinitionAPIReq) (*GetMetafieldDefinitionAPIResp, error) {

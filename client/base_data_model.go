@@ -66,13 +66,13 @@ func (api BaseAPIResponse) SetPagination(pagination *Pagination) {
 }
 
 type Aware interface {
-	SetClient(*Client)
+	SetClient(IClient)
 }
 
 type BaseService struct {
-	Client *Client
+	Client IClient
 }
 
-func (b *BaseService) SetClient(client *Client) {
+func (b *BaseService) SetClient(client IClient) {
 	b.Client = client
 }

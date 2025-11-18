@@ -24,6 +24,31 @@ func NewRetryAPIClient(cli *Client) IClient {
 	}
 }
 
+func (cli *RetryAPIClient) Get(ctx context.Context, endpoint string, req *ShopLineRequest, resource interface{}) (*ShopLineResponse, error) {
+	var err error
+	var resp *ShopLineResponse
+	retries := cli.retries
+
+	for {
+		resp, err = cli.delegate.Get(ctx, endpoint, req, resource)
+		if err == nil {
+			break
+		}
+
+		if retries <= 1 {
+			return resp, err
+		}
+
+		if !canRetry(err) {
+			break
+		}
+
+		retries--
+	}
+
+	return resp, err
+}
+
 func (cli *RetryAPIClient) Call(ctx context.Context, req APIRequest, resource interface{}) error {
 	var err error
 	retries := cli.retries

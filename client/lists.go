@@ -20,7 +20,7 @@ type GetResources[T any] func(resp interface{}) []T
 //		apiResp := resp.(*ListOrdersAPIResp)
 //		return apiResp.Orders
 //	}
-func ListAll[T any](cli *Client, ctx context.Context, req APIRequest, resp interface{}, getResources GetResources[T]) ([]T, error) {
+func ListAll[T any](cli IClient, ctx context.Context, req APIRequest, resp interface{}, getResources GetResources[T]) ([]T, error) {
 	collector := []T{}
 	// 1. API request
 	shopLineReq := &ShopLineRequest{

@@ -56,37 +56,14 @@ func (m MetafieldService) List(ctx context.Context, apiReq *ListMetafieldAPIReq)
 	return apiResp, err
 }
 
+func getMetafields(resp interface{}) []Metafield {
+	apiResp := resp.(*ListMetafieldAPIResp)
+	return apiResp.Metafields
+}
+
 func (m MetafieldService) ListAll(ctx context.Context, apiReq *ListMetafieldAPIReq) ([]Metafield, error) {
-	collector := []Metafield{}
-	// 1. API request
-	shopLineReq := &client.ShopLineRequest{
-		Query: apiReq, // API request params
-	}
-
-	for {
-		// 2. API endpoint
-		endpoint := apiReq.GetEndpoint()
-
-		// 3. API response data
-		apiResp := &ListMetafieldAPIResp{}
-
-		// 4. Call the API
-		shoplineResp, err := m.Client.Get(ctx, endpoint, shopLineReq, apiResp)
-
-		if err != nil {
-			return collector, err
-		}
-
-		collector = append(collector, apiResp.Metafields...)
-
-		if !shoplineResp.HasNext() {
-			break
-		}
-
-		shopLineReq.Query = shoplineResp.Pagination.Next
-	}
-
-	return collector, nil
+	apiResp := &ListMetafieldAPIResp{}
+	return client.ListAll(m.Client, ctx, apiReq, apiResp, getMetafields)
 }
 
 func (m MetafieldService) Count(ctx context.Context, apiReq *CountMetafieldAPIReq) (*CountMetafieldAPIResp, error) {

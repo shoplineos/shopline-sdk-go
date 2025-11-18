@@ -20,6 +20,7 @@ import (
 
 type IClient interface {
 	Call(ctx context.Context, req APIRequest, resource interface{}) error
+	Get(ctx context.Context, endpoint string, req *ShopLineRequest, resource interface{}) (*ShopLineResponse, error)
 	NewHttpRequest(ctx context.Context, method HTTPMethod, path string, request *ShopLineRequest) (*http.Request, error)
 }
 
