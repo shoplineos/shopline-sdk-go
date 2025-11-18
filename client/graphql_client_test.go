@@ -10,6 +10,15 @@ import (
 	"github.com/jarcoal/httpmock"
 )
 
+var (
+	graphQLClient *GraphQLClient
+)
+
+func setupStorefrontGraphQLClient() {
+	setup()
+	graphQLClient = NewStorefrontClient(client)
+}
+
 func TestGraphQLQuery(t *testing.T) {
 	setupStorefrontGraphQLClient()
 	defer teardown()

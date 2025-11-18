@@ -15,14 +15,9 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-const (
-	maxRetries = 3
-)
-
 var (
-	client        *Client
-	app           App
-	graphQLClient *GraphQLClient
+	client *Client
+	app    App
 )
 
 func setup() {
@@ -39,11 +34,6 @@ func setup() {
 	app.Client = client
 
 	httpmock.ActivateNonDefault(client.Client)
-}
-
-func setupStorefrontGraphQLClient() {
-	setup()
-	graphQLClient = NewStorefrontClient(client)
 }
 
 func teardown() {

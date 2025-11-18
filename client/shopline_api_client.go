@@ -23,6 +23,7 @@ type IClient interface {
 	NewHttpRequest(ctx context.Context, method HTTPMethod, path string, request *ShopLineRequest) (*http.Request, error)
 }
 
+// Client default API Client
 type Client struct {
 	StoreHandle string
 
