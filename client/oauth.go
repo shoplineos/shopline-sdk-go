@@ -59,40 +59,16 @@ func (app App) resolveScope(scope string) string {
 	return app.Scope
 }
 
-func (app App) GetStoreHandle() string {
-	return app.Client.StoreHandle
-}
+//func (app App) GetStoreHandle() string {
+//	return app.Client.StoreHandle
+//}
 
 // CreateAccessToken
 // 中文: https://developer.shopline.com/zh-hans-cn/docs/apps/api-instructions-for-use/app-authorization/?version=v20251201#%E7%AC%AC%E5%85%AD%E6%AD%A5app-%E8%AF%B7%E6%B1%82-access-token
 // en: https://developer.shopline.com/docs/apps/api-instructions-for-use/app-authorization?version=v20251201#step-4-request-an-access-token
 func (app App) CreateAccessToken(ctx context.Context, code string) (*TokenResponse, error) {
 
-	// 1. Build request
-	requestBody := map[string]string{
-		"code": code,
-	}
-
-	shopLineReq := &ShopLineRequest{
-		Options: &RequestOptions{EnableSign: true},
-		Data:    requestBody,
-	}
-
-	// 2. New http request
-	httpReq, err := app.Client.NewHttpRequest(ctx, MethodPost, "admin/oauth/token/create", shopLineReq)
-	if err != nil {
-		return nil, err
-	}
-
-	// 3. Specify resource
-	tokenResponse := &TokenResponse{}
-
-	// 4. Execute http
-	_, err = app.Client.executeHttpRequest(shopLineReq, httpReq, tokenResponse)
-	if err != nil {
-		return nil, err
-	}
-	return tokenResponse, nil
+	return app.Client.CreateAccessToken(ctx, code)
 }
 
 // RefreshAccessToken
@@ -104,27 +80,7 @@ func (app App) RefreshAccessToken(ctx context.Context, storeHandle string) (*Tok
 		return nil, err
 	}
 
-	// 1. Build request
-	shopLineReq := &ShopLineRequest{
-		Options: &RequestOptions{EnableSign: true},
-	}
-
-	// 2. New http request
-	httpReq, err := app.Client.NewHttpRequest(ctx, MethodPost, "admin/oauth/token/refresh", shopLineReq)
-	if err != nil {
-		return nil, err
-	}
-
-	// 3. Specify resource
-	tokenResponse := &TokenResponse{}
-
-	// 4. Execute http
-	_, err = app.Client.executeHttpRequest(shopLineReq, httpReq, tokenResponse)
-	if err != nil {
-		return nil, err
-	}
-
-	return tokenResponse, nil
+	return app.Client.RefreshAccessToken(ctx, storeHandle)
 }
 
 func verifyForRefreshAccessToken(appkey, appSecret, shopHandle string) error {

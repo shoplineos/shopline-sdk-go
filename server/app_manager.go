@@ -12,7 +12,7 @@ import (
 
 var (
 	defaultAppInstance           client.App
-	defaultClientInstance        *client.Client
+	defaultClientInstance        client.IClient
 	defaultWebhookClientInstance *client.WebhookClient
 
 	Apps           sync.Map // map[string]client2.App
@@ -34,7 +34,8 @@ func init() {
 		Scope:       config.DefaultAppScope,
 	}
 
-	defaultClientInstance = support.MustNewClient(defaultAppInstance, config.DefaultStoreHandle, config.DefaultAccessToken)
+	storeHandle := config.DefaultStoreHandle
+	defaultClientInstance = support.MustNewClient(defaultAppInstance, storeHandle, config.DefaultAccessToken)
 	if defaultClientInstance == nil {
 		panic("client is nil")
 	}
@@ -43,7 +44,7 @@ func init() {
 
 	//Clients = make(map[string]*client2.Client)
 	//Clients[defaultAppInstance.AppKey] = defaultClientInstance
-	key := resolveCacheKey(defaultAppInstance.AppKey, defaultClientInstance.StoreHandle)
+	key := resolveCacheKey(defaultAppInstance.AppKey, storeHandle)
 	Clients.Store(key, defaultClientInstance)
 
 	//Apps = make(map[string]client2.App)
@@ -53,7 +54,7 @@ func init() {
 	defaultWebhookClientInstance = client.NewWebhookClient(defaultAppInstance)
 	WebhookClients.Store(defaultAppInstance.AppKey, defaultWebhookClientInstance)
 
-	fmt.Printf("Init default client success! appkey: %s, storeHandle: %s\n", defaultAppInstance.AppKey, defaultClientInstance.StoreHandle)
+	fmt.Printf("Init default client success! appkey: %s, storeHandle: %s\n", defaultAppInstance.AppKey, storeHandle)
 }
 
 func verifyAppDefaultConfig() bool {
@@ -80,7 +81,7 @@ func GetClient(appKey, storeHandle string) *client.Client {
 	return c.(*client.Client)
 }
 
-func GetDefaultClient() *client.Client {
+func GetDefaultClient() client.IClient {
 	return defaultClientInstance
 }
 

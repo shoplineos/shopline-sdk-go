@@ -24,6 +24,14 @@ func NewRetryAPIClient(cli *Client) IClient {
 	}
 }
 
+func (cli *RetryAPIClient) CreateAccessToken(ctx context.Context, code string) (*TokenResponse, error) {
+	return cli.delegate.CreateAccessToken(ctx, code)
+}
+
+func (cli *RetryAPIClient) RefreshAccessToken(ctx context.Context, storeHandle string) (*TokenResponse, error) {
+	return cli.delegate.RefreshAccessToken(ctx, storeHandle)
+}
+
 func (cli *RetryAPIClient) Get(ctx context.Context, endpoint string, req *ShopLineRequest, resource interface{}) (*ShopLineResponse, error) {
 	var err error
 	var resp *ShopLineResponse

@@ -21,10 +21,13 @@ import (
 type IClient interface {
 	Call(ctx context.Context, req APIRequest, resource interface{}) error
 	Get(ctx context.Context, endpoint string, req *ShopLineRequest, resource interface{}) (*ShopLineResponse, error)
-	NewHttpRequest(ctx context.Context, method HTTPMethod, path string, request *ShopLineRequest) (*http.Request, error)
+
+	CreateAccessToken(ctx context.Context, code string) (*TokenResponse, error)
+	RefreshAccessToken(ctx context.Context, storeHandle string) (*TokenResponse, error)
+	//NewHttpRequest(ctx context.Context, method HTTPMethod, path string, request *ShopLineRequest) (*http.Request, error)
 }
 
-// Client default API Client
+// Client the default API Client
 type Client struct {
 	StoreHandle string
 
@@ -63,7 +66,7 @@ type App struct {
 	Scope       string // app scope
 	RedirectUrl string // oauth redirect Url
 
-	Client *Client // API Client
+	Client IClient // API Client
 }
 
 type RateLimitInfo struct {
@@ -721,4 +724,57 @@ func (c *Client) ResolveURL(relPath string) (*url.URL, error) {
 	}
 	parsedURL := c.baseURL.ResolveReference(rel)
 	return parsedURL, nil
+}
+
+func (c *Client) CreateAccessToken(ctx context.Context, code string) (*TokenResponse, error) {
+
+	// 1. Build request
+	requestBody := map[string]string{
+		"code": code,
+	}
+
+	shopLineReq := &ShopLineRequest{
+		Options: &RequestOptions{EnableSign: true},
+		Data:    requestBody,
+	}
+
+	// 2. New http request
+	httpReq, err := c.NewHttpRequest(ctx, MethodPost, "admin/oauth/token/create", shopLineReq)
+	if err != nil {
+		return nil, err
+	}
+
+	// 3. Specify resource
+	tokenResponse := &TokenResponse{}
+
+	// 4. Execute http
+	_, err = c.executeHttpRequest(shopLineReq, httpReq, tokenResponse)
+	if err != nil {
+		return nil, err
+	}
+	return tokenResponse, nil
+}
+
+func (c *Client) RefreshAccessToken(ctx context.Context, storeHandle string) (*TokenResponse, error) {
+	// 1. Build request
+	shopLineReq := &ShopLineRequest{
+		Options: &RequestOptions{EnableSign: true},
+	}
+
+	// 2. New http request
+	httpReq, err := c.NewHttpRequest(ctx, MethodPost, "admin/oauth/token/refresh", shopLineReq)
+	if err != nil {
+		return nil, err
+	}
+
+	// 3. Specify resource
+	tokenResponse := &TokenResponse{}
+
+	// 4. Execute http
+	_, err = c.executeHttpRequest(shopLineReq, httpReq, tokenResponse)
+	if err != nil {
+		return nil, err
+	}
+
+	return tokenResponse, nil
 }
