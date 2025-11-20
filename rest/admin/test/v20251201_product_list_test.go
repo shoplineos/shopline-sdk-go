@@ -179,9 +179,9 @@ func TestProductListAll(t *testing.T) {
 				httpmock.RegisterResponder("GET", c.expectedRequestURLs[i], httpmock.ResponderFromResponse(response))
 			}
 
-			requestParams := &product.GetProductsAPIReq{}
+			apiReq := &product.GetProductsAPIReq{}
 			apiResp := &product.GetProductsAPIResp{}
-			Products, err := client.ListAll(cli, context.Background(), requestParams, apiResp, func(resp interface{}) []product.Product {
+			Products, err := client.ListAll(cli, context.Background(), apiReq, apiResp, func(resp interface{}) []product.Product {
 				r := resp.(*product.GetProductsAPIResp)
 				return r.Products
 			})

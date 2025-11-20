@@ -171,32 +171,35 @@ The following are examples of product APIs:
 
 ``` Get Product Count
   apiReq := &GetProductCountAPIReq{}
-  apiResp, err := product.GetProductService().Count(context.Background(), apiReq)
+  apiResp := &GetProductCountAPIResp{}
+  err := c.Call(context.Background(), apiReq, apiResp)
   fmt.Printf("count:%d", apiResp.Count)
 ```
 
 [Get Products](https://developer.shopline.com/docs/admin-rest-api/product/product/get-products?version=v20251201):
 ```Get Products
-  requestParams := &ListProductsAPIReq{
-      // IDs: "1,2,3",
-  }
-  productsAPIResp, err := product.GetProductService().List(context.Background(), requestParams)
+    apiReq := &product.GetProductsAPIReq{}
+    apiResp := &product.GetProductsAPIResp{}
+    err := cli.Call(context.Background(), apiReq, apiResp)
 ```
 
 
 [Get Products Pagination](https://developer.shopline.com/docs/admin-rest-api/product/product/get-products?version=v20251201):
 ```Get Products
-  requestParams := &ListProductsAPIReq{
-      // IDs: "1,2,3",
-  }
-  productsAPIResp, err := product.GetProductService().ListWithPagination(context.Background(), requestParams)
+    apiReq := &product.GetProductsAPIReq{}
+    apiResp := &product.GetProductsAPIResp{}
+    err := cli.Call(context.Background(), apiReq, apiResp)
+    pagination := apiResp.Pagination
 ```
 
-[Query all products](https://developer.shopline.com/docs/admin-rest-api/product/product/get-products?version=v20251201):
-``` query all products
-  requestParams := &ListProductsAPIReq{}
-  Products, err := product.GetProductService().ListAll(context.Background(), requestParams)
-  
+[Get all products](https://developer.shopline.com/docs/admin-rest-api/product/product/get-products?version=v20251201):
+``` Get all products
+    apiReq := &product.GetProductsAPIReq{}
+    apiResp := &product.GetProductsAPIResp{}
+    Products, err := client.ListAll(cli, context.Background(), apiReq, apiResp, func(resp interface{}) []product.Product {
+        r := resp.(*product.GetProductsAPIResp)
+        return r.Products
+    })
 ```
 
 [Create a product](https://developer.shopline.com/docs/admin-rest-api/product/product/create-a-product?version=v20251201):
@@ -261,8 +264,9 @@ apiReq := &product.CreateProductAPIReq{
     },
 }
 
-// Use Service to call the API or to use client.Call
-apiResp, err := product.GetProductService().Create(context.Background(), apiReq)
+
+apiResp := &product.CreateAProductAPIResp{}
+err := cli.Call(context.Background(), apiReq, apiResp)
 
 ```
 
@@ -800,32 +804,34 @@ func CallbackHandler(w http.ResponseWriter, r *http.Request) {
 [查询商品数量](https://developer.shopline.com/zh-hans-cn/docs/admin-rest-api/product/product/get-product-count?version=v20251201)：
 ``` Get Product Count
   apiReq := &GetProductCountAPIReq{}
-  apiResp, err := product.GetProductService().Count(context.Background(), apiReq)
+  apiResp := &GetProductCountAPIResp{}
+  err := c.Call(context.Background(), apiReq, apiResp)
   fmt.Printf("count:%d", apiResp.Count)
 ```
 
 [批量查询商品数据](https://developer.shopline.com/zh-hans-cn/docs/admin-rest-api/product/product/get-products?version=v20251201):
-```Query Products
-  requestParams := &ListProductsAPIReq{
-      // IDs: "1,2,3",
-  }
-  productsAPIResp, err := product.GetProductService().List(context.Background(), requestParams)
+```Get Products
+    apiReq := &product.GetProductsAPIReq{}
+    apiResp := &product.GetProductsAPIResp{}
+    err := cli.Call(context.Background(), apiReq, apiResp)
 ```
 
 [分页查询商品数据](https://developer.shopline.com/zh-hans-cn/docs/admin-rest-api/product/product/get-products?version=v20251201)：
-```Query Products
-  requestParams := &ListProductsAPIReq{
-      //IDs: "1,2,3",
-  }
-  productsAPIResp, err := product.GetProductService().ListWithPagination(context.Background(), requestParams)
-
+```Get Products for pagination
+    apiReq := &product.GetProductsAPIReq{}
+    apiResp := &product.GetProductsAPIResp{}
+    err := cli.Call(context.Background(), apiReq, apiResp)
+    pagination := apiResp.Pagination
 ```
 
 [查询所有商品](https://developer.shopline.com/zh-hans-cn/docs/admin-rest-api/product/product/get-products?version=v20251201):
-``` Query all products
-  requestParams := &ListProductsAPIReq{}
-  Products, err := product.GetProductService().ListAll(context.Background(), requestParams)
-  
+``` Get all products
+    apiReq := &product.GetProductsAPIReq{}
+    apiResp := &product.GetProductsAPIResp{}
+    Products, err := client.ListAll(cli, context.Background(), apiReq, apiResp, func(resp interface{}) []product.Product {
+        r := resp.(*product.GetProductsAPIResp)
+        return r.Products
+    })
 ```
 
 
@@ -891,8 +897,8 @@ apiReq := &product.CreateProductAPIReq{
     },
 }
 
-// 使用 service 调用 API 或者 直接使用 client.Call
-apiResp, err := product.GetProductService().Create(context.Background(), apiReq)
+apiResp := &product.CreateAProductAPIResp{}
+err := cli.Call(context.Background(), apiReq, apiResp)
 
 ```
 
