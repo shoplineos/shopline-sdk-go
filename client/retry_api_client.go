@@ -15,12 +15,16 @@ type RetryAPIClient struct {
 }
 
 func NewRetryAPIClient(cli *Client) IClient {
+	return NewRetryAPIClientWithRetries(cli, maxRetries)
+}
+
+func NewRetryAPIClientWithRetries(cli *Client, retries int) IClient {
 	if cli == nil {
 		panic("cli is required")
 	}
 	return &RetryAPIClient{
 		delegate: cli,
-		retries:  maxRetries,
+		retries:  retries,
 	}
 }
 
