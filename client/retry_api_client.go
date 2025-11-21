@@ -10,15 +10,15 @@ const (
 )
 
 type RetryAPIClient struct {
-	delegate *Client
+	delegate IClient
 	retries  int
 }
 
-func NewRetryAPIClient(cli *Client) IClient {
+func NewRetryAPIClient(cli IClient) IClient {
 	return NewRetryAPIClientWithRetries(cli, maxRetries)
 }
 
-func NewRetryAPIClientWithRetries(cli *Client, retries int) IClient {
+func NewRetryAPIClientWithRetries(cli IClient, retries int) IClient {
 	if cli == nil {
 		panic("cli is required")
 	}
@@ -94,8 +94,4 @@ func canRetry(err error) bool {
 		}
 	}
 	return false
-}
-
-func (cli *RetryAPIClient) NewHttpRequest(ctx context.Context, method HTTPMethod, path string, request *ShopLineRequest) (*http.Request, error) {
-	return cli.delegate.NewHttpRequest(ctx, method, path, request)
 }
