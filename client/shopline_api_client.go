@@ -91,6 +91,12 @@ type RequestOptions struct {
 	// When call an API successful, some APIs will return empty body
 	// eg:https://developer.shopline.com/zh-hans-cn/docs/admin-rest-api/payments-app-api/merchant-activation-successful-notification?version=v20251201
 	NotDecodeBody bool
+
+	// Some api's prefix is special
+	// eg：
+	// https://developer.shopline.com/zh-hans-cn/docs/admin-rest-api/payments-app-api/payment-successful-notice?version=v20251201
+	// https://developer.shopline.com/zh-hans-cn/docs/admin-rest-api/payments-app-api/refund-successful-notification?version=v20251201
+	PathPrefix string
 }
 
 // ShopLineRequest request parameters
@@ -358,7 +364,7 @@ func (c *Client) resolveUrlPath(relPath string, request *ShopLineRequest) string
 	relPath = path.Join(c.resolveApiVersion(request), relPath)
 
 	// /admin/openapi/{version}/{relPath}
-	relPath = path.Join(c.PathPrefix, relPath)
+	relPath = path.Join(c.resolvePathPrefix(request), relPath)
 	return relPath
 }
 
@@ -684,6 +690,13 @@ func (c *Client) resolveApiVersion(req *ShopLineRequest) string {
 		return req.Options.ApiVersion
 	}
 	return c.ApiVersion
+}
+
+func (c *Client) resolvePathPrefix(request *ShopLineRequest) string {
+	if request.Options != nil && request.Options.PathPrefix != "" {
+		return request.Options.PathPrefix
+	}
+	return c.PathPrefix
 }
 
 // Serialize body parameters to json bytes
