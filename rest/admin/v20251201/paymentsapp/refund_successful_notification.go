@@ -21,12 +21,6 @@ type RefundSuccessfulNotificationAPIReq struct {
 	*/
 	PaymentMethod string `url:"-" json:"-"` // Required
 	/*
-	   Channel payment slip number
-	   Example:
-	*/
-	ChannelOrderTransactionId string `json:"channel_order_transaction_id,omitempty" url:"-"`
-
-	/*
 	   Channel refund single number
 	   Example:
 	*/
@@ -55,6 +49,12 @@ type RefundSuccessfulNotificationAPIReq struct {
 	   Example: 0
 	*/
 	Amount int64 `json:"amount,omitempty" url:"-"`
+
+	/*
+	   Channel payment slip number
+	   Example:
+	*/
+	ChannelOrderTransactionId string `json:"channel_order_transaction_id,omitempty" url:"-"`
 }
 
 func (req *RefundSuccessfulNotificationAPIReq) GetEndpoint() string {
@@ -108,6 +108,8 @@ func (req *RefundSuccessfulNotificationAPIReq) Verify() error {
 func (req *RefundSuccessfulNotificationAPIReq) GetRequestOptions() *client.RequestOptions {
 	opts := &client.RequestOptions{
 		NotDecodeBody: true,
+
+		PathPrefix: "payments_apps/openapi",
 	}
 	return opts
 }

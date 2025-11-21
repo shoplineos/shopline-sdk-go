@@ -36,7 +36,7 @@ func TestMerchantPaySuccess(t *testing.T) {
 	setup()
 	defer teardown()
 
-	httpmock.RegisterResponder("POST", fmt.Sprintf("https://%s.myshopline.com/%s/%s/payment/notify/1/2/pay.json", cli.StoreHandle, cli.PathPrefix, cli.ApiVersion),
+	httpmock.RegisterResponder("POST", fmt.Sprintf("https://%s.myshopline.com/%s/%s/payment/notify/1/2/pay.json", cli.StoreHandle, "payments_apps/openapi", cli.ApiVersion),
 		httpmock.NewStringResponder(200, ""))
 
 	apiReq := &paymentsapp2.PaymentSuccessfulNoticeAPIReq{
@@ -64,7 +64,7 @@ func TestMerchantRefundSuccess(t *testing.T) {
 	setup()
 	defer teardown()
 
-	httpmock.RegisterResponder("POST", fmt.Sprintf("https://%s.myshopline.com/%s/%s/payment/notify/1/2/refund.json", cli.StoreHandle, cli.PathPrefix, cli.ApiVersion),
+	httpmock.RegisterResponder("POST", fmt.Sprintf("https://%s.myshopline.com/%s/%s/payment/notify/1/2/refund.json", cli.StoreHandle, "payments_apps/openapi", cli.ApiVersion),
 		httpmock.NewStringResponder(200, ""))
 
 	apiReq := &paymentsapp2.RefundSuccessfulNotificationAPIReq{
