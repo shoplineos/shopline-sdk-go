@@ -21,12 +21,6 @@ type PaymentSuccessfulNoticeAPIReq struct {
 	*/
 	PaymentMethod string `url:"-" json:"-"` // Required
 	/*
-	   Status
-	   Example:
-	*/
-	Status string `json:"status,omitempty" url:"-"`
-
-	/*
 	   Amount.
 	   Please note that the string for passing integers should not contain decimal points.
 	   Example: For example, "200".
@@ -52,6 +46,12 @@ type PaymentSuccessfulNoticeAPIReq struct {
 	   Example:
 	*/
 	OrderTransactionId string `json:"order_transaction_id,omitempty" url:"-"`
+
+	/*
+	   Status
+	   Example:
+	*/
+	Status string `json:"status,omitempty" url:"-"`
 }
 
 func (req *PaymentSuccessfulNoticeAPIReq) GetEndpoint() string {
@@ -105,8 +105,8 @@ func (req *PaymentSuccessfulNoticeAPIReq) Verify() error {
 func (req *PaymentSuccessfulNoticeAPIReq) GetRequestOptions() *client.RequestOptions {
 	opts := &client.RequestOptions{
 		NotDecodeBody: true,
-
-		PathPrefix: "payments_apps/openapi",
+		EnableSign:    true,
+		PathPrefix:    "payments_apps/openapi",
 	}
 	return opts
 }
