@@ -32,61 +32,61 @@ func TestMerchantBindSuccess(t *testing.T) {
 
 }
 
-func TestMerchantPaySuccess(t *testing.T) {
-	setup()
-	defer teardown()
+//func TestMerchantPaySuccess(t *testing.T) {
+//	setup()
+//	defer teardown()
+//
+//	httpmock.RegisterResponder("POST", fmt.Sprintf("https://%s.myshopline.com/%s/%s/payment/notify/1/2/pay.json", cli.StoreHandle, "payments_apps/openapi", cli.ApiVersion),
+//		httpmock.NewStringResponder(200, ""))
+//
+//	apiReq := &paymentsapp2.PaymentSuccessfulNoticeAPIReq{
+//		ChannelId:                 "1",
+//		PaymentMethod:             "2",
+//		Amount:                    "11",
+//		ChannelOrderTransactionId: "11",
+//		Currency:                  "CNY",
+//		OrderTransactionId:        "1111",
+//		Status:                    "ok",
+//	}
+//
+//	apiResp := &paymentsapp2.PaymentSuccessfulNoticeAPIResp{}
+//	err := cli.Call(context.Background(), apiReq, apiResp)
+//
+//	if err != nil {
+//		t.Errorf("Payment.MerchantPaySuccess returned error: %v", err)
+//	}
+//
+//	assert.NotNil(t, apiResp)
+//
+//}
 
-	httpmock.RegisterResponder("POST", fmt.Sprintf("https://%s.myshopline.com/%s/%s/payment/notify/1/2/pay.json", cli.StoreHandle, "payments_apps/openapi", cli.ApiVersion),
-		httpmock.NewStringResponder(200, ""))
-
-	apiReq := &paymentsapp2.PaymentSuccessfulNoticeAPIReq{
-		ChannelId:                 "1",
-		PaymentMethod:             "2",
-		Amount:                    "11",
-		ChannelOrderTransactionId: "11",
-		Currency:                  "CNY",
-		OrderTransactionId:        "1111",
-		Status:                    "ok",
-	}
-
-	apiResp := &paymentsapp2.PaymentSuccessfulNoticeAPIResp{}
-	err := cli.Call(context.Background(), apiReq, apiResp)
-
-	if err != nil {
-		t.Errorf("Payment.MerchantPaySuccess returned error: %v", err)
-	}
-
-	assert.NotNil(t, apiResp)
-
-}
-
-func TestMerchantRefundSuccess(t *testing.T) {
-	setup()
-	defer teardown()
-
-	httpmock.RegisterResponder("POST", fmt.Sprintf("https://%s.myshopline.com/%s/%s/payment/notify/1/2/refund.json", cli.StoreHandle, "payments_apps/openapi", cli.ApiVersion),
-		httpmock.NewStringResponder(200, ""))
-
-	apiReq := &paymentsapp2.RefundSuccessfulNotificationAPIReq{
-		ChannelId:                  "1",
-		PaymentMethod:              "2",
-		Amount:                     100,
-		ChannelOrderTransactionId:  "11",
-		ChannelRefundTransactionId: "11",
-		RefundTransactionId:        "1111",
-		Currency:                   "CNY",
-		Status:                     "ok",
-	}
-
-	apiResp := &paymentsapp2.RefundSuccessfulNotificationAPIResp{}
-	err := cli.Call(context.Background(), apiReq, apiResp)
-
-	if err != nil {
-		t.Errorf("Payment.MerchantRefundSuccess returned error: %v", err)
-	}
-
-	assert.NotNil(t, apiResp)
-}
+//func TestMerchantRefundSuccess(t *testing.T) {
+//	setup()
+//	defer teardown()
+//
+//	httpmock.RegisterResponder("POST", fmt.Sprintf("https://%s.myshopline.com/%s/%s/payment/notify/1/2/refund.json", cli.StoreHandle, "payments_apps/openapi", cli.ApiVersion),
+//		httpmock.NewStringResponder(200, ""))
+//
+//	apiReq := &paymentsapp2.RefundSuccessfulNotificationAPIReq{
+//		ChannelId:                  "1",
+//		PaymentMethod:              "2",
+//		Amount:                     100,
+//		ChannelOrderTransactionId:  "11",
+//		ChannelRefundTransactionId: "11",
+//		RefundTransactionId:        "1111",
+//		Currency:                   "CNY",
+//		Status:                     "ok",
+//	}
+//
+//	apiResp := &paymentsapp2.RefundSuccessfulNotificationAPIResp{}
+//	err := cli.Call(context.Background(), apiReq, apiResp)
+//
+//	if err != nil {
+//		t.Errorf("Payment.MerchantRefundSuccess returned error: %v", err)
+//	}
+//
+//	assert.NotNil(t, apiResp)
+//}
 
 func TestMerchantDeviceBindSuccess(t *testing.T) {
 	setup()

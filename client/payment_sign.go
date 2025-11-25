@@ -22,8 +22,8 @@ type PaymentSignatureAlgorithm struct {
 	RsaPublicKey  *rsa.PublicKey
 }
 
-func NewPaymentSignatureAlgorithm(privateKey string, publicKey string) PaymentSignatureAlgorithm {
-	alg := PaymentSignatureAlgorithm{
+func NewPaymentSignatureAlgorithm(privateKey string, publicKey string) *PaymentSignatureAlgorithm {
+	alg := &PaymentSignatureAlgorithm{
 		PrivateKey: privateKey,
 		PublicKey:  publicKey,
 	}
@@ -230,7 +230,7 @@ func (a *PaymentSignatureAlgorithm) SignWithPrivateKey(signSourceStr string) (st
 	return base64.StdEncoding.EncodeToString(signature), nil
 }
 
-// CheckSign use public key to verify
+// CheckSign use public key to Verify
 func (a *PaymentSignatureAlgorithm) CheckSign(params map[string]interface{}, signedStr string) (bool, error) {
 	sourceString := BuildSignatureSourceString(params)
 	valid, err := a.CheckSignWithPublicKey(sourceString, signedStr)
@@ -240,7 +240,7 @@ func (a *PaymentSignatureAlgorithm) CheckSign(params map[string]interface{}, sig
 	return valid, nil
 }
 
-// CheckSignWithPublicKey use public key to verify
+// CheckSignWithPublicKey use public key to Verify
 func (a *PaymentSignatureAlgorithm) CheckSignWithPublicKey(signSourceStr string, signedStr string) (bool, error) {
 	// Decode Base64
 	signature, err := base64.StdEncoding.DecodeString(signedStr)
@@ -252,7 +252,7 @@ func (a *PaymentSignatureAlgorithm) CheckSignWithPublicKey(signSourceStr string,
 	hasher.Write([]byte(signSourceStr))
 	hash := hasher.Sum(nil)
 
-	// Use public key to verify
+	// Use public key to Verify
 	err = rsa.VerifyPKCS1v15(a.RsaPublicKey, crypto.SHA1, hash, signature)
 	if err != nil {
 		// Verify failed

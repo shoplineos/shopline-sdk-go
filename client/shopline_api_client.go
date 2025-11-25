@@ -337,7 +337,7 @@ func (c *Client) Execute(ctx context.Context, method HTTPMethod, endpoint string
 }
 
 func (c *Client) executeInternal(ctx context.Context, method HTTPMethod, endpoint string, request *ShopLineRequest, resource interface{}) (*ShopLineResponse, error) {
-	_, _, err := c.verify(endpoint, method, request)
+	_, _, err := c.Verify(endpoint, method, request)
 	if err != nil {
 		return nil, err
 	}
@@ -395,40 +395,48 @@ func (c *Client) executeHttpRequest(request *ShopLineRequest, httpReq *http.Requ
 }
 
 func (c *Client) NewHttpRequest(ctx context.Context, method HTTPMethod, path string, request *ShopLineRequest) (*http.Request, error) {
+	httpReq, wrapper, err := c.NewHttpRequestWithoutHeaders(ctx, method, path, request)
+	if err != nil {
+		return httpReq, err
+	}
+
+	// set headers
+	err = c.setHeaders(httpReq, wrapper)
+	if err != nil {
+		return nil, err
+	}
+	return httpReq, nil
+}
+
+func (c *Client) NewHttpRequestWithoutHeaders(ctx context.Context, method HTTPMethod, path string, request *ShopLineRequest) (*http.Request, *shopLineRequestWrapper, error) {
 	// Build request URL
 	// eg：requestURL := fmt.Sprintf("https://%s.myshopline.com/admin/openapi/%s/products/%s.json", shopHandle, ApiVersion, productId)
 	requestURL, err := c.buildRequestUrl(method, path, request)
 	if err != nil {
 		log.Printf("Failed to build requestURL, path: %s, request: %v, err: %v\n", path, request, err)
-		return nil, err
+		return nil, nil, err
 	}
 
 	requestBodyJsonData, err := c.serializeBodyDataIfNecessary(method, request)
 	if err != nil {
 		log.Printf("Failed to serialize JSON, bodyParams:%v, err:%v\n", request.Data, err)
-		return nil, err
+		return nil, nil, err
 	}
 
 	// Create HTTP request
 	httpReq, err := http.NewRequest(string(method), requestURL, bytes.NewBuffer(requestBodyJsonData))
 	if err != nil {
 		log.Printf("Failed to create request: %v\n", err)
-		return nil, err
+		return nil, nil, err
 	}
 
 	httpReq = httpReq.WithContext(ctx)
 
-	shopLineRequestWrapper := &shopLineRequestWrapper{
+	wrapper := &shopLineRequestWrapper{
 		shopLineRequest:      request,
 		requestBodyJsonBytes: requestBodyJsonData,
 	}
-
-	// set headers
-	err = c.setHeaders(c.App.AppKey, c.App.AppSecret, httpReq, shopLineRequestWrapper)
-	if err != nil {
-		return nil, err
-	}
-	return httpReq, nil
+	return httpReq, wrapper, nil
 }
 
 func resolveTimeout(req *ShopLineRequest) time.Duration {
@@ -439,38 +447,55 @@ func resolveTimeout(req *ShopLineRequest) time.Duration {
 }
 
 // Set Headers
-func (c *Client) setHeaders(appKey string, appSecret string, httpReq *http.Request, wrapper *shopLineRequestWrapper) error {
-	httpReq.Header.Set("Content-Type", "application/json")
-	httpReq.Header.Set("Accept", "application/json")
-	httpReq.Header.Set("appkey", appKey)
-	httpReq.Header.Set("User-Agent", DefaultUserAgent)
-
-	// Create access Token & refresh access Token is not required
-	if c.Token != "" {
-		httpReq.Header.Set("Authorization", "Bearer "+c.Token)
-	}
-
-	timestamp := BuildTimestamp()
-	httpReq.Header.Set("timestamp", timestamp)
+func (c *Client) setHeaders(httpReq *http.Request, wrapper *shopLineRequestWrapper) error {
+	// Set common headers
+	c.setCommonHeaders(httpReq)
 
 	request := wrapper.shopLineRequest
+	timestamp := BuildTimestamp()
 
-	// Signature calculation
-	if c.isSignEnabled(request) {
-		sign, err := generateSign(appKey, appSecret, timestamp, wrapper.requestBodyJsonBytes)
-		if err != nil {
-			return err
-		}
-		log.Printf("Generate Sign enabled, sign: %s\n", sign)
-		httpReq.Header.Set("sign", sign)
+	httpReq.Header.Set("timestamp", timestamp)
+	err := c.generateSignIfNecessary(httpReq, wrapper, timestamp)
+	if err != nil {
+		return err
 	}
 
+	setRequestHeadersIfNecessary(request, httpReq)
+
+	return nil
+}
+
+func setRequestHeadersIfNecessary(request *ShopLineRequest, httpReq *http.Request) {
 	if request.Headers != nil {
 		for key, value := range request.Headers {
 			httpReq.Header.Set(key, value)
 		}
 	}
 
+}
+
+func (c *Client) setCommonHeaders(httpReq *http.Request) {
+	httpReq.Header.Set("Content-Type", "application/json")
+	httpReq.Header.Set("Accept", "application/json")
+	httpReq.Header.Set("appkey", c.App.AppKey)
+	httpReq.Header.Set("User-Agent", DefaultUserAgent)
+
+	// Create access Token & refresh access token is not required
+	if c.Token != "" {
+		httpReq.Header.Set("Authorization", "Bearer "+c.Token)
+	}
+}
+
+func (c *Client) generateSignIfNecessary(httpReq *http.Request, wrapper *shopLineRequestWrapper, timestamp string) error {
+	// Signature calculation
+	if c.isSignEnabled(wrapper.shopLineRequest) {
+		sign, err := generateSign(c.App.AppKey, c.App.AppSecret, timestamp, wrapper.requestBodyJsonBytes)
+		if err != nil {
+			return err
+		}
+		log.Printf("Generate Sign enabled, sign: %s\n", sign)
+		httpReq.Header.Set("sign", sign)
+	}
 	return nil
 }
 
@@ -614,8 +639,8 @@ func (c *Client) logDetailIfNecessary(method string, apiURL string, req *ShopLin
 
 }
 
-// verify request params
-func (c *Client) verify(endpoint string, method HTTPMethod, request *ShopLineRequest) (string, string, error) {
+// Verify request params
+func (c *Client) Verify(endpoint string, method HTTPMethod, request *ShopLineRequest) (string, string, error) {
 	if request == nil {
 		return "", "", fmt.Errorf("ShopLineRequest is required")
 	}

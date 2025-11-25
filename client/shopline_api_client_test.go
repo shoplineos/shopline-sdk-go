@@ -372,7 +372,7 @@ func TestVerifyWebhookRequest(t *testing.T) {
 		}
 		req, err := client.NewHttpRequest(context.Background(), MethodPost, "", shoplineReq)
 		if err != nil {
-			t.Fatalf("Webhook.verify err = %v, expected true", err)
+			t.Fatalf("Webhook.Verify err = %v, expected true", err)
 		}
 		if c.hmac != "" {
 			req.Header.Add("X-Shopline-Hmac-Sha256", c.hmac)
@@ -381,9 +381,9 @@ func TestVerifyWebhookRequest(t *testing.T) {
 		isValid := app.VerifyWebhookRequest(req)
 
 		if isValid != c.expected {
-			t.Errorf("Webhook.verify was expecting, idx: %d, expected:%t, but got %t", i, c.expected, isValid)
+			t.Errorf("Webhook.Verify was expecting, idx: %d, expected:%t, but got %t", i, c.expected, isValid)
 		} else {
-			log.Printf("Webhook.verify was successful, idx: %d, %t", i, isValid)
+			log.Printf("Webhook.Verify was successful, idx: %d, %t", i, isValid)
 		}
 	}
 }
