@@ -7,6 +7,10 @@ import (
 	"net/http"
 )
 
+// PaymentClient
+// Use NewPaymentClient to new a PaymentClient
+// 中文:https://developer.shopline.com/zh-hans-cn/docs/apps/payment-application/overview?version=v20260301
+// En:https://developer.shopline.com/docs/apps/payment-application/overview?version=v20260301
 type PaymentClient struct {
 	cli                       *Client
 	paymentSignatureAlgorithm *PaymentSignatureAlgorithm
@@ -65,14 +69,14 @@ func (c *PaymentClient) setPaymentHeaders(request *ShopLineRequest, httpReq *htt
 	timestamp := BuildTimestamp()
 	httpReq.Header.Set("pay-api-timestamp", timestamp)
 
-	var personMap map[string]interface{}
+	var resourceMap map[string]interface{}
 	if request.Data != nil {
-		personMap = structs.Map(request.Data)
+		resourceMap = structs.Map(request.Data)
 	} else {
-		personMap = structs.Map(request.Query)
+		resourceMap = structs.Map(request.Query)
 	}
 
-	sign, err := c.paymentSignatureAlgorithm.Signature(personMap)
+	sign, err := c.paymentSignatureAlgorithm.Signature(resourceMap)
 	if err != nil {
 		return err
 	}
