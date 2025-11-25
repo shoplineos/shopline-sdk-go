@@ -455,70 +455,16 @@ type DeleteWebhookAPIResp struct {
 
 ### Using WebhookClient to decode Webhook event
 ```WebhookClient
-    // New WebhookClient
-    webhookClient = NewWebhookClient(app)
+    // New a WebhookClient
+    webhookClient := client.NewWebhookClient(app)
 
-    // New Webhook event
-    event := &TestProductCreatedEvent{}
+    // New a Webhook event
+    event := &order.OrderCreatedEvent{}
     
-    // Decode Webhook event
-    err = webhookClient.Decode(req, event)
+    // Decode the Webhook event
+    err := webhookClient.Decode(req, event)
 ```
 
-
-### Implementing your own service interface(Optional)
-
-Step 1: Define a service interface
-
-Refer to product_service.go or order_service.go for examples.
-  ```
-    type IOrderService interface {
-        List(context.Context, *ListOrdersAPIReq) (*ListOrdersAPIResp, error)
-        ListAll(context.Context, *ListOrdersAPIReq) ([]Order, error)
-        ...
-    }
-  ```
-Step 2: Define a service struct and implement the service interface
-  ```
-    type OrderService struct {
-      client.BaseService
-    }
-  
-    func (o *OrderService) List(ctx context.Context, apiReq *ListOrdersAPIReq) (*ListOrdersAPIResp, error) {
-      ...
-    }
-  
-    func (o *OrderService) ListAll(ctx context.Context, apiReq *ListOrdersAPIReq) (*ListOrdersAPIResp, error) {
-      ...
-    }
-
-  ```
-
-Step 3: Create a service instance
-  ```
-    var serviceInst = &OrderService{}
-    func GetOrderService() *OrderService {
-      return serviceInst
-    }
-  ```
-  
-Step 4: Register the service
-  * Method 1: Use client.WithClientAware to register.
-    ```
-    cli = support.MustNewClient(app, cfg.DefaultStoreHandle, cfg.DefaultAccessToken, client.WithClientAware(order.GetOrderService()))
-    ```
-  * Method 2: Modify the source code in service_register.go.
-    
-  ``` see: service_register.go
-    func GetClientAwares() []client.Aware {
-      var awares = []client.Aware{
-          order.GetOrderService(),
-          // you can add service here
-      }
-      return awares
-    }
-
-  ```
 
 ### Webhooks verification
 
@@ -1099,71 +1045,15 @@ type DeleteWebhookAPIResp struct {
 ### 使用 WebhookClient 解析 Webhook 事件
 ```WebhookClient
     // 创建 WebhookClient
-    webhookClient = NewWebhookClient(app)
+    webhookClient := client.NewWebhookClient(app)
 
     // 创建 Webhook 事件
-    event := &TestProductCreatedEvent{}
+    event := &order.OrderCreatedEvent{}
     
     // 解析 Webhook 事件
-    err = webhookClient.Decode(req, event)
+    err := webhookClient.Decode(req, event)
 ```
 
-
-
-### 实现你自己的服务接口 Service Interface（可选）
-
-步骤1: 定义一个服务接口
-  * See product_service.go or order_service.go
-  ```
-    type IOrderService interface {
-        List(context.Context, *ListOrdersAPIReq) (*ListOrdersAPIResp, error)
-        ListAll(context.Context, *ListOrdersAPIReq) ([]Order, error)
-        // 你可以在这里添加更多方法
-    }
-  ```
-
-步骤2: 定义一个 Service 结构体并实现服务接口
-  ```
-    type OrderService struct {
-      client.BaseService
-    }
-  
-    func (o *OrderService) List(ctx context.Context, apiReq *ListOrdersAPIReq) (*ListOrdersAPIResp, error) {
-        // 在这里定义函数实现逻辑
-    }
-  
-    func (o *OrderService) ListAll(ctx context.Context, apiReq *ListOrdersAPIReq) (*ListOrdersAPIResp, error) {
-        // 在这里定义函数实现逻辑
-    }
-
-  ```
-
-步骤3: 创建服务实例
-  ```
-    var serviceInst = &OrderService{}
-    func GetOrderService() *OrderService {
-      return serviceInst
-    }
-  ```
-
-
-步骤4: 注册服务
-  * 方法1: 使用 client.WithClientAware
-    ```
-    cli = support.MustNewClient(app, cfg.DefaultStoreHandle, cfg.DefaultAccessToken, client.WithClientAware(order.GetOrderService()))
-    ```
-  * 方法2: 修改 'service_register.go' 源代码
-
-  ``` see: service_register.go
-    func GetClientAwares() []client.Aware {
-      var awares = []client.Aware{
-          order.GetOrderService(),
-          // 可以在这里添加更多服务
-      }
-      return awares
-    }
-
-  ```
 
 
 ### 验证 Webhooks
