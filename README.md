@@ -453,6 +453,17 @@ type DeleteWebhookAPIResp struct {
 
 ```
 
+### Using WebhookClient to decode Webhook event
+```WebhookClient
+    // New WebhookClient
+    webhookClient = NewWebhookClient(app)
+
+    // New Webhook event
+    event := &TestProductCreatedEvent{}
+    
+    // Decode Webhook event
+    err = webhookClient.Decode(req, event)
+```
 
 
 ### Implementing your own service interface(Optional)
@@ -1083,6 +1094,20 @@ type DeleteWebhookAPIResp struct {
 }
 
 ```
+
+
+### 使用 WebhookClient 解析 Webhook 事件
+```WebhookClient
+    // 创建 WebhookClient
+    webhookClient = NewWebhookClient(app)
+
+    // 创建 Webhook 事件
+    event := &TestProductCreatedEvent{}
+    
+    // 解析 Webhook 事件
+    err = webhookClient.Decode(req, event)
+```
+
 
 
 ### 实现你自己的服务接口 Service Interface（可选）

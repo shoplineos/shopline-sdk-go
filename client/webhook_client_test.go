@@ -55,13 +55,13 @@ func TestVerifyAndDecode(t *testing.T) {
 		t.Fatalf("NewHttpRequest(%v) err = %v, expected nil", inURL, err)
 	}
 
-	e := &TestProductCreatedEvent{}
-	err = webhookClient.Decode(req, e)
+	event := &TestProductCreatedEvent{}
+	err = webhookClient.Decode(req, event)
 	if err != nil {
 		t.Fatalf("Decode(%v) err = %v, expected nil", inURL, err)
 	}
 
-	assert.Equal(t, "32398389389389", e.Id)
-	assert.Equal(t, "BodyHtml", e.BodyHtml)
-	assert.Equal(t, "testMerchantId", e.Header.MerchantId)
+	assert.Equal(t, "32398389389389", event.Id)
+	assert.Equal(t, "BodyHtml", event.BodyHtml)
+	assert.Equal(t, "testMerchantId", event.Header.MerchantId)
 }
