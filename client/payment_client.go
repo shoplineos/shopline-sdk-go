@@ -39,7 +39,7 @@ func (c *PaymentClient) Call(ctx context.Context, req APIRequest, resource inter
 }
 
 func (c *PaymentClient) executeInternal(ctx context.Context, method HTTPMethod, endpoint string, request *ShopLineRequest, resource interface{}) (*ShopLineResponse, error) {
-	_, _, err := c.cli.Verify(endpoint, method, request)
+	err := c.cli.Verify(endpoint, method, request)
 	if err != nil {
 		return nil, err
 	}

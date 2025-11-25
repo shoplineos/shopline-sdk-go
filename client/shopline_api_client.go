@@ -24,7 +24,6 @@ type IClient interface {
 
 	CreateAccessToken(ctx context.Context, code string) (*TokenResponse, error)
 	RefreshAccessToken(ctx context.Context, storeHandle string) (*TokenResponse, error)
-	//NewHttpRequest(ctx context.Context, method HTTPMethod, path string, request *ShopLineRequest) (*http.Request, error)
 }
 
 // Client the default API Client
@@ -337,7 +336,7 @@ func (c *Client) Execute(ctx context.Context, method HTTPMethod, endpoint string
 }
 
 func (c *Client) executeInternal(ctx context.Context, method HTTPMethod, endpoint string, request *ShopLineRequest, resource interface{}) (*ShopLineResponse, error) {
-	_, _, err := c.Verify(endpoint, method, request)
+	err := c.Verify(endpoint, method, request)
 	if err != nil {
 		return nil, err
 	}
@@ -499,14 +498,6 @@ func (c *Client) generateSignIfNecessary(httpReq *http.Request, wrapper *shopLin
 	return nil
 }
 
-func resolveAppKey(app App) string {
-	return app.AppKey
-}
-
-func resolveAppSecret(app App) string {
-	return app.AppSecret
-}
-
 // Generate sign string
 func generateSign(appKey, appSecret, timestamp string, requestBodyJsonBytes []byte) (string, error) {
 	bodyJsonString, err := buildBodyJsonString(requestBodyJsonBytes)
@@ -640,32 +631,32 @@ func (c *Client) logDetailIfNecessary(method string, apiURL string, req *ShopLin
 }
 
 // Verify request params
-func (c *Client) Verify(endpoint string, method HTTPMethod, request *ShopLineRequest) (string, string, error) {
+func (c *Client) Verify(endpoint string, method HTTPMethod, request *ShopLineRequest) error {
 	if request == nil {
-		return "", "", fmt.Errorf("ShopLineRequest is required")
+		return fmt.Errorf("ShopLineRequest is required")
 	}
 	if method == "" {
-		return "", "", fmt.Errorf("HTTP GetMethod is required")
+		return fmt.Errorf("HTTP GetMethod is required")
 	}
 	if endpoint == "" {
-		return "", "", fmt.Errorf("API endpoint is required")
+		return fmt.Errorf("API endpoint is required")
 	}
 
-	appKey := resolveAppKey(c.App)
-	if appKey == "" {
-		return "", "", fmt.Errorf("appKey is required")
-	}
-
-	appSecret := resolveAppSecret(c.App)
-	if appSecret == "" {
-		return "", "", fmt.Errorf("appSecret is required")
-	}
+	//appKey := resolveAppKey(c.App)
+	//if appKey == "" {
+	//	return fmt.Errorf("appKey is required")
+	//}
+	//
+	//appSecret := resolveAppSecret(c.App)
+	//if appSecret == "" {
+	//	return fmt.Errorf("appSecret is required")
+	//}
 
 	if request.Data != nil {
 		if _, ok := (request.Data).(APIRequest); ok {
 			err := (request.Data).(APIRequest).Verify()
 			if err != nil {
-				return "", "", err
+				return err
 			}
 		}
 	}
@@ -673,11 +664,11 @@ func (c *Client) Verify(endpoint string, method HTTPMethod, request *ShopLineReq
 		if _, ok := (request.Query).(APIRequest); ok {
 			err := (request.Query).(APIRequest).Verify()
 			if err != nil {
-				return "", "", err
+				return err
 			}
 		}
 	}
-	return appKey, appSecret, nil
+	return nil
 }
 
 // Add the request query parameters to the http query parameters
@@ -706,7 +697,6 @@ func (c *Client) buildRequestUrl(method HTTPMethod, relPath string, request *Sho
 
 	requestURL := parsedURL.String()
 	log.Printf("Final to build requestURL: %s\n", requestURL)
-
 	return requestURL, nil
 }
 
