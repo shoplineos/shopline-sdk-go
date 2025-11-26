@@ -182,3 +182,53 @@ func TestCallRefundSuccessfulNotify(t *testing.T) {
 		t.Error(err)
 	}
 }
+
+func TestPaymentExecuteInternal(t *testing.T) {
+	setupPaymentClient()
+	defer teardown()
+
+	httpmock.RegisterResponder("GET", fmt.Sprintf("https://%s.myshopline.com/%s/%s/orders.json", client.StoreHandle, "admin/openapi", client.ApiVersion),
+		httpmock.NewStringResponder(200, "{}"))
+
+	request := &ShopLineRequest{}
+	resp, err := paymentClient.executeInternal(context.Background(), MethodGet, "orders.json", request, &RefundSuccessfulNotificationAPIRespStruct{})
+	assert.NotNil(t, resp)
+	assert.Nil(t, err)
+
+}
+
+func TestSetPaymentHeaders(t *testing.T) {
+	setupPaymentClient()
+	defer teardown()
+
+	req := &RefundSuccessfulNotificationAPIReqStruct{
+		ChannelId:                  "1",
+		PaymentMethod:              "m",
+		Amount:                     200,
+		ChannelOrderTransactionId:  "2",
+		ChannelRefundTransactionId: "2",
+		Currency:                   "USD",
+		RefundTransactionId:        "2",
+		Status:                     "2",
+	}
+
+	request := &ShopLineRequest{
+		Data: req,
+	}
+	httpReq, _, err := paymentClient.cli.NewHttpRequestWithoutHeaders(context.Background(), MethodGet, "orders.json", request)
+	if err != nil {
+		t.Error(err)
+	}
+
+	err = paymentClient.setPaymentHeaders(request, httpReq)
+	if err != nil {
+		t.Error(err)
+	}
+	assert.Nil(t, err)
+
+	timestamp := httpReq.Header.Get("pay-api-timestamp")
+	assert.NotEmpty(t, timestamp)
+
+	signature := httpReq.Header.Get("pay-api-signature")
+	assert.NotEmpty(t, signature)
+}

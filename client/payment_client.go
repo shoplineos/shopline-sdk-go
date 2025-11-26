@@ -72,16 +72,17 @@ func (c *PaymentClient) setPaymentHeaders(request *ShopLineRequest, httpReq *htt
 	var resourceMap map[string]interface{}
 	if request.Data != nil {
 		resourceMap = structs.Map(request.Data)
-	} else {
+	} else if request.Query != nil {
 		resourceMap = structs.Map(request.Query)
 	}
 
-	sign, err := c.paymentSignatureAlgorithm.Signature(resourceMap)
-	if err != nil {
-		return err
+	if resourceMap != nil {
+		sign, err := c.paymentSignatureAlgorithm.Signature(resourceMap)
+		if err != nil {
+			return err
+		}
+		httpReq.Header.Set("pay-api-signature", sign)
 	}
-
-	httpReq.Header.Set("pay-api-signature", sign)
 
 	setRequestHeadersIfNecessary(request, httpReq)
 	return nil
