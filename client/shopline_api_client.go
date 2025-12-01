@@ -642,16 +642,6 @@ func (c *Client) Verify(endpoint string, method HTTPMethod, request *ShopLineReq
 		return fmt.Errorf("API endpoint is required")
 	}
 
-	//appKey := resolveAppKey(c.App)
-	//if appKey == "" {
-	//	return fmt.Errorf("appKey is required")
-	//}
-	//
-	//appSecret := resolveAppSecret(c.App)
-	//if appSecret == "" {
-	//	return fmt.Errorf("appSecret is required")
-	//}
-
 	if request.Data != nil {
 		if _, ok := (request.Data).(APIRequest); ok {
 			err := (request.Data).(APIRequest).Verify()

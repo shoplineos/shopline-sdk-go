@@ -14,6 +14,7 @@ import (
 	"strings"
 )
 
+// PaymentSignatureAlgorithm use method NewPaymentSignatureAlgorithm to new a PaymentSignatureAlgorithm
 type PaymentSignatureAlgorithm struct {
 	PrivateKey string
 	PublicKey  string
@@ -31,16 +32,16 @@ func NewPaymentSignatureAlgorithm(privateKey string, publicKey string) *PaymentS
 		PublicKey:  publicKey,
 	}
 
-	alg.InitKeys()
+	alg.initKeys()
 	return alg
 }
 
-func (a *PaymentSignatureAlgorithm) InitKeys() {
-	a.InitPrivateKey()
-	a.InitPublicKey()
+func (a *PaymentSignatureAlgorithm) initKeys() {
+	a.initPrivateKey()
+	a.initPublicKey()
 }
 
-func (a *PaymentSignatureAlgorithm) InitPrivateKey() {
+func (a *PaymentSignatureAlgorithm) initPrivateKey() {
 	derBytes, err := base64.StdEncoding.DecodeString(a.PrivateKey)
 	if err != nil {
 		derBytes, err = base64.URLEncoding.DecodeString(a.PrivateKey)
@@ -64,7 +65,7 @@ func (a *PaymentSignatureAlgorithm) InitPrivateKey() {
 	a.RsaPrivateKey = rsaPrivateKey
 }
 
-func (a *PaymentSignatureAlgorithm) InitPublicKey() {
+func (a *PaymentSignatureAlgorithm) initPublicKey() {
 	derBytes, err := base64.StdEncoding.DecodeString(a.PublicKey)
 	if err != nil {
 		log.Printf("failed to decode public key from Base64: %v\n", err)
