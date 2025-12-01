@@ -231,4 +231,5 @@ func TestSetPaymentHeaders(t *testing.T) {
 
 	signature := httpReq.Header.Get("pay-api-signature")
 	assert.NotEmpty(t, signature)
+	assert.Equal(t, "WV8GftIao1z7VKh7oyG8EE0MUziNCCM0LCoInwt4hWjr95VNiDEUJA+oOx4Ivkk8mfg0mRTX6rCZCD1yRe4HvcNj1nBiDmb8bgp4+nvbmi/kiCkJ5CcoVMLIpSuZqTeqo4Dd4VvNrjsZWOQXziDv6p3Ub3mRUXbJiqmaQEbw3xh+gZ80NFZrcnjzyoLuE3D56cMwLldXxpUg+K2QoR1OgV84bmltgpNsZ7B0Blx8KjVd5VkZeN/mNCvRcCgMXbH6bCLKxPq6yTfWc5EHqSzncgvTTOd672AsbJN6vzR1+UjVRuMQJY6LgXEoUOEviiuZxlP57/nfU/h03DEQJIWUhA==", signature)
 }

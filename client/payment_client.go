@@ -17,6 +17,9 @@ type PaymentClient struct {
 }
 
 func NewPaymentClient(cli *Client, privateKey string, publicKey string) *PaymentClient {
+	// Setting structs's default tag
+	structs.DefaultTagName = "json"
+
 	alg := NewPaymentSignatureAlgorithm(privateKey, publicKey)
 	return &PaymentClient{
 		cli:                       cli,

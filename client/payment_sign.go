@@ -22,6 +22,9 @@ type PaymentSignatureAlgorithm struct {
 	RsaPublicKey  *rsa.PublicKey
 }
 
+// NewPaymentSignatureAlgorithm
+// 中文: https://developer.shopline.com/zh-hans-cn/docs/apps/payment-application/payment-application-signature-logic?version=v20260301
+// En: https://developer.shopline.com/docs/apps/payment-application/payment-application-signature-logic?version=v20260301
 func NewPaymentSignatureAlgorithm(privateKey string, publicKey string) *PaymentSignatureAlgorithm {
 	alg := &PaymentSignatureAlgorithm{
 		PrivateKey: privateKey,
