@@ -67,6 +67,64 @@ func TestGraphQLQueryWithError(t *testing.T) {
 	}
 }
 
+func TestGraphQLQueryWithErrorTooManyRequest(t *testing.T) {
+	setupStorefrontGraphQLClient()
+	defer teardown()
+
+	httpmock.RegisterResponder(
+		"POST",
+		fmt.Sprintf("https://zwapptest.myshopline.com/%s/%s/graphql.json", "storefront/graph", client.ApiVersion),
+		httpmock.NewStringResponder(429, `{"errors":"Too many request"}`),
+	)
+
+	resp := struct {
+		Foo string `json:"foo"`
+	}{}
+	err := graphQLClient.Query(context.Background(), "query {}", nil, &resp)
+
+	if err == nil {
+		t.Error("GraphQL.Query should return error!")
+	}
+
+	expectedError := "Too many request"
+	if err.Error() != expectedError {
+		t.Errorf("GraphQL.Query returned error message %s but expected %s", err.Error(), expectedError)
+	}
+}
+
+func TestGraphQLQueryWithErrorDepthExceeded(t *testing.T) {
+	setupStorefrontGraphQLClient()
+	defer teardown()
+
+	httpmock.RegisterResponder(
+		"POST",
+		fmt.Sprintf("https://zwapptest.myshopline.com/%s/%s/graphql.json", "storefront/graph", client.ApiVersion),
+		httpmock.NewStringResponder(200, `{"errors": [
+    {
+      "message": "maximum query depth exceeded 14 > 13",
+      "extensions": {
+        "classification": "ExecutionAborted"
+      }
+    }
+  ]}`),
+	)
+
+	resp := struct {
+		Foo string `json:"foo"`
+	}{}
+	err := graphQLClient.Query(context.Background(), "query {}", nil, &resp)
+
+	if err == nil {
+		t.Error("GraphQL.Query should return error!")
+	}
+
+	expectedError := "maximum query depth exceeded 14 > 13"
+	if err.Error() != expectedError {
+		t.Errorf("GraphQL.Query returned error message %s but expected %s", err.Error(), expectedError)
+	}
+
+}
+
 func TestGraphQLQueryWithRetries(t *testing.T) {
 	setupStorefrontGraphQLClient()
 	defer teardown()

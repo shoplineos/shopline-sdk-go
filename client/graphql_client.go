@@ -77,8 +77,9 @@ type graphQLError struct {
 }
 
 type graphQLErrorExtensions struct {
-	Code          string
-	Documentation string
+	Code           string `json:"code"`
+	Documentation  string `json:"documentation"`
+	Classification string `json:"classification"`
 }
 
 type graphQLErrorLocation struct {
