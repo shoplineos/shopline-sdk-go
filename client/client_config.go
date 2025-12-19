@@ -2,6 +2,6 @@ package client
 
 const (
 	DefaultApiVersion = "v20251201"
-	DefaultUserAgent  = "shopline-sdk-go/0.0.10"
+	DefaultUserAgent  = "shopline-sdk-go/0.0.26"
 	DefaultMaxRetries = 3
 )

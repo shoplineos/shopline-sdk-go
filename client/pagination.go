@@ -30,7 +30,7 @@ type ListOptions struct {
 }
 
 // linkRegex is used to parse the pagination link from SHOPLINE API search results.
-var linkRegex = regexp.MustCompile(`^ *<([^>]+)>; rel="(previous|next)" *$`)
+var linkRegex = regexp.MustCompile(`^ *<([^>]+)>; rel="(previous|prev|next)" *$`)
 
 // parsePagination
 // linkHeader eg: <https://fafafa.myshopline.com/admin/openapi/v33322/products/products.json?limit=1&page_info=eyJzaW5jZUlkIjoiMTYwNTc1OTAxNTM4OTA4Mjk1MjExMTI3ODgiLCJkaXJlY3Rpb24iOiJuZXh0IiwibGltaXQiOjF9>; rel="next"
@@ -104,7 +104,7 @@ func parseListOptions(link string, pagination *Pagination) error {
 	// 'rel' is either next or previous
 	if match[2] == "next" {
 		pagination.Next = &paginationListOptions
-	} else if match[2] == "previous" {
+	} else if match[2] == "previous" || match[2] == "prev" {
 		pagination.Previous = &paginationListOptions
 	} else {
 		return errors.New(fmt.Sprintf("Invalid pagination link format, rel: %s", match[2]))
