@@ -28,7 +28,7 @@ type UpdateAStoreMetafieldAPIReqMetafield struct {
 	   Regardless of how you define the type of the metafield, SHOPLINE will store it in string format. The maximum length of the converted string is 500000.
 	   Example: map[a:sadf]
 	*/
-	Value Value `json:"value,omitempty" url:"-"`
+	Value string `json:"value,omitempty" url:"-"`
 
 	/*
 	   The description of the metafield.

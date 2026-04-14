@@ -65,7 +65,7 @@ type AddASecondaryMetafieldToBeDeprecatedAPIReqMetafield struct {
 	/*
 	   The data stored in the metafield.
 	*/
-	Value Value `json:"value,omitempty" url:"-"`
+	Value string `json:"value,omitempty" url:"-"`
 }
 
 func (req *AddASecondaryMetafieldToBeDeprecatedAPIReq) GetEndpoint() string {

@@ -115,16 +115,11 @@ type CreateAMetafieldForAResourceAPIReqMetafield struct {
 	   Data stored in the metafield.
 	   Regardless of how you define the type of the metafield, SHOPLINE will store it in string format. The maximum length of the converted string is 500000.
 	*/
-	Value Value `json:"value,omitempty" url:"-"`
-}
-
-type Value struct {
+	Value string `json:"value,omitempty" url:"-"`
 }
 
 func (req *CreateAMetafieldForAResourceAPIReq) GetEndpoint() string {
-
-	return fmt.Sprintf("%s/%s/metafields.json", req.OwnerId, req.Resource)
-
+	return fmt.Sprintf("%s/%s/metafields.json", req.Resource, req.OwnerId)
 }
 
 func (req *CreateAMetafieldForAResourceAPIReq) GetMethod() string {
@@ -137,15 +132,12 @@ func (req *CreateAMetafieldForAResourceAPIReq) GetData() interface{} {
 
 // Verify the api request parameters
 func (req *CreateAMetafieldForAResourceAPIReq) Verify() error {
-
 	if req.OwnerId == "" {
 		return errors.New("OwnerId is required")
 	}
-
 	if req.Resource == "" {
 		return errors.New("Resource is required")
 	}
-
 	return nil
 }
 
@@ -195,7 +187,7 @@ type Metafield struct {
 	/*
 	   The data stored in the metafield.
 	*/
-	Value Value `json:"value,omitempty" url:"-"`
+	Value string `json:"value,omitempty" url:"-"`
 
 	/*
 	   The description of the metafield.

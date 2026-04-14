@@ -102,7 +102,7 @@ type UpdateAMetafieldForAResourceAPIReqMetafield struct {
 	   Regardless of how you define the type of the metafield, SHOPLINE will store it in string format. The maximum length of the converted string is 500000.
 	   Example: map[]
 	*/
-	Value Value `json:"value,omitempty" url:"-"`
+	Value string `json:"value,omitempty" url:"-"`
 
 	/*
 	   The description of the metafield.
@@ -114,7 +114,7 @@ type UpdateAMetafieldForAResourceAPIReqMetafield struct {
 
 func (req *UpdateAMetafieldForAResourceAPIReq) GetEndpoint() string {
 
-	return fmt.Sprintf("%s/%s/metafields/%s.json", req.OwnerId, req.Resource, req.Id)
+	return fmt.Sprintf("%s/%s/metafields/%s.json", req.Resource, req.OwnerId, req.Id)
 
 }
 

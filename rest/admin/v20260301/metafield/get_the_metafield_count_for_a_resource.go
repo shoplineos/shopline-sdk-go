@@ -32,7 +32,7 @@ type GetTheMetafieldCountForAResourceAPIReq struct {
 
 func (req *GetTheMetafieldCountForAResourceAPIReq) GetEndpoint() string {
 
-	return fmt.Sprintf("%s/%s/metafields/count.json", req.OwnerId, req.Resource)
+	return fmt.Sprintf("%s/%s/metafields/count.json", req.Resource, req.OwnerId)
 
 }
 

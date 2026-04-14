@@ -191,7 +191,7 @@ type Definition struct {
 	/*
 	   The ID of the metafield definition.
 	*/
-	Id string `json:"id,omitempty" url:"-"`
+	Id int64 `json:"id,omitempty" url:"-"`
 
 	/*
 	   The namespace of the metafield definition.

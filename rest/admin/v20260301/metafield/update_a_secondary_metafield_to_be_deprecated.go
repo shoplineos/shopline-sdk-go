@@ -47,7 +47,7 @@ type UpdateASecondaryMetafieldToBeDeprecatedAPIReqMetafield struct {
 	   Value , type relies on type , default each application dispenses 100 m storage space，the maximum input length for a single metafield is 500,000 characters.
 	   Example: map[]
 	*/
-	Value Value `json:"value,omitempty" url:"-"`
+	Value string `json:"value,omitempty" url:"-"`
 
 	/*
 	   Description

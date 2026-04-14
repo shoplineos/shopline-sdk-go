@@ -7,7 +7,7 @@ import (
 	"github.com/jarcoal/httpmock"
 	"github.com/shoplineos/shopline-sdk-go/client"
 	"github.com/shoplineos/shopline-sdk-go/rest/admin/test"
-	order2 "github.com/shoplineos/shopline-sdk-go/rest/admin/v20251201/order"
+	order2 "github.com/shoplineos/shopline-sdk-go/rest/admin/v20260301/order"
 	"net/http"
 	"reflect"
 	"runtime"
@@ -15,10 +15,10 @@ import (
 )
 
 func TestOrderList(t *testing.T) {
-	test.Setup()
+	test.SetupWithVersion(ApiVersion)
 	defer test.Teardown()
-
 	cli := test.GetClient()
+
 	httpmock.RegisterResponder("GET",
 		fmt.Sprintf("https://%s.myshopline.com/%s/%s/orders.json", cli.StoreHandle, cli.PathPrefix, cli.ApiVersion),
 		httpmock.NewBytesResponder(200, test.LoadTestDataV2("", "../test/order/orders.json")))
@@ -40,7 +40,7 @@ func TestOrderList(t *testing.T) {
 }
 
 func TestOrderListOptions(t *testing.T) {
-	test.Setup()
+	test.SetupWithVersion(ApiVersion)
 	defer test.Teardown()
 	params := map[string]string{
 		"fields": "id,name",

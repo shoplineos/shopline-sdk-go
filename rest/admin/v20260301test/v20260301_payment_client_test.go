@@ -6,7 +6,7 @@ import (
 	"github.com/jarcoal/httpmock"
 	"github.com/shoplineos/shopline-sdk-go/client"
 	"github.com/shoplineos/shopline-sdk-go/rest/admin/test"
-	"github.com/shoplineos/shopline-sdk-go/rest/admin/v20251201/paymentsapp"
+	"github.com/shoplineos/shopline-sdk-go/rest/admin/v20260301/paymentsapp"
 	"github.com/stretchr/testify/assert"
 	"testing"
 )
@@ -20,7 +20,7 @@ const (
 var paymentClient *client.PaymentClient
 
 func setupPaymentClient() {
-	test.Setup()
+	test.SetupWithVersion(ApiVersion)
 
 	cli := test.GetClient()
 	paymentClient = client.NewPaymentClient(cli, privateKeyStr, publicKeyStr)
@@ -31,7 +31,6 @@ func setupPaymentClient() {
 func TestCallPaymentSuccessfulNotify(t *testing.T) {
 	setupPaymentClient()
 	defer test.Teardown()
-
 	cli := test.GetClient()
 	httpmock.RegisterResponder("POST", fmt.Sprintf("https://%s.myshopline.com/%s/%s/payment/notify/1/m/pay.json", cli.StoreHandle, "payments_apps/openapi", cli.ApiVersion),
 		httpmock.NewStringResponder(200, ""))

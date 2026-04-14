@@ -7,7 +7,7 @@ import (
 	"github.com/jarcoal/httpmock"
 	"github.com/shoplineos/shopline-sdk-go/client"
 	"github.com/shoplineos/shopline-sdk-go/rest/admin/test"
-	"github.com/shoplineos/shopline-sdk-go/rest/admin/v20251201/product"
+	"github.com/shoplineos/shopline-sdk-go/rest/admin/v20260301/product"
 	"net/http"
 	"reflect"
 	"runtime"
@@ -15,9 +15,8 @@ import (
 )
 
 func TestProductList(t *testing.T) {
-	test.Setup()
+	test.SetupWithVersion(ApiVersion)
 	defer test.Teardown()
-
 	cli := test.GetClient()
 	httpmock.RegisterResponder("GET", fmt.Sprintf("https://%s.myshopline.com/%s/%s/products/products.json", cli.StoreHandle, cli.PathPrefix, cli.ApiVersion),
 		httpmock.NewStringResponder(200, `{"products": [{"Id":"1"},{"Id":"2"}]}`))
@@ -37,9 +36,8 @@ func TestProductList(t *testing.T) {
 }
 
 func TestProductListFilterByIds(t *testing.T) {
-	test.Setup()
+	test.SetupWithVersion(ApiVersion)
 	defer test.Teardown()
-
 	cli := test.GetClient()
 	params := map[string]string{"ids": "1,2,3"}
 	httpmock.RegisterResponderWithQuery(
@@ -65,9 +63,8 @@ func TestProductListFilterByIds(t *testing.T) {
 }
 
 func TestProductListError(t *testing.T) {
-	test.Setup()
+	test.SetupWithVersion(ApiVersion)
 	defer test.Teardown()
-
 	cli := test.GetClient()
 	httpmock.RegisterResponder("GET",
 		fmt.Sprintf("https://%s.myshopline.com/%s/%s/products/products.json", cli.StoreHandle, cli.PathPrefix, cli.ApiVersion),
@@ -89,9 +86,8 @@ func TestProductListError(t *testing.T) {
 }
 
 func TestProductListAll(t *testing.T) {
-	test.Setup()
+	test.SetupWithVersion(ApiVersion)
 	defer test.Teardown()
-
 	cli := test.GetClient()
 	listURL := fmt.Sprintf("https://%s.myshopline.com/%s/%s/products/products.json", cli.StoreHandle, cli.PathPrefix, cli.ApiVersion)
 
@@ -208,9 +204,8 @@ func TestProductListAll(t *testing.T) {
 }
 
 func TestProductListWithPagination(t *testing.T) {
-	test.Setup()
+	test.SetupWithVersion(ApiVersion)
 	defer test.Teardown()
-
 	cli := test.GetClient()
 	listURL := fmt.Sprintf("https://%s.myshopline.com/%s/%s/products/products.json", cli.StoreHandle, cli.PathPrefix, cli.ApiVersion)
 

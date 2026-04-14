@@ -5,14 +5,14 @@ import (
 	"fmt"
 	"github.com/jarcoal/httpmock"
 	"github.com/shoplineos/shopline-sdk-go/rest/admin/test"
-	product2 "github.com/shoplineos/shopline-sdk-go/rest/admin/v20251201/product"
+	product2 "github.com/shoplineos/shopline-sdk-go/rest/admin/v20260301/product"
 	"github.com/stretchr/testify/assert"
 	"log"
 	"testing"
 )
 
 func TestDeleteVariant(t *testing.T) {
-	test.Setup()
+	test.SetupWithVersion(ApiVersion)
 	defer test.Teardown()
 	cli := test.GetClient()
 

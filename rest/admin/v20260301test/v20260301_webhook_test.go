@@ -5,13 +5,13 @@ import (
 	"fmt"
 	"github.com/jarcoal/httpmock"
 	"github.com/shoplineos/shopline-sdk-go/rest/admin/test"
-	webhook2 "github.com/shoplineos/shopline-sdk-go/rest/admin/v20251201/webhook"
+	webhook2 "github.com/shoplineos/shopline-sdk-go/rest/admin/v20260301/webhook"
 	"github.com/stretchr/testify/assert"
 	"testing"
 )
 
 func TestCreate(t *testing.T) {
-	test.Setup()
+	test.SetupWithVersion(ApiVersion)
 	defer test.Teardown()
 	cli := test.GetClient()
 
@@ -19,8 +19,8 @@ func TestCreate(t *testing.T) {
 		fmt.Sprintf("https://%s.myshopline.com/%s/%s/webhooks.json", cli.StoreHandle, cli.PathPrefix, cli.ApiVersion),
 		httpmock.NewStringResponder(200, `{"webhook":{"id":1, "created_at":"2025-09-22T14:48:44-04:00", "updated_at":"2025-09-22T14:48:44-04:00", "address":"test desc", "topic":"key_test", "apiVersion":"123"}}`))
 
-	req := &webhook2.CreateWebhookAPIReq{
-		Webhook: webhook2.CreateWebhook{
+	req := &webhook2.SubscribeToAWebhookAPIReq{
+		Webhook: webhook2.SubscribeToAWebhookAPIReqWebhook{
 			Address:    "test desc",
 			Topic:      "key_test",
 			ApiVersion: "133",
@@ -28,7 +28,7 @@ func TestCreate(t *testing.T) {
 	}
 
 	//apiResp, err := GetWebhookService().Create(context.Background(), req)
-	apiResp := &webhook2.CreateWebhookAPIResp{}
+	apiResp := &webhook2.SubscribeToAWebhookAPIResp{}
 	err := cli.Call(context.Background(), req, apiResp)
 
 	if err != nil {
@@ -36,13 +36,13 @@ func TestCreate(t *testing.T) {
 	}
 
 	assert.NotNil(t, apiResp)
-	assert.Equal(t, uint64(1), apiResp.Webhook.Id)
+	assert.Equal(t, 1, apiResp.Webhook.Id)
 	assert.Equal(t, "test desc", apiResp.Webhook.Address)
 	assert.Equal(t, "2025-09-22T14:48:44-04:00", apiResp.Webhook.CreatedAt)
 }
 
 func TestUpdate(t *testing.T) {
-	test.Setup()
+	test.SetupWithVersion(ApiVersion)
 	defer test.Teardown()
 	cli := test.GetClient()
 
@@ -50,15 +50,15 @@ func TestUpdate(t *testing.T) {
 		fmt.Sprintf("https://%s.myshopline.com/%s/%s/1/webhooks.json", cli.StoreHandle, cli.PathPrefix, cli.ApiVersion),
 		httpmock.NewStringResponder(200, `{"webhook":{"id":1, "created_at":"2025-09-22T14:48:44-04:00", "updated_at":"2025-10-10T14:48:44-04:00", "address":"test1 desc", "topic":"key_test", "apiVersion":"123"}}`))
 
-	req := &webhook2.UpdateWebhookAPIReq{
+	req := &webhook2.UpdateASubscribedWebhookAPIReq{
 		Id: 1,
-		Webhook: webhook2.UpdateWebhook{
+		Webhook: webhook2.UpdateASubscribedWebhookAPIReqWebhook{
 			Address: "test1 desc",
 		},
 	}
 
 	//apiResp, err := GetWebhookService().Update(context.Background(), req)
-	apiResp := &webhook2.UpdateWebhookAPIResp{}
+	apiResp := &webhook2.UpdateASubscribedWebhookAPIResp{}
 	err := cli.Call(context.Background(), req, apiResp)
 
 	if err != nil {
@@ -66,13 +66,13 @@ func TestUpdate(t *testing.T) {
 	}
 
 	assert.NotNil(t, apiResp)
-	assert.Equal(t, uint64(1), apiResp.Webhook.Id)
+	assert.Equal(t, 1, apiResp.Webhook.Id)
 	assert.Equal(t, "test1 desc", apiResp.Webhook.Address)
 	assert.Equal(t, "2025-10-10T14:48:44-04:00", apiResp.Webhook.UpdatedAt)
 }
 
 func TestGet(t *testing.T) {
-	test.Setup()
+	test.SetupWithVersion(ApiVersion)
 	defer test.Teardown()
 	cli := test.GetClient()
 
@@ -80,11 +80,11 @@ func TestGet(t *testing.T) {
 		fmt.Sprintf("https://%s.myshopline.com/%s/%s/1/webhooks.json", cli.StoreHandle, cli.PathPrefix, cli.ApiVersion),
 		httpmock.NewStringResponder(200, `{"webhook":{"id":1, "created_at":"2025-09-22T14:48:44-04:00", "updated_at":"2025-09-22T14:48:44-04:00", "address":"test1 desc", "topic":"key_test", "apiVersion":"123"}}`))
 
-	req := &webhook2.GetWebhookAPIReq{
+	req := &webhook2.GetASubscribedWebhookAPIReq{
 		Id: 1,
 	}
 
-	apiResp := &webhook2.GetWebhookAPIResp{}
+	apiResp := &webhook2.GetASubscribedWebhookAPIResp{}
 	err := cli.Call(context.Background(), req, apiResp)
 
 	if err != nil {
@@ -92,12 +92,12 @@ func TestGet(t *testing.T) {
 	}
 
 	assert.NotNil(t, apiResp)
-	assert.Equal(t, uint64(1), apiResp.Webhook.Id)
+	assert.Equal(t, 1, apiResp.Webhook.Id)
 	assert.Equal(t, "test1 desc", apiResp.Webhook.Address)
 }
 
 func TestList(t *testing.T) {
-	test.Setup()
+	test.SetupWithVersion(ApiVersion)
 	defer test.Teardown()
 	cli := test.GetClient()
 
@@ -105,9 +105,9 @@ func TestList(t *testing.T) {
 		fmt.Sprintf("https://%s.myshopline.com/%s/%s/webhooks.json", cli.StoreHandle, cli.PathPrefix, cli.ApiVersion),
 		httpmock.NewStringResponder(200, `{"webhooks":[{"id":1, "created_at":"2025-09-22T14:48:44-04:00", "updated_at":"2025-09-22T14:48:44-04:00", "address":"test1 desc", "topic":"key_test", "apiVersion":"123"}]}`))
 
-	req := &webhook2.ListWebhooksAPIReq{}
+	req := &webhook2.GetAListOfSubscribedWebhooksAPIReq{}
 
-	apiResp := &webhook2.ListWebhooksAPIResp{}
+	apiResp := &webhook2.GetAListOfSubscribedWebhooksAPIResp{}
 	err := cli.Call(context.Background(), req, apiResp)
 
 	if err != nil {
@@ -118,12 +118,12 @@ func TestList(t *testing.T) {
 	assert.Equal(t, 1, len(apiResp.Webhooks))
 
 	webhook := apiResp.Webhooks[0]
-	assert.Equal(t, uint64(1), webhook.Id)
+	assert.Equal(t, 1, webhook.Id)
 	assert.Equal(t, "test1 desc", webhook.Address)
 }
 
 func TestDelete(t *testing.T) {
-	test.Setup()
+	test.SetupWithVersion(ApiVersion)
 	defer test.Teardown()
 	cli := test.GetClient()
 
@@ -131,11 +131,11 @@ func TestDelete(t *testing.T) {
 		fmt.Sprintf("https://%s.myshopline.com/%s/%s/1/webhooks.json", cli.StoreHandle, cli.PathPrefix, cli.ApiVersion),
 		httpmock.NewStringResponder(200, ""))
 
-	req := &webhook2.DeleteWebhookAPIReq{
+	req := &webhook2.UnsubscribeFromAWebhookAPIReq{
 		Id: 1,
 	}
 
-	apiResp := &webhook2.DeleteWebhookAPIResp{}
+	apiResp := &webhook2.UnsubscribeFromAWebhookAPIResp{}
 	err := cli.Call(context.Background(), req, apiResp)
 
 	if err != nil {
@@ -146,7 +146,7 @@ func TestDelete(t *testing.T) {
 }
 
 func TestCount(t *testing.T) {
-	test.Setup()
+	test.SetupWithVersion(ApiVersion)
 	defer test.Teardown()
 	cli := test.GetClient()
 
@@ -154,9 +154,9 @@ func TestCount(t *testing.T) {
 		fmt.Sprintf("https://%s.myshopline.com/%s/%s/webhooks/count.json", cli.StoreHandle, cli.PathPrefix, cli.ApiVersion),
 		httpmock.NewStringResponder(200, `{"count":1}`))
 
-	req := &webhook2.CountWebhooksAPIReq{}
+	req := &webhook2.GetTheSubscribedWebhookCountAPIReq{}
 
-	apiResp := &webhook2.CountWebhooksAPIResp{}
+	apiResp := &webhook2.GetTheSubscribedWebhookCountAPIResp{}
 	err := cli.Call(context.Background(), req, apiResp)
 
 	if err != nil {

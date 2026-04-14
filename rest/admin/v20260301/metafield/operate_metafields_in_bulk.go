@@ -100,7 +100,7 @@ type OperateMetafieldsInBulkAPIReqMetafield struct {
 	   Data stored in the metafield.
 	   Regardless of how you define the type of the metafield, SHOPLINE will store it in string format. The maximum length of the converted string is 500000.
 	*/
-	Value Value `json:"value,omitempty" url:"-"`
+	Value string `json:"value,omitempty" url:"-"`
 
 	/*
 	   Description of the metafield.

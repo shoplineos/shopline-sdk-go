@@ -38,7 +38,7 @@ type DeleteAMetafieldAPIReq struct {
 
 func (req *DeleteAMetafieldAPIReq) GetEndpoint() string {
 
-	return fmt.Sprintf("%s/%s/metafields/%s.json", req.Id, req.OwnerId, req.Resource)
+	return fmt.Sprintf("%s/%s/metafields/%s.json", req.Resource, req.OwnerId, req.Id)
 
 }
 

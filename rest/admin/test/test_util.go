@@ -37,6 +37,10 @@ func LoadTestDataV2(dir string, filename string) []byte {
 	return f
 }
 
+func SetupWithVersion(apiVersion string) {
+	setupWithVersion(apiVersion)
+}
+
 func Setup() {
 	setup()
 }
@@ -45,13 +49,13 @@ func Teardown() {
 	teardown()
 }
 
-func setup() {
+func setupWithVersion(apiVersion string) {
 	app = client.App{
 		AppKey:    config.AppKeyForUnitTest,
 		AppSecret: config.AppSecretForUnitTest,
 	}
 
-	cli = client.MustNewClient(app, config.StoreHandelForUnitTest, config.AccessTokenForUnitTest)
+	cli = client.MustNewClient(app, config.StoreHandelForUnitTest, config.AccessTokenForUnitTest, client.WithVersion(apiVersion))
 	if cli == nil {
 		panic("client is nil")
 	}
@@ -59,6 +63,10 @@ func setup() {
 	app.Client = cli
 
 	httpmock.ActivateNonDefault(cli.Client)
+}
+
+func setup() {
+	setupWithVersion(config.DefaultAPIVersion)
 }
 
 func teardown() {

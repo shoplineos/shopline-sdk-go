@@ -5,15 +5,14 @@ import (
 	"fmt"
 	"github.com/jarcoal/httpmock"
 	"github.com/shoplineos/shopline-sdk-go/rest/admin/test"
-	paymentsapp2 "github.com/shoplineos/shopline-sdk-go/rest/admin/v20251201/paymentsapp"
+	paymentsapp2 "github.com/shoplineos/shopline-sdk-go/rest/admin/v20260301/paymentsapp"
 	"github.com/stretchr/testify/assert"
 	"testing"
 )
 
 func TestMerchantBindSuccess(t *testing.T) {
-	test.Setup()
+	test.SetupWithVersion(ApiVersion)
 	defer test.Teardown()
-
 	cli := test.GetClient()
 	httpmock.RegisterResponder("POST", fmt.Sprintf("https://%s.myshopline.com/%s/%s/app/notify/bind.json", cli.StoreHandle, cli.PathPrefix, cli.ApiVersion),
 		httpmock.NewStringResponder(200, ""))
@@ -91,9 +90,8 @@ func TestMerchantBindSuccess(t *testing.T) {
 //}
 
 func TestMerchantDeviceBindSuccess(t *testing.T) {
-	test.Setup()
+	test.SetupWithVersion(ApiVersion)
 	defer test.Teardown()
-
 	cli := test.GetClient()
 	httpmock.RegisterResponder("POST", fmt.Sprintf("https://%s.myshopline.com/%s/%s/app/notify/device_bind.json", cli.StoreHandle, cli.PathPrefix, cli.ApiVersion),
 		httpmock.NewStringResponder(200, ""))

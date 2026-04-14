@@ -5,14 +5,14 @@ import (
 	"fmt"
 	"github.com/jarcoal/httpmock"
 	"github.com/shoplineos/shopline-sdk-go/rest/admin/test"
-	"github.com/shoplineos/shopline-sdk-go/rest/admin/v20251201/product"
+	"github.com/shoplineos/shopline-sdk-go/rest/admin/v20260301/product"
 	"github.com/stretchr/testify/assert"
 	"log"
 	"testing"
 )
 
 func TestProductCreate(t *testing.T) {
-	test.Setup()
+	test.SetupWithVersion(ApiVersion)
 	defer test.Teardown()
 	cli := test.GetClient()
 
@@ -45,7 +45,7 @@ func createProductTests(t *testing.T, product product.CreateAProductAPIResp) {
 }
 
 func TestProductUpdate(t *testing.T) {
-	test.Setup()
+	test.SetupWithVersion(ApiVersion)
 	defer test.Teardown()
 
 	cli := test.GetClient()
@@ -77,9 +77,8 @@ func productTests(t *testing.T, product *product.UpdateAProductAPIResp) {
 }
 
 func TestProductCount(t *testing.T) {
-	test.Setup()
+	test.SetupWithVersion(ApiVersion)
 	defer test.Teardown()
-
 	cli := test.GetClient()
 	httpmock.RegisterResponder("GET", fmt.Sprintf("https://%s.myshopline.com/%s/%s/products/count.json", cli.StoreHandle, cli.PathPrefix, cli.ApiVersion),
 		httpmock.NewStringResponder(200, `{"count":1}`))
@@ -97,7 +96,7 @@ func TestProductCount(t *testing.T) {
 }
 
 func TestDeleteAProduct(t *testing.T) {
-	test.Setup()
+	test.SetupWithVersion(ApiVersion)
 	defer test.Teardown()
 
 	cli := test.GetClient()
@@ -123,8 +122,7 @@ func TestDeleteAProduct(t *testing.T) {
 
 // 500 Internal Server Error
 func TestDeleteProductError(t *testing.T) {
-
-	test.Setup()
+	test.SetupWithVersion(ApiVersion)
 	defer test.Teardown()
 	cli := test.GetClient()
 
@@ -144,8 +142,7 @@ func TestDeleteProductError(t *testing.T) {
 
 // Unknown Error
 func TestDeleteProductUnknowError(t *testing.T) {
-
-	test.Setup()
+	test.SetupWithVersion(ApiVersion)
 	defer test.Teardown()
 	cli := test.GetClient()
 
@@ -165,7 +162,7 @@ func TestDeleteProductUnknowError(t *testing.T) {
 
 // ok
 func TestDeleteProduct3(t *testing.T) {
-	test.Setup()
+	test.SetupWithVersion(ApiVersion)
 	defer test.Teardown()
 	cli := test.GetClient()
 
@@ -189,8 +186,7 @@ func TestDeleteProduct3(t *testing.T) {
 // zh: https://developer.shopline.com/zh-hans-cn/docs/admin-rest-api/product/product/query-single-product?version=v20251201
 // en: https://developer.shopline.com/docs/admin-rest-api/product/product/query-single-product?version=v20251201
 func TestGetProductDetailError(t *testing.T) {
-
-	test.Setup()
+	test.SetupWithVersion(ApiVersion)
 	defer test.Teardown()
 	cli := test.GetClient()
 
@@ -212,8 +208,7 @@ func TestGetProductDetailError(t *testing.T) {
 // zh: https://developer.shopline.com/zh-hans-cn/docs/admin-rest-api/product/product/query-single-product?version=v20251201
 // en: https://developer.shopline.com/docs/admin-rest-api/product/product/query-single-product?version=v20251201
 func TestGetProductDetail(t *testing.T) {
-
-	test.Setup()
+	test.SetupWithVersion(ApiVersion)
 	defer test.Teardown()
 	cli := test.GetClient()
 
