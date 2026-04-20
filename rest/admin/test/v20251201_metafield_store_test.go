@@ -11,11 +11,11 @@ import (
 )
 
 func TestCreateStoreMetafield(t *testing.T) {
-	setup()
-	defer teardown()
+	client.Setup()
+	defer client.Teardown()
 
 	httpmock.RegisterResponder("POST",
-		fmt.Sprintf("https://%s.myshopline.com/%s/%s/metafields.json", cli.StoreHandle, cli.PathPrefix, cli.ApiVersion),
+		fmt.Sprintf("https://%s.myshopline.com/%s/%s/metafields.json", client.GetClient().StoreHandle, client.GetClient().PathPrefix, client.GetClient().ApiVersion),
 		httpmock.NewStringResponder(200, `{"metafield":{"id":"1", "created_at":"2025-09-22T14:48:44-04:00", "updated_at":"2025-09-22T14:48:44-04:00", "description":"test desc", "key":"key_test", "name":"name_test", "namespace":"namespace_test", "owner_resource":"product", "type":"single_line_text_field", "value":"single_line_text_field_value"}}`))
 
 	req := &metafield2.CreateMetafieldsAPIReq{
@@ -31,7 +31,7 @@ func TestCreateStoreMetafield(t *testing.T) {
 	}
 
 	apiResp := &metafield2.CreateMetafieldsAPIResp{}
-	err := cli.Call(context.Background(), req, apiResp)
+	err := client.GetClient().Call(context.Background(), req, apiResp)
 	if err != nil {
 		t.Errorf("Metafield.Create returned error: %v", err)
 	}
@@ -42,11 +42,11 @@ func TestCreateStoreMetafield(t *testing.T) {
 }
 
 func TestUpdateStoreMetafield(t *testing.T) {
-	setup()
-	defer teardown()
+	client.Setup()
+	defer client.Teardown()
 
 	httpmock.RegisterResponder("PUT",
-		fmt.Sprintf("https://%s.myshopline.com/%s/%s/metafields/1.json", cli.StoreHandle, cli.PathPrefix, cli.ApiVersion),
+		fmt.Sprintf("https://%s.myshopline.com/%s/%s/metafields/1.json", client.GetClient().StoreHandle, client.GetClient().PathPrefix, client.GetClient().ApiVersion),
 		httpmock.NewStringResponder(200, `{"metafield":{"id":"1", "created_at":"2025-09-22T14:48:44-04:00", "updated_at":"2025-09-22T14:48:44-04:00", "description":"test desc", "key":"key_test", "name":"name_test", "namespace":"namespace_test", "owner_resource":"product", "type":"single_line_text_field", "value":"single_line_text_field_value"}}`))
 
 	req := &metafield2.UpdateAStoreMetafieldAPIReq{
@@ -63,7 +63,7 @@ func TestUpdateStoreMetafield(t *testing.T) {
 	}
 
 	apiResp := &metafield2.UpdateAStoreMetafieldAPIResp{}
-	err := cli.Call(context.Background(), req, apiResp)
+	err := client.GetClient().Call(context.Background(), req, apiResp)
 	if err != nil {
 		t.Errorf("Metafield.Create returned error: %v", err)
 	}
@@ -74,11 +74,11 @@ func TestUpdateStoreMetafield(t *testing.T) {
 }
 
 func TestDeleteStoreMetafield(t *testing.T) {
-	setup()
-	defer teardown()
+	client.Setup()
+	defer client.Teardown()
 
 	httpmock.RegisterResponder("DELETE",
-		fmt.Sprintf("https://%s.myshopline.com/%s/%s/metafields/1.json", cli.StoreHandle, cli.PathPrefix, cli.ApiVersion),
+		fmt.Sprintf("https://%s.myshopline.com/%s/%s/metafields/1.json", client.GetClient().StoreHandle, client.GetClient().PathPrefix, client.GetClient().ApiVersion),
 		httpmock.NewStringResponder(200, ""))
 
 	req := &metafield2.DeleteAStoreMetafieldAPIReq{
@@ -86,7 +86,7 @@ func TestDeleteStoreMetafield(t *testing.T) {
 	}
 
 	apiResp := &metafield2.DeleteAStoreMetafieldAPIResp{}
-	err := cli.Call(context.Background(), req, apiResp)
+	err := client.GetClient().Call(context.Background(), req, apiResp)
 	if err != nil {
 		t.Errorf("Metafield.Delete returned error: %v", err)
 	}
@@ -95,17 +95,17 @@ func TestDeleteStoreMetafield(t *testing.T) {
 }
 
 func TestCountStoreMetafield(t *testing.T) {
-	setup()
-	defer teardown()
+	client.Setup()
+	defer client.Teardown()
 
 	httpmock.RegisterResponder("GET",
-		fmt.Sprintf("https://%s.myshopline.com/%s/%s/metafields/count.json", cli.StoreHandle, cli.PathPrefix, cli.ApiVersion),
+		fmt.Sprintf("https://%s.myshopline.com/%s/%s/metafields/count.json", client.GetClient().StoreHandle, client.GetClient().PathPrefix, client.GetClient().ApiVersion),
 		httpmock.NewStringResponder(200, `{"count": 1}`))
 
 	req := &metafield2.GetMetafieldsCountAPIReq{}
 
 	apiResp := &metafield2.GetMetafieldsCountAPIResp{}
-	err := cli.Call(context.Background(), req, apiResp)
+	err := client.GetClient().Call(context.Background(), req, apiResp)
 	if err != nil {
 		t.Errorf("Metafield.Count returned error: %v", err)
 	}
@@ -115,17 +115,17 @@ func TestCountStoreMetafield(t *testing.T) {
 }
 
 func TestListStoreMetafields(t *testing.T) {
-	setup()
-	defer teardown()
+	client.Setup()
+	defer client.Teardown()
 
 	httpmock.RegisterResponder("GET",
-		fmt.Sprintf("https://%s.myshopline.com/%s/%s/metafields.json", cli.StoreHandle, cli.PathPrefix, cli.ApiVersion),
-		httpmock.NewBytesResponder(200, LoadTestDataV2("", "metafield/metafields.json")))
+		fmt.Sprintf("https://%s.myshopline.com/%s/%s/metafields.json", client.GetClient().StoreHandle, client.GetClient().PathPrefix, client.GetClient().ApiVersion),
+		httpmock.NewBytesResponder(200, client.LoadTestDataV2("", "metafield/metafields.json")))
 
 	req := &metafield2.GetMetafieldsAPIReq{}
 
 	apiResp := &metafield2.GetMetafieldsAPIResp{}
-	err := cli.Call(context.Background(), req, apiResp)
+	err := client.GetClient().Call(context.Background(), req, apiResp)
 
 	if err != nil {
 		t.Errorf("Metafield.List returned error: %v", err)
@@ -149,17 +149,17 @@ func getResources(resp interface{}) []metafield2.Metafield {
 }
 
 func TestListAllStoreMetafields(t *testing.T) {
-	setup()
-	defer teardown()
+	client.Setup()
+	defer client.Teardown()
 
 	httpmock.RegisterResponder("GET",
-		fmt.Sprintf("https://%s.myshopline.com/%s/%s/metafields.json", cli.StoreHandle, cli.PathPrefix, cli.ApiVersion),
-		httpmock.NewBytesResponder(200, LoadTestDataV2("", "metafield/metafields.json")))
+		fmt.Sprintf("https://%s.myshopline.com/%s/%s/metafields.json", client.GetClient().StoreHandle, client.GetClient().PathPrefix, client.GetClient().ApiVersion),
+		httpmock.NewBytesResponder(200, client.LoadTestDataV2("", "metafield/metafields.json")))
 
 	req := &metafield2.GetMetafieldsAPIReq{}
 
 	apiResp := &metafield2.GetMetafieldsAPIResp{}
-	metafields, err := client.ListAll(cli, context.Background(), req, apiResp, getResources)
+	metafields, err := client.ListAll(client.GetClient(), context.Background(), req, apiResp, getResources)
 	if err != nil {
 		t.Errorf("Metafield.List returned error: %v", err)
 	}

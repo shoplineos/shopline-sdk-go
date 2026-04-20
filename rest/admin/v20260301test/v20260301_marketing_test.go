@@ -7,7 +7,6 @@ import (
 
 	"github.com/jarcoal/httpmock"
 	"github.com/shoplineos/shopline-sdk-go/client"
-	"github.com/shoplineos/shopline-sdk-go/rest/admin/test"
 	"github.com/shoplineos/shopline-sdk-go/rest/admin/v20260301/marketing"
 	"github.com/stretchr/testify/assert"
 )
@@ -22,9 +21,9 @@ func marketingURL(cli *client.Client, path string) string {
 // ══════════════════════════════════════════════════════════════════════════════
 
 func TestRetrievePriceRulesList(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	mockResp := `{"price_rules":[{"id":"6018695669979551970","title":"Summer Sale","value":"-20","value_type":"fixed_amount"}]}`
 	httpmock.RegisterResponder("GET", marketingURL(cli, "sales/price_rules.json"),
@@ -40,9 +39,9 @@ func TestRetrievePriceRulesList(t *testing.T) {
 }
 
 func TestRetrieveAllPriceRulesCounts(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	httpmock.RegisterResponder("GET", marketingURL(cli, "sales/price_rules/count.json"),
 		httpmock.NewStringResponder(200, `{"count":5}`))
@@ -56,9 +55,9 @@ func TestRetrieveAllPriceRulesCounts(t *testing.T) {
 }
 
 func TestGetAPriceRuleOfACodeDiscount(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	priceRuleId := "6018695669979551970"
 	mockResp := `{"price_rule":{"id":"6018695669979551970","title":"Summer Sale","value":"-20","value_type":"fixed_amount"}}`
@@ -79,9 +78,9 @@ func TestGetAPriceRuleOfACodeDiscount_MissingPriceRuleId(t *testing.T) {
 }
 
 func TestCreateAPriceRuleOfACodeDiscount(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	mockResp := `{"price_rule":{"id":"6018695669979551970","title":"New Rule","value":"-10","value_type":"percentage"}}`
 	httpmock.RegisterResponder("POST", marketingURL(cli, "sales/price_rules.json"),
@@ -96,9 +95,9 @@ func TestCreateAPriceRuleOfACodeDiscount(t *testing.T) {
 }
 
 func TestUpdateThePriceRuleOfACodeDiscount(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	priceRuleId := "6018695669979551970"
 	mockResp := `{"price_rule":{"id":"6018695669979551970","title":"Updated Rule","value":"-15","value_type":"fixed_amount"}}`
@@ -120,9 +119,9 @@ func TestUpdateThePriceRuleOfACodeDiscount_MissingPriceRuleId(t *testing.T) {
 }
 
 func TestDeleteExistingPriceRule(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	priceRuleId := "6018695669979551970"
 	httpmock.RegisterResponder("DELETE", marketingURL(cli, fmt.Sprintf("sales/price_rules/%s.json", priceRuleId)),
@@ -145,9 +144,9 @@ func TestDeleteExistingPriceRule_MissingPriceRuleId(t *testing.T) {
 // ══════════════════════════════════════════════════════════════════════════════
 
 func TestCreateDiscountCode(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	priceRuleId := "6018703930879383908"
 	mockResp := `{"discount_code":{"id":"6019053959104174638","code":"WELCOME10","price_rule_id":"6018703930879383908","create_at":"2023-07-12T00:08:02+08:00"}}`
@@ -169,9 +168,9 @@ func TestCreateDiscountCode_MissingPriceRuleId(t *testing.T) {
 }
 
 func TestGetADiscountCodeById(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	discountCodeId := "6018708477890794011"
 	priceRuleId := "6018695669979551970"
@@ -199,9 +198,9 @@ func TestGetADiscountCodeById_MissingPriceRuleId(t *testing.T) {
 }
 
 func TestGetADiscountCodeByItsCode(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	mockResp := `{"discount_code":{"id":"6018708477890794011","code":"WELCOME_CODE","price_rule_id":"6018695669979551970","create_at":"2023-07-11T18:24:49+08:00"}}`
 	httpmock.RegisterResponder("GET", marketingURL(cli, "sales/discount_codes/lookup.json"),
@@ -217,9 +216,9 @@ func TestGetADiscountCodeByItsCode(t *testing.T) {
 }
 
 func TestUpdateDiscountCode(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	discountCodeId := "6018708477890794011"
 	priceRuleId := "6018695669979551970"
@@ -246,9 +245,9 @@ func TestUpdateDiscountCode_MissingPriceRuleId(t *testing.T) {
 }
 
 func TestDeleteDiscountCode(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	discountCodeId := "6018708477890794011"
 	priceRuleId := "6018695669979551970"
@@ -273,9 +272,9 @@ func TestDeleteDiscountCode_MissingPriceRuleId(t *testing.T) {
 }
 
 func TestQueryDiscountCodeByDiscountRulesId(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	priceRuleId := "6018695669979551970"
 	mockResp := `{"discount_codes":[{"id":"6018708477890794011","code":"WELCOME_CODE","price_rule_id":"6018695669979551970"}]}`
@@ -297,9 +296,9 @@ func TestQueryDiscountCodeByDiscountRulesId_MissingPriceRuleId(t *testing.T) {
 }
 
 func TestQueryStoreSTotalNumberOfDiscountCode(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	httpmock.RegisterResponder("GET", marketingURL(cli, "sales/discount_codes/count.json"),
 		httpmock.NewStringResponder(200, `{"count":10}`))
@@ -313,9 +312,9 @@ func TestQueryStoreSTotalNumberOfDiscountCode(t *testing.T) {
 }
 
 func TestQueryDiscountCode(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	mockResp := `{"discount_codes":[{"id":"6018708477890794011","code":"WELCOME_CODE","price_rule_id":"6018695669979551970"}],"page_info":{"page_num":1,"page_size":20,"total":1}}`
 	httpmock.RegisterResponder("GET", marketingURL(cli, "sales/discount/code"),
@@ -335,9 +334,9 @@ func TestQueryDiscountCode(t *testing.T) {
 // ══════════════════════════════════════════════════════════════════════════════
 
 func TestCreatePromoCodeCreatedTasks(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	priceRuleId := "5682516987487987235"
 	mockResp := `{"discount_code_creation":{"id":"5682520099208570423","status":"queued","price_rule_id":"5682516987487987235","codes_count":1,"failed_count":0,"created_at":"2022-11-21T20:11:40+08:00"}}`
@@ -359,9 +358,9 @@ func TestCreatePromoCodeCreatedTasks_MissingPriceRuleId(t *testing.T) {
 }
 
 func TestQueryBulkCreatedDiscountCodeList(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	batchId := "6018676942227642851"
 	priceRuleId := "6018642574989862445"
@@ -389,9 +388,9 @@ func TestQueryBulkCreatedDiscountCodeList_MissingPriceRuleId(t *testing.T) {
 }
 
 func TestBasedOnMissionIdQueryPromoCodeInformation(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	batchId := "6018676942227642851"
 	priceRuleId := "6018642574989862445"
@@ -423,9 +422,9 @@ func TestBasedOnMissionIdQueryPromoCodeInformation_MissingPriceRuleId(t *testing
 // ══════════════════════════════════════════════════════════════════════════════
 
 func TestQueryAutomaticDiscountActivity(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	mockResp := `{"automatic_discount":[{"starts_at":"2023-01-01T00:00:00+08:00","ends_at":"2023-12-31T00:00:00+08:00"}],"page_info":{"total":1,"page_num":1,"page_size":20}}`
 	httpmock.RegisterResponder("GET", marketingURL(cli, "sales/discount/automatic"),
@@ -445,9 +444,9 @@ func TestQueryAutomaticDiscountActivity(t *testing.T) {
 // ══════════════════════════════════════════════════════════════════════════════
 
 func TestCreateMarketingEvents(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	mockResp := `{"marketing_event":{"id":"4073","marketing_event_id":"MA_6019943243021559089","event_type":"ad","marketing_channel":"search","utm_source":"manong.myshopline.com"}}`
 	httpmock.RegisterResponder("POST", marketingURL(cli, "sales/marketing_events.json"),
@@ -464,9 +463,9 @@ func TestCreateMarketingEvents(t *testing.T) {
 }
 
 func TestQueryMarketingEventsList(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	mockResp := `{"marketing_events":[{"id":"4073","marketing_event_id":"MA_6062143268514178052","event_type":"ad","marketing_channel":"search"}]}`
 	httpmock.RegisterResponder("GET", marketingURL(cli, "sales/marketing_events.json"),
@@ -482,9 +481,9 @@ func TestQueryMarketingEventsList(t *testing.T) {
 }
 
 func TestQueryIndividualMarketingEvents(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	marketingEventId := "4073"
 	mockResp := `{"marketing_event":{"id":"4073","marketing_event_id":"MA_6062143268514178052","event_type":"ad","marketing_channel":"search"}}`
@@ -505,9 +504,9 @@ func TestQueryIndividualMarketingEvents_MissingMarketingEventId(t *testing.T) {
 }
 
 func TestUpdateMarketingEvents(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	marketingEventId := "4073"
 	mockResp := `{"marketing_event":{"event_type":"ad","marketing_channel":"search","utm_source":"www.shopline.com","marketing_event_id":"MA_6019932248375043369"}}`
@@ -529,9 +528,9 @@ func TestUpdateMarketingEvents_MissingMarketingEventId(t *testing.T) {
 }
 
 func TestDeleteMarketingEvents(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	marketingEventId := "4073"
 	httpmock.RegisterResponder("DELETE", marketingURL(cli, fmt.Sprintf("sales/marketing_events/%s.json", marketingEventId)),
@@ -550,9 +549,9 @@ func TestDeleteMarketingEvents_MissingMarketingEventId(t *testing.T) {
 }
 
 func TestQueryNumberOfMarketingEvents(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	httpmock.RegisterResponder("GET", marketingURL(cli, "sales/marketing_events/count.json"),
 		httpmock.NewStringResponder(200, `{"count":7}`))
@@ -566,9 +565,9 @@ func TestQueryNumberOfMarketingEvents(t *testing.T) {
 }
 
 func TestMassSyncMarketingEventStatistics(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	httpmock.RegisterResponder("POST", marketingURL(cli, "sales/marketing_events/sync_data.json"),
 		httpmock.NewStringResponder(200, `{"sucess_count":3}`))
@@ -586,9 +585,9 @@ func TestMassSyncMarketingEventStatistics(t *testing.T) {
 // ══════════════════════════════════════════════════════════════════════════════
 
 func TestCreateMarketingExpansion(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	mockResp := `{"marketing_activity":{"marketing_activity_id":"MA_6019932248291157288","status":"draft","remote_id":"53e7f97e-8df5-4a6b-b672-5cda96b90821","utm_campaign":"google"}}`
 	httpmock.RegisterResponder("POST", marketingURL(cli, "sales/marketing_activity_extension.json"),
@@ -604,9 +603,9 @@ func TestCreateMarketingExpansion(t *testing.T) {
 }
 
 func TestUpdateMarketingExpansion(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	marketingActivityId := "MA_5797003750150774786"
 	mockResp := `{"marketing_activity":{"marketing_activity_id":"MA_5797003750150774786","status":"draft","target_status":"active","remote_id":"123"}}`
@@ -632,9 +631,9 @@ func TestUpdateMarketingExpansion_MissingMarketingActivityId(t *testing.T) {
 // ══════════════════════════════════════════════════════════════════════════════
 
 func TestCreateCampaignSummaryData(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	httpmock.RegisterResponder("POST", marketingURL(cli, "sales/promotion_marketing.json"),
 		httpmock.NewStringResponder(200, `{}`))
@@ -647,9 +646,9 @@ func TestCreateCampaignSummaryData(t *testing.T) {
 }
 
 func TestProcessStatisticsSynchronization(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	httpmock.RegisterResponder("POST", marketingURL(cli, "sales/flow/batch_sync_flow_data.json"),
 		httpmock.NewStringResponder(200, `{}`))

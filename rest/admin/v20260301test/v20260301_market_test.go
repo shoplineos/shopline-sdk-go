@@ -7,7 +7,6 @@ import (
 
 	"github.com/jarcoal/httpmock"
 	"github.com/shoplineos/shopline-sdk-go/client"
-	"github.com/shoplineos/shopline-sdk-go/rest/admin/test"
 	"github.com/shoplineos/shopline-sdk-go/rest/admin/v20260301/market"
 	"github.com/stretchr/testify/assert"
 )
@@ -18,9 +17,9 @@ func marketURL(cli *client.Client, path string) string {
 }
 
 func TestQueryMarketList(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	mockResp := `{"markets":[{"market_id":"2805657769119556579334","market_name":"US-MARKET","enabled":true,"primary":true,"regions":[{"code":"US","currency":{"currency_code":"USD"}}]}]}`
 	httpmock.RegisterResponder("GET", marketURL(cli, "markets.json"),
@@ -39,9 +38,9 @@ func TestQueryMarketList(t *testing.T) {
 }
 
 func TestReturnsAMarketResourceById(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	marketId := "2805657769119556579334"
 	mockResp := `{"market":{"market_id":"2805657769119556579334","market_name":"US-MARKET","enabled":true,"primary":true,"currency_settings":{"base_currency":{"currency_code":"USD","currency_name":"USD","auto_exchange_rate":true},"local_currencies":true}}}`
@@ -64,9 +63,9 @@ func TestReturnsAMarketResourceById_MissingId(t *testing.T) {
 }
 
 func TestAddProductsToTheMarket(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	marketsId := "2805657769119556579334"
 	mockResp := `{"product_ids":["16055431542830326121993183"]}`
@@ -90,9 +89,9 @@ func TestAddProductsToTheMarket_MissingMarketsId(t *testing.T) {
 }
 
 func TestGetMarketsPublishedProducts(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	marketsId := "2805657769119556579335"
 	mockResp := `{"products_count":2,"product_ids":["16054492295522822738072519","16054492295522822738072520"]}`
@@ -114,9 +113,9 @@ func TestGetMarketsPublishedProducts_MissingMarketsId(t *testing.T) {
 }
 
 func TestRemoveMarketProducts(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	marketsId := "2805657769119556579335"
 	mockResp := `{"product_ids":["16054492295522822738072519"]}`
@@ -140,9 +139,9 @@ func TestRemoveMarketProducts_MissingMarketsId(t *testing.T) {
 }
 
 func TestMarketCurrencyUpdate(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	marketId := "2805657769119556579334"
 	httpmock.RegisterResponder("PUT", marketURL(cli, fmt.Sprintf("markets/%s/currency_settings.json", marketId)),
@@ -169,9 +168,9 @@ func TestMarketCurrencyUpdate_MissingExchangeRate(t *testing.T) {
 }
 
 func TestQueryTheMarketPriceOfTheVariant(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	variantId := "18060895302863070249743144"
 	mockResp := `{"market_prices":[{"country_code":"CN","market_price":{"amount":"10","currency_code":"CNY"}},{"country_code":"US","market_price":{"amount":"1.5","currency_code":"USD"}}]}`
@@ -203,9 +202,9 @@ func TestQueryTheMarketPriceOfTheVariant_MissingCountryCodes(t *testing.T) {
 }
 
 func TestQueryTheMarketPriceRangesOfTheProduct(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	productId := "16060895302856191591063144"
 	mockResp := `{"market_prices":[{"country_code":"CN","min_market_price":{"amount":"5","currency_code":"CNY"},"max_market_price":{"amount":"10","currency_code":"CNY"}}]}`
@@ -237,9 +236,9 @@ func TestQueryTheMarketPriceRangesOfTheProduct_MissingCountryCodes(t *testing.T)
 }
 
 func TestQueryTheMarketPublishedOfTheProduct(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	productId := "16060895302856191591063144"
 	mockResp := `{"markets":[{"country_code":"US","published":true},{"country_code":"CN","published":false}]}`

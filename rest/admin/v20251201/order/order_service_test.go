@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 	"github.com/jarcoal/httpmock"
-	"github.com/shoplineos/shopline-sdk-go/rest/admin/test"
+	"github.com/shoplineos/shopline-sdk-go/client"
 	"github.com/stretchr/testify/assert"
 	"strings"
 	"testing"
@@ -47,7 +47,7 @@ func TestOrderServiceList(t *testing.T) {
 
 	httpmock.RegisterResponder("GET",
 		fmt.Sprintf("https://%s.myshopline.com/%s/%s/orders.json", cli.StoreHandle, cli.PathPrefix, cli.ApiVersion),
-		httpmock.NewBytesResponder(200, test.LoadTestData("order/orders.json")))
+		httpmock.NewBytesResponder(200, client.LoadTestData("order/orders.json")))
 
 	apiReq := &ListOrdersAPIReq{}
 	//apiReq := &GetOrdersAPIReq{}
@@ -108,7 +108,7 @@ func TestListAttributionInfos(t *testing.T) {
 
 	httpmock.RegisterResponder("POST",
 		fmt.Sprintf("https://%s.myshopline.com/%s/%s/orders/order_attribution_info.json", cli.StoreHandle, cli.PathPrefix, cli.ApiVersion),
-		httpmock.NewBytesResponder(200, test.LoadTestData("order/order_attribution_info.json")))
+		httpmock.NewBytesResponder(200, client.LoadTestData("order/order_attribution_info.json")))
 
 	apiReq := &ListOrderAttributionInfosAPIRequest{
 		OrderIds: []string{"1"},

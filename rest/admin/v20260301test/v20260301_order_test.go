@@ -8,7 +8,6 @@ import (
 
 	"github.com/jarcoal/httpmock"
 	"github.com/shoplineos/shopline-sdk-go/client"
-	"github.com/shoplineos/shopline-sdk-go/rest/admin/test"
 	"github.com/shoplineos/shopline-sdk-go/rest/admin/v20260301/order"
 	"github.com/stretchr/testify/assert"
 )
@@ -45,9 +44,9 @@ func orderURL(cli *client.Client, path string) string {
 // ══════════════════════════════════════════════════════════════════════════════
 
 func TestCreateAnOrder(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	mockResp := `{"order":{"id":"order-001","order_number":"1001"}}`
 	httpmock.RegisterResponder("POST", orderURL(cli, "orders.json"),
@@ -62,9 +61,9 @@ func TestCreateAnOrder(t *testing.T) {
 }
 
 func TestGetOrders(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	mockResp := `{"orders":[{"id":"order-001","order_number":"1001"}]}`
 	httpmock.RegisterResponder("GET", orderURL(cli, "orders.json"),
@@ -80,9 +79,9 @@ func TestGetOrders(t *testing.T) {
 }
 
 func TestGetAnOrderCount(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	httpmock.RegisterResponder("GET", orderURL(cli, "orders/count.json"),
 		httpmock.NewStringResponder(200, `{"count":5}`))
@@ -96,9 +95,9 @@ func TestGetAnOrderCount(t *testing.T) {
 }
 
 func TestUpdateAnOrder(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	orderId := "order-001"
 	httpmock.RegisterResponder("PUT", orderURL(cli, fmt.Sprintf("orders/%s.json", orderId)),
@@ -117,9 +116,9 @@ func TestUpdateAnOrder_MissingId(t *testing.T) {
 }
 
 func TestDeleteAnOrder(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	orderId := "order-001"
 	httpmock.RegisterResponder("DELETE", orderURL(cli, fmt.Sprintf("orders/%s.json", orderId)),
@@ -138,9 +137,9 @@ func TestDeleteAnOrder_MissingOrderId(t *testing.T) {
 }
 
 func TestCancelOrder(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	orderId := "order-001"
 	httpmock.RegisterResponder("POST", orderURL(cli, fmt.Sprintf("orders/%s/cancel.json", orderId)),
@@ -159,9 +158,9 @@ func TestCancelOrder_MissingId(t *testing.T) {
 }
 
 func TestOrderArchive(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	orderId := "order-001"
 	httpmock.RegisterResponder("PUT", orderURL(cli, fmt.Sprintf("orders/%s/hide_mark.json", orderId)),
@@ -180,9 +179,9 @@ func TestOrderArchive_MissingId(t *testing.T) {
 }
 
 func TestCancelOrderArchive(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	orderId := "order-001"
 	httpmock.RegisterResponder("PUT", orderURL(cli, fmt.Sprintf("orders/%s/cancel_hide_mark.json", orderId)),
@@ -201,9 +200,9 @@ func TestCancelOrderArchive_MissingId(t *testing.T) {
 }
 
 func TestGetOrderPayment(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	orderSeq := "SEQ-001"
 	httpmock.RegisterResponder("GET", orderURL(cli, fmt.Sprintf("orders/%s/transactions.json", orderSeq)),
@@ -222,9 +221,9 @@ func TestGetOrderPayment_MissingOrderSeq(t *testing.T) {
 }
 
 func TestQueryAllRefundOrdersForTheIdAssociation(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	orderId := "order-001"
 	httpmock.RegisterResponder("GET", orderURL(cli, fmt.Sprintf("orders/%s/refunds.json", orderId)),
@@ -243,9 +242,9 @@ func TestQueryAllRefundOrdersForTheIdAssociation_MissingOrderId(t *testing.T) {
 }
 
 func TestQueryOrderSpecifyOfYourMoneyBackOrder(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	orderId := "order-001"
 	refundId := "refund-001"
@@ -270,9 +269,9 @@ func TestQueryOrderSpecifyOfYourMoneyBackOrder_MissingRefundId(t *testing.T) {
 }
 
 func TestQueryNumberOfFulfillment(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	orderId := "order-001"
 	httpmock.RegisterResponder("GET", orderURL(cli, fmt.Sprintf("orders/%s/fulfillments/count.json", orderId)),
@@ -291,9 +290,9 @@ func TestQueryNumberOfFulfillment_MissingOrderId(t *testing.T) {
 }
 
 func TestQueryAllFulfillmentsForAnOrder(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	orderId := "order-001"
 	httpmock.RegisterResponder("GET", orderURL(cli, fmt.Sprintf("orders/%s/fulfillments.json", orderId)),
@@ -316,9 +315,9 @@ func TestQueryAllFulfillmentsForAnOrder_MissingOrderId(t *testing.T) {
 // ══════════════════════════════════════════════════════════════════════════════
 
 func TestOrderRefund(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	httpmock.RegisterResponder("POST", orderURL(cli, "order/refund.json"),
 		httpmock.NewStringResponder(200, `{"refund":{"id":"refund-001"}}`))
@@ -336,9 +335,9 @@ func TestOrderRefund_MissingOrderId(t *testing.T) {
 }
 
 func TestOrderRefundTrial(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	orderId := "order-001"
 	httpmock.RegisterResponder("POST", orderURL(cli, fmt.Sprintf("orders/%s/refunds/calculate.json", orderId)),
@@ -361,9 +360,9 @@ func TestOrderRefundTrial_MissingOrderId(t *testing.T) {
 // ══════════════════════════════════════════════════════════════════════════════
 
 func TestCreateADraftOrder(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	httpmock.RegisterResponder("POST", orderURL(cli, "orders/draft_orders.json"),
 		httpmock.NewStringResponder(200, `{"draft_order":{"id":"draft-001"}}`))
@@ -376,9 +375,9 @@ func TestCreateADraftOrder(t *testing.T) {
 }
 
 func TestQueryDraftOrder(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	httpmock.RegisterResponder("GET", orderURL(cli, "orders/draft_orders.json"),
 		httpmock.NewStringResponder(200, `{"draft_orders":[{"id":"draft-001"}]}`))
@@ -391,9 +390,9 @@ func TestQueryDraftOrder(t *testing.T) {
 }
 
 func TestDraftOrderQuantityQuery(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	httpmock.RegisterResponder("GET", orderURL(cli, "orders/draft_orders/count.json"),
 		httpmock.NewStringResponder(200, `{"count":2}`))
@@ -406,9 +405,9 @@ func TestDraftOrderQuantityQuery(t *testing.T) {
 }
 
 func TestEditDraftOrder(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	httpmock.RegisterResponder("PUT", orderURL(cli, "orders/draft_orders.json"),
 		httpmock.NewStringResponder(200, `{"draft_order":{"id":"draft-001"}}`))
@@ -421,9 +420,9 @@ func TestEditDraftOrder(t *testing.T) {
 }
 
 func TestDeleteDraftOrder(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	draftOrderId := "draft-001"
 	httpmock.RegisterResponder("DELETE", orderURL(cli, fmt.Sprintf("orders/draft_orders/%s.json", draftOrderId)),
@@ -442,9 +441,9 @@ func TestDeleteDraftOrder_MissingDraftOrderId(t *testing.T) {
 }
 
 func TestCompleteDraftOrder(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	draftId := "draft-001"
 	httpmock.RegisterResponder("PUT", orderURL(cli, fmt.Sprintf("orders/draft_orders/%s/complete.json", draftId)),
@@ -463,9 +462,9 @@ func TestCompleteDraftOrder_MissingId(t *testing.T) {
 }
 
 func TestSendADraftOrderInvoiceEmail(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	draftId := "draft-001"
 	httpmock.RegisterResponder("POST", orderURL(cli, fmt.Sprintf("orders/draft_orders/%s/send_invoice.json", draftId)),
@@ -493,9 +492,9 @@ func TestSendADraftOrderInvoiceEmail_MissingTo(t *testing.T) {
 // ══════════════════════════════════════════════════════════════════════════════
 
 func TestCreateAFulfillmentBasedOnAnOrder(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	orderId := "order-001"
 	httpmock.RegisterResponder("POST", orderURL(cli, fmt.Sprintf("orders/%s/fulfillments.json", orderId)),
@@ -514,9 +513,9 @@ func TestCreateAFulfillmentBasedOnAnOrder_MissingOrderId(t *testing.T) {
 }
 
 func TestCreateAnFulfillmentForTheFulfillmentOrderSingleOrBatch(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	httpmock.RegisterResponder("POST", orderURL(cli, "fulfillments/fulfillments.json"),
 		httpmock.NewStringResponder(200, `{"fulfillment":{"id":"ful-001"}}`))
@@ -534,9 +533,9 @@ func TestCreateAnFulfillmentForTheFulfillmentOrderSingleOrBatch_MissingOrderId(t
 }
 
 func TestGetSpecifyFulfillmentUnderFulfillmentOrder(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	fulfillmentId := "ful-001"
 	orderId := "order-001"
@@ -561,9 +560,9 @@ func TestGetSpecifyFulfillmentUnderFulfillmentOrder_MissingOrderId(t *testing.T)
 }
 
 func TestCancelFulfillment(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	fulfillmentId := "ful-001"
 	orderId := "order-001"
@@ -588,9 +587,9 @@ func TestCancelFulfillment_MissingOrderId(t *testing.T) {
 }
 
 func TestCancelShipping(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	fulfillmentId := "ful-001"
 	orderId := "order-001"
@@ -615,9 +614,9 @@ func TestCancelShipping_MissingOrderId(t *testing.T) {
 }
 
 func TestUpdateTrackingNumber(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	fulfillmentId := "ful-001"
 	orderId := "order-001"
@@ -642,9 +641,9 @@ func TestUpdateTrackingNumber_MissingOrderId(t *testing.T) {
 }
 
 func TestUpdateTrackingInformation(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	fulfillmentId := "ful-001"
 	orderId := "order-001"
@@ -669,9 +668,9 @@ func TestUpdateTrackingInformation_MissingOrderId(t *testing.T) {
 }
 
 func TestCreateFulfillmentShippingLogisticsEvent(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	fulfillmentId := "ful-001"
 	orderId := "order-001"
@@ -705,9 +704,9 @@ func TestCreateFulfillmentShippingLogisticsEvent_MissingStatus(t *testing.T) {
 }
 
 func TestQueryFulfillmentAndDeliveryLogisticsEvents(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	fulfillmentId := "ful-001"
 	orderId := "order-001"
@@ -732,9 +731,9 @@ func TestQueryFulfillmentAndDeliveryLogisticsEvents_MissingOrderId(t *testing.T)
 }
 
 func TestDeleteFulfillmentDeliveryLogisticsEvent(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	eventId := "event-001"
 	fulfillmentId := "ful-001"
@@ -773,9 +772,9 @@ func TestDeleteFulfillmentDeliveryLogisticsEvent_MissingOrderId(t *testing.T) {
 // ══════════════════════════════════════════════════════════════════════════════
 
 func TestFulfillmentAppAcceptsCancellationRequestForShipment(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	fulfillmentId := "ful-001"
 	orderId := "order-001"
@@ -800,9 +799,9 @@ func TestFulfillmentAppAcceptsCancellationRequestForShipment_MissingOrderId(t *t
 }
 
 func TestFulfillmentAppAcceptsRequestToShip(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	fulfillmentId := "ful-001"
 	orderId := "order-001"
@@ -827,9 +826,9 @@ func TestFulfillmentAppAcceptsRequestToShip_MissingOrderId(t *testing.T) {
 }
 
 func TestFulfillmentAppRejectsShipmentCancellationRequest(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	fulfillmentId := "ful-001"
 	orderId := "order-001"
@@ -854,9 +853,9 @@ func TestFulfillmentAppRejectsShipmentCancellationRequest_MissingOrderId(t *test
 }
 
 func TestFulfillmentAppRejectsShipmentRequest(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	fulfillmentId := "ful-001"
 	orderId := "order-001"
@@ -890,9 +889,9 @@ func TestFulfillmentAppRejectsShipmentRequest_MissingReason(t *testing.T) {
 }
 
 func TestFulfillmentAppRequestsShipmentCancellation(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	fulfillmentId := "ful-001"
 	orderId := "order-001"
@@ -917,9 +916,9 @@ func TestFulfillmentAppRequestsShipmentCancellation_MissingOrderId(t *testing.T)
 }
 
 func TestShipAccordingToFulfillmentOrderRequest(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	fulfillmentId := "ful-001"
 	orderId := "order-001"
@@ -948,9 +947,9 @@ func TestShipAccordingToFulfillmentOrderRequest_MissingOrderId(t *testing.T) {
 // ══════════════════════════════════════════════════════════════════════════════
 
 func TestFulfillmentOrderListQuery(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	httpmock.RegisterResponder("GET", orderURL(cli, "fulfillment_orders/fulfillment_orders_search.json"),
 		httpmock.NewStringResponder(200, `{"fulfillment_orders":[{"id":"fo-001"}]}`))
@@ -963,9 +962,9 @@ func TestFulfillmentOrderListQuery(t *testing.T) {
 }
 
 func TestGetAllFulfillmentOrders(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	orderId := "order-001"
 	httpmock.RegisterResponder("GET", orderURL(cli, fmt.Sprintf("fulfillment_orders/%s/fulfillment_orders.json", orderId)),
@@ -984,9 +983,9 @@ func TestGetAllFulfillmentOrders_MissingOrderId(t *testing.T) {
 }
 
 func TestGetAllFulfillmentsForTheFulfillmentOrder(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	fulfillmentOrderId := "fo-001"
 	orderId := "order-001"
@@ -1011,9 +1010,9 @@ func TestGetAllFulfillmentsForTheFulfillmentOrder_MissingOrderId(t *testing.T) {
 }
 
 func TestGetSpecifyFulfillmentOrder(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	fulfillmentOrderId := "fo-001"
 	orderId := "order-001"
@@ -1038,9 +1037,9 @@ func TestGetSpecifyFulfillmentOrder_MissingOrderId(t *testing.T) {
 }
 
 func TestFulfillmentOrderReleaseOnholdStatus(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	fulfillmentOrderId := "fo-001"
 	orderId := "order-001"
@@ -1065,9 +1064,9 @@ func TestFulfillmentOrderReleaseOnholdStatus_MissingOrderId(t *testing.T) {
 }
 
 func TestPerformanceAppointmentMarkerOnhold(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	fulfillmentOrderId := "fo-001"
 	orderId := "order-001"
@@ -1092,9 +1091,9 @@ func TestPerformanceAppointmentMarkerOnhold_MissingOrderId(t *testing.T) {
 }
 
 func TestReBookTheDateOfTheSale(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	fulfillmentOrderId := "fo-001"
 	orderId := "order-001"
@@ -1119,9 +1118,9 @@ func TestReBookTheDateOfTheSale_MissingOrderId(t *testing.T) {
 }
 
 func TestSetUpAFulfillmentOrderDeadline(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	orderId := "order-001"
 	httpmock.RegisterResponder("POST", orderURL(cli, fmt.Sprintf("fulfillment_orders/%s/set_fulfillment_orders_deadline.json", orderId)),
@@ -1148,9 +1147,9 @@ func TestSetUpAFulfillmentOrderDeadline_MissingFulfillmentDeadline(t *testing.T)
 }
 
 func TestUpdateInventoryLocationForFulfillmentOrder(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	fulfillmentOrderId := "fo-001"
 	orderId := "order-001"
@@ -1179,9 +1178,9 @@ func TestUpdateInventoryLocationForFulfillmentOrder_MissingOrderId(t *testing.T)
 // ══════════════════════════════════════════════════════════════════════════════
 
 func TestFulfillmentServiceList(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	httpmock.RegisterResponder("GET", orderURL(cli, "fulfillment_service.json"),
 		httpmock.NewStringResponder(200, `{"fulfillment_services":[{"id":"fs-001","name":"My Service"}]}`))
@@ -1194,9 +1193,9 @@ func TestFulfillmentServiceList(t *testing.T) {
 }
 
 func TestFulfillmentServiceDetails(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	serviceId := "fs-001"
 	httpmock.RegisterResponder("GET", orderURL(cli, fmt.Sprintf("fulfillment_service/%s.json", serviceId)),
@@ -1215,9 +1214,9 @@ func TestFulfillmentServiceDetails_MissingId(t *testing.T) {
 }
 
 func TestCreateFulfillmentService(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	httpmock.RegisterResponder("POST", orderURL(cli, "fulfillment_service.json"),
 		httpmock.NewStringResponder(200, `{"fulfillment_service":{"id":"fs-001","name":"My Service"}}`))
@@ -1235,9 +1234,9 @@ func TestCreateFulfillmentService_MissingName(t *testing.T) {
 }
 
 func TestModifyFulfillmentService(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	httpmock.RegisterResponder("PUT", orderURL(cli, "fulfillment_service.json"),
 		httpmock.NewStringResponder(200, `{"fulfillment_service":{"id":"fs-001"}}`))
@@ -1255,9 +1254,9 @@ func TestModifyFulfillmentService_MissingId(t *testing.T) {
 }
 
 func TestDeleteFulfillmentService(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	serviceId := "fs-001"
 	httpmock.RegisterResponder("DELETE", orderURL(cli, fmt.Sprintf("fulfillment_service/%s.json", serviceId)),
@@ -1276,9 +1275,9 @@ func TestDeleteFulfillmentService_MissingId(t *testing.T) {
 }
 
 func TestCreateFulfillmentLocation(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	httpmock.RegisterResponder("POST", orderURL(cli, "fulfillment_service_location/create.json"),
 		httpmock.NewStringResponder(200, `{"location":{"id":"loc-001"}}`))
@@ -1295,9 +1294,9 @@ func TestCreateFulfillmentLocation(t *testing.T) {
 // ══════════════════════════════════════════════════════════════════════════════
 
 func TestReceiveAListOfAllCarrierServices(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	httpmock.RegisterResponder("GET", orderURL(cli, "carrier_services.json"),
 		httpmock.NewStringResponder(200, `{"carrier_services":[{"id":"cs-001","name":"My Carrier"}]}`))
@@ -1310,9 +1309,9 @@ func TestReceiveAListOfAllCarrierServices(t *testing.T) {
 }
 
 func TestReceiveASingleCarrierService(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	carrierId := "cs-001"
 	httpmock.RegisterResponder("GET", orderURL(cli, fmt.Sprintf("carrier_services/%s.json", carrierId)),
@@ -1331,9 +1330,9 @@ func TestReceiveASingleCarrierService_MissingCarrierServiceId(t *testing.T) {
 }
 
 func TestCreateANewCarrierService(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	httpmock.RegisterResponder("POST", orderURL(cli, "carrier_services.json"),
 		httpmock.NewStringResponder(200, `{"carrier_service":{"id":"cs-001","name":"My Carrier"}}`))
@@ -1359,9 +1358,9 @@ func TestCreateANewCarrierService_MissingName(t *testing.T) {
 }
 
 func TestModifyAnExistingCarrierService(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	carrierId := "cs-001"
 	httpmock.RegisterResponder("PUT", orderURL(cli, fmt.Sprintf("carrier_services/%s.json", carrierId)),
@@ -1380,9 +1379,9 @@ func TestModifyAnExistingCarrierService_MissingCarrierServiceId(t *testing.T) {
 }
 
 func TestRemoveAnExistingCarrierService(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	carrierId := "cs-001"
 	httpmock.RegisterResponder("DELETE", orderURL(cli, fmt.Sprintf("carrier_services/%s.json", carrierId)),
@@ -1405,9 +1404,9 @@ func TestRemoveAnExistingCarrierService_MissingCarrierServiceId(t *testing.T) {
 // ══════════════════════════════════════════════════════════════════════════════
 
 func TestGetAbandonedCheckouts(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	httpmock.RegisterResponder("GET", orderURL(cli, "orders/abandoned_orders.json"),
 		httpmock.NewStringResponder(200, `{"abandoned_orders":[{"id":"ao-001"}]}`))
@@ -1420,9 +1419,9 @@ func TestGetAbandonedCheckouts(t *testing.T) {
 }
 
 func TestRetrievesACountOfCheckouts(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	httpmock.RegisterResponder("GET", orderURL(cli, "orders/abandoned_orders/count.json"),
 		httpmock.NewStringResponder(200, `{"count":7}`))
@@ -1435,9 +1434,9 @@ func TestRetrievesACountOfCheckouts(t *testing.T) {
 }
 
 func TestArchiveAndUnarchiveAbandonedCheckouts(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	httpmock.RegisterResponder("POST", orderURL(cli, "orders/abandoned_order/hide_mark.json"),
 		httpmock.NewStringResponder(200, `{}`))
@@ -1459,9 +1458,9 @@ func TestArchiveAndUnarchiveAbandonedCheckouts_MissingHideMark(t *testing.T) {
 // ══════════════════════════════════════════════════════════════════════════════
 
 func TestGetFraudRisksForAnOrder(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	orderId := "order-001"
 	httpmock.RegisterResponder("GET", orderURL(cli, fmt.Sprintf("orders/v2/%s/risks.json", orderId)),
@@ -1480,9 +1479,9 @@ func TestGetFraudRisksForAnOrder_MissingOrderId(t *testing.T) {
 }
 
 func TestQueryRiskFraudForOrderSpecify(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	orderId := "order-001"
 	riskId := "risk-001"
@@ -1507,9 +1506,9 @@ func TestQueryRiskFraudForOrderSpecify_MissingRiskId(t *testing.T) {
 }
 
 func TestAddRiskFraud(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	orderId := "order-001"
 	httpmock.RegisterResponder("POST", orderURL(cli, fmt.Sprintf("orders/v2/%s/risks.json", orderId)),
@@ -1528,9 +1527,9 @@ func TestAddRiskFraud_MissingOrderId(t *testing.T) {
 }
 
 func TestUpdateOrderRiskFraud(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	orderId := "order-001"
 	riskId := "risk-001"
@@ -1555,9 +1554,9 @@ func TestUpdateOrderRiskFraud_MissingRiskId(t *testing.T) {
 }
 
 func TestDeleteAllRiskFraudRelatedToTheOrder(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	orderId := "order-001"
 	httpmock.RegisterResponder("DELETE", orderURL(cli, fmt.Sprintf("orders/v2/%s/risks.json", orderId)),
@@ -1576,9 +1575,9 @@ func TestDeleteAllRiskFraudRelatedToTheOrder_MissingOrderId(t *testing.T) {
 }
 
 func TestRemoveTheSpecifyOfTheOrderRiskFraud(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	orderId := "order-001"
 	riskId := "risk-001"
@@ -1607,9 +1606,9 @@ func TestRemoveTheSpecifyOfTheOrderRiskFraud_MissingRiskId(t *testing.T) {
 // ══════════════════════════════════════════════════════════════════════════════
 
 func TestCreatePaymentSlip(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	httpmock.RegisterResponder("POST", orderURL(cli, "orders/transactions.json"),
 		httpmock.NewStringResponder(200, `{"transaction":{"id":"txn-001"}}`))
@@ -1622,9 +1621,9 @@ func TestCreatePaymentSlip(t *testing.T) {
 }
 
 func TestUpdatePaymentSlip(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	httpmock.RegisterResponder("POST", orderURL(cli, "orders/update_transactions.json"),
 		httpmock.NewStringResponder(200, `{"transaction":{"id":"txn-001"}}`))
@@ -1637,9 +1636,9 @@ func TestUpdatePaymentSlip(t *testing.T) {
 }
 
 func TestGetOrderTransactions(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	httpmock.RegisterResponder("POST", orderURL(cli, "transactions/query.json"),
 		httpmock.NewStringResponder(200, `{"transactions":[{"id":"txn-001"}]}`))
@@ -1657,9 +1656,9 @@ func TestGetOrderTransactions_MissingOrderId(t *testing.T) {
 }
 
 func TestQueryStorePaymentChannels(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	httpmock.RegisterResponder("GET", orderURL(cli, "orders/pay_channels.json"),
 		httpmock.NewStringResponder(200, `{"pay_channels":[{"id":"pc-001"}]}`))
@@ -1672,9 +1671,9 @@ func TestQueryStorePaymentChannels(t *testing.T) {
 }
 
 func TestQueryPaymentSettings(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	httpmock.RegisterResponder("GET", orderURL(cli, "checkouts/payment_settings.json"),
 		httpmock.NewStringResponder(200, `{"payment_settings":[{"id":"ps-001"}]}`))
@@ -1691,9 +1690,9 @@ func TestQueryPaymentSettings(t *testing.T) {
 // ══════════════════════════════════════════════════════════════════════════════
 
 func TestStartEditing(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	orderId := "order-001"
 	httpmock.RegisterResponder("POST", orderURL(cli, fmt.Sprintf("orders/%s/order_edit_begin.json", orderId)),
@@ -1712,9 +1711,9 @@ func TestStartEditing_MissingId(t *testing.T) {
 }
 
 func TestAddACustomProduct(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	httpmock.RegisterResponder("POST", orderURL(cli, "orders/order_edit_add_customized_item.json"),
 		httpmock.NewStringResponder(200, `{"calculated_order":{"id":"calc-001"}}`))
@@ -1727,9 +1726,9 @@ func TestAddACustomProduct(t *testing.T) {
 }
 
 func TestAddItemsInOrder(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	httpmock.RegisterResponder("POST", orderURL(cli, "orders/order_edit_add_variant.json"),
 		httpmock.NewStringResponder(200, `{"calculated_order":{"id":"calc-001"}}`))
@@ -1742,9 +1741,9 @@ func TestAddItemsInOrder(t *testing.T) {
 }
 
 func TestAddProductDiscount(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	httpmock.RegisterResponder("POST", orderURL(cli, "orders/order_edit_add_line_item_discount.json"),
 		httpmock.NewStringResponder(200, `{"calculated_order":{"id":"calc-001"}}`))
@@ -1757,9 +1756,9 @@ func TestAddProductDiscount(t *testing.T) {
 }
 
 func TestDeleteProductDiscount(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	httpmock.RegisterResponder("POST", orderURL(cli, "orders/order_edit_remove_line_item_discount.json"),
 		httpmock.NewStringResponder(200, `{"calculated_order":{"id":"calc-001"}}`))
@@ -1772,9 +1771,9 @@ func TestDeleteProductDiscount(t *testing.T) {
 }
 
 func TestSetItemQuantity(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	httpmock.RegisterResponder("POST", orderURL(cli, "orders/order_edit_set_quantity.json"),
 		httpmock.NewStringResponder(200, `{"calculated_order":{"id":"calc-001"}}`))
@@ -1787,9 +1786,9 @@ func TestSetItemQuantity(t *testing.T) {
 }
 
 func TestSubmitEditResults(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	httpmock.RegisterResponder("POST", orderURL(cli, "orders/order_edit_commit.json"),
 		httpmock.NewStringResponder(200, `{"order":{"id":"order-001"}}`))
@@ -1806,9 +1805,9 @@ func TestSubmitEditResults(t *testing.T) {
 // ══════════════════════════════════════════════════════════════════════════════
 
 func TestGetOrderAttributionInBulk(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	httpmock.RegisterResponder("POST", orderURL(cli, "orders/order_attribution_info.json"),
 		httpmock.NewStringResponder(200, `{"data":[{"order_seq":"SEQ-001"}]}`))
@@ -1827,9 +1826,9 @@ func TestGetOrderAttributionInBulk(t *testing.T) {
 // ══════════════════════════════════════════════════════════════════════════════
 
 func TestQueryAllTaxInformationInTheStore(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	httpmock.RegisterResponder("GET", orderURL(cli, "countries.json"),
 		httpmock.NewStringResponder(200, `{"countries":[{"id":"country-001","name":"United States","code":"US"}]}`))
@@ -1842,9 +1841,9 @@ func TestQueryAllTaxInformationInTheStore(t *testing.T) {
 }
 
 func TestQueryCountryNumberOfTaxAlreadyConfiguredInStores(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	httpmock.RegisterResponder("GET", orderURL(cli, "countries/count.json"),
 		httpmock.NewStringResponder(200, `{"count":10}`))
@@ -1857,9 +1856,9 @@ func TestQueryCountryNumberOfTaxAlreadyConfiguredInStores(t *testing.T) {
 }
 
 func TestQuerySpecifyTaxInformationFromTheCountry(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	countryId := "country-001"
 	httpmock.RegisterResponder("GET", orderURL(cli, fmt.Sprintf("countries/%s.json", countryId)),
@@ -1878,9 +1877,9 @@ func TestQuerySpecifyTaxInformationFromTheCountry_MissingId(t *testing.T) {
 }
 
 func TestQueryQuantityOfAllStateProvincesInACountry(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	countryId := "country-001"
 	httpmock.RegisterResponder("GET", orderURL(cli, fmt.Sprintf("provinces/count/%s.json", countryId)),
@@ -1899,9 +1898,9 @@ func TestQueryQuantityOfAllStateProvincesInACountry_MissingId(t *testing.T) {
 }
 
 func TestQuerySpecifyAllStateProvinceInformationUnderTheCountry(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	countryId := "country-001"
 	httpmock.RegisterResponder("GET", orderURL(cli, fmt.Sprintf("provinces/%s.json", countryId)),
@@ -1920,9 +1919,9 @@ func TestQuerySpecifyAllStateProvinceInformationUnderTheCountry_MissingId(t *tes
 }
 
 func TestQueryStateProvinceInformation(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	countryId := "country-001"
 	provinceId := "province-001"
@@ -1947,9 +1946,9 @@ func TestQueryStateProvinceInformation_MissingProvinceId(t *testing.T) {
 }
 
 func TestQueryTaxChannel(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	httpmock.RegisterResponder("GET", orderURL(cli, "store_tax_service.json"),
 		httpmock.NewStringResponder(200, `{"tax_services":[{"id":"ts-001"}]}`))
@@ -1967,9 +1966,9 @@ func TestQueryTaxChannel_MissingCountryCode(t *testing.T) {
 }
 
 func TestUpdateTaxChannel(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	httpmock.RegisterResponder("POST", orderURL(cli, "store_tax_service/update.json"),
 		httpmock.NewStringResponder(200, `{"tax_service":{"id":"ts-001"}}`))
@@ -1982,9 +1981,9 @@ func TestUpdateTaxChannel(t *testing.T) {
 }
 
 func TestDeleteTaxChannel(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	countryCode := "US"
 	httpmock.RegisterResponder("DELETE", orderURL(cli, fmt.Sprintf("store_tax_service/delete/%s.json", countryCode)),
@@ -2007,9 +2006,9 @@ func TestDeleteTaxChannel_MissingCountryCode(t *testing.T) {
 // ══════════════════════════════════════════════════════════════════════════════
 
 func TestQueryInventoryAddress(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	httpmock.RegisterResponder("GET", orderURL(cli, "locations.json"),
 		httpmock.NewStringResponder(200, `{"locations":[{"id":"loc-001","name":"Warehouse A"}]}`))
@@ -2022,9 +2021,9 @@ func TestQueryInventoryAddress(t *testing.T) {
 }
 
 func TestQueryAllLocalShippingInformation(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	httpmock.RegisterResponder("GET", orderURL(cli, "local_delivery/list.json"),
 		httpmock.NewStringResponder(200, `{"local_deliveries":[{"id":"ld-001"}]}`))
@@ -2037,9 +2036,9 @@ func TestQueryAllLocalShippingInformation(t *testing.T) {
 }
 
 func TestQueryAllPickupInformation(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	httpmock.RegisterResponder("GET", orderURL(cli, "pickup/list.json"),
 		httpmock.NewStringResponder(200, `{"pickups":[{"id":"pickup-001"}]}`))
@@ -2052,9 +2051,9 @@ func TestQueryAllPickupInformation(t *testing.T) {
 }
 
 func TestBatchShippingPlan(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	httpmock.RegisterResponder("POST", orderURL(cli, "logistics/shipping_zones.json"),
 		httpmock.NewStringResponder(200, `{"shipping_zones":[{"id":"sz-001"}]}`))
@@ -2067,9 +2066,9 @@ func TestBatchShippingPlan(t *testing.T) {
 }
 
 func TestBatchShippingPlanV2(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	httpmock.RegisterResponder("POST", orderURL(cli, "logistics/shipping_zones_v2.json"),
 		httpmock.NewStringResponder(200, `{"shipping_zones":[{"id":"sz-001"}]}`))
@@ -2086,9 +2085,9 @@ func TestBatchShippingPlanV2(t *testing.T) {
 // ══════════════════════════════════════════════════════════════════════════════
 
 func TestQueryReturns(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	httpmock.RegisterResponder("GET", orderURL(cli, "return.json"),
 		httpmock.NewStringResponder(200, `{"returns":[{"id":"return-001"}]}`))
@@ -2101,9 +2100,9 @@ func TestQueryReturns(t *testing.T) {
 }
 
 func TestCreateAReturn(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	httpmock.RegisterResponder("POST", orderURL(cli, "return/create.json"),
 		httpmock.NewStringResponder(200, `{"return":{"id":"return-001"}}`))
@@ -2121,9 +2120,9 @@ func TestCreateAReturn_MissingOrderSeq(t *testing.T) {
 }
 
 func TestCloseReturn(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	returnId := "return-001"
 	httpmock.RegisterResponder("POST", orderURL(cli, fmt.Sprintf("return/%s/close.json", returnId)),
@@ -2142,9 +2141,9 @@ func TestCloseReturn_MissingId(t *testing.T) {
 }
 
 func TestQueryReturnFulfillmentOrder(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	httpmock.RegisterResponder("GET", orderURL(cli, "return_fulfillment.json"),
 		httpmock.NewStringResponder(200, `{"return_fulfillment_orders":[{"id":"rfo-001"}]}`))
@@ -2157,9 +2156,9 @@ func TestQueryReturnFulfillmentOrder(t *testing.T) {
 }
 
 func TestQueryReturnFulfillment(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	httpmock.RegisterResponder("GET", orderURL(cli, "return_package.json"),
 		httpmock.NewStringResponder(200, `{"return_packages":[{"id":"rp-001"}]}`))
@@ -2177,9 +2176,9 @@ func TestQueryReturnFulfillment_MissingReturnId(t *testing.T) {
 }
 
 func TestCreateAReturnFulfillment(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	httpmock.RegisterResponder("POST", orderURL(cli, "return/package/create.json"),
 		httpmock.NewStringResponder(200, `{"return_package":{"id":"rp-001"}}`))
@@ -2192,9 +2191,9 @@ func TestCreateAReturnFulfillment(t *testing.T) {
 }
 
 func TestUpdateLogisticsInformationForAReturnFulfillment(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	httpmock.RegisterResponder("POST", orderURL(cli, "return_express_update.json"),
 		httpmock.NewStringResponder(200, `{"return_package":{"id":"rp-001"}}`))
@@ -2211,9 +2210,9 @@ func TestUpdateLogisticsInformationForAReturnFulfillment(t *testing.T) {
 // ══════════════════════════════════════════════════════════════════════════════
 
 func TestQuerySubscriptionContractList(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	httpmock.RegisterResponder("POST", orderURL(cli, "subscription/contract.json"),
 		httpmock.NewStringResponder(200, `{"contracts":[{"id":"contract-001"}]}`))
@@ -2226,9 +2225,9 @@ func TestQuerySubscriptionContractList(t *testing.T) {
 }
 
 func TestQuerySubscriptionContractDetails(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	contractId := "contract-001"
 	httpmock.RegisterResponder("GET", orderURL(cli, fmt.Sprintf("subscription/%s/contract.json", contractId)),
@@ -2247,9 +2246,9 @@ func TestQuerySubscriptionContractDetails_MissingId(t *testing.T) {
 }
 
 func TestEditSubscriptionContractInformation(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	contractId := "contract-001"
 	httpmock.RegisterResponder("POST", orderURL(cli, fmt.Sprintf("subscription/%s/edit_subscription.json", contractId)),
@@ -2268,9 +2267,9 @@ func TestEditSubscriptionContractInformation_MissingId(t *testing.T) {
 }
 
 func TestCancelSubscriptionContract(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	contractId := "contract-001"
 	httpmock.RegisterResponder("POST", orderURL(cli, fmt.Sprintf("subscription/%s/cancel.json", contractId)),
@@ -2289,9 +2288,9 @@ func TestCancelSubscriptionContract_MissingId(t *testing.T) {
 }
 
 func TestCreateYourOrderAsSoonAsYourSubscriptionContractIsCreated(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	contractId := "contract-001"
 	httpmock.RegisterResponder("POST", orderURL(cli, fmt.Sprintf("subscription/%s/create_order.json", contractId)),
@@ -2310,9 +2309,9 @@ func TestCreateYourOrderAsSoonAsYourSubscriptionContractIsCreated_MissingId(t *t
 }
 
 func TestReviseNextBillTime(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	contractId := "contract-001"
 	httpmock.RegisterResponder("POST", orderURL(cli, fmt.Sprintf("subscription/%s/edit_next_billing_date.json", contractId)),
@@ -2331,9 +2330,9 @@ func TestReviseNextBillTime_MissingId(t *testing.T) {
 }
 
 func TestSkipTheNextBill(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	contractId := "contract-001"
 	httpmock.RegisterResponder("POST", orderURL(cli, fmt.Sprintf("subscription/%s/skip_next_bill.json", contractId)),

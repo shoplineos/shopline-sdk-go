@@ -7,7 +7,6 @@ import (
 
 	"github.com/jarcoal/httpmock"
 	"github.com/shoplineos/shopline-sdk-go/client"
-	"github.com/shoplineos/shopline-sdk-go/rest/admin/test"
 	"github.com/shoplineos/shopline-sdk-go/rest/admin/v20260301/customer"
 	"github.com/stretchr/testify/assert"
 )
@@ -22,9 +21,9 @@ func customerURL(cli *client.Client, path string) string {
 // ══════════════════════════════════════════════════════════════════════════════
 
 func TestGetCustomers(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	mockResp := `{"customers":[{"id":"4201825054","first_name":"Bob","last_name":"Norman","email":"bob@example.com","currency":"USD"}]}`
 	httpmock.RegisterResponder("GET", customerURL(cli, "v2/customers.json"),
@@ -41,9 +40,9 @@ func TestGetCustomers(t *testing.T) {
 }
 
 func TestGetACustomer(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	customerId := "4201825054"
 	mockResp := `{"customer":{"id":"4201825054","first_name":"Bob","last_name":"Norman","email":"bob@example.com","currency":"USD","state":3}}`
@@ -65,9 +64,9 @@ func TestGetACustomer_MissingId(t *testing.T) {
 }
 
 func TestCreateACustomer(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	mockResp := `{"customer":{"id":"4201825054","first_name":"Bob","last_name":"Norman","email":"bob@example.com","state":2,"currency":"USD"}}`
 	httpmock.RegisterResponder("POST", customerURL(cli, "customers.json"),
@@ -89,9 +88,9 @@ func TestCreateACustomer(t *testing.T) {
 }
 
 func TestUpdateACustomer(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	customerId := "4201825054"
 	mockResp := `{"customer":{"id":"4201825054","first_name":"Bob","last_name":"Smith","email":"bob@example.com"}}`
@@ -118,9 +117,9 @@ func TestUpdateACustomer_MissingId(t *testing.T) {
 }
 
 func TestDeleteCustomerInformation(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	customerId := "4211465524"
 	httpmock.RegisterResponder("DELETE", customerURL(cli, fmt.Sprintf("customers/%s.json", customerId)),
@@ -139,9 +138,9 @@ func TestDeleteCustomerInformation_MissingId(t *testing.T) {
 }
 
 func TestSearchForCustomers(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	mockResp := `{"customers":[{"id":"4201825054","first_name":"Bob","last_name":"Norman","email":"bob@example.com"}]}`
 	httpmock.RegisterResponder("GET", customerURL(cli, "customers/v2/search.json"),
@@ -157,9 +156,9 @@ func TestSearchForCustomers(t *testing.T) {
 }
 
 func TestCustomerNumberQuery(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	httpmock.RegisterResponder("GET", customerURL(cli, "customers/v2/count.json"),
 		httpmock.NewStringResponder(200, `{"count":100}`))
@@ -173,9 +172,9 @@ func TestCustomerNumberQuery(t *testing.T) {
 }
 
 func TestActivateTheCustomer(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	customerId := "4201825054"
 	mockResp := `{"data":{"account_activation_url":"https://example.myshopline.com/account/activate"}}`
@@ -196,9 +195,9 @@ func TestActivateTheCustomer_MissingId(t *testing.T) {
 }
 
 func TestSendActivationMail(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	customerId := "4201801159"
 	mockResp := `{"customer_invite":{"from":"noreply@example.com","to":"customer@example.com"}}`
@@ -220,9 +219,9 @@ func TestSendActivationMail_MissingId(t *testing.T) {
 }
 
 func TestCheckCustomerInformationViaEmail(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	mockResp := `{"customer":{"id":"2277270272","first_name":"Bob","last_name":"Norman","email":"bob@example.com","state":3}}`
 	httpmock.RegisterResponder("POST", customerURL(cli, "customers/query_user_by_email.json"),
@@ -243,9 +242,9 @@ func TestCheckCustomerInformationViaEmail_MissingEmail(t *testing.T) {
 }
 
 func TestQuerySpecifyCustomerOrder(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	customerId := "2002697754"
 	mockResp := `{"list":[{"id":"21050224312121887324667162","financial_status":"paid","email":"hok@shoplineapp.com"}]}`
@@ -276,9 +275,9 @@ func TestQuerySpecifyCustomerOrder_MissingStatus(t *testing.T) {
 }
 
 func TestBatchQueryUserSubscriptionInformation(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	mockResp := `{"user_subscribe_info_list":[{"customer_id":"4201799145","status":1,"subscribe_account":"user@example.com","subscribe_account_type":0}]}`
 	httpmock.RegisterResponder("GET", customerURL(cli, "customers/subscribe.json"),
@@ -295,9 +294,9 @@ func TestBatchQueryUserSubscriptionInformation(t *testing.T) {
 }
 
 func TestAddACustomerToTheBlacklist(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	httpmock.RegisterResponder("POST", customerURL(cli, "customers/add_blacklist.json"),
 		httpmock.NewStringResponder(200, `{}`))
@@ -315,9 +314,9 @@ func TestAddACustomerToTheBlacklist_MissingCustomerId(t *testing.T) {
 }
 
 func TestRemoveACustomerFromTheBlacklist(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	httpmock.RegisterResponder("POST", customerURL(cli, "customers/remove_blacklist.json"),
 		httpmock.NewStringResponder(200, `{}`))
@@ -330,9 +329,9 @@ func TestRemoveACustomerFromTheBlacklist(t *testing.T) {
 }
 
 func TestDeleteSpecifyCustomerTag(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	httpmock.RegisterResponder("POST", customerURL(cli, "customer_tags_remove.json"),
 		httpmock.NewStringResponder(200, `{}`))
@@ -357,9 +356,9 @@ func TestDeleteSpecifyCustomerTag_MissingUserId(t *testing.T) {
 // ══════════════════════════════════════════════════════════════════════════════
 
 func TestAddAddress20(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	customerId := "2277270272"
 	mockResp := `{"customer_address":{"id":"SL201UA5006511321220969539","first_name":"Bob","last_name":"Norman","address1":"7720 Cherokee Road","city":"Hagerman","country":"United States","country_code":"US","customer_id":"2277270272"}}`
@@ -390,9 +389,9 @@ func TestAddAddress20_MissingId(t *testing.T) {
 }
 
 func TestUpdateAddress20(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	addressId := "SL201UA5006511321220969539"
 	customerId := "2277270272"
@@ -427,9 +426,9 @@ func TestUpdateAddress20_MissingId(t *testing.T) {
 }
 
 func TestDeleteCustomerAddress20(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	addressId := "SL201UA6021464182578751091"
 	customerId := "2277270272"
@@ -457,9 +456,9 @@ func TestDeleteCustomerAddress20_MissingId(t *testing.T) {
 }
 
 func TestQueryCustomerAddressDetails20(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	addressId := "SL201UA5006511321220969539"
 	customerId := "2277270272"
@@ -490,9 +489,9 @@ func TestQueryCustomerAddressDetails20_MissingId(t *testing.T) {
 }
 
 func TestSetDefaultAddress20(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	addressId := "SL201UA6021464182578751091"
 	customerId := "2277270272"
@@ -520,9 +519,9 @@ func TestSetDefaultAddress20_MissingId(t *testing.T) {
 }
 
 func TestBatchAddress(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	customerId := "3300004100"
 	httpmock.RegisterResponder("PUT", customerURL(cli, fmt.Sprintf("customers/%s/addresses/set.json", customerId)),
@@ -555,9 +554,9 @@ func TestBatchAddress_MissingOperation(t *testing.T) {
 }
 
 func TestBatchQueryCustomerAddress20(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	mockResp := `{"user_address":[{"uid":"2277270272","addresses":[{"id":"SL201UA5006511321220969539","address1":"7720 Cherokee Road","city":"Hagerman","country":"United States","country_code":"US"}]}]}`
 	httpmock.RegisterResponder("POST", customerURL(cli, "customers/addresses/list.json"),
@@ -580,9 +579,9 @@ func TestBatchQueryCustomerAddress20(t *testing.T) {
 // ══════════════════════════════════════════════════════════════════════════════
 
 func TestGetCustomerGroupingInBulk(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	mockResp := `{"customer_saved_searches":[{"id":"GROUP5483719394486658833","name":"Returning","query":"orders_count:>1","created_at":"2022-07-07T08:40:55+00:00","updated_at":"2022-07-07T08:40:55+00:00"}]}`
 	httpmock.RegisterResponder("GET", customerURL(cli, "customer_saved_searches.json"),
@@ -599,9 +598,9 @@ func TestGetCustomerGroupingInBulk(t *testing.T) {
 }
 
 func TestSpecifyCustomerGroupingQuery(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	groupId := "GROUP5429808178858062838"
 	mockResp := `{"customer_saved_search":{"id":"GROUP5429808178858062838","name":"Returning","query":"orders_count:>1","created_at":"2022-07-07T08:40:55+00:00","updated_at":"2022-07-07T08:40:55+00:00"}}`
@@ -623,9 +622,9 @@ func TestSpecifyCustomerGroupingQuery_MissingId(t *testing.T) {
 }
 
 func TestCreateCustomerGrouping(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	mockResp := `{"customer_saved_search":{"id":"GROUP5483719394486658833","name":"orders count greater than one","query":"orders_count:>1","created_at":"2022-07-07T08:40:55+00:00","updated_at":"2022-07-07T08:40:55+00:00"}}`
 	httpmock.RegisterResponder("POST", customerURL(cli, "customer_saved_searches.json"),
@@ -646,9 +645,9 @@ func TestCreateCustomerGrouping(t *testing.T) {
 }
 
 func TestUpdateCustomerGrouping(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	groupId := "GROUP5573201978623266205"
 	mockResp := `{"customer_saved_search":{"id":"GROUP5573201978623266205","name":"modify group name","query":"orders_count:<1","created_at":"2022-07-07T08:40:55+00:00","updated_at":"2022-07-07T08:40:55+00:00"}}`
@@ -675,9 +674,9 @@ func TestUpdateCustomerGrouping_MissingId(t *testing.T) {
 }
 
 func TestDeleteCustomerGrouping(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	groupId := "GROUP5702593537218454508"
 	httpmock.RegisterResponder("DELETE", customerURL(cli, fmt.Sprintf("customer_saved_searches/%s.json", groupId)),
@@ -696,9 +695,9 @@ func TestDeleteCustomerGrouping_MissingId(t *testing.T) {
 }
 
 func TestQueryStoreGrouping(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	httpmock.RegisterResponder("GET", customerURL(cli, "customer_saved_searches/count.json"),
 		httpmock.NewStringResponder(200, `{"count":5}`))
@@ -712,9 +711,9 @@ func TestQueryStoreGrouping(t *testing.T) {
 }
 
 func TestQueryAllCustomersInGroups(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	groupId := "GROUP5483719394486658833"
 	mockResp := `{"customers":[{"id":"4201825054","first_name":"Bob","last_name":"Norman","email":"zhangsan@gmail.com","currency":"USD","state":2}]}`
@@ -741,9 +740,9 @@ func TestQueryAllCustomersInGroups_MissingId(t *testing.T) {
 // ══════════════════════════════════════════════════════════════════════════════
 
 func TestRetrieveAListOfThirdPartyLoginConfigurationsOfStore(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	mockResp := `{"data":{"third_party_login_configurations":[{"login_channel":"google","login_platform_type":"web","third_app_id":"demo app id","third_key":"demo key"}]}}`
 	httpmock.RegisterResponder("GET", customerURL(cli, "customers_social_login.json"),
@@ -760,9 +759,9 @@ func TestRetrieveAListOfThirdPartyLoginConfigurationsOfStore(t *testing.T) {
 }
 
 func TestUpdateTheThirdPartyLoginConfigurationOfStore(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	httpmock.RegisterResponder("POST", customerURL(cli, "customers_social_login.json"),
 		httpmock.NewStringResponder(200, `{}`))
@@ -785,9 +784,9 @@ func TestUpdateTheThirdPartyLoginConfigurationOfStore_MissingLoginChannel(t *tes
 }
 
 func TestDeleteTheThirdPartyLoginConfigurationOfStore(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	httpmock.RegisterResponder("DELETE", customerURL(cli, "customers_social_login.json"),
 		httpmock.NewStringResponder(200, `{}`))

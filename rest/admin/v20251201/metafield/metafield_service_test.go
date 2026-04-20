@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 	"github.com/jarcoal/httpmock"
-	"github.com/shoplineos/shopline-sdk-go/rest/admin/test"
+	"github.com/shoplineos/shopline-sdk-go/client"
 	"github.com/stretchr/testify/assert"
 	"testing"
 )
@@ -120,7 +120,7 @@ func TestListMetafields(t *testing.T) {
 
 	httpmock.RegisterResponder("GET",
 		fmt.Sprintf("https://%s.myshopline.com/%s/%s/product/123/metafields.json", cli.StoreHandle, cli.PathPrefix, cli.ApiVersion),
-		httpmock.NewBytesResponder(200, test.LoadTestData("metafield/metafields.json")))
+		httpmock.NewBytesResponder(200, client.LoadTestData("metafield/metafields.json")))
 
 	req := &ListMetafieldAPIReq{
 		OwnerResource: "product",
@@ -150,7 +150,7 @@ func TestListAllMetafields(t *testing.T) {
 
 	httpmock.RegisterResponder("GET",
 		fmt.Sprintf("https://%s.myshopline.com/%s/%s/product/123/metafields.json", cli.StoreHandle, cli.PathPrefix, cli.ApiVersion),
-		httpmock.NewBytesResponder(200, test.LoadTestData("metafield/metafields.json")))
+		httpmock.NewBytesResponder(200, client.LoadTestData("metafield/metafields.json")))
 
 	req := &ListMetafieldAPIReq{
 		OwnerResource: "product",

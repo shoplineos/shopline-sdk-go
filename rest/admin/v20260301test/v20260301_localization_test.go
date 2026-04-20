@@ -7,7 +7,6 @@ import (
 
 	"github.com/jarcoal/httpmock"
 	"github.com/shoplineos/shopline-sdk-go/client"
-	"github.com/shoplineos/shopline-sdk-go/rest/admin/test"
 	"github.com/shoplineos/shopline-sdk-go/rest/admin/v20260301/localization"
 	"github.com/stretchr/testify/assert"
 )
@@ -18,9 +17,9 @@ func localizationURL(cli *client.Client, path string) string {
 }
 
 func TestGetStoreLanguages(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	mockResp := `{"data":{"default_language":"en","supported_languages":["en","vi"]}}`
 	httpmock.RegisterResponder("GET", localizationURL(cli, "store/languages.json"),
@@ -36,9 +35,9 @@ func TestGetStoreLanguages(t *testing.T) {
 }
 
 func TestAddStoreLanguages(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	mockResp := `{"data":{"default_language":"en","supported_languages":["en","vi"]}}`
 	httpmock.RegisterResponder("POST", localizationURL(cli, "store/languages.json"),
@@ -54,9 +53,9 @@ func TestAddStoreLanguages(t *testing.T) {
 }
 
 func TestDeleteStoreLanguages(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	httpmock.RegisterResponder("DELETE", localizationURL(cli, "store/languages.json"),
 		httpmock.NewStringResponder(200, `{}`))
@@ -69,9 +68,9 @@ func TestDeleteStoreLanguages(t *testing.T) {
 }
 
 func TestQueryStoreSAvailableLanguages(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	mockResp := `{"data":{"available_locales":[{"iso_code":"en","name":"English"},{"iso_code":"vi","name":"Vietnamese"}]}}`
 	httpmock.RegisterResponder("GET", localizationURL(cli, "store/available_locales.json"),
@@ -88,9 +87,9 @@ func TestQueryStoreSAvailableLanguages(t *testing.T) {
 }
 
 func TestGetStoreTranslationData(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	mockResp := `{"data":{"resource_id":"1636453548928","resource_type":"PRODUCT","default_content_list":[{"resource_content":"Title content","resource_content_type":"STRING","resource_field":"title"}],"content_list":[{"locale":"en","market":"2805652120189036673434","resource_content":"Translated title","resource_field":"title","updated_at":"2023-09-07T15:50:00Z"}]}}`
 	httpmock.RegisterResponder("GET", localizationURL(cli, "ugc/resource.json"),
@@ -123,9 +122,9 @@ func TestGetStoreTranslationData_MissingResourceType(t *testing.T) {
 }
 
 func TestUpdateStoreTranslationData(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	mockResp := `{"data":{"resource_list":[{"locale":"en","market":"2805652120189036673434","outdated":false,"resource_content":"Translated title","resource_field":"title","resource_id":"1636453548928","resource_type":"PRODUCT","updated_at":"2023-09-07T15:50:00Z"}],"fail_list":[]}}`
 	httpmock.RegisterResponder("PUT", localizationURL(cli, "ugc/resource.json"),
@@ -154,9 +153,9 @@ func TestUpdateStoreTranslationData(t *testing.T) {
 }
 
 func TestQueryStoreTranslationDataInBulk(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	mockResp := `{"data":{"resource_list":[{"resource_id":"1636453548928","resource_type":"PRODUCT","default_content_list":[{"resource_content":"Title content","resource_content_type":"STRING","resource_field":"title"}],"content_list":[{"locale":"en","market":"2805652120189036673434","outdated":false,"resource_content":"Translated title","resource_field":"title","updated_at":"2023-09-07T15:50:00Z"}]}]}}`
 	httpmock.RegisterResponder("POST", localizationURL(cli, "ugc/resources.json"),
@@ -180,9 +179,9 @@ func TestQueryStoreTranslationDataInBulk(t *testing.T) {
 }
 
 func TestDeleteStoreTranslations(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	httpmock.RegisterResponder("DELETE", localizationURL(cli, "ugc/resource.json"),
 		httpmock.NewStringResponder(200, `{}`))

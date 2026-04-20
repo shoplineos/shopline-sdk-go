@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"github.com/jarcoal/httpmock"
 	"github.com/shoplineos/shopline-sdk-go/client"
-	"github.com/shoplineos/shopline-sdk-go/rest/admin/test"
 	"github.com/stretchr/testify/assert"
 	"testing"
 )
@@ -38,7 +37,7 @@ func TestOrderRefundList(t *testing.T) {
 
 	httpmock.RegisterResponder("GET",
 		fmt.Sprintf("https://%s.myshopline.com/%s/%s/orders/1/refunds.json?order_id=1", cli.StoreHandle, cli.PathPrefix, cli.ApiVersion),
-		httpmock.NewBytesResponder(200, test.LoadTestData("order/refunds.json")))
+		httpmock.NewBytesResponder(200, client.LoadTestData("order/refunds.json")))
 
 	apiReq := &ListOrderRefundsAPIReq{
 		OrderId: "1",
@@ -68,7 +67,7 @@ func TestOrderRefundGet(t *testing.T) {
 
 	httpmock.RegisterResponder("GET",
 		fmt.Sprintf("https://%s.myshopline.com/%s/%s/orders/1/refunds/ref_1234567890abcdef01234567.json", cli.StoreHandle, cli.PathPrefix, cli.ApiVersion),
-		httpmock.NewBytesResponder(200, test.LoadTestData("order/refund.json")))
+		httpmock.NewBytesResponder(200, client.LoadTestData("order/refund.json")))
 
 	apiReq := &GetOrderRefundAPIReq{
 		OrderId:  "1",
@@ -98,7 +97,7 @@ func TestOrderRefundCalc(t *testing.T) {
 
 	httpmock.RegisterResponder("POST",
 		fmt.Sprintf("https://%s.myshopline.com/%s/%s/orders/1/refunds/calculate.json", cli.StoreHandle, cli.PathPrefix, cli.ApiVersion),
-		httpmock.NewBytesResponder(200, test.LoadTestData("order/calculate.json")))
+		httpmock.NewBytesResponder(200, client.LoadTestData("order/calculate.json")))
 
 	apiReq := &OrderRefundTrialAPIReq{
 		OrderId:  "1",

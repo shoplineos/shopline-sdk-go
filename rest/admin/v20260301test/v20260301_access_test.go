@@ -7,7 +7,6 @@ import (
 
 	"github.com/jarcoal/httpmock"
 	"github.com/shoplineos/shopline-sdk-go/client"
-	"github.com/shoplineos/shopline-sdk-go/rest/admin/test"
 	"github.com/shoplineos/shopline-sdk-go/rest/admin/v20260301/access"
 	"github.com/stretchr/testify/assert"
 )
@@ -18,9 +17,9 @@ func accessURL(cli *client.Client, path string) string {
 }
 
 func TestGetAListOfAccessTokens(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	mockResp := `{"storefront_access_tokens":[{"id":1001,"title":"For SHOPLINE Themes","access_token":"abc123","access_scope":"unauthenticated_read_message","created_at":"2023-01-01T00:00:00+08:00"}]}`
 	httpmock.RegisterResponder("GET", accessURL(cli, "storefront_access_tokens.json"),
@@ -38,9 +37,9 @@ func TestGetAListOfAccessTokens(t *testing.T) {
 }
 
 func TestCreateAnAccessToken(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	mockResp := `{"storefront_access_token":{"id":1002,"title":"For SHOPLINE Themes","access_token":"xyz789","access_scope":"unauthenticated_write_message, unauthenticated_read_message","created_at":"2023-01-01T00:00:00+08:00"}}`
 	httpmock.RegisterResponder("POST", accessURL(cli, "storefront_access_tokens.json"),
@@ -61,9 +60,9 @@ func TestCreateAnAccessToken(t *testing.T) {
 }
 
 func TestDeleteAnAccessToken(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	tokenId := "1001"
 	httpmock.RegisterResponder("DELETE", accessURL(cli, fmt.Sprintf("storefront_access_tokens/%s.json", tokenId)),

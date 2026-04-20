@@ -7,7 +7,6 @@ import (
 
 	"github.com/jarcoal/httpmock"
 	"github.com/shoplineos/shopline-sdk-go/client"
-	"github.com/shoplineos/shopline-sdk-go/rest/admin/test"
 	"github.com/shoplineos/shopline-sdk-go/rest/admin/v20260301/bulkoperation"
 	"github.com/stretchr/testify/assert"
 )
@@ -18,9 +17,9 @@ func bulkURL(cli *client.Client, path string) string {
 }
 
 func TestCreateABulkQueryTask(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	mockResp := `{"id":"task-001","status":"CREATED","type":"QUERY","storeId":"store-001","createdAt":"2023-04-06T10:48:29+08:00"}`
 	httpmock.RegisterResponder("POST", bulkURL(cli, "bulk_operation_run_query.json"),
@@ -42,9 +41,9 @@ func TestCreateABulkQueryTask_MissingQueryPath(t *testing.T) {
 }
 
 func TestCreateABulkMutationTask(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	mockResp := `{"id":"task-002","status":"CREATED","type":"MUTATION_GENERAL","storeId":"store-001","createdAt":"2023-04-07T10:48:29+08:00"}`
 	httpmock.RegisterResponder("POST", bulkURL(cli, "bulk_operation_run_mutation_general.json"),
@@ -61,9 +60,9 @@ func TestCreateABulkMutationTask(t *testing.T) {
 }
 
 func TestCreateAChangeTypeBulkTaskToBeDeprecated(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	mockResp := `{"id":"task-003","status":"CREATED","type":"MUTATION","storeId":"store-001","createdAt":"2023-04-06T10:48:29+08:00"}`
 	httpmock.RegisterResponder("POST", bulkURL(cli, "bulk_operation_run_mutation.json"),
@@ -80,9 +79,9 @@ func TestCreateAChangeTypeBulkTaskToBeDeprecated(t *testing.T) {
 }
 
 func TestGetAValidBulkTask(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	mockResp := `{"id":"task-001","status":"RUNNING","type":"QUERY","storeId":"store-001","createdAt":"2023-04-06T10:48:29+08:00","completedCount":50}`
 	httpmock.RegisterResponder("GET", bulkURL(cli, "current_bulk_operation.json"),
@@ -100,9 +99,9 @@ func TestGetAValidBulkTask(t *testing.T) {
 }
 
 func TestCancelABulkTask(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	mockResp := `{"id":"task-001","status":"CANCELING","type":"QUERY","storeId":"store-001","createdAt":"2023-04-06T10:48:29+08:00"}`
 	httpmock.RegisterResponder("POST", bulkURL(cli, "bulk_operation_run_cancel.json"),

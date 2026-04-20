@@ -4,21 +4,22 @@ import (
 	"context"
 	"fmt"
 	"github.com/jarcoal/httpmock"
+	"github.com/shoplineos/shopline-sdk-go/client"
 	payment2 "github.com/shoplineos/shopline-sdk-go/rest/admin/v20251201/payment"
 	"github.com/stretchr/testify/assert"
 	"testing"
 )
 
 func TestGetStoreBalance(t *testing.T) {
-	setup()
-	defer teardown()
+	client.Setup()
+	defer client.Teardown()
 
-	httpmock.RegisterResponder("GET", fmt.Sprintf("https://%s.myshopline.com/%s/%s/payments/store/balance.json", cli.StoreHandle, cli.PathPrefix, cli.ApiVersion),
+	httpmock.RegisterResponder("GET", fmt.Sprintf("https://%s.myshopline.com/%s/%s/payments/store/balance.json", client.GetClient().StoreHandle, client.GetClient().PathPrefix, client.GetClient().ApiVersion),
 		httpmock.NewStringResponder(200, `{"balance":[{"amount":"12.34", "currency":"CNY"}]}`))
 
 	apiReq := &payment2.BalanceAPIReq{}
 	apiResp := &payment2.BalanceAPIResp{}
-	err := cli.Call(context.Background(), apiReq, apiResp)
+	err := client.GetClient().Call(context.Background(), apiReq, apiResp)
 
 	if err != nil {
 		t.Errorf("Payment.GetStoreBalance returned error: %v", err)
@@ -33,12 +34,12 @@ func TestGetStoreBalance(t *testing.T) {
 }
 
 func TestListStorePayouts(t *testing.T) {
-	setup()
-	defer teardown()
+	client.Setup()
+	defer client.Teardown()
 	//end_time=2025-09-30T00:00:00+08:00&limit=1&start_time=2025-04-30T00:00:00+08:00
 	//httpmock.RegisterResponder("GET", fmt.Sprintf("https://%s.myshopline.com/%s/%s/payments/store/payouts.json?limit=1", cli.StoreHandle, cli.PathPrefix, cli.ApiVersion),
 	httpmock.RegisterResponder("GET", "https://zwapptest.myshopline.com/admin/openapi/v20251201/payments/store/payouts.json?end_time=2025-09-30T00%3A00%3A00%2B08%3A00&limit=1&start_time=2025-04-30T00%3A00%3A00%2B08%3A00",
-		httpmock.NewBytesResponder(200, LoadTestDataV2("", "payment/payouts.json")))
+		httpmock.NewBytesResponder(200, client.LoadTestDataV2("", "payment/payouts.json")))
 
 	apiReq := &payment2.GetPayoutsAPIReq{
 		Limit: "1",
@@ -48,7 +49,7 @@ func TestListStorePayouts(t *testing.T) {
 	}
 
 	apiResp := &payment2.GetPayoutsAPIResp{}
-	err := cli.Call(context.Background(), apiReq, apiResp)
+	err := client.GetClient().Call(context.Background(), apiReq, apiResp)
 	if err != nil {
 		t.Errorf("Payment.ListStorePayouts returned error: %v", err)
 	}
@@ -63,11 +64,11 @@ func TestListStorePayouts(t *testing.T) {
 }
 
 func TestListStoreBalanceTransactions(t *testing.T) {
-	setup()
-	defer teardown()
+	client.Setup()
+	defer client.Teardown()
 
-	httpmock.RegisterResponder("GET", fmt.Sprintf("https://%s.myshopline.com/%s/%s/payments/store/balance_transactions.json", cli.StoreHandle, cli.PathPrefix, cli.ApiVersion),
-		httpmock.NewBytesResponder(200, LoadTestDataV2("", "payment/balance_transactions.json")))
+	httpmock.RegisterResponder("GET", fmt.Sprintf("https://%s.myshopline.com/%s/%s/payments/store/balance_transactions.json", client.GetClient().StoreHandle, client.GetClient().PathPrefix, client.GetClient().ApiVersion),
+		httpmock.NewBytesResponder(200, client.LoadTestDataV2("", "payment/balance_transactions.json")))
 
 	apiReq := &payment2.BalanceTransactionsAPIReq{
 		Limit:        "1",
@@ -75,7 +76,7 @@ func TestListStoreBalanceTransactions(t *testing.T) {
 	}
 
 	apiResp := &payment2.BalanceTransactionsAPIResp{}
-	err := cli.Call(context.Background(), apiReq, apiResp)
+	err := client.GetClient().Call(context.Background(), apiReq, apiResp)
 
 	if err != nil {
 		t.Errorf("Payment.ListStoreBalanceTransactions returned error: %v", err)
@@ -93,13 +94,13 @@ func TestListStoreBalanceTransactions(t *testing.T) {
 }
 
 func TestGetStorePayouts(t *testing.T) {
-	setup()
-	defer teardown()
+	client.Setup()
+	defer client.Teardown()
 
 	// https://zwapptest.myshopline.com/admin/openapi/v20251201/payments/store/payouts.json?end_time=2025-05-30&limit=2&payout_transaction_no=2222&start_time=2025-04-30
 	//httpmock.RegisterResponder("GET", fmt.Sprintf("https://%s.myshopline.com/%s/%s/payments/store/payout.json?end_time=2025-05-30&limit=2&payout_transaction_no=2222&start_time=2025-04-30", cli.StoreHandle, cli.PathPrefix, cli.ApiVersion),
 	httpmock.RegisterResponder("GET", "https://zwapptest.myshopline.com/admin/openapi/v20251201/payments/store/payouts.json?end_time=2025-05-30&limit=2&payout_transaction_no=2222&start_time=2025-04-30",
-		httpmock.NewBytesResponder(200, LoadTestDataV2("", "payment/payouts.json")))
+		httpmock.NewBytesResponder(200, client.LoadTestDataV2("", "payment/payouts.json")))
 
 	apiReq := &payment2.GetPayoutsAPIReq{
 		PayoutTransactionNo: "2222",
@@ -109,7 +110,7 @@ func TestGetStorePayouts(t *testing.T) {
 	}
 
 	apiResp := &payment2.GetPayoutsAPIResp{}
-	err := cli.Call(context.Background(), apiReq, apiResp)
+	err := client.GetClient().Call(context.Background(), apiReq, apiResp)
 
 	if err != nil {
 		t.Errorf("Payment.GetStorePayouts returned error: %v", err)
@@ -126,11 +127,11 @@ func TestGetStorePayouts(t *testing.T) {
 }
 
 func TestListStoreTransactions(t *testing.T) {
-	setup()
-	defer teardown()
+	client.Setup()
+	defer client.Teardown()
 
-	httpmock.RegisterResponder("GET", fmt.Sprintf("https://%s.myshopline.com/%s/%s/payments/store/transactions.json", cli.StoreHandle, cli.PathPrefix, cli.ApiVersion),
-		httpmock.NewBytesResponder(200, LoadTestDataV2("", "payment/transactions.json")))
+	httpmock.RegisterResponder("GET", fmt.Sprintf("https://%s.myshopline.com/%s/%s/payments/store/transactions.json", client.GetClient().StoreHandle, client.GetClient().PathPrefix, client.GetClient().ApiVersion),
+		httpmock.NewBytesResponder(200, client.LoadTestDataV2("", "payment/transactions.json")))
 
 	apiReq := &payment2.QueryStoreTransactionRecordsAPIReq{
 		Limit:   "1",
@@ -139,7 +140,7 @@ func TestListStoreTransactions(t *testing.T) {
 	}
 
 	apiResp := &payment2.QueryStoreTransactionRecordsAPIResp{}
-	err := cli.Call(context.Background(), apiReq, apiResp)
+	err := client.GetClient().Call(context.Background(), apiReq, apiResp)
 
 	if err != nil {
 		t.Errorf("Payment.ListStoreTransactions returned error: %v", err)

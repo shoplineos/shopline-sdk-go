@@ -6,7 +6,6 @@ import (
 	"fmt"
 	"github.com/jarcoal/httpmock"
 	"github.com/shoplineos/shopline-sdk-go/client"
-	"github.com/shoplineos/shopline-sdk-go/rest/admin/test"
 	"github.com/shoplineos/shopline-sdk-go/rest/admin/v20260301/product"
 	"net/http"
 	"reflect"
@@ -15,9 +14,9 @@ import (
 )
 
 func TestProductList(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 	httpmock.RegisterResponder("GET", fmt.Sprintf("https://%s.myshopline.com/%s/%s/products/products.json", cli.StoreHandle, cli.PathPrefix, cli.ApiVersion),
 		httpmock.NewStringResponder(200, `{"products": [{"Id":"1"},{"Id":"2"}]}`))
 
@@ -36,9 +35,9 @@ func TestProductList(t *testing.T) {
 }
 
 func TestProductListFilterByIds(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 	params := map[string]string{"ids": "1,2,3"}
 	httpmock.RegisterResponderWithQuery(
 		"GET",
@@ -63,9 +62,9 @@ func TestProductListFilterByIds(t *testing.T) {
 }
 
 func TestProductListError(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 	httpmock.RegisterResponder("GET",
 		fmt.Sprintf("https://%s.myshopline.com/%s/%s/products/products.json", cli.StoreHandle, cli.PathPrefix, cli.ApiVersion),
 		httpmock.NewStringResponder(500, ""))
@@ -86,9 +85,9 @@ func TestProductListError(t *testing.T) {
 }
 
 func TestProductListAll(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 	listURL := fmt.Sprintf("https://%s.myshopline.com/%s/%s/products/products.json", cli.StoreHandle, cli.PathPrefix, cli.ApiVersion)
 
 	cases := []struct {
@@ -204,9 +203,9 @@ func TestProductListAll(t *testing.T) {
 }
 
 func TestProductListWithPagination(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 	listURL := fmt.Sprintf("https://%s.myshopline.com/%s/%s/products/products.json", cli.StoreHandle, cli.PathPrefix, cli.ApiVersion)
 
 	// The strconv.Atoi error changed in go 1.8, 1.7 is still being tested/supported.

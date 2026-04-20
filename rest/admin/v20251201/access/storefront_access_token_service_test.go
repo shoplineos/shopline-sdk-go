@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 	"github.com/jarcoal/httpmock"
-	"github.com/shoplineos/shopline-sdk-go/rest/admin/test"
+	"github.com/shoplineos/shopline-sdk-go/client"
 	"github.com/stretchr/testify/assert"
 	"testing"
 )
@@ -59,7 +59,7 @@ func TestListStorefrontAccessTokens(t *testing.T) {
 
 	httpmock.RegisterResponder("GET",
 		fmt.Sprintf("https://%s.myshopline.com/%s/%s/storefront_access_tokens.json", cli.StoreHandle, cli.PathPrefix, cli.ApiVersion),
-		httpmock.NewBytesResponder(200, test.LoadTestData("access/storefront_access_tokens.json")))
+		httpmock.NewBytesResponder(200, client.LoadTestData("access/storefront_access_tokens.json")))
 
 	req := &ListStorefrontAccessTokensAPIReq{}
 
@@ -82,7 +82,7 @@ func TestListWithPaginationStorefrontAccessTokens(t *testing.T) {
 
 	httpmock.RegisterResponder("GET",
 		fmt.Sprintf("https://%s.myshopline.com/%s/%s/storefront_access_tokens.json", cli.StoreHandle, cli.PathPrefix, cli.ApiVersion),
-		httpmock.NewBytesResponder(200, test.LoadTestData("access/storefront_access_tokens.json")))
+		httpmock.NewBytesResponder(200, client.LoadTestData("access/storefront_access_tokens.json")))
 
 	req := &ListStorefrontAccessTokensAPIReq{}
 
@@ -105,7 +105,7 @@ func TestListAllStorefrontAccessTokens(t *testing.T) {
 
 	httpmock.RegisterResponder("GET",
 		fmt.Sprintf("https://%s.myshopline.com/%s/%s/storefront_access_tokens.json", cli.StoreHandle, cli.PathPrefix, cli.ApiVersion),
-		httpmock.NewBytesResponder(200, test.LoadTestData("access/storefront_access_tokens.json")))
+		httpmock.NewBytesResponder(200, client.LoadTestData("access/storefront_access_tokens.json")))
 
 	req := &ListStorefrontAccessTokensAPIReq{}
 

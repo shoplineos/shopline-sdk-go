@@ -11,11 +11,11 @@ import (
 )
 
 func TestCreateMetafield(t *testing.T) {
-	setup()
-	defer teardown()
+	client.Setup()
+	defer client.Teardown()
 
 	httpmock.RegisterResponder("POST",
-		fmt.Sprintf("https://%s.myshopline.com/%s/%s/product/123/metafields.json", cli.StoreHandle, cli.PathPrefix, cli.ApiVersion),
+		fmt.Sprintf("https://%s.myshopline.com/%s/%s/product/123/metafields.json", client.GetClient().StoreHandle, client.GetClient().PathPrefix, client.GetClient().ApiVersion),
 		httpmock.NewStringResponder(200, `{"metafield":{"id":"1", "created_at":"2025-09-22T14:48:44-04:00", "updated_at":"2025-09-22T14:48:44-04:00", "description":"test desc", "key":"key_test", "name":"name_test", "namespace":"namespace_test", "owner_resource":"product", "type":"single_line_text_field", "value":"single_line_text_field_value"}}`))
 
 	req := &metafield2.CreateMetafieldAPIReq{
@@ -31,7 +31,7 @@ func TestCreateMetafield(t *testing.T) {
 	}
 
 	apiResp := &metafield2.CreateMetafieldAPIResp{}
-	err := cli.Call(context.Background(), req, apiResp)
+	err := client.GetClient().Call(context.Background(), req, apiResp)
 
 	if err != nil {
 		t.Errorf("Metafield.Create returned error: %v", err)
@@ -43,11 +43,11 @@ func TestCreateMetafield(t *testing.T) {
 }
 
 func TestUpdateMetafield(t *testing.T) {
-	setup()
-	defer teardown()
+	client.Setup()
+	defer client.Teardown()
 
 	httpmock.RegisterResponder("PUT",
-		fmt.Sprintf("https://%s.myshopline.com/%s/%s/product/123/metafields/1.json", cli.StoreHandle, cli.PathPrefix, cli.ApiVersion),
+		fmt.Sprintf("https://%s.myshopline.com/%s/%s/product/123/metafields/1.json", client.GetClient().StoreHandle, client.GetClient().PathPrefix, client.GetClient().ApiVersion),
 		httpmock.NewStringResponder(200, `{"metafield":{"id":"1", "created_at":"2025-09-22T14:48:44-04:00", "updated_at":"2025-09-22T14:48:44-04:00", "description":"test desc", "key":"key_test", "name":"name_test", "namespace":"namespace_test", "owner_resource":"product", "type":"single_line_text_field", "value":"single_line_text_field_value"}}`))
 
 	req := &metafield2.UpdateMetafieldAPIReq{
@@ -64,7 +64,7 @@ func TestUpdateMetafield(t *testing.T) {
 	}
 
 	apiResp := &metafield2.UpdateMetafieldAPIResp{}
-	err := cli.Call(context.Background(), req, apiResp)
+	err := client.GetClient().Call(context.Background(), req, apiResp)
 
 	if err != nil {
 		t.Errorf("Metafield.Create returned error: %v", err)
@@ -76,11 +76,11 @@ func TestUpdateMetafield(t *testing.T) {
 }
 
 func TestDeleteMetafield(t *testing.T) {
-	setup()
-	defer teardown()
+	client.Setup()
+	defer client.Teardown()
 
 	httpmock.RegisterResponder("DELETE",
-		fmt.Sprintf("https://%s.myshopline.com/%s/%s/product/123/metafields/1.json", cli.StoreHandle, cli.PathPrefix, cli.ApiVersion),
+		fmt.Sprintf("https://%s.myshopline.com/%s/%s/product/123/metafields/1.json", client.GetClient().StoreHandle, client.GetClient().PathPrefix, client.GetClient().ApiVersion),
 		httpmock.NewStringResponder(200, ""))
 
 	req := &metafield2.DeleteMetafieldAPIReq{
@@ -91,7 +91,7 @@ func TestDeleteMetafield(t *testing.T) {
 
 	//apiResp, err := GetMetafieldService().Delete(context.Background(), req)
 	apiResp := &metafield2.DeleteMetafieldAPIResp{}
-	err := cli.Call(context.Background(), req, apiResp)
+	err := client.GetClient().Call(context.Background(), req, apiResp)
 
 	if err != nil {
 		t.Errorf("Metafield.Delete returned error: %v", err)
@@ -101,11 +101,11 @@ func TestDeleteMetafield(t *testing.T) {
 }
 
 func TestCountMetafield(t *testing.T) {
-	setup()
-	defer teardown()
+	client.Setup()
+	defer client.Teardown()
 
 	httpmock.RegisterResponder("GET",
-		fmt.Sprintf("https://%s.myshopline.com/%s/%s/product/123/metafields/count.json", cli.StoreHandle, cli.PathPrefix, cli.ApiVersion),
+		fmt.Sprintf("https://%s.myshopline.com/%s/%s/product/123/metafields/count.json", client.GetClient().StoreHandle, client.GetClient().PathPrefix, client.GetClient().ApiVersion),
 		httpmock.NewStringResponder(200, `{"count": 1}`))
 
 	req := &metafield2.CountMetafieldAPIReq{
@@ -115,7 +115,7 @@ func TestCountMetafield(t *testing.T) {
 
 	//apiResp, err := GetMetafieldService().Count(context.Background(), req)
 	apiResp := &metafield2.CountMetafieldAPIResp{}
-	err := cli.Call(context.Background(), req, apiResp)
+	err := client.GetClient().Call(context.Background(), req, apiResp)
 
 	if err != nil {
 		t.Errorf("Metafield.Count returned error: %v", err)
@@ -126,19 +126,19 @@ func TestCountMetafield(t *testing.T) {
 }
 
 func TestListMetafields(t *testing.T) {
-	setup()
-	defer teardown()
+	client.Setup()
+	defer client.Teardown()
 
 	httpmock.RegisterResponder("GET",
-		fmt.Sprintf("https://%s.myshopline.com/%s/%s/product/123/metafields.json", cli.StoreHandle, cli.PathPrefix, cli.ApiVersion),
-		httpmock.NewBytesResponder(200, LoadTestDataV2("", "metafield/metafields.json")))
+		fmt.Sprintf("https://%s.myshopline.com/%s/%s/product/123/metafields.json", client.GetClient().StoreHandle, client.GetClient().PathPrefix, client.GetClient().ApiVersion),
+		httpmock.NewBytesResponder(200, client.LoadTestDataV2("", "metafield/metafields.json")))
 
 	req := &metafield2.ListMetafieldAPIReq{
 		OwnerResource: "product",
 		OwnerId:       "123",
 	}
 	apiResp := &metafield2.ListMetafieldAPIResp{}
-	err := cli.Call(context.Background(), req, apiResp)
+	err := client.GetClient().Call(context.Background(), req, apiResp)
 	//apiResp, err := GetMetafieldService().List(context.Background(), req)
 
 	if err != nil {
@@ -158,19 +158,19 @@ func TestListMetafields(t *testing.T) {
 }
 
 func TestListAllMetafields(t *testing.T) {
-	setup()
-	defer teardown()
+	client.Setup()
+	defer client.Teardown()
 
 	httpmock.RegisterResponder("GET",
-		fmt.Sprintf("https://%s.myshopline.com/%s/%s/product/123/metafields.json", cli.StoreHandle, cli.PathPrefix, cli.ApiVersion),
-		httpmock.NewBytesResponder(200, LoadTestDataV2("", "metafield/metafields.json")))
+		fmt.Sprintf("https://%s.myshopline.com/%s/%s/product/123/metafields.json", client.GetClient().StoreHandle, client.GetClient().PathPrefix, client.GetClient().ApiVersion),
+		httpmock.NewBytesResponder(200, client.LoadTestDataV2("", "metafield/metafields.json")))
 
 	req := &metafield2.ListMetafieldAPIReq{
 		OwnerResource: "product",
 		OwnerId:       "123",
 	}
 	apiResp := &metafield2.ListMetafieldAPIResp{}
-	metafields, err := client.ListAll(cli, context.Background(), req, apiResp, func(resp interface{}) []metafield2.Metafield {
+	metafields, err := client.ListAll(client.GetClient(), context.Background(), req, apiResp, func(resp interface{}) []metafield2.Metafield {
 		r := resp.(*metafield2.ListMetafieldAPIResp)
 		return r.Metafields
 	})
@@ -192,11 +192,11 @@ func TestListAllMetafields(t *testing.T) {
 }
 
 func TestGetMetafield(t *testing.T) {
-	setup()
-	defer teardown()
+	client.Setup()
+	defer client.Teardown()
 
 	httpmock.RegisterResponder("GET",
-		fmt.Sprintf("https://%s.myshopline.com/%s/%s/product/123/metafields/1.json", cli.StoreHandle, cli.PathPrefix, cli.ApiVersion),
+		fmt.Sprintf("https://%s.myshopline.com/%s/%s/product/123/metafields/1.json", client.GetClient().StoreHandle, client.GetClient().PathPrefix, client.GetClient().ApiVersion),
 		httpmock.NewStringResponder(200, `{"metafield":{"id":"1", "created_at":"2025-09-22T14:48:44-04:00", "updated_at":"2025-09-22T14:48:44-04:00", "description":"test desc", "key":"key_test", "name":"name_test", "namespace":"namespace_test", "owner_resource":"product", "type":"single_line_text_field", "value":"single_line_text_field_value"}}`))
 
 	req := &metafield2.GetMetafieldAPIReq{
@@ -207,7 +207,7 @@ func TestGetMetafield(t *testing.T) {
 
 	//apiResp, err := GetMetafieldService().Get(context.Background(), req)
 	apiResp := &metafield2.GetMetafieldAPIResp{}
-	err := cli.Call(context.Background(), req, apiResp)
+	err := client.GetClient().Call(context.Background(), req, apiResp)
 
 	if err != nil {
 		t.Errorf("Metafield.Create returned error: %v", err)

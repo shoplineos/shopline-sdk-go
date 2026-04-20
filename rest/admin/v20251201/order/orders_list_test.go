@@ -6,7 +6,6 @@ import (
 	"fmt"
 	"github.com/jarcoal/httpmock"
 	"github.com/shoplineos/shopline-sdk-go/client"
-	"github.com/shoplineos/shopline-sdk-go/rest/admin/test"
 	"net/http"
 	"reflect"
 	"runtime"
@@ -19,7 +18,7 @@ func TestOrderList(t *testing.T) {
 
 	httpmock.RegisterResponder("GET",
 		fmt.Sprintf("https://%s.myshopline.com/%s/%s/orders.json", cli.StoreHandle, cli.PathPrefix, cli.ApiVersion),
-		httpmock.NewBytesResponder(200, test.LoadTestData("order/orders.json")))
+		httpmock.NewBytesResponder(200, client.LoadTestData("order/orders.json")))
 
 	apiReq := &ListOrdersAPIReq{}
 	apiResp, err := GetOrderService().List(context.Background(), apiReq)
@@ -49,7 +48,7 @@ func TestOrderListOptions(t *testing.T) {
 		"GET",
 		fmt.Sprintf("https://%s.myshopline.com/%s/%s/orders.json", cli.StoreHandle, cli.PathPrefix, cli.ApiVersion),
 		params,
-		httpmock.NewBytesResponder(200, test.LoadTestData("order/orders.json")))
+		httpmock.NewBytesResponder(200, client.LoadTestData("order/orders.json")))
 
 	apiReq := &ListOrdersAPIReq{
 		Limit:  "250",

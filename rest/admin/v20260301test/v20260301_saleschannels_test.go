@@ -7,7 +7,6 @@ import (
 
 	"github.com/jarcoal/httpmock"
 	"github.com/shoplineos/shopline-sdk-go/client"
-	"github.com/shoplineos/shopline-sdk-go/rest/admin/test"
 	"github.com/shoplineos/shopline-sdk-go/rest/admin/v20260301/saleschannels"
 	"github.com/stretchr/testify/assert"
 )
@@ -22,9 +21,9 @@ func salesChannelsURL(cli *client.Client, path string) string {
 // ══════════════════════════════════════════════════════════════════════════════
 
 func TestQueryCollectionOfSalesChannels(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	mockResp := `{"collection_listings":[{"id":"12248721639068681442230282","title":"Summer Collection","collection_type":"smart","published_scope":"web"}]}`
 	httpmock.RegisterResponder("GET", salesChannelsURL(cli, "collection_listings.json"),
@@ -41,9 +40,9 @@ func TestQueryCollectionOfSalesChannels(t *testing.T) {
 }
 
 func TestQuerySpecifyCollectionInSalesChannels(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	collectionListingId := "12248721639068681442230283"
 	mockResp := `{"collection_listing":{"id":"12248721639068681442230283","title":"My Collection","collection_type":"smart","published_scope":"web","handle":"my-collection"}}`
@@ -65,9 +64,9 @@ func TestQuerySpecifyCollectionInSalesChannels_MissingCollectionListingId(t *tes
 }
 
 func TestAddCollectionToSalesChannels(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	collectionListingId := "12248721639068681442230282"
 	mockResp := `{"collection_listing":{"id":"12248721639068681442230282","title":"This is a collection title","collection_type":"smart","published_scope":"web"}}`
@@ -89,9 +88,9 @@ func TestAddCollectionToSalesChannels_MissingCollectionListingId(t *testing.T) {
 }
 
 func TestRemoveCollectionFromSalesChannels(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	collectionListingId := "12248721639068681442230282"
 	httpmock.RegisterResponder("DELETE", salesChannelsURL(cli, fmt.Sprintf("collection_listings/%s.json", collectionListingId)),
@@ -110,9 +109,9 @@ func TestRemoveCollectionFromSalesChannels_MissingCollectionListingId(t *testing
 }
 
 func TestQuerySalesChannelsSpecifyCollectionProductId(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	collectionListingId := "12248721639068681442230282"
 	mockResp := `{"product_ids":["16057039432335097907370283","16057039432335097907380282"]}`
@@ -138,9 +137,9 @@ func TestQuerySalesChannelsSpecifyCollectionProductId_MissingCollectionListingId
 // ══════════════════════════════════════════════════════════════════════════════
 
 func TestGetTheProductCountForYourSalesChannel(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	httpmock.RegisterResponder("GET", salesChannelsURL(cli, "product_listings/count.json"),
 		httpmock.NewStringResponder(200, `{"count":10}`))
@@ -154,9 +153,9 @@ func TestGetTheProductCountForYourSalesChannel(t *testing.T) {
 }
 
 func TestQueryProductIdForSalesChannels(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	mockResp := `{"product_ids":["16057039432335097907370282","16057039432335097907380282"]}`
 	httpmock.RegisterResponder("GET", salesChannelsURL(cli, "product_listings/product_ids.json"),
@@ -172,9 +171,9 @@ func TestQueryProductIdForSalesChannels(t *testing.T) {
 }
 
 func TestQueryProductOfSalesChannels(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	mockResp := `{"product_listings":[{"product_id":"16057039432335097907370282","title":"Test Product","status":"active","vendor":"Shopline","published_scope":"web"}]}`
 	httpmock.RegisterResponder("GET", salesChannelsURL(cli, "product_listings.json"),
@@ -191,9 +190,9 @@ func TestQueryProductOfSalesChannels(t *testing.T) {
 }
 
 func TestQuerySpecifyProductForSalesChannels(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	productListingId := "16057039432335097907370282"
 	mockResp := `{"product_listing":{"product_id":"16057039432335097907370282","title":"Test Product","status":"active","vendor":"Shopline"}}`
@@ -215,9 +214,9 @@ func TestQuerySpecifyProductForSalesChannels_MissingProductListingId(t *testing.
 }
 
 func TestAddProductToSalesChannels(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	productListingId := "16057039432335097907370282"
 	mockResp := `{"product_listing":{"product_id":"16057039432335097907370282","title":"Test Product","status":"active","vendor":"Shopline","published_scope":"web"}}`
@@ -239,9 +238,9 @@ func TestAddProductToSalesChannels_MissingProductListingId(t *testing.T) {
 }
 
 func TestRemoveFromSalesChannelsProduct(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	productListingId := "16057039432335097907370282"
 	httpmock.RegisterResponder("DELETE", salesChannelsURL(cli, fmt.Sprintf("product_listings/%s.json", productListingId)),
@@ -264,9 +263,9 @@ func TestRemoveFromSalesChannelsProduct_MissingProductListingId(t *testing.T) {
 // ══════════════════════════════════════════════════════════════════════════════
 
 func TestResourcesFeedback(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	productId := "16057476865495856634490282"
 	mockResp := `{"resource_feedback":{"resource_id":"16057476865495856634490282","resource_type":"Product","state":"require_actions","messages":["This is a question"],"created_at":"2023-01-12T15:20:08+08:00"}}`
@@ -289,9 +288,9 @@ func TestResourcesFeedback_MissingProductId(t *testing.T) {
 }
 
 func TestListOfResourcesFeedback(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	productId := "16057476865495856634490282"
 	mockResp := `{"resource_feedback":[{"resource_id":"16057476865495856634490282","resource_type":"Product","state":"require_actions","messages":["This is a question"],"created_at":"2023-01-12T15:20:08+08:00"}]}`

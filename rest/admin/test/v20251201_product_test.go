@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"github.com/jarcoal/httpmock"
+	"github.com/shoplineos/shopline-sdk-go/client"
 	"github.com/shoplineos/shopline-sdk-go/rest/admin/v20251201/product"
 	"github.com/stretchr/testify/assert"
 	"log"
@@ -11,11 +12,11 @@ import (
 )
 
 func TestProductCreate(t *testing.T) {
-	setup()
-	defer teardown()
+	client.Setup()
+	defer client.Teardown()
 
-	httpmock.RegisterResponder("POST", fmt.Sprintf("https://%s.myshopline.com/%s/%s/products/products.json", cli.StoreHandle, cli.PathPrefix, cli.ApiVersion),
-		httpmock.NewBytesResponder(200, LoadTestDataV2("", "product/product.json")))
+	httpmock.RegisterResponder("POST", fmt.Sprintf("https://%s.myshopline.com/%s/%s/products/products.json", client.GetClient().StoreHandle, client.GetClient().PathPrefix, client.GetClient().ApiVersion),
+		httpmock.NewBytesResponder(200, client.LoadTestDataV2("", "product/product.json")))
 
 	p := product.CreateAProductAPIReqProduct{
 		Title:    "Hello shopline Freestyle 111",
@@ -27,7 +28,7 @@ func TestProductCreate(t *testing.T) {
 		Product: p,
 	}
 	apiResp := &product.CreateAProductAPIResp{}
-	err := cli.Call(context.Background(), apiReq, apiResp)
+	err := client.GetClient().Call(context.Background(), apiReq, apiResp)
 	if err != nil {
 		t.Errorf("Product.Create returned error: %v", err)
 	}
@@ -43,11 +44,11 @@ func createProductTests(t *testing.T, product product.CreateAProductAPIResp) {
 }
 
 func TestProductUpdate(t *testing.T) {
-	setup()
-	defer teardown()
+	client.Setup()
+	defer client.Teardown()
 
-	httpmock.RegisterResponder("PUT", fmt.Sprintf("https://%s.myshopline.com/%s/%s/products/111.json", cli.StoreHandle, cli.PathPrefix, cli.ApiVersion),
-		httpmock.NewBytesResponder(200, LoadTestDataV2("", "product/product.json")))
+	httpmock.RegisterResponder("PUT", fmt.Sprintf("https://%s.myshopline.com/%s/%s/products/111.json", client.GetClient().StoreHandle, client.GetClient().PathPrefix, client.GetClient().ApiVersion),
+		httpmock.NewBytesResponder(200, client.LoadTestDataV2("", "product/product.json")))
 
 	p := product.UpdateAProductAPIReqProduct{
 		Title: "Test Product",
@@ -57,7 +58,7 @@ func TestProductUpdate(t *testing.T) {
 		Product:   p,
 	}
 	apiResp := &product.UpdateAProductAPIResp{}
-	err := cli.Call(context.Background(), apiReq, apiResp)
+	err := client.GetClient().Call(context.Background(), apiReq, apiResp)
 
 	if err != nil {
 		t.Errorf("Product.Update returned error: %v", err)
@@ -74,15 +75,15 @@ func productTests(t *testing.T, product *product.UpdateAProductAPIResp) {
 }
 
 func TestProductCount(t *testing.T) {
-	setup()
-	defer teardown()
+	client.Setup()
+	defer client.Teardown()
 
-	httpmock.RegisterResponder("GET", fmt.Sprintf("https://%s.myshopline.com/%s/%s/products/count.json", cli.StoreHandle, cli.PathPrefix, cli.ApiVersion),
+	httpmock.RegisterResponder("GET", fmt.Sprintf("https://%s.myshopline.com/%s/%s/products/count.json", client.GetClient().StoreHandle, client.GetClient().PathPrefix, client.GetClient().ApiVersion),
 		httpmock.NewStringResponder(200, `{"count":1}`))
 
 	apiReq := &product.GetProductCountAPIReq{}
 	apiResp := &product.GetProductCountAPIResp{}
-	err := cli.Call(context.Background(), apiReq, apiResp)
+	err := client.GetClient().Call(context.Background(), apiReq, apiResp)
 
 	if err != nil {
 		t.Errorf("Product.Delete returned error: %v", err)
@@ -94,10 +95,10 @@ func TestProductCount(t *testing.T) {
 
 func TestDeleteAProduct(t *testing.T) {
 
-	setup()
-	defer teardown()
+	client.Setup()
+	defer client.Teardown()
 
-	httpmock.RegisterResponder("DELETE", fmt.Sprintf("https://%s.myshopline.com/%s/%s/products/1.json", cli.StoreHandle, cli.PathPrefix, cli.ApiVersion),
+	httpmock.RegisterResponder("DELETE", fmt.Sprintf("https://%s.myshopline.com/%s/%s/products/1.json", client.GetClient().StoreHandle, client.GetClient().PathPrefix, client.GetClient().ApiVersion),
 		httpmock.NewStringResponder(200, ""))
 
 	productId := "1"
@@ -106,7 +107,7 @@ func TestDeleteAProduct(t *testing.T) {
 	}
 
 	apiResp := &product.DeleteAProductAPIResp{}
-	err := cli.Call(context.Background(), apiReq, apiResp)
+	err := client.GetClient().Call(context.Background(), apiReq, apiResp)
 
 	if err != nil {
 		log.Printf("delete product error, apiResp: %v, err:%v", apiResp, err)
@@ -120,10 +121,10 @@ func TestDeleteAProduct(t *testing.T) {
 // 500 Internal Server Error
 func TestDeleteProductError(t *testing.T) {
 
-	setup()
-	defer teardown()
+	client.Setup()
+	defer client.Teardown()
 
-	httpmock.RegisterResponder("DELETE", fmt.Sprintf("https://%s.myshopline.com/%s/%s/products/1.json", cli.StoreHandle, cli.PathPrefix, cli.ApiVersion),
+	httpmock.RegisterResponder("DELETE", fmt.Sprintf("https://%s.myshopline.com/%s/%s/products/1.json", client.GetClient().StoreHandle, client.GetClient().PathPrefix, client.GetClient().ApiVersion),
 		httpmock.NewStringResponder(500, `{"errors":"Internal Server Error"}`))
 
 	apiReq := &product.DeleteAProductAPIReq{
@@ -131,7 +132,7 @@ func TestDeleteProductError(t *testing.T) {
 	}
 
 	apiResp := &product.DeleteAProductAPIResp{}
-	err := cli.Call(context.Background(), apiReq, apiResp)
+	err := client.GetClient().Call(context.Background(), apiReq, apiResp)
 
 	assert.NotNil(t, err)
 	assert.Equal(t, "Internal Server Error", err.Error())
@@ -140,10 +141,10 @@ func TestDeleteProductError(t *testing.T) {
 // Unknown Error
 func TestDeleteProductUnknowError(t *testing.T) {
 
-	setup()
-	defer teardown()
+	client.Setup()
+	defer client.Teardown()
 
-	httpmock.RegisterResponder("DELETE", fmt.Sprintf("https://%s.myshopline.com/%s/%s/products/1.json", cli.StoreHandle, cli.PathPrefix, cli.ApiVersion),
+	httpmock.RegisterResponder("DELETE", fmt.Sprintf("https://%s.myshopline.com/%s/%s/products/1.json", client.GetClient().StoreHandle, client.GetClient().PathPrefix, client.GetClient().ApiVersion),
 		httpmock.NewStringResponder(500, ""))
 
 	apiReq := &product.DeleteAProductAPIReq{
@@ -151,7 +152,7 @@ func TestDeleteProductUnknowError(t *testing.T) {
 	}
 
 	apiResp := &product.DeleteAProductAPIResp{}
-	err := cli.Call(context.Background(), apiReq, apiResp)
+	err := client.GetClient().Call(context.Background(), apiReq, apiResp)
 
 	assert.NotNil(t, err)
 	assert.Equal(t, "Unknown Error", err.Error())
@@ -159,17 +160,17 @@ func TestDeleteProductUnknowError(t *testing.T) {
 
 // ok
 func TestDeleteProduct3(t *testing.T) {
-	setup()
-	defer teardown()
+	client.Setup()
+	defer client.Teardown()
 
-	httpmock.RegisterResponder("DELETE", fmt.Sprintf("https://%s.myshopline.com/%s/%s/products/1.json", cli.StoreHandle, cli.PathPrefix, cli.ApiVersion),
+	httpmock.RegisterResponder("DELETE", fmt.Sprintf("https://%s.myshopline.com/%s/%s/products/1.json", client.GetClient().StoreHandle, client.GetClient().PathPrefix, client.GetClient().ApiVersion),
 		httpmock.NewStringResponder(200, "{}"))
 
 	apiReq := &product.DeleteAProductAPIReq{
 		ProductId: "1",
 	}
 	apiResp := &product.DeleteAProductAPIResp{}
-	err := cli.Call(context.Background(), apiReq, apiResp)
+	err := client.GetClient().Call(context.Background(), apiReq, apiResp)
 
 	if err != nil {
 		t.Errorf("Product.Delete returned error: %v", err)
@@ -183,17 +184,17 @@ func TestDeleteProduct3(t *testing.T) {
 // en: https://developer.shopline.com/docs/admin-rest-api/product/product/query-single-product?version=v20251201
 func TestGetProductDetailError(t *testing.T) {
 
-	setup()
-	defer teardown()
+	client.Setup()
+	defer client.Teardown()
 
-	httpmock.RegisterResponder("GET", fmt.Sprintf("https://%s.myshopline.com/%s/%s/products/111.json", cli.StoreHandle, cli.PathPrefix, cli.ApiVersion),
+	httpmock.RegisterResponder("GET", fmt.Sprintf("https://%s.myshopline.com/%s/%s/products/111.json", client.GetClient().StoreHandle, client.GetClient().PathPrefix, client.GetClient().ApiVersion),
 		httpmock.NewStringResponder(404, `{"errors":"DataNotExists"}`))
 
 	apiReq := &product.GetAProductAPIReq{
 		ProductId: "111",
 	}
 	apiResp := &product.DeleteAProductAPIResp{}
-	err := cli.Call(context.Background(), apiReq, apiResp)
+	err := client.GetClient().Call(context.Background(), apiReq, apiResp)
 
 	a := assert.New(t)
 	a.NotNil(err)
@@ -205,11 +206,11 @@ func TestGetProductDetailError(t *testing.T) {
 // en: https://developer.shopline.com/docs/admin-rest-api/product/product/query-single-product?version=v20251201
 func TestGetProductDetail(t *testing.T) {
 
-	setup()
-	defer teardown()
+	client.Setup()
+	defer client.Teardown()
 
-	httpmock.RegisterResponder("GET", fmt.Sprintf("https://%s.myshopline.com/%s/%s/products/111.json", cli.StoreHandle, cli.PathPrefix, cli.ApiVersion),
-		httpmock.NewBytesResponder(200, LoadTestDataV2("", "product/product.json")))
+	httpmock.RegisterResponder("GET", fmt.Sprintf("https://%s.myshopline.com/%s/%s/products/111.json", client.GetClient().StoreHandle, client.GetClient().PathPrefix, client.GetClient().ApiVersion),
+		httpmock.NewBytesResponder(200, client.LoadTestDataV2("", "product/product.json")))
 
 	apiReq := &product.GetAProductAPIReq{
 		ProductId: "111",
@@ -220,7 +221,7 @@ func TestGetProductDetail(t *testing.T) {
 	//endpoint := fmt.Sprintf("products/%s.json", productId)
 
 	apiResp := &product.GetAProductAPIResp{}
-	err := cli.Call(context.Background(), apiReq, apiResp)
+	err := client.GetClient().Call(context.Background(), apiReq, apiResp)
 
 	if err != nil {
 		t.Fatal(err)

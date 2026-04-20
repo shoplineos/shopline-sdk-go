@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 	"github.com/jarcoal/httpmock"
-	"github.com/shoplineos/shopline-sdk-go/rest/admin/test"
+	"github.com/shoplineos/shopline-sdk-go/client"
 	"testing"
 )
 
@@ -85,7 +85,7 @@ func TestProductUpdate(t *testing.T) {
 	defer teardown()
 
 	httpmock.RegisterResponder("PUT", fmt.Sprintf("https://%s.myshopline.com/%s/%s/products/111.json", cli.StoreHandle, cli.PathPrefix, cli.ApiVersion),
-		httpmock.NewBytesResponder(200, test.LoadTestData("product/product.json")))
+		httpmock.NewBytesResponder(200, client.LoadTestData("product/product.json")))
 
 	product := Product{
 		Id:    "111",

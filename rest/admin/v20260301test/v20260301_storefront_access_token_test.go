@@ -5,16 +5,15 @@ import (
 	"fmt"
 	"github.com/jarcoal/httpmock"
 	"github.com/shoplineos/shopline-sdk-go/client"
-	"github.com/shoplineos/shopline-sdk-go/rest/admin/test"
 	access2 "github.com/shoplineos/shopline-sdk-go/rest/admin/v20260301/access"
 	"github.com/stretchr/testify/assert"
 	"testing"
 )
 
 func TestCreateStorefrontAccessToken(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	httpmock.RegisterResponder("POST",
 		fmt.Sprintf("https://%s.myshopline.com/%s/%s/storefront_access_tokens.json", cli.StoreHandle, cli.PathPrefix, cli.ApiVersion),
@@ -39,9 +38,9 @@ func TestCreateStorefrontAccessToken(t *testing.T) {
 }
 
 func TestDeleteStorefrontAccessToken(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	httpmock.RegisterResponder("DELETE",
 		fmt.Sprintf("https://%s.myshopline.com/%s/%s/storefront_access_tokens/1.json", cli.StoreHandle, cli.PathPrefix, cli.ApiVersion),
@@ -61,13 +60,13 @@ func TestDeleteStorefrontAccessToken(t *testing.T) {
 }
 
 func TestListStorefrontAccessTokens(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	httpmock.RegisterResponder("GET",
 		fmt.Sprintf("https://%s.myshopline.com/%s/%s/storefront_access_tokens.json", cli.StoreHandle, cli.PathPrefix, cli.ApiVersion),
-		httpmock.NewBytesResponder(200, test.LoadTestDataV2("", "../test/access/storefront_access_tokens.json")))
+		httpmock.NewBytesResponder(200, client.LoadTestDataV2("", "../test/access/storefront_access_tokens.json")))
 
 	req := &access2.GetAListOfAccessTokensAPIReq{}
 
@@ -87,13 +86,13 @@ func TestListStorefrontAccessTokens(t *testing.T) {
 }
 
 func TestListWithPaginationStorefrontAccessTokens(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	httpmock.RegisterResponder("GET",
 		fmt.Sprintf("https://%s.myshopline.com/%s/%s/storefront_access_tokens.json", cli.StoreHandle, cli.PathPrefix, cli.ApiVersion),
-		httpmock.NewBytesResponder(200, test.LoadTestDataV2("", "../test/access/storefront_access_tokens.json")))
+		httpmock.NewBytesResponder(200, client.LoadTestDataV2("", "../test/access/storefront_access_tokens.json")))
 
 	req := &access2.GetAListOfAccessTokensAPIReq{}
 
@@ -113,13 +112,13 @@ func TestListWithPaginationStorefrontAccessTokens(t *testing.T) {
 }
 
 func TestListAllStorefrontAccessTokens(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	httpmock.RegisterResponder("GET",
 		fmt.Sprintf("https://%s.myshopline.com/%s/%s/storefront_access_tokens.json", cli.StoreHandle, cli.PathPrefix, cli.ApiVersion),
-		httpmock.NewBytesResponder(200, test.LoadTestDataV2("", "../test/access/storefront_access_tokens.json")))
+		httpmock.NewBytesResponder(200, client.LoadTestDataV2("", "../test/access/storefront_access_tokens.json")))
 
 	req := &access2.GetAListOfAccessTokensAPIReq{}
 

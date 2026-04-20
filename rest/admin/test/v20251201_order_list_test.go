@@ -14,16 +14,16 @@ import (
 )
 
 func TestOrderList(t *testing.T) {
-	setup()
-	defer teardown()
+	client.Setup()
+	defer client.Teardown()
 
 	httpmock.RegisterResponder("GET",
-		fmt.Sprintf("https://%s.myshopline.com/%s/%s/orders.json", cli.StoreHandle, cli.PathPrefix, cli.ApiVersion),
-		httpmock.NewBytesResponder(200, LoadTestDataV2("", "order/orders.json")))
+		fmt.Sprintf("https://%s.myshopline.com/%s/%s/orders.json", client.GetClient().StoreHandle, client.GetClient().PathPrefix, client.GetClient().ApiVersion),
+		httpmock.NewBytesResponder(200, client.LoadTestDataV2("", "order/orders.json")))
 
 	apiReq := &order2.GetOrdersAPIReq{}
 	apiResp := &order2.GetOrdersAPIResp{}
-	err := cli.Call(context.Background(), apiReq, apiResp)
+	err := client.GetClient().Call(context.Background(), apiReq, apiResp)
 
 	if err != nil {
 		t.Errorf("ListOrders error: %v", err)
@@ -38,8 +38,8 @@ func TestOrderList(t *testing.T) {
 }
 
 func TestOrderListOptions(t *testing.T) {
-	setup()
-	defer teardown()
+	client.Setup()
+	defer client.Teardown()
 	params := map[string]string{
 		"fields": "id,name",
 		"limit":  "250",
@@ -49,9 +49,9 @@ func TestOrderListOptions(t *testing.T) {
 
 	httpmock.RegisterResponderWithQuery(
 		"GET",
-		fmt.Sprintf("https://%s.myshopline.com/%s/%s/orders.json", cli.StoreHandle, cli.PathPrefix, cli.ApiVersion),
+		fmt.Sprintf("https://%s.myshopline.com/%s/%s/orders.json", client.GetClient().StoreHandle, client.GetClient().PathPrefix, client.GetClient().ApiVersion),
 		params,
-		httpmock.NewBytesResponder(200, LoadTestDataFromCurrentDir("order/orders.json")))
+		httpmock.NewBytesResponder(200, client.LoadTestDataFromCurrentDir("order/orders.json")))
 
 	apiReq := &order2.GetOrdersAPIReq{
 		Limit:  "250",
@@ -59,7 +59,7 @@ func TestOrderListOptions(t *testing.T) {
 		Status: "any",
 	}
 	apiResp := &order2.GetOrdersAPIResp{}
-	err := cli.Call(context.Background(), apiReq, apiResp)
+	err := client.GetClient().Call(context.Background(), apiReq, apiResp)
 
 	if err != nil {
 		t.Errorf("ListOrders error: %v", err)
@@ -74,10 +74,10 @@ func TestOrderListOptions(t *testing.T) {
 }
 
 func TestOrderListAll(t *testing.T) {
-	setup()
-	defer teardown()
+	client.Setup()
+	defer client.Teardown()
 
-	listURL := fmt.Sprintf("https://%s.myshopline.com/%s/%s/orders.json", cli.StoreHandle, cli.PathPrefix, cli.ApiVersion)
+	listURL := fmt.Sprintf("https://%s.myshopline.com/%s/%s/orders.json", client.GetClient().StoreHandle, client.GetClient().PathPrefix, client.GetClient().ApiVersion)
 
 	cases := []struct {
 		name                string
@@ -171,7 +171,7 @@ func TestOrderListAll(t *testing.T) {
 			apiReq := &order2.GetOrdersAPIReq{}
 			apiResp := &order2.GetOrdersAPIResp{}
 			//err := cli.Call(context.Background(), apiReq, apiResp)
-			orders, err := client.ListAll(cli, context.Background(), apiReq, apiResp, func(resp interface{}) []order2.GetOrdersAPIRespOrder {
+			orders, err := client.ListAll(client.GetClient(), context.Background(), apiReq, apiResp, func(resp interface{}) []order2.GetOrdersAPIRespOrder {
 				r := resp.(*order2.GetOrdersAPIResp)
 				return r.Orders
 			})
@@ -197,10 +197,10 @@ func TestOrderListAll(t *testing.T) {
 }
 
 func TestOrderListWithPagination(t *testing.T) {
-	setup()
-	defer teardown()
+	client.Setup()
+	defer client.Teardown()
 
-	listURL := fmt.Sprintf("https://%s.myshopline.com/%s/%s/orders.json", cli.StoreHandle, cli.PathPrefix, cli.ApiVersion)
+	listURL := fmt.Sprintf("https://%s.myshopline.com/%s/%s/orders.json", client.GetClient().StoreHandle, client.GetClient().PathPrefix, client.GetClient().ApiVersion)
 
 	// The strconv.Atoi error changed in go 1.8, 1.7 is still being tested/supported.
 	limitConversionErrorMessage := `strconv.Atoi: parsing "invalid": invalid syntax`
@@ -293,7 +293,7 @@ func TestOrderListWithPagination(t *testing.T) {
 
 		apiReq := &order2.GetOrdersAPIReq{}
 		apiResp := &order2.GetOrdersAPIResp{}
-		err := cli.Call(context.Background(), apiReq, apiResp)
+		err := client.GetClient().Call(context.Background(), apiReq, apiResp)
 
 		if apiResp != nil && apiResp.Orders != nil && !reflect.DeepEqual(apiResp.Orders, c.expectedOrders) {
 			t.Errorf("test %d error, Order.ListWithPagination orders returned %+v, expected %+v", i, apiResp.Orders, c.expectedOrders)
@@ -320,18 +320,18 @@ func TestOrderListWithPagination(t *testing.T) {
 }
 
 func TestOrderListError(t *testing.T) {
-	setup()
-	defer teardown()
+	client.Setup()
+	defer client.Teardown()
 
 	httpmock.RegisterResponder("GET",
-		fmt.Sprintf("https://%s.myshopline.com/%s/%s/orders.json", cli.StoreHandle, cli.PathPrefix, cli.ApiVersion),
+		fmt.Sprintf("https://%s.myshopline.com/%s/%s/orders.json", client.GetClient().StoreHandle, client.GetClient().PathPrefix, client.GetClient().ApiVersion),
 		httpmock.NewStringResponder(500, ""))
 
 	expectedErrMessage := "Unknown Error"
 
 	apiReq := &order2.GetOrdersAPIReq{}
 	apiResp := &order2.GetOrdersAPIResp{}
-	err := cli.Call(context.Background(), apiReq, apiResp)
+	err := client.GetClient().Call(context.Background(), apiReq, apiResp)
 
 	if apiResp != nil && apiResp.Orders != nil {
 		t.Errorf("Order.List returned orders, expected nil: %v", err)

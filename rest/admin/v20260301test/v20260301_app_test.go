@@ -7,7 +7,6 @@ import (
 
 	"github.com/jarcoal/httpmock"
 	"github.com/shoplineos/shopline-sdk-go/client"
-	"github.com/shoplineos/shopline-sdk-go/rest/admin/test"
 	"github.com/shoplineos/shopline-sdk-go/rest/admin/v20260301/app"
 	"github.com/stretchr/testify/assert"
 )
@@ -22,9 +21,9 @@ func appURL(cli *client.Client, path string) string {
 // ══════════════════════════════════════════════════════════════════════════════
 
 func TestCreateASizeChart(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	mockResp := `{"data":{"size_chart_id":"13266288837293171311580520"}}`
 	httpmock.RegisterResponder("POST", appURL(cli, "sizechart.json"),
@@ -39,9 +38,9 @@ func TestCreateASizeChart(t *testing.T) {
 }
 
 func TestUpdateASizeChart(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	mockResp := `{"data":{"size_chart_id":"13266288837293171311580520"}}`
 	httpmock.RegisterResponder("PUT", appURL(cli, "sizechart.json"),
@@ -56,9 +55,9 @@ func TestUpdateASizeChart(t *testing.T) {
 }
 
 func TestQueryProductSizeDataInBatch(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	mockResp := `{"data":{"total":1,"size_charts":[{"size_chart_id":"13266288837293171311580520","title":"My SizeChart","status":false}]}}`
 	httpmock.RegisterResponder("GET", appURL(cli, "sizecharts.json"),
@@ -73,9 +72,9 @@ func TestQueryProductSizeDataInBatch(t *testing.T) {
 }
 
 func TestBatchDeleteSizechart(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	httpmock.RegisterResponder("DELETE", appURL(cli, "sizecharts.json"),
 		httpmock.NewStringResponder(200, `{}`))
@@ -92,9 +91,9 @@ func TestBatchDeleteSizechart(t *testing.T) {
 // ══════════════════════════════════════════════════════════════════════════════
 
 func TestQueryImagesOfVariant(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	productId := "16049619743346320200470282"
 	mockResp := `{"data":{"product_id":"16049619743346320200470282","variant_images":[{"variant_id":"18050375907221969070393099","urls":["https://example.com/img.png"]}]}}`
@@ -116,9 +115,9 @@ func TestQueryImagesOfVariant_MissingProductId(t *testing.T) {
 }
 
 func TestBatchUpdateVariantImages(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	productId := "16049619743346320200470282"
 	httpmock.RegisterResponder("PUT", appURL(cli, fmt.Sprintf("variant_images/%s.json", productId)),
@@ -141,9 +140,9 @@ func TestBatchUpdateVariantImages_MissingProductId(t *testing.T) {
 // ══════════════════════════════════════════════════════════════════════════════
 
 func TestReportBuyerBehaviorEvents(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	mockResp := `{"data":{"channel_id":"6689609588495885399","events":[{"id":"8725726607153221","event_code":"sales_order","one_id":"0155eb0038b6f96a3b6d5f977ad076fa"}]}}`
 	httpmock.RegisterResponder("POST", appURL(cli, "cdp/track.json"),
@@ -158,9 +157,9 @@ func TestReportBuyerBehaviorEvents(t *testing.T) {
 }
 
 func TestReportBuyerIdentity(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	mockResp := `{"data":{"one_id":"0155eb0038b6f96a3b6d5f977ad076fa","user_traits":{}}}`
 	httpmock.RegisterResponder("POST", appURL(cli, "cdp/identify.json"),

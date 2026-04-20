@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"github.com/jarcoal/httpmock"
 	"github.com/shoplineos/shopline-sdk-go/client"
-	"github.com/shoplineos/shopline-sdk-go/rest/admin/test"
 	"github.com/shoplineos/shopline-sdk-go/rest/admin/v20260301/paymentsapp"
 	"github.com/stretchr/testify/assert"
 	"testing"
@@ -20,9 +19,9 @@ const (
 var paymentClient *client.PaymentClient
 
 func setupPaymentClient() {
-	test.SetupWithVersion(ApiVersion)
+	client.SetupWithVersion(ApiVersion)
 
-	cli := test.GetClient()
+	cli := client.GetClient()
 	paymentClient = client.NewPaymentClient(cli, privateKeyStr, publicKeyStr)
 }
 
@@ -30,8 +29,8 @@ func setupPaymentClient() {
 // En: https://developer.shopline.com/zh-hans-cn/docs/admin-rest-api/payments-app-api/payment-successful-notice?version=v20260301
 func TestCallPaymentSuccessfulNotify(t *testing.T) {
 	setupPaymentClient()
-	defer test.Teardown()
-	cli := test.GetClient()
+	defer client.Teardown()
+	cli := client.GetClient()
 	httpmock.RegisterResponder("POST", fmt.Sprintf("https://%s.myshopline.com/%s/%s/payment/notify/1/m/pay.json", cli.StoreHandle, "payments_apps/openapi", cli.ApiVersion),
 		httpmock.NewStringResponder(200, ""))
 
@@ -55,9 +54,9 @@ func TestCallPaymentSuccessfulNotify(t *testing.T) {
 
 func TestCallPaymentSuccessfulNotifySignError(t *testing.T) {
 	setupPaymentClient()
-	defer test.Teardown()
+	defer client.Teardown()
 
-	cli := test.GetClient()
+	cli := client.GetClient()
 	httpmock.RegisterResponder("POST", fmt.Sprintf("https://%s.myshopline.com/%s/%s/payment/notify/1/m/pay.json", cli.StoreHandle, "payments_apps/openapi", cli.ApiVersion),
 		httpmock.NewStringResponder(400, `{"errors":"sign error"}`))
 
@@ -86,9 +85,9 @@ func TestCallPaymentSuccessfulNotifySignError(t *testing.T) {
 // En: https://developer.shopline.com/docs/admin-rest-api/payments-app-api/refund-successful-notification?version=v20260301
 func TestCallRefundSuccessfulNotify(t *testing.T) {
 	setupPaymentClient()
-	defer test.Teardown()
+	defer client.Teardown()
 
-	cli := test.GetClient()
+	cli := client.GetClient()
 	httpmock.RegisterResponder("POST", fmt.Sprintf("https://%s.myshopline.com/%s/%s/payment/notify/1/m/refund.json", cli.StoreHandle, "payments_apps/openapi", cli.ApiVersion),
 		httpmock.NewStringResponder(200, ""))
 

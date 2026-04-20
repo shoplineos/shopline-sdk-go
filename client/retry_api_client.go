@@ -20,7 +20,7 @@ func NewRetryAPIClient(cli IClient) IClient {
 
 func NewRetryAPIClientWithRetries(cli IClient, retries int) IClient {
 	if cli == nil {
-		panic("cli is required")
+		panic("client is required")
 	}
 	return &RetryAPIClient{
 		delegate: cli,

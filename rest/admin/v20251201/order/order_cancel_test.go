@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 	"github.com/jarcoal/httpmock"
-	"github.com/shoplineos/shopline-sdk-go/rest/admin/test"
+	"github.com/shoplineos/shopline-sdk-go/client"
 	"github.com/stretchr/testify/assert"
 	"strings"
 	"testing"
@@ -155,7 +155,7 @@ func TestOrderCancel(t *testing.T) {
 
 	httpmock.RegisterResponder("POST",
 		fmt.Sprintf("https://%s.myshopline.com/%s/%s/orders/123/cancel.json", cli.StoreHandle, cli.PathPrefix, cli.ApiVersion),
-		httpmock.NewBytesResponder(200, test.LoadTestData("order/order.json")))
+		httpmock.NewBytesResponder(200, client.LoadTestData("order/order.json")))
 
 	apiReq := &CancelOrderAPIReq{
 		Id: "123",

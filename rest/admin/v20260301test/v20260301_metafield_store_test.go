@@ -5,16 +5,15 @@ import (
 	"fmt"
 	"github.com/jarcoal/httpmock"
 	"github.com/shoplineos/shopline-sdk-go/client"
-	"github.com/shoplineos/shopline-sdk-go/rest/admin/test"
 	metafield2 "github.com/shoplineos/shopline-sdk-go/rest/admin/v20260301/metafield"
 	"github.com/stretchr/testify/assert"
 	"testing"
 )
 
 func TestCreateStoreMetafield(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 	httpmock.RegisterResponder("POST",
 		fmt.Sprintf("https://%s.myshopline.com/%s/%s/metafields.json", cli.StoreHandle, cli.PathPrefix, cli.ApiVersion),
 		httpmock.NewStringResponder(200, `{"metafield":{"id":1, "created_at":"2025-09-22T14:48:44-04:00", "updated_at":"2025-09-22T14:48:44-04:00", "description":"test desc", "key":"key_test", "name":"name_test", "namespace":"namespace_test", "owner_resource":"product", "type":"single_line_text_field", "value":"single_line_text_field_value"}}`))
@@ -43,9 +42,9 @@ func TestCreateStoreMetafield(t *testing.T) {
 }
 
 func TestUpdateStoreMetafield(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	httpmock.RegisterResponder("PUT",
 		fmt.Sprintf("https://%s.myshopline.com/%s/%s/metafields/1.json", cli.StoreHandle, cli.PathPrefix, cli.ApiVersion),
@@ -76,9 +75,9 @@ func TestUpdateStoreMetafield(t *testing.T) {
 }
 
 func TestDeleteStoreMetafield(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	httpmock.RegisterResponder("DELETE",
 		fmt.Sprintf("https://%s.myshopline.com/%s/%s/metafields/1.json", cli.StoreHandle, cli.PathPrefix, cli.ApiVersion),
@@ -98,9 +97,9 @@ func TestDeleteStoreMetafield(t *testing.T) {
 }
 
 func TestCountStoreMetafield(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	httpmock.RegisterResponder("GET",
 		fmt.Sprintf("https://%s.myshopline.com/%s/%s/metafields/count.json", cli.StoreHandle, cli.PathPrefix, cli.ApiVersion),
@@ -119,13 +118,13 @@ func TestCountStoreMetafield(t *testing.T) {
 }
 
 func TestListStoreMetafields(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	httpmock.RegisterResponder("GET",
 		fmt.Sprintf("https://%s.myshopline.com/%s/%s/metafields.json", cli.StoreHandle, cli.PathPrefix, cli.ApiVersion),
-		httpmock.NewBytesResponder(200, test.LoadTestDataV2("", "./metafield/metafields.json")))
+		httpmock.NewBytesResponder(200, client.LoadTestDataV2("", "./metafield/metafields.json")))
 
 	req := &metafield2.GetStoreMetafieldsAPIReq{}
 
@@ -154,13 +153,13 @@ func getResources(resp interface{}) []metafield2.Metafield {
 }
 
 func TestListAllStoreMetafields(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	httpmock.RegisterResponder("GET",
 		fmt.Sprintf("https://%s.myshopline.com/%s/%s/metafields.json", cli.StoreHandle, cli.PathPrefix, cli.ApiVersion),
-		httpmock.NewBytesResponder(200, test.LoadTestDataV2("", "./metafield/metafields.json")))
+		httpmock.NewBytesResponder(200, client.LoadTestDataV2("", "./metafield/metafields.json")))
 
 	req := &metafield2.GetStoreMetafieldsAPIReq{}
 

@@ -4,16 +4,17 @@ import (
 	"context"
 	"fmt"
 	"github.com/jarcoal/httpmock"
+	"github.com/shoplineos/shopline-sdk-go/client"
 	paymentsapp2 "github.com/shoplineos/shopline-sdk-go/rest/admin/v20251201/paymentsapp"
 	"github.com/stretchr/testify/assert"
 	"testing"
 )
 
 func TestMerchantBindSuccess(t *testing.T) {
-	setup()
-	defer teardown()
+	client.Setup()
+	defer client.Teardown()
 
-	httpmock.RegisterResponder("POST", fmt.Sprintf("https://%s.myshopline.com/%s/%s/app/notify/bind.json", cli.StoreHandle, cli.PathPrefix, cli.ApiVersion),
+	httpmock.RegisterResponder("POST", fmt.Sprintf("https://%s.myshopline.com/%s/%s/app/notify/bind.json", client.GetClient().StoreHandle, client.GetClient().PathPrefix, client.GetClient().ApiVersion),
 		httpmock.NewStringResponder(200, ""))
 
 	apiReq := &paymentsapp2.MerchantActivationSuccessfulNotificationAPIReq{
@@ -22,7 +23,7 @@ func TestMerchantBindSuccess(t *testing.T) {
 	}
 
 	apiResp := &paymentsapp2.MerchantActivationSuccessfulNotificationAPIResp{}
-	err := cli.Call(context.Background(), apiReq, apiResp)
+	err := client.GetClient().Call(context.Background(), apiReq, apiResp)
 
 	if err != nil {
 		t.Errorf("Payment.MerchantBindSuccess returned error: %v", err)
@@ -89,10 +90,10 @@ func TestMerchantBindSuccess(t *testing.T) {
 //}
 
 func TestMerchantDeviceBindSuccess(t *testing.T) {
-	setup()
-	defer teardown()
+	client.Setup()
+	defer client.Teardown()
 
-	httpmock.RegisterResponder("POST", fmt.Sprintf("https://%s.myshopline.com/%s/%s/app/notify/device_bind.json", cli.StoreHandle, cli.PathPrefix, cli.ApiVersion),
+	httpmock.RegisterResponder("POST", fmt.Sprintf("https://%s.myshopline.com/%s/%s/app/notify/device_bind.json", client.GetClient().StoreHandle, client.GetClient().PathPrefix, client.GetClient().ApiVersion),
 		httpmock.NewStringResponder(200, ""))
 
 	apiReq := &paymentsapp2.DeviceBindingSuccessNotificationAPIReq{
@@ -104,7 +105,7 @@ func TestMerchantDeviceBindSuccess(t *testing.T) {
 	}
 
 	apiResp := &paymentsapp2.DeviceBindingSuccessNotificationAPIResp{}
-	err := cli.Call(context.Background(), apiReq, apiResp)
+	err := client.GetClient().Call(context.Background(), apiReq, apiResp)
 
 	if err != nil {
 		t.Errorf("Payment.MerchantDeviceBindSuccess returned error: %v", err)

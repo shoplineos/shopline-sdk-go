@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"github.com/jarcoal/httpmock"
+	"github.com/shoplineos/shopline-sdk-go/client"
 	product2 "github.com/shoplineos/shopline-sdk-go/rest/admin/v20251201/product"
 	"github.com/stretchr/testify/assert"
 	"log"
@@ -11,10 +12,10 @@ import (
 )
 
 func TestDeleteVariant(t *testing.T) {
-	setup()
-	defer teardown()
+	client.Setup()
+	defer client.Teardown()
 
-	httpmock.RegisterResponder("DELETE", fmt.Sprintf("https://%s.myshopline.com/%s/%s/products/1/variants/1.json", cli.StoreHandle, cli.PathPrefix, cli.ApiVersion),
+	httpmock.RegisterResponder("DELETE", fmt.Sprintf("https://%s.myshopline.com/%s/%s/products/1/variants/1.json", client.GetClient().StoreHandle, client.GetClient().PathPrefix, client.GetClient().ApiVersion),
 		httpmock.NewStringResponder(200, ""))
 
 	productId := "1"
@@ -24,7 +25,7 @@ func TestDeleteVariant(t *testing.T) {
 	}
 
 	apiResp := apiReq.NewAPIResp()
-	err := cli.Call(context.Background(), apiReq, apiResp)
+	err := client.GetClient().Call(context.Background(), apiReq, apiResp)
 
 	if err != nil {
 		log.Printf("delete variant error, apiResp: %v, err:%v", apiResp, err)

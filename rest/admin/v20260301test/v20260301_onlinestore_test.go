@@ -7,7 +7,6 @@ import (
 
 	"github.com/jarcoal/httpmock"
 	"github.com/shoplineos/shopline-sdk-go/client"
-	"github.com/shoplineos/shopline-sdk-go/rest/admin/test"
 	"github.com/shoplineos/shopline-sdk-go/rest/admin/v20260301/onlinestore"
 	"github.com/stretchr/testify/assert"
 )
@@ -24,9 +23,9 @@ func onlineStoreURL(cli *client.Client, path string) string {
 // ══════════════════════════════════════════════════════════════════════════════
 
 func TestApproveTheComment(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	commentId := "638040c6a0a9ba4487960880"
 	mockResp := `{"comment":{"id":"638040c6a0a9ba4487960880","status":"approved","author":"demo-author","email":"demo@qq.com","body":"demo-content","body_html":"<p>demo-content</p>","blog_id":"63a2afa527797d5cedcecb52","blog_collection_id":"639bfda0ee877c4a9bd600b6","create_at":"2022-08-03T10:45:00+08:00","published_at":"2022-08-03T10:45:00+08:00","updated_at":"2022-08-03T10:45:00+08:00"}}`
@@ -52,9 +51,9 @@ func TestApproveTheComment_MissingCommentId(t *testing.T) {
 }
 
 func TestByReviewingIdQueryComments(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	commentId := "63aaa20f6b7b014b289c0765"
 	mockResp := `{"comment":{"id":"63aaa20f6b7b014b289c0765","status":"unapproved","author":"demo-author","email":"demo@qq.com"}}`
@@ -78,9 +77,9 @@ func TestByReviewingIdQueryComments_MissingCommentId(t *testing.T) {
 }
 
 func TestCommentForRecoveryDelete(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	commentId := "638040c6a0a9ba4487960880"
 	mockResp := `{"comment":{"id":"638040c6a0a9ba4487960880","status":"unapproved"}}`
@@ -103,9 +102,9 @@ func TestCommentForRecoveryDelete_MissingCommentId(t *testing.T) {
 }
 
 func TestCreateAComment(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	mockResp := `{"comment":{"id":"63aaa20f6b7b014b289c0765","status":"unapproved","author":"demo-author","email":"demo@qq.com","body":"demo-content","blog_id":"63a2afa527797d5cedcecb52"}}`
 
@@ -137,9 +136,9 @@ func TestCreateAComment_MissingRequired(t *testing.T) {
 }
 
 func TestDeleteAComment(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	commentId := "638040c6a0a9ba4487960880"
 	mockResp := `{"comment":{"id":"638040c6a0a9ba4487960880","status":"removed"}}`
@@ -162,9 +161,9 @@ func TestDeleteAComment_MissingCommentId(t *testing.T) {
 }
 
 func TestLabeledCommentsAsSpam(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	commentId := "638040c6a0a9ba4487960880"
 	mockResp := `{"comment":{"id":"638040c6a0a9ba4487960880","status":"spam"}}`
@@ -188,9 +187,9 @@ func TestLabeledCommentsAsSpam_MissingCommentId(t *testing.T) {
 }
 
 func TestLabeledCommentsAsNonSpam(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	commentId := "638040c6a0a9ba4487960880"
 	mockResp := `{"comment":{"id":"638040c6a0a9ba4487960880","status":"published"}}`
@@ -213,9 +212,9 @@ func TestLabeledCommentsAsNonSpam_MissingCommentId(t *testing.T) {
 }
 
 func TestNumberOfGetTheComments(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	mockResp := `{"count":42}`
 
@@ -232,9 +231,9 @@ func TestNumberOfGetTheComments(t *testing.T) {
 }
 
 func TestQueryListOfComments(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	mockResp := `{"comments":[{"id":"63aaa20f6b7b014b289c0765","author":"demo-author","status":"approved"}]}`
 
@@ -252,9 +251,9 @@ func TestQueryListOfComments(t *testing.T) {
 }
 
 func TestUpdateComments(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	commentId := "63aaa20f6b7b014b289c0765"
 	mockResp := `{"comment":{"id":"63aaa20f6b7b014b289c0765","body":"updated-content","author":"demo-author"}}`
@@ -282,9 +281,9 @@ func TestUpdateComments_MissingCommentId(t *testing.T) {
 // ══════════════════════════════════════════════════════════════════════════════
 
 func TestCreateABlogCollection(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	mockResp := `{"blog":{"id":"63a9a344609552261f00f23e","title":"demo blogs","handle":"demo-blogs","commentable":"moderate"}}`
 
@@ -308,9 +307,9 @@ func TestCreateABlogCollection(t *testing.T) {
 }
 
 func TestQueryBlogCollectionList(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	mockResp := `{"blogs":[{"id":"63a9a344609552261f00f23e","title":"demo blogs","handle":"demo-blogs"}]}`
 
@@ -328,9 +327,9 @@ func TestQueryBlogCollectionList(t *testing.T) {
 }
 
 func TestQueryBlogCollectionQuantity(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	mockResp := `{"count":5}`
 
@@ -347,9 +346,9 @@ func TestQueryBlogCollectionQuantity(t *testing.T) {
 }
 
 func TestQuerySingleBlogCollection(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	blogCollectionId := "63a9a344609552261f00f23e"
 	mockResp := `{"blog":{"id":"63a9a344609552261f00f23e","title":"demo blogs","handle":"demo-blogs","commentable":"moderate"}}`
@@ -373,9 +372,9 @@ func TestQuerySingleBlogCollection_MissingBlogCollectionId(t *testing.T) {
 }
 
 func TestUpdateBlogCollection(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	blogCollectionId := "63a9a344609552261f00f23e"
 	mockResp := `{"blog":{"id":"63a9a344609552261f00f23e","title":"updated blogs","handle":"demo-blogs"}}`
@@ -402,9 +401,9 @@ func TestUpdateBlogCollection_MissingBlogCollectionId(t *testing.T) {
 }
 
 func TestDeleteBlogCollection(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	blogCollectionId := "63a9a344609552261f00f23e"
 
@@ -429,9 +428,9 @@ func TestDeleteBlogCollection_MissingBlogCollectionId(t *testing.T) {
 // ══════════════════════════════════════════════════════════════════════════════
 
 func TestCreateBlogArticlesForTheCollection(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	blogCollectionId := "64e313c4cd5956279e61d150"
 	mockResp := `{"blog":{"id":"66718d010588d64ef7d15c96","title":"demo title","author":"Alvin","blog_collection_id":"64e313c4cd5956279e61d150"}}`
@@ -458,9 +457,9 @@ func TestCreateBlogArticlesForTheCollection_MissingBlogCollectionId(t *testing.T
 }
 
 func TestQueryBlogPost(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	blogCollectionId := "64e313c4cd5956279e61d150"
 	mockResp := `{"count":10}`
@@ -483,9 +482,9 @@ func TestQueryBlogPost_MissingBlogCollectionId(t *testing.T) {
 }
 
 func TestQueryBlogPostDetails(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	blogCollectionId := "64e313c4cd5956279e61d150"
 	blogId := "66718d010588d64ef7d15c96"
@@ -510,9 +509,9 @@ func TestQueryBlogPostDetails_MissingRequired(t *testing.T) {
 }
 
 func TestQueryBlogPostList(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	blogCollectionId := "64e313c4cd5956279e61d150"
 	mockResp := `{"blogs":[{"id":"66718d010588d64ef7d15c96","title":"demo title","author":"Alvin"}]}`
@@ -536,9 +535,9 @@ func TestQueryBlogPostList_MissingBlogCollectionId(t *testing.T) {
 }
 
 func TestQueryListOfAllArticlesAuthors(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	mockResp := `{"authors":["Alvin","Bob"]}`
 
@@ -555,9 +554,9 @@ func TestQueryListOfAllArticlesAuthors(t *testing.T) {
 }
 
 func TestUpdateBlogPost(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	blogCollectionId := "64e313c4cd5956279e61d150"
 	blogId := "66718d010588d64ef7d15c96"
@@ -586,9 +585,9 @@ func TestUpdateBlogPost_MissingRequired(t *testing.T) {
 }
 
 func TestDeleteBlogPost(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	blogCollectionId := "64e313c4cd5956279e61d150"
 	blogId := "66718d010588d64ef7d15c96"
@@ -614,9 +613,9 @@ func TestDeleteBlogPost_MissingRequired(t *testing.T) {
 // ══════════════════════════════════════════════════════════════════════════════
 
 func TestCreateAScriptTag(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	mockResp := `{"script_tag":{"id":"61a75c4e9f8c201e6e9473e0","event":"onload","src":"https://djavaskripped.org/fancy.js","display_scope":"all"}}`
 
@@ -640,9 +639,9 @@ func TestCreateAScriptTag(t *testing.T) {
 }
 
 func TestQueryASingleScriptTag(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	scriptTagId := "61a75c4e9f8c201e6e9473e0"
 	mockResp := `{"script_tag":{"id":"61a75c4e9f8c201e6e9473e0","event":"onload","src":"https://djavaskripped.org/fancy.js"}}`
@@ -665,9 +664,9 @@ func TestQueryASingleScriptTag_MissingScriptTagId(t *testing.T) {
 }
 
 func TestQueryScriptTagList(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	mockResp := `{"script_tags":[{"id":"61a75c4e9f8c201e6e9473e0","event":"onload","src":"https://djavaskripped.org/fancy.js"}]}`
 
@@ -685,9 +684,9 @@ func TestQueryScriptTagList(t *testing.T) {
 }
 
 func TestQueryTheNumberOfScriptTags(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	mockResp := `{"count":3}`
 
@@ -704,9 +703,9 @@ func TestQueryTheNumberOfScriptTags(t *testing.T) {
 }
 
 func TestUpdateScriptTag(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	scriptTagId := "61a75c4e9f8c201e6e9473e0"
 	mockResp := `{"script_tag":{"id":"61a75c4e9f8c201e6e9473e0","src":"https://updated.org/script.js","event":"onload"}}`
@@ -732,9 +731,9 @@ func TestUpdateScriptTag_MissingScriptTagId(t *testing.T) {
 }
 
 func TestDeleteScriptTag(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	scriptTagId := "61a75c4e9f8c201e6e9473e0"
 
@@ -759,9 +758,9 @@ func TestDeleteScriptTag_MissingScriptTagId(t *testing.T) {
 // ══════════════════════════════════════════════════════════════════════════════
 
 func TestCreateTheme(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	mockResp := `{"theme":{"id":"627d1003d4baa549bf5b83f9","name":"demo_theme","role":0}}`
 
@@ -784,9 +783,9 @@ func TestCreateTheme_MissingName(t *testing.T) {
 }
 
 func TestGetAllThemes(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	mockResp := `{"themes":[{"id":"671f4c96d2682a1f5407536e","name":"Modern1","role":"published"}]}`
 
@@ -805,9 +804,9 @@ func TestGetAllThemes(t *testing.T) {
 }
 
 func TestGetASingleTheme(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	themeId := "671f4c96d2682a1f5407536e"
 	mockResp := `{"theme":{"id":"671f4c96d2682a1f5407536e","name":"Modern1","role":"published"}}`
@@ -831,9 +830,9 @@ func TestGetASingleTheme_MissingThemeId(t *testing.T) {
 }
 
 func TestUpdateTheme(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	themeId := "627d1003d4baa549bf5b83f9"
 	mockResp := `{"theme":{"id":"627d1003d4baa549bf5b83f9","name":"updated_theme","role":"published"}}`
@@ -857,9 +856,9 @@ func TestUpdateTheme_MissingThemeId(t *testing.T) {
 }
 
 func TestDeleteTheme(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	themeId := "627d1003d4baa549bf5b83f9"
 	mockResp := `{"theme":{"id":"627d1003d4baa549bf5b83f9"}}`
@@ -881,9 +880,9 @@ func TestDeleteTheme_MissingThemeId(t *testing.T) {
 }
 
 func TestGetAllFilesForATheme(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	themeId := "671f4c96d2682a1f5407536e"
 	mockResp := `{"assets":[{"key":"config/settings_data.json","theme_id":"671f4c96d2682a1f5407536e","content_type":"application/json","size":1024}]}`
@@ -908,9 +907,9 @@ func TestGetAllFilesForATheme_MissingThemeId(t *testing.T) {
 }
 
 func TestBatchCreateModifyAssetContent(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	themeId := "66012436ec4cd35a973324c4"
 	mockResp := `{"assets":[{"key":"assets/blog.css","theme_id":"66012436ec4cd35a973324c4","content_type":"text/css","size":500}]}`
@@ -937,9 +936,9 @@ func TestBatchCreateModifyAssetContent_MissingThemeId(t *testing.T) {
 }
 
 func TestDeleteThemeAsset(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	themeId := "671f4c96d2682a1f5407536e"
 
@@ -964,9 +963,9 @@ func TestDeleteThemeAsset_MissingRequired(t *testing.T) {
 // ══════════════════════════════════════════════════════════════════════════════
 
 func TestCreateARedirect(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	mockResp := `{"redirect":{"id":"63a95473609552261f00942c","path":"/path/A","target":"/path/B"}}`
 
@@ -989,9 +988,9 @@ func TestCreateARedirect_MissingRequired(t *testing.T) {
 }
 
 func TestGetAListOfRedirect(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	mockResp := `{"redirects":[{"id":"63a95473609552261f00942c","path":"/path/A","target":"/path/B"}]}`
 
@@ -1009,9 +1008,9 @@ func TestGetAListOfRedirect(t *testing.T) {
 }
 
 func TestQuerySingleRedirectDetails(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	redirectId := "62f372efcb98825e786f4196"
 	mockResp := `{"redirect":{"id":"62f372efcb98825e786f4196","path":"/products/A","target":"/products/B"}}`
@@ -1035,9 +1034,9 @@ func TestQuerySingleRedirectDetails_MissingRedirectId(t *testing.T) {
 }
 
 func TestUpdateRedirect(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	mockResp := `{"redirect":{"id":"63a95473609552261f00942c","path":"/products/A","target":"/products/B"}}`
 
@@ -1059,9 +1058,9 @@ func TestUpdateRedirect_MissingId(t *testing.T) {
 }
 
 func TestRemoveARedirect(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	redirectId := "62f372efcb98825e786f4196"
 
@@ -1082,9 +1081,9 @@ func TestRemoveARedirect_MissingRedirectId(t *testing.T) {
 }
 
 func TestStatisticalRedirectQuantity(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	mockResp := `{"count":7}`
 
@@ -1105,9 +1104,9 @@ func TestStatisticalRedirectQuantity(t *testing.T) {
 // ══════════════════════════════════════════════════════════════════════════════
 
 func TestQueryPolicyPageInformation(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	mockResp := `{"policies":[{"id":"6497413009837170726","handle":"privacy-policy","title":"PRIVACY POLICY","body_html":"<p>Free refund in 7 days</p>"}]}`
 
@@ -1126,9 +1125,9 @@ func TestQueryPolicyPageInformation(t *testing.T) {
 }
 
 func TestUpdateAStorePolicyPage(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	mockResp := `{"policy":{"handle":"refund-policy","title":"Refund Policy","body_html":"<p>Free refund in 7 days</p>"}}`
 
@@ -1155,9 +1154,9 @@ func TestUpdateAStorePolicyPage_MissingHandle(t *testing.T) {
 // ══════════════════════════════════════════════════════════════════════════════
 
 func TestCreateACustomPage(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	mockResp := `{"data":{"id":"6743314731912662424","title":"Contact us","handle":"contact-us","author":"Alvin"},"msg":"success"}`
 
@@ -1177,9 +1176,9 @@ func TestCreateACustomPage(t *testing.T) {
 }
 
 func TestCountTheNumberOfCustomPages(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	mockResp := `{"data":{"count":12},"msg":"success"}`
 
@@ -1196,9 +1195,9 @@ func TestCountTheNumberOfCustomPages(t *testing.T) {
 }
 
 func TestGetCustomPages(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	mockResp := `{"data":{"list":[{"id":"6743314731912662424","title":"Contact us"}],"total":1},"msg":"success"}`
 
@@ -1215,9 +1214,9 @@ func TestGetCustomPages(t *testing.T) {
 }
 
 func TestQueryPageSDetailInformation(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	mockResp := `{"data":{"id":"6743314731912662424","title":"Contact us","handle":"contact-us"},"msg":"success"}`
 
@@ -1234,9 +1233,9 @@ func TestQueryPageSDetailInformation(t *testing.T) {
 }
 
 func TestUpdateACustomPage(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	mockResp := `{"data":{"id":"6743314731912662424","title":"Updated Page"},"msg":"success"}`
 
@@ -1253,9 +1252,9 @@ func TestUpdateACustomPage(t *testing.T) {
 }
 
 func TestDeleteACustomPage(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	httpmock.RegisterResponder("DELETE",
 		onlineStoreURL(cli, "store/page/customize.json"),

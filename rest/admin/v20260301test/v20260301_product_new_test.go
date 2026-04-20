@@ -7,7 +7,6 @@ import (
 
 	"github.com/jarcoal/httpmock"
 	"github.com/shoplineos/shopline-sdk-go/client"
-	"github.com/shoplineos/shopline-sdk-go/rest/admin/test"
 	"github.com/shoplineos/shopline-sdk-go/rest/admin/v20260301/product"
 	"github.com/stretchr/testify/assert"
 )
@@ -22,9 +21,9 @@ func productURL(cli *client.Client, path string) string {
 // ══════════════════════════════════════════════════════════════════════════════
 
 func TestGetProducts(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	mockResp := `{"products":[{"id":"16057850264845250791280282","title":"Test Product","status":"active","vendor":"SHOPLINE"}]}`
 	httpmock.RegisterResponder("GET", productURL(cli, "products/products.json"),
@@ -41,9 +40,9 @@ func TestGetProducts(t *testing.T) {
 }
 
 func TestGetAProduct(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	productId := "16057850264845250791280282"
 	mockResp := `{"product":{"id":"16057850264845250791280282","title":"Test Product","status":"active","vendor":"SHOPLINE"}}`
@@ -65,9 +64,9 @@ func TestGetAProduct_MissingProductId(t *testing.T) {
 }
 
 func TestGetProductCount(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	httpmock.RegisterResponder("GET", productURL(cli, "products/count.json"),
 		httpmock.NewStringResponder(200, `{"count":42}`))
@@ -81,9 +80,9 @@ func TestGetProductCount(t *testing.T) {
 }
 
 func TestUpdateAProduct(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	productId := "16057850264845250791280282"
 	mockResp := `{"product":{"id":"16057850264845250791280282","title":"Updated Product","status":"active"}}`
@@ -108,9 +107,9 @@ func TestUpdateAProduct_MissingProductId(t *testing.T) {
 }
 
 func TestDeleteAProduct_New(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	productId := "16057850264845250791280282"
 	httpmock.RegisterResponder("DELETE", productURL(cli, fmt.Sprintf("products/%s.json", productId)),
@@ -133,9 +132,9 @@ func TestDeleteAProduct_MissingProductId(t *testing.T) {
 // ══════════════════════════════════════════════════════════════════════════════
 
 func TestGetProductImages(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	productId := "16057850264845250791280282"
 	mockResp := `{"images":[{"id":"5785060242207917075","src":"https://example.com/img.png","product_id":"16057850264845250791280282"}]}`
@@ -157,9 +156,9 @@ func TestGetProductImages_MissingRequired(t *testing.T) {
 }
 
 func TestGetAProductImage(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	imageId := "5785060242207917075"
 	productId := "16057850264845250791280282"
@@ -181,9 +180,9 @@ func TestGetAProductImage_MissingRequired(t *testing.T) {
 }
 
 func TestGetTheCountOfImagesForAProduct(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	productId := "16057850264845250791280282"
 	httpmock.RegisterResponder("GET", productURL(cli, fmt.Sprintf("products/%s/images/count.json", productId)),
@@ -203,9 +202,9 @@ func TestGetTheCountOfImagesForAProduct_MissingProductId(t *testing.T) {
 }
 
 func TestCreateAProductImage(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	productId := "16057850264845250791280282"
 	mockResp := `{"image":{"id":"5785060242207917075","src":"https://example.com/img.png","product_id":"16057850264845250791280282","position":1}}`
@@ -230,9 +229,9 @@ func TestCreateAProductImage_MissingProductId(t *testing.T) {
 }
 
 func TestUpdateImageInformation(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	productId := "16057850264845250791280282"
 	imageId := "5785060242207917075"
@@ -254,9 +253,9 @@ func TestUpdateImageInformation_MissingRequired(t *testing.T) {
 }
 
 func TestDeleteAProductImage(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	imageId := "5785060242207917075"
 	productId := "16057850264845250791280282"
@@ -280,9 +279,9 @@ func TestDeleteAProductImage_MissingRequired(t *testing.T) {
 // ══════════════════════════════════════════════════════════════════════════════
 
 func TestGetProductVariants(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	productId := "16057850264845250791280282"
 	mockResp := `{"variants":[{"id":"18057039439794751459380282","price":"90.22","sku":"S00000001","product_id":"16057850264845250791280282"}]}`
@@ -304,9 +303,9 @@ func TestGetProductVariants_MissingProductId(t *testing.T) {
 }
 
 func TestGetAProductVariant(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	variantId := "18057039439794751459380282"
 	mockResp := `{"variant":{"id":"18057039439794751459380282","price":"90.22","sku":"S00000001"}}`
@@ -328,9 +327,9 @@ func TestGetAProductVariant_MissingVariantId(t *testing.T) {
 }
 
 func TestGetTheTotalCountOfProductVariants(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	productId := "16057850264845250791280282"
 	httpmock.RegisterResponder("GET", productURL(cli, fmt.Sprintf("products/%s/variants/count.json", productId)),
@@ -350,9 +349,9 @@ func TestGetTheTotalCountOfProductVariants_MissingProductId(t *testing.T) {
 }
 
 func TestCreateAVariant(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	productId := "16057850264845250791280282"
 	mockResp := `{"variant":{"id":"18057039439794751459380282","price":"90.22","sku":"S00000001","product_id":"16057850264845250791280282"}}`
@@ -377,9 +376,9 @@ func TestCreateAVariant_MissingProductId(t *testing.T) {
 }
 
 func TestUpdateAVariant(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	variantId := "18057039439794751459380282"
 	mockResp := `{"variant":{"id":"18057039439794751459380282","price":"99.99","sku":"S00000001"}}`
@@ -400,9 +399,9 @@ func TestUpdateAVariant_MissingVariantId(t *testing.T) {
 }
 
 func TestDeleteAVariant(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	productId := "16057850264845250791280282"
 	variantId := "18057039439794751459380282"
@@ -426,9 +425,9 @@ func TestDeleteAVariant_MissingRequired(t *testing.T) {
 // ══════════════════════════════════════════════════════════════════════════════
 
 func TestGetManualCollections(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	mockResp := `{"custom_collections":[{"id":"12257170618007271602093384","title":"spring clothing","handle":"spring-clothing"}]}`
 	httpmock.RegisterResponder("GET", productURL(cli, "products/custom_collections.json"),
@@ -444,9 +443,9 @@ func TestGetManualCollections(t *testing.T) {
 }
 
 func TestGetTheCountOfManualCollections(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	httpmock.RegisterResponder("GET", productURL(cli, "products/custom_collections/count.json"),
 		httpmock.NewStringResponder(200, `{"count":7}`))
@@ -460,9 +459,9 @@ func TestGetTheCountOfManualCollections(t *testing.T) {
 }
 
 func TestCreateManualCollection(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	mockResp := `{"custom_collection":{"id":"12257170618007271602093384","title":"spring clothing","handle":"spring-clothing"}}`
 	httpmock.RegisterResponder("POST", productURL(cli, "products/custom_collections.json"),
@@ -478,9 +477,9 @@ func TestCreateManualCollection(t *testing.T) {
 }
 
 func TestQueryManualCollectionAttributesById(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	collectionId := "12257170618007271602093384"
 	mockResp := `{"custom_collection":{"id":"12257170618007271602093384","title":"spring clothing","handle":"collection-handle"}}`
@@ -501,9 +500,9 @@ func TestQueryManualCollectionAttributesById_MissingCustomCollectionId(t *testin
 }
 
 func TestUpdateManualCollection(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	collectionId := "12257170618007271602093384"
 	mockResp := `{"custom_collection":{"id":"12257170618007271602093384","title":"updated collection"}}`
@@ -524,9 +523,9 @@ func TestUpdateManualCollection_MissingCustomCollectionId(t *testing.T) {
 }
 
 func TestDeleteManualCollection(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	collectionId := "12257170618007271602093384"
 	httpmock.RegisterResponder("DELETE", productURL(cli, fmt.Sprintf("products/custom_collections/%s.json", collectionId)),
@@ -545,9 +544,9 @@ func TestDeleteManualCollection_MissingCustomCollectionId(t *testing.T) {
 }
 
 func TestAddProductsToAManualCollection(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	collectionId := "12257170618007271602093384"
 	httpmock.RegisterResponder("POST", productURL(cli, fmt.Sprintf("products/custom_collections/%s/products.json", collectionId)),
@@ -566,9 +565,9 @@ func TestAddProductsToAManualCollection_MissingCollectionId(t *testing.T) {
 }
 
 func TestRemoveProductsFromAManualCollection(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	collectionId := "12257170618007271602093384"
 	httpmock.RegisterResponder("DELETE", productURL(cli, fmt.Sprintf("products/custom_collections/%s/products.json", collectionId)),
@@ -591,9 +590,9 @@ func TestRemoveProductsFromAManualCollection_MissingCollectionId(t *testing.T) {
 // ══════════════════════════════════════════════════════════════════════════════
 
 func TestGetIntelligentCollections(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	mockResp := `{"smart_collections":[{"id":"12257170618007271602093384","title":"smart collection","handle":"smart-collection"}]}`
 	httpmock.RegisterResponder("GET", productURL(cli, "products/smart_collections.json"),
@@ -609,9 +608,9 @@ func TestGetIntelligentCollections(t *testing.T) {
 }
 
 func TestGetTheCountOfIntelligentCollections(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	httpmock.RegisterResponder("GET", productURL(cli, "products/smart_collections/count.json"),
 		httpmock.NewStringResponder(200, `{"count":4}`))
@@ -625,9 +624,9 @@ func TestGetTheCountOfIntelligentCollections(t *testing.T) {
 }
 
 func TestCreateSmartCollection(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	mockResp := `{"smart_collection":{"id":"12257170618007271602093384","title":"spring clothing","handle":"spring-clothing"}}`
 	httpmock.RegisterResponder("POST", productURL(cli, "products/smart_collections.json"),
@@ -642,9 +641,9 @@ func TestCreateSmartCollection(t *testing.T) {
 }
 
 func TestQueryIntelligentCollectionAttributesById(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	collectionId := "12257170618007271602093384"
 	mockResp := `{"smart_collection":{"id":"12257170618007271602093384","title":"smart collection"}}`
@@ -665,9 +664,9 @@ func TestQueryIntelligentCollectionAttributesById_MissingSmartCollectionId(t *te
 }
 
 func TestUpdateSmartCollection(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	collectionId := "12257170618007271602093384"
 	mockResp := `{"smart_collection":{"id":"12257170618007271602093384","title":"updated smart collection"}}`
@@ -688,9 +687,9 @@ func TestUpdateSmartCollection_MissingSmartCollectionId(t *testing.T) {
 }
 
 func TestUpdateProductSortingInSmartCollections(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	collectionId := "12257170618007271602093384"
 	httpmock.RegisterResponder("PUT", productURL(cli, fmt.Sprintf("products/smart_collections/%s/order.json", collectionId)),
@@ -709,9 +708,9 @@ func TestUpdateProductSortingInSmartCollections_MissingCollectionId(t *testing.T
 }
 
 func TestDeleteIntelligentCollection(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	collectionId := "12257170618007271602093384"
 	httpmock.RegisterResponder("DELETE", productURL(cli, fmt.Sprintf("products/smart_collections/%s.json", collectionId)),
@@ -734,9 +733,9 @@ func TestDeleteIntelligentCollection_MissingSmartCollectionId(t *testing.T) {
 // ══════════════════════════════════════════════════════════════════════════════
 
 func TestGetProductCollectionRelationships(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	mockResp := `{"collects":[{"id":5392284410644534000,"product_id":"16057039432335097907370282","collection_id":"12249026592161154694000282"}]}`
 	httpmock.RegisterResponder("GET", productURL(cli, "products/collects.json"),
@@ -751,9 +750,9 @@ func TestGetProductCollectionRelationships(t *testing.T) {
 }
 
 func TestGetTheCountOfProductCollectionRelationships(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	httpmock.RegisterResponder("GET", productURL(cli, "products/collects/count.json"),
 		httpmock.NewStringResponder(200, `{"count":10}`))
@@ -767,9 +766,9 @@ func TestGetTheCountOfProductCollectionRelationships(t *testing.T) {
 }
 
 func TestGetAProductCollectionRelationship(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	collectId := "5392284410644534000"
 	mockResp := `{"collect":{"id":5392284410644534000,"product_id":"16057039432335097907370282","collection_id":"12249026592161154694000282"}}`
@@ -790,9 +789,9 @@ func TestGetAProductCollectionRelationship_MissingCollectId(t *testing.T) {
 }
 
 func TestCreateAProductCollectionRelationship(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	mockResp := `{"collect":{"id":5704511242397819000,"product_id":"16057039432335097907370282","collection_id":"12249026592161154694000282"}}`
 	httpmock.RegisterResponder("POST", productURL(cli, "products/collects.json"),
@@ -807,9 +806,9 @@ func TestCreateAProductCollectionRelationship(t *testing.T) {
 }
 
 func TestDeleteAProductCollectionRelationship(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	collectId := "5392284410644534000"
 	httpmock.RegisterResponder("DELETE", productURL(cli, fmt.Sprintf("products/collects/%s.json", collectId)),
@@ -828,9 +827,9 @@ func TestDeleteAProductCollectionRelationship_MissingCollectId(t *testing.T) {
 }
 
 func TestQueryCollectionInformationById(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	collectionId := "12257170618007271602093385"
 	mockResp := `{"collection":{"id":"12257170618007271602093385","title":"This is a title","handle":"collection-handle"}}`
@@ -851,9 +850,9 @@ func TestQueryCollectionInformationById_MissingCollectionId(t *testing.T) {
 }
 
 func TestGetProductsInACollection(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	collectionId := "12257170618007271602093384"
 	mockResp := `{"products":[{"id":"16057850264845250791280282","title":"Test Product"}]}`
@@ -878,9 +877,9 @@ func TestGetProductsInACollection_MissingCollectionId(t *testing.T) {
 // ══════════════════════════════════════════════════════════════════════════════
 
 func TestGetGiftCards(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	mockResp := `{"gift_cards":[{"id":"30171274557691301804060045","initial_value":"200","balance":"200","currency":"USD"}]}`
 	httpmock.RegisterResponder("GET", productURL(cli, "gift_cards.json"),
@@ -896,9 +895,9 @@ func TestGetGiftCards(t *testing.T) {
 }
 
 func TestQueryNumberOfGiftCards(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	httpmock.RegisterResponder("GET", productURL(cli, "gift_cards/count.json"),
 		httpmock.NewStringResponder(200, `{"count":8}`))
@@ -912,9 +911,9 @@ func TestQueryNumberOfGiftCards(t *testing.T) {
 }
 
 func TestQuerySingleGiftCard(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	giftCardId := "30157043359245339231360282"
 	mockResp := `{"gift_card":{"id":"30157043359245339231360282","initial_value":"200","balance":"200","currency":"CNY"}}`
@@ -935,9 +934,9 @@ func TestQuerySingleGiftCard_MissingGiftCardId(t *testing.T) {
 }
 
 func TestCreateGiftCards(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	mockResp := `{"gift_card":{"id":"30157043359245339231360282","initial_value":"200","balance":"200","currency":"CNY","code":"dbe95e7f02606fc4"}}`
 	httpmock.RegisterResponder("POST", productURL(cli, "gift_cards.json"),
@@ -957,9 +956,9 @@ func TestCreateGiftCards_MissingInitialValue(t *testing.T) {
 }
 
 func TestUpdateGiftCard(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	giftCardId := "30157043359245339231360282"
 	mockResp := `{"gift_card":{"id":"30157043359245339231360282","note":"updated note","balance":"200"}}`
@@ -980,9 +979,9 @@ func TestUpdateGiftCard_MissingGiftCardId(t *testing.T) {
 }
 
 func TestDisableGiftCard(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	giftCardId := "30157043359245339231360282"
 	mockResp := `{"gift_card":{"id":"30157043359245339231360282","disabled_at":"2023-08-16T23:59:59+08:00"}}`
@@ -1003,9 +1002,9 @@ func TestDisableGiftCard_MissingGiftCardId(t *testing.T) {
 }
 
 func TestGetGiftCardOperationRecords(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	giftCardId := "30157043359245339231360282"
 	mockResp := `{"gift_card_records":[{"id":"5504120995916023830","operation_type":"OPERATE_ACTION_DEDUCT","cur_balance":100}]}`
@@ -1030,9 +1029,9 @@ func TestGetGiftCardOperationRecords_MissingGiftCardId(t *testing.T) {
 // ══════════════════════════════════════════════════════════════════════════════
 
 func TestGetInventoryItems(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	mockResp := `{"inventory_items":[{"id":"5703943989105270965","sku":"K0000000001","cost":"10.91"}]}`
 	httpmock.RegisterResponder("GET", productURL(cli, "inventory_items.json"),
@@ -1053,9 +1052,9 @@ func TestGetInventoryItems_MissingIds(t *testing.T) {
 }
 
 func TestGetAnInventoryItem(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	inventoryItemId := "5703943989105270965"
 	mockResp := `{"inventory_item":{"id":"5703943989105270965","sku":"K0000000001","cost":"10.91"}}`
@@ -1076,9 +1075,9 @@ func TestGetAnInventoryItem_MissingInventoryItemId(t *testing.T) {
 }
 
 func TestUpdateAnInventoryItem(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	inventoryItemId := "5703943989105270965"
 	mockResp := `{"inventory_item":{"id":"5703943989105270965","sku":"K00000001","cost":"10.9"}}`
@@ -1099,9 +1098,9 @@ func TestUpdateAnInventoryItem_MissingInventoryItemId(t *testing.T) {
 }
 
 func TestGetInventoryQuantities(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	mockResp := `{"inventory_levels":[{"inventory_item_id":"7177011084762551696","location_id":"5421704248135526901","available":10}]}`
 	httpmock.RegisterResponder("GET", productURL(cli, "inventory_levels.json"),
@@ -1121,9 +1120,9 @@ func TestGetInventoryQuantities_MissingInventoryItemIds(t *testing.T) {
 }
 
 func TestSetItemInventory(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	mockResp := `{"inventory_level":{"inventory_item_id":"5703943240925324252","location_id":"5421704248135526901","available":10}}`
 	httpmock.RegisterResponder("POST", productURL(cli, "inventory_levels/set.json"),
@@ -1143,9 +1142,9 @@ func TestSetItemInventory_MissingRequired(t *testing.T) {
 }
 
 func TestUpdateItemInventory(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	mockResp := `{"inventory_level":{"inventory_item_id":"7177011084762551696","location_id":"5421703880295066100","available":10}}`
 	httpmock.RegisterResponder("POST", productURL(cli, "inventory_levels/adjust.json"),
@@ -1165,9 +1164,9 @@ func TestUpdateItemInventory_MissingRequired(t *testing.T) {
 }
 
 func TestLinkAnInventoryItemToALocation(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	mockResp := `{"inventory_level":{"inventory_item_id":"7177011084762551696","location_id":"5421704248135526901","available":10}}`
 	httpmock.RegisterResponder("POST", productURL(cli, "inventory_levels/connect.json"),
@@ -1187,9 +1186,9 @@ func TestLinkAnInventoryItemToALocation_MissingRequired(t *testing.T) {
 }
 
 func TestDisconnectAnInventoryItemFromALocation(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	httpmock.RegisterResponder("DELETE", productURL(cli, "inventory_levels/disconnect.json"),
 		httpmock.NewStringResponder(200, `{}`))
@@ -1211,9 +1210,9 @@ func TestDisconnectAnInventoryItemFromALocation_MissingRequired(t *testing.T) {
 // ══════════════════════════════════════════════════════════════════════════════
 
 func TestGetLocations(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	mockResp := `{"locations":[{"id":"5668167071852661850","name":"Ottawa Store","active":true}]}`
 	httpmock.RegisterResponder("GET", productURL(cli, "locations/list.json"),
@@ -1229,9 +1228,9 @@ func TestGetLocations(t *testing.T) {
 }
 
 func TestStatisticsNumberOfLocations(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	httpmock.RegisterResponder("GET", productURL(cli, "locations/count.json"),
 		httpmock.NewStringResponder(200, `{"count":4}`))
@@ -1245,9 +1244,9 @@ func TestStatisticsNumberOfLocations(t *testing.T) {
 }
 
 func TestBasedOnIdQueryLocation(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	locationId := "5668167071852661850"
 	mockResp := `{"location":{"id":"5668167071852661850","name":"Ottawa Store","active":true}}`
@@ -1272,9 +1271,9 @@ func TestBasedOnIdQueryLocation_MissingId(t *testing.T) {
 // ══════════════════════════════════════════════════════════════════════════════
 
 func TestGetFiles(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	mockResp := `{"files":[{"id":"5824341616684517429","url":"https://example.com/file.png","alt":"image alt"}]}`
 	httpmock.RegisterResponder("GET", productURL(cli, "files/files.json"),
@@ -1290,9 +1289,9 @@ func TestGetFiles(t *testing.T) {
 }
 
 func TestGetAFile(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	fileId := "5824341616684517429"
 	mockResp := `{"id":"5824341616684517429","alt":"image alt","url":"https://example.com/file.png"}`
@@ -1312,9 +1311,9 @@ func TestGetAFile_MissingFileId(t *testing.T) {
 }
 
 func TestCreateAFile(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	mockResp := `{"id":"5824341616684517429","alt":"image alt","url":"https://example.com/file.png"}`
 	httpmock.RegisterResponder("POST", productURL(cli, "files/files.json"),
@@ -1333,9 +1332,9 @@ func TestCreateAFile_MissingRequired(t *testing.T) {
 }
 
 func TestUpdateAFile(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	fileId := "5824341616684517429"
 	httpmock.RegisterResponder("PUT", productURL(cli, fmt.Sprintf("files/%s.json", fileId)),
@@ -1354,9 +1353,9 @@ func TestUpdateAFile_MissingFileId(t *testing.T) {
 }
 
 func TestDeleteAFile(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	fileId := "5824341616684517429"
 	httpmock.RegisterResponder("DELETE", productURL(cli, fmt.Sprintf("files/%s.json", fileId)),
@@ -1375,9 +1374,9 @@ func TestDeleteAFile_MissingFileId(t *testing.T) {
 }
 
 func TestInitiateAFileStagedUpload(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	mockResp := `{"signs":[{"key":"temp/file/store/image.jpg","url":"https://example.com/upload"}]}`
 	httpmock.RegisterResponder("POST", productURL(cli, "files/upload.json"),
@@ -1396,9 +1395,9 @@ func TestInitiateAFileStagedUpload(t *testing.T) {
 // ══════════════════════════════════════════════════════════════════════════════
 
 func TestQueryTaxonomyOfTheStore(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	mockResp := `{"taxonomies":[{"id":"7004220176356349981","collection_id":"12257170618007271602093384","parent_id":"7004220176355548881"}]}`
 	httpmock.RegisterResponder("GET", productURL(cli, "taxonomies.json"),
@@ -1414,9 +1413,9 @@ func TestQueryTaxonomyOfTheStore(t *testing.T) {
 }
 
 func TestGetATaxonomyCollectionNode(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	taxonomyId := "7004220176356349981"
 	mockResp := `{"taxonomy":{"id":"7004220176356349981","collection_id":"16050375155238626683133099","is_leaf":false}}`
@@ -1437,9 +1436,9 @@ func TestGetATaxonomyCollectionNode_MissingTaxonomyId(t *testing.T) {
 }
 
 func TestGetChildTaxonomyCollectionNodes(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	mockResp := `{"taxonomies":[{"id":"7004220176356349981","collection_id":"16050375155238626683133099"}]}`
 	httpmock.RegisterResponder("GET", productURL(cli, "taxonomies/children.json"),
@@ -1454,9 +1453,9 @@ func TestGetChildTaxonomyCollectionNodes(t *testing.T) {
 }
 
 func TestGetTaxonomyCollectionNodes(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	mockResp := `{"products_taxonomies":[{"product_id":"16057850264845250791280282"}]}`
 	httpmock.RegisterResponder("GET", productURL(cli, "taxonomies/taxonomy_collections.json"),
@@ -1476,9 +1475,9 @@ func TestGetTaxonomyCollectionNodes_MissingProductIds(t *testing.T) {
 }
 
 func TestCreateATaxonomyCollectionNode(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	mockResp := `{"taxonomy":{"id":"7004220176356349981","collection_id":"16050375155238626683133099","is_leaf":false}}`
 	httpmock.RegisterResponder("POST", productURL(cli, "taxonomies.json"),
@@ -1498,9 +1497,9 @@ func TestCreateATaxonomyCollectionNode_MissingCollectionId(t *testing.T) {
 }
 
 func TestUpdateATaxonomyCollectionNode(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	taxonomyId := "7004220176356349981"
 	mockResp := `{"taxonomy":{"id":"7004220176356349981","collection_id":"16050375155238626683133099"}}`
@@ -1521,9 +1520,9 @@ func TestUpdateATaxonomyCollectionNode_MissingTaxonomyId(t *testing.T) {
 }
 
 func TestDeleteATaxonomyCollectionNode(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	taxonomyId := "7004220176356349981"
 	httpmock.RegisterResponder("DELETE", productURL(cli, fmt.Sprintf("taxonomies/%s.json", taxonomyId)),
@@ -1546,9 +1545,9 @@ func TestDeleteATaxonomyCollectionNode_MissingTaxonomyId(t *testing.T) {
 // ══════════════════════════════════════════════════════════════════════════════
 
 func TestQueryMultipleSellingPrograms(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	mockResp := `{"selling_plan_group_list":[{"id":"14056200245844372441100009","name":"Subscription plan","position":1}]}`
 	httpmock.RegisterResponder("GET", productURL(cli, "selling_plan_group/selling_plan_group.json"),
@@ -1564,9 +1563,9 @@ func TestQueryMultipleSellingPrograms(t *testing.T) {
 }
 
 func TestGetTheSalesPlanGroupTotalNumber(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	httpmock.RegisterResponder("GET", productURL(cli, "selling_plan_groups/count.json"),
 		httpmock.NewStringResponder(200, `{"count":10}`))
@@ -1580,9 +1579,9 @@ func TestGetTheSalesPlanGroupTotalNumber(t *testing.T) {
 }
 
 func TestQuerySalesProgramGroupDetails(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	sellingPlanGroupId := "14056200245844372441100009"
 	mockResp := `{"selling_plan_group":{"id":"14056200245844372441100009","name":"Subscription plan","position":1}}`
@@ -1603,9 +1602,9 @@ func TestQuerySalesProgramGroupDetails_MissingSellingPlanGroupId(t *testing.T) {
 }
 
 func TestCreateASalesPlanGroup(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	mockResp := `{"selling_plan_group":{"id":"14156200245844372441120009","name":"Subscription plan","position":1}}`
 	httpmock.RegisterResponder("POST", productURL(cli, "selling_plan_groups/selling_plan_group.json"),
@@ -1625,9 +1624,9 @@ func TestCreateASalesPlanGroup_MissingName(t *testing.T) {
 }
 
 func TestUpdateSalesPlanGroup(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	mockResp := `{"selling_plan_group":{"id":"14056200245844372441100009","name":"Updated plan","position":1}}`
 	httpmock.RegisterResponder("PUT", productURL(cli, "selling_plan_groups/selling_plan_group.json"),
@@ -1647,9 +1646,9 @@ func TestUpdateSalesPlanGroup_MissingId(t *testing.T) {
 }
 
 func TestDeleteASalesPlanGroup(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	sellingPlanGroupId := "14056200245844372441100009"
 	httpmock.RegisterResponder("DELETE", productURL(cli, fmt.Sprintf("selling_plan_group/%s.json", sellingPlanGroupId)),
@@ -1668,9 +1667,9 @@ func TestDeleteASalesPlanGroup_MissingSellingPlanGroupId(t *testing.T) {
 }
 
 func TestAddProductsToASalesPlanGroup(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	httpmock.RegisterResponder("POST", productURL(cli, "selling_plan_group/binding.json"),
 		httpmock.NewStringResponder(200, `{}`))
@@ -1688,9 +1687,9 @@ func TestAddProductsToASalesPlanGroup_MissingId(t *testing.T) {
 }
 
 func TestRemoveProductsFromASalesPlanGroup(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	httpmock.RegisterResponder("DELETE", productURL(cli, "selling_plan_group/binding.json"),
 		httpmock.NewStringResponder(200, `{}`))
@@ -1712,9 +1711,9 @@ func TestRemoveProductsFromASalesPlanGroup_MissingId(t *testing.T) {
 // ══════════════════════════════════════════════════════════════════════════════
 
 func TestRetrieveAListOfCompanyLocationCatalogs(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	mockResp := `{"catalogs":[{"catalog_id":"6598087148213149672","title":"A catalog title","status":1}]}`
 	httpmock.RegisterResponder("GET", productURL(cli, "company_location_catalogs.json"),
@@ -1730,9 +1729,9 @@ func TestRetrieveAListOfCompanyLocationCatalogs(t *testing.T) {
 }
 
 func TestRetrieveACompanyLocationCatalog(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	catalogId := "6598087148213149672"
 	mockResp := `{"catalog":{"catalog_id":"6598087148213149672","title":"A catalog title","status":1}}`
@@ -1753,9 +1752,9 @@ func TestRetrieveACompanyLocationCatalog_MissingCatalogId(t *testing.T) {
 }
 
 func TestCreateACompanyLocationCatalog(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	mockResp := `{"catalog_id":"6598087148213149672"}`
 	httpmock.RegisterResponder("POST", productURL(cli, "company_location_catalog/create.json"),
@@ -1775,9 +1774,9 @@ func TestCreateACompanyLocationCatalog_MissingTitle(t *testing.T) {
 }
 
 func TestUpdateACompanyLocationCatalog(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	catalogId := "6598087148213149672"
 	httpmock.RegisterResponder("PUT", productURL(cli, fmt.Sprintf("company_location_catalog/%s.json", catalogId)),
@@ -1796,9 +1795,9 @@ func TestUpdateACompanyLocationCatalog_MissingCatalogId(t *testing.T) {
 }
 
 func TestDeleteCatalog(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	catalogId := "6598087148213149672"
 	httpmock.RegisterResponder("DELETE", productURL(cli, fmt.Sprintf("company_location_catalog/%s.json", catalogId)),
@@ -1817,9 +1816,9 @@ func TestDeleteCatalog_MissingCatalogId(t *testing.T) {
 }
 
 func TestGetCatalogLocations(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	mockResp := `{"catalog_locations":[{"catalog_id":"6598087148213149672","company_location_ids":["6598085940706559169"],"company_locations_count":1}]}`
 	httpmock.RegisterResponder("GET", productURL(cli, "company_location_catalog/locations.json"),
@@ -1835,9 +1834,9 @@ func TestGetCatalogLocations(t *testing.T) {
 }
 
 func TestGetCatalogLocationsRecommended(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	catalogId := "6598087148213149672"
 	mockResp := `{"company_location_ids":["6598085940706559169"]}`
@@ -1858,9 +1857,9 @@ func TestGetCatalogLocationsRecommended_MissingCatalogId(t *testing.T) {
 }
 
 func TestAddCompanyLocations(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	catalogId := "6598087148213149672"
 	mockResp := `{"company_location_ids":["6598085940706559169"]}`
@@ -1881,9 +1880,9 @@ func TestAddCompanyLocations_MissingCatalogId(t *testing.T) {
 }
 
 func TestRemoveCompanyLocations(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	catalogId := "6598087148213149672"
 	httpmock.RegisterResponder("DELETE", productURL(cli, fmt.Sprintf("company_location_catalog/%s/locations.json", catalogId)),
@@ -1902,9 +1901,9 @@ func TestRemoveCompanyLocations_MissingCatalogId(t *testing.T) {
 }
 
 func TestGetCatalogProducts(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	catalogId := "6598087148213149672"
 	mockResp := `{"individual_price_products_count":1,"products":[{"id":"16057850264845250791280282"}]}`
@@ -1925,9 +1924,9 @@ func TestGetCatalogProducts_MissingCatalogId(t *testing.T) {
 }
 
 func TestAddCatalogProducts(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	catalogId := "6598087148213149672"
 	mockResp := `{"product_ids":["16064649853088531841170520"]}`
@@ -1948,9 +1947,9 @@ func TestAddCatalogProducts_MissingCatalogId(t *testing.T) {
 }
 
 func TestRemoveCatalogProducts(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	catalogId := "6598087148213149672"
 	mockResp := `{"product_ids":["16064649853088531841170520"]}`
@@ -1971,9 +1970,9 @@ func TestRemoveCatalogProducts_MissingCatalogId(t *testing.T) {
 }
 
 func TestSeparatePricingForCatalogVariants(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	httpmock.RegisterResponder("PUT", productURL(cli, "company_location_catalog/variants_pricing.json"),
 		httpmock.NewStringResponder(200, `{}`))
@@ -1991,9 +1990,9 @@ func TestSeparatePricingForCatalogVariants_MissingRequired(t *testing.T) {
 }
 
 func TestSpecifyVariantForPricingRules(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	catalogId := "6598087148213149672"
 	variantId := "18064649853096752677070520"

@@ -5,7 +5,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/shoplineos/shopline-sdk-go/config"
-	"github.com/shoplineos/shopline-sdk-go/rest/admin/test"
 	"io"
 	"log"
 	"net/http"
@@ -15,30 +14,30 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-var (
-	client *Client
-	app    App
-)
+//var (
+//	client *Client
+//	app    App
+//)
 
-func setup() {
-	app = App{
-		AppKey:    AppKeyForTest,
-		AppSecret: AppSecretForTest,
-	}
-
-	client = MustNewClient(app, StoreHandelForTest, config.AccessTokenForUnitTest)
-	if client == nil {
-		panic("client is nil")
-	}
-
-	app.Client = client
-
-	httpmock.ActivateNonDefault(client.Client)
-}
-
-func teardown() {
-	httpmock.DeactivateAndReset()
-}
+//func setup() {
+//	app = App{
+//		AppKey:    AppKeyForTest,
+//		AppSecret: AppSecretForTest,
+//	}
+//
+//	client = MustNewClient(app, StoreHandelForTest, config.AccessTokenForUnitTest)
+//	if client == nil {
+//		panic("client is nil")
+//	}
+//
+//	app.Client = client
+//
+//	httpmock.ActivateNonDefault(client.Client)
+//}
+//
+//func teardown() {
+//	httpmock.DeactivateAndReset()
+//}
 
 // zh: https://developer.shopline.com/zh-hans-cn/docs/admin-rest-api/product/product/delete-product?version=v20251201
 // en: https://developer.shopline.com/docs/admin-rest-api/product/product/delete-product?version=v20251201
@@ -94,12 +93,12 @@ func TestNewClientOptions(t *testing.T) {
 //		AppSecret: config.AppSecretForUnitTest,
 //	}
 //
-//	cli, err := NewClient(app, config.StoreHandelForUnitTest, config.AccessTokenForUnitTest, WithVersion("v20250601"), WithClientAware())
+//	client, err := NewClient(app, config.StoreHandelForUnitTest, config.AccessTokenForUnitTest, WithVersion("v20250601"), WithClientAware())
 //	if err != nil {
 //		t.Errorf("NewClient() err = %v, expected nil", err)
 //	}
 //
-//	assert.Equal(t, "v20250601", cli.ApiVersion)
+//	assert.Equal(t, "v20250601", client.ApiVersion)
 //}
 
 func TestResolveUrlPath(t *testing.T) {
@@ -166,7 +165,7 @@ func TestClientCall(t *testing.T) {
 
 	// test create product
 	httpmock.RegisterResponder("POST", fmt.Sprintf("https://%s.myshopline.com/%s/%s/products/products.json", client.StoreHandle, client.PathPrefix, client.ApiVersion),
-		httpmock.NewBytesResponder(200, test.LoadTestDataV2("../rest/admin/test/", "product/product.json")))
+		httpmock.NewBytesResponder(200, LoadTestDataV2("../rest/admin/test/", "product/product.json")))
 
 	// 1. build request
 	product := ProductStruct{
@@ -195,7 +194,7 @@ func TestExecuteInternal(t *testing.T) {
 
 	// test create product
 	httpmock.RegisterResponder("POST", fmt.Sprintf("https://%s.myshopline.com/%s/%s/products/products.json", client.StoreHandle, client.PathPrefix, client.ApiVersion),
-		httpmock.NewBytesResponder(200, test.LoadTestDataV2("../rest/admin/test/", "product/product.json")))
+		httpmock.NewBytesResponder(200, LoadTestDataV2("../rest/admin/test/", "product/product.json")))
 
 	// 1. build request
 	product := ProductStruct{

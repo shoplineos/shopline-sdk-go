@@ -11,11 +11,11 @@ import (
 )
 
 func TestCreateStorefrontAccessToken(t *testing.T) {
-	setup()
-	defer teardown()
+	client.Setup()
+	defer client.Teardown()
 
 	httpmock.RegisterResponder("POST",
-		fmt.Sprintf("https://%s.myshopline.com/%s/%s/storefront_access_tokens.json", cli.StoreHandle, cli.PathPrefix, cli.ApiVersion),
+		fmt.Sprintf("https://%s.myshopline.com/%s/%s/storefront_access_tokens.json", client.GetClient().StoreHandle, client.GetClient().PathPrefix, client.GetClient().ApiVersion),
 		httpmock.NewStringResponder(200, `{"storefront_access_token":{"id":1, "created_at":"2025-09-22T14:48:44-04:00", "updated_at":"2025-09-22T14:48:44-04:00", "access_scope":"test desc", "access_token":"access_token", "title":"name_test"}}`))
 
 	req := &access2.CreateStorefrontAccessTokenAPIReq{
@@ -25,7 +25,7 @@ func TestCreateStorefrontAccessToken(t *testing.T) {
 	}
 
 	apiResp := &access2.CreateStorefrontAccessTokenAPIResp{}
-	err := cli.Call(context.Background(), req, apiResp)
+	err := client.GetClient().Call(context.Background(), req, apiResp)
 
 	if err != nil {
 		t.Errorf("StorefrontAccessToken.Create returned error: %v", err)
@@ -37,11 +37,11 @@ func TestCreateStorefrontAccessToken(t *testing.T) {
 }
 
 func TestDeleteStorefrontAccessToken(t *testing.T) {
-	setup()
-	defer teardown()
+	client.Setup()
+	defer client.Teardown()
 
 	httpmock.RegisterResponder("DELETE",
-		fmt.Sprintf("https://%s.myshopline.com/%s/%s/storefront_access_tokens/1.json", cli.StoreHandle, cli.PathPrefix, cli.ApiVersion),
+		fmt.Sprintf("https://%s.myshopline.com/%s/%s/storefront_access_tokens/1.json", client.GetClient().StoreHandle, client.GetClient().PathPrefix, client.GetClient().ApiVersion),
 		httpmock.NewStringResponder(200, ""))
 
 	req := &access2.DeleteStorefrontAccessTokenAPIReq{
@@ -49,7 +49,7 @@ func TestDeleteStorefrontAccessToken(t *testing.T) {
 	}
 
 	apiResp := &access2.DeleteStorefrontAccessTokenAPIResp{}
-	err := cli.Call(context.Background(), req, apiResp)
+	err := client.GetClient().Call(context.Background(), req, apiResp)
 	if err != nil {
 		t.Errorf("StorefrontAccessToken.Delete returned error: %v", err)
 	}
@@ -58,17 +58,17 @@ func TestDeleteStorefrontAccessToken(t *testing.T) {
 }
 
 func TestListStorefrontAccessTokens(t *testing.T) {
-	setup()
-	defer teardown()
+	client.Setup()
+	defer client.Teardown()
 
 	httpmock.RegisterResponder("GET",
-		fmt.Sprintf("https://%s.myshopline.com/%s/%s/storefront_access_tokens.json", cli.StoreHandle, cli.PathPrefix, cli.ApiVersion),
-		httpmock.NewBytesResponder(200, LoadTestDataV2("", "access/storefront_access_tokens.json")))
+		fmt.Sprintf("https://%s.myshopline.com/%s/%s/storefront_access_tokens.json", client.GetClient().StoreHandle, client.GetClient().PathPrefix, client.GetClient().ApiVersion),
+		httpmock.NewBytesResponder(200, client.LoadTestDataV2("", "access/storefront_access_tokens.json")))
 
 	req := &access2.ListStorefrontAccessTokensAPIReq{}
 
 	apiResp := &access2.ListStorefrontAccessTokensAPIResp{}
-	err := cli.Call(context.Background(), req, apiResp)
+	err := client.GetClient().Call(context.Background(), req, apiResp)
 
 	if err != nil {
 		t.Errorf("StorefrontAccessToken.List returned error: %v", err)
@@ -83,17 +83,17 @@ func TestListStorefrontAccessTokens(t *testing.T) {
 }
 
 func TestListWithPaginationStorefrontAccessTokens(t *testing.T) {
-	setup()
-	defer teardown()
+	client.Setup()
+	defer client.Teardown()
 
 	httpmock.RegisterResponder("GET",
-		fmt.Sprintf("https://%s.myshopline.com/%s/%s/storefront_access_tokens.json", cli.StoreHandle, cli.PathPrefix, cli.ApiVersion),
-		httpmock.NewBytesResponder(200, LoadTestDataV2("", "access/storefront_access_tokens.json")))
+		fmt.Sprintf("https://%s.myshopline.com/%s/%s/storefront_access_tokens.json", client.GetClient().StoreHandle, client.GetClient().PathPrefix, client.GetClient().ApiVersion),
+		httpmock.NewBytesResponder(200, client.LoadTestDataV2("", "access/storefront_access_tokens.json")))
 
 	req := &access2.ListStorefrontAccessTokensAPIReq{}
 
 	apiResp := &access2.ListStorefrontAccessTokensAPIResp{}
-	err := cli.Call(context.Background(), req, apiResp)
+	err := client.GetClient().Call(context.Background(), req, apiResp)
 
 	if err != nil {
 		t.Errorf("StorefrontAccessToken.List returned error: %v", err)
@@ -108,17 +108,17 @@ func TestListWithPaginationStorefrontAccessTokens(t *testing.T) {
 }
 
 func TestListAllStorefrontAccessTokens(t *testing.T) {
-	setup()
-	defer teardown()
+	client.Setup()
+	defer client.Teardown()
 
 	httpmock.RegisterResponder("GET",
-		fmt.Sprintf("https://%s.myshopline.com/%s/%s/storefront_access_tokens.json", cli.StoreHandle, cli.PathPrefix, cli.ApiVersion),
-		httpmock.NewBytesResponder(200, LoadTestDataV2("", "access/storefront_access_tokens.json")))
+		fmt.Sprintf("https://%s.myshopline.com/%s/%s/storefront_access_tokens.json", client.GetClient().StoreHandle, client.GetClient().PathPrefix, client.GetClient().ApiVersion),
+		httpmock.NewBytesResponder(200, client.LoadTestDataV2("", "access/storefront_access_tokens.json")))
 
 	req := &access2.ListStorefrontAccessTokensAPIReq{}
 
 	apiResp := &access2.ListStorefrontAccessTokensAPIResp{}
-	tokens, err := client.ListAll(cli, context.Background(), req, apiResp, func(resp interface{}) []access2.StorefrontAccessToken {
+	tokens, err := client.ListAll(client.GetClient(), context.Background(), req, apiResp, func(resp interface{}) []access2.StorefrontAccessToken {
 		r := resp.(*access2.ListStorefrontAccessTokensAPIResp)
 		return r.StorefrontAccessTokens
 	})

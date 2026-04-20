@@ -1,23 +1,22 @@
-package test
+package client
 
 import (
 	"fmt"
 	"github.com/jarcoal/httpmock"
-	"github.com/shoplineos/shopline-sdk-go/client"
 	"github.com/shoplineos/shopline-sdk-go/config"
 	"os"
 )
 
 var (
-	cli *client.Client
-	app client.App
+	client *Client
+	app    App
 )
 
-func GetClient() *client.Client {
-	return cli
+func GetClient() *Client {
+	return client
 }
 
-func GetApp() client.App {
+func GetApp() App {
 	return app
 }
 
@@ -50,19 +49,19 @@ func Teardown() {
 }
 
 func setupWithVersion(apiVersion string) {
-	app = client.App{
+	app = App{
 		AppKey:    config.AppKeyForUnitTest,
 		AppSecret: config.AppSecretForUnitTest,
 	}
 
-	cli = client.MustNewClient(app, config.StoreHandelForUnitTest, config.AccessTokenForUnitTest, client.WithVersion(apiVersion))
-	if cli == nil {
+	client = MustNewClient(app, config.StoreHandelForUnitTest, config.AccessTokenForUnitTest, WithVersion(apiVersion))
+	if client == nil {
 		panic("client is nil")
 	}
 
-	app.Client = cli
+	app.Client = client
 
-	httpmock.ActivateNonDefault(cli.Client)
+	httpmock.ActivateNonDefault(client.Client)
 }
 
 func setup() {

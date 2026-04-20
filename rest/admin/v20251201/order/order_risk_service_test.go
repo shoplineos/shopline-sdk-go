@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 	"github.com/jarcoal/httpmock"
-	"github.com/shoplineos/shopline-sdk-go/rest/admin/test"
+	"github.com/shoplineos/shopline-sdk-go/client"
 	"github.com/stretchr/testify/assert"
 	"testing"
 )
@@ -15,7 +15,7 @@ func TestList(t *testing.T) {
 
 	httpmock.RegisterResponder("GET",
 		fmt.Sprintf("https://%s.myshopline.com/%s/%s/orders/v2/21056921623197625897868288/risks.json", cli.StoreHandle, cli.PathPrefix, cli.ApiVersion),
-		httpmock.NewBytesResponder(200, test.LoadTestData("order/risks.json")))
+		httpmock.NewBytesResponder(200, client.LoadTestData("order/risks.json")))
 
 	apiReq := &ListOrderRisksAPIReq{
 		OrderId: "21056921623197625897868288",
@@ -37,7 +37,7 @@ func TestGet(t *testing.T) {
 
 	httpmock.RegisterResponder("GET",
 		fmt.Sprintf("https://%s.myshopline.com/%s/%s/orders/v2/21056921623197625897868288/risks/1.json", cli.StoreHandle, cli.PathPrefix, cli.ApiVersion),
-		httpmock.NewBytesResponder(200, test.LoadTestData("order/risk.json")))
+		httpmock.NewBytesResponder(200, client.LoadTestData("order/risk.json")))
 
 	apiReq := &GetOrderRiskAPIReq{
 		OrderId: "21056921623197625897868288",
@@ -60,7 +60,7 @@ func TestCreate(t *testing.T) {
 
 	httpmock.RegisterResponder("POST",
 		fmt.Sprintf("https://%s.myshopline.com/%s/%s/orders/v2/21056921623197625897868288/risks.json", cli.StoreHandle, cli.PathPrefix, cli.ApiVersion),
-		httpmock.NewBytesResponder(200, test.LoadTestData("order/risk.json")))
+		httpmock.NewBytesResponder(200, client.LoadTestData("order/risk.json")))
 
 	apiReq := &CreateOrderRiskAPIReq{
 		OrderId: "21056921623197625897868288",
@@ -85,7 +85,7 @@ func TestUpdate(t *testing.T) {
 
 	httpmock.RegisterResponder("PUT",
 		fmt.Sprintf("https://%s.myshopline.com/%s/%s/orders/v2/21056921623197625897868288/risks/1.json", cli.StoreHandle, cli.PathPrefix, cli.ApiVersion),
-		httpmock.NewBytesResponder(200, test.LoadTestData("order/risk.json")))
+		httpmock.NewBytesResponder(200, client.LoadTestData("order/risk.json")))
 
 	apiReq := &UpdateOrderRiskAPIReq{
 		OrderId: "21056921623197625897868288",

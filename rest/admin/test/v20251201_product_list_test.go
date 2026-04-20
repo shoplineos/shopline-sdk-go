@@ -14,15 +14,15 @@ import (
 )
 
 func TestProductList(t *testing.T) {
-	setup()
-	defer teardown()
+	client.Setup()
+	defer client.Teardown()
 
-	httpmock.RegisterResponder("GET", fmt.Sprintf("https://%s.myshopline.com/%s/%s/products/products.json", cli.StoreHandle, cli.PathPrefix, cli.ApiVersion),
+	httpmock.RegisterResponder("GET", fmt.Sprintf("https://%s.myshopline.com/%s/%s/products/products.json", client.GetClient().StoreHandle, client.GetClient().PathPrefix, client.GetClient().ApiVersion),
 		httpmock.NewStringResponder(200, `{"products": [{"Id":"1"},{"Id":"2"}]}`))
 
 	apiReq := &product.GetProductsAPIReq{}
 	apiResp := &product.GetProductsAPIResp{}
-	err := cli.Call(context.Background(), apiReq, apiResp)
+	err := client.GetClient().Call(context.Background(), apiReq, apiResp)
 
 	if err != nil {
 		t.Errorf("Product.List returned error: %v", err)
@@ -35,13 +35,13 @@ func TestProductList(t *testing.T) {
 }
 
 func TestProductListFilterByIds(t *testing.T) {
-	setup()
-	defer teardown()
+	client.Setup()
+	defer client.Teardown()
 
 	params := map[string]string{"ids": "1,2,3"}
 	httpmock.RegisterResponderWithQuery(
 		"GET",
-		fmt.Sprintf("https://%s.myshopline.com/%s/%s/products/products.json", cli.StoreHandle, cli.PathPrefix, cli.ApiVersion),
+		fmt.Sprintf("https://%s.myshopline.com/%s/%s/products/products.json", client.GetClient().StoreHandle, client.GetClient().PathPrefix, client.GetClient().ApiVersion),
 		params,
 		httpmock.NewStringResponder(200, `{"products": [{"id":"1"},{"id":"2"},{"id":"3"}]}`))
 
@@ -49,7 +49,7 @@ func TestProductListFilterByIds(t *testing.T) {
 		Ids: "1,2,3",
 	}
 	apiResp := &product.GetProductsAPIResp{}
-	err := cli.Call(context.Background(), apiReq, apiResp)
+	err := client.GetClient().Call(context.Background(), apiReq, apiResp)
 
 	if err != nil {
 		t.Errorf("Product.List returned error: %v", err)
@@ -62,18 +62,18 @@ func TestProductListFilterByIds(t *testing.T) {
 }
 
 func TestProductListError(t *testing.T) {
-	setup()
-	defer teardown()
+	client.Setup()
+	defer client.Teardown()
 
 	httpmock.RegisterResponder("GET",
-		fmt.Sprintf("https://%s.myshopline.com/%s/%s/products/products.json", cli.StoreHandle, cli.PathPrefix, cli.ApiVersion),
+		fmt.Sprintf("https://%s.myshopline.com/%s/%s/products/products.json", client.GetClient().StoreHandle, client.GetClient().PathPrefix, client.GetClient().ApiVersion),
 		httpmock.NewStringResponder(500, ""))
 
 	expectedErrMessage := "Unknown Error"
 
 	apiReq := &product.GetProductsAPIReq{}
 	apiResp := &product.GetProductsAPIResp{}
-	err := cli.Call(context.Background(), apiReq, apiResp)
+	err := client.GetClient().Call(context.Background(), apiReq, apiResp)
 
 	if err == nil {
 		t.Errorf("Product.List returned products, expected nil: %v", err)
@@ -85,10 +85,10 @@ func TestProductListError(t *testing.T) {
 }
 
 func TestProductListAll(t *testing.T) {
-	setup()
-	defer teardown()
+	client.Setup()
+	defer client.Teardown()
 
-	listURL := fmt.Sprintf("https://%s.myshopline.com/%s/%s/products/products.json", cli.StoreHandle, cli.PathPrefix, cli.ApiVersion)
+	listURL := fmt.Sprintf("https://%s.myshopline.com/%s/%s/products/products.json", client.GetClient().StoreHandle, client.GetClient().PathPrefix, client.GetClient().ApiVersion)
 
 	cases := []struct {
 		name                string // case name
@@ -181,7 +181,7 @@ func TestProductListAll(t *testing.T) {
 
 			apiReq := &product.GetProductsAPIReq{}
 			apiResp := &product.GetProductsAPIResp{}
-			Products, err := client.ListAll(cli, context.Background(), apiReq, apiResp, func(resp interface{}) []product.Product {
+			Products, err := client.ListAll(client.GetClient(), context.Background(), apiReq, apiResp, func(resp interface{}) []product.Product {
 				r := resp.(*product.GetProductsAPIResp)
 				return r.Products
 			})
@@ -203,10 +203,10 @@ func TestProductListAll(t *testing.T) {
 }
 
 func TestProductListWithPagination(t *testing.T) {
-	setup()
-	defer teardown()
+	client.Setup()
+	defer client.Teardown()
 
-	listURL := fmt.Sprintf("https://%s.myshopline.com/%s/%s/products/products.json", cli.StoreHandle, cli.PathPrefix, cli.ApiVersion)
+	listURL := fmt.Sprintf("https://%s.myshopline.com/%s/%s/products/products.json", client.GetClient().StoreHandle, client.GetClient().PathPrefix, client.GetClient().ApiVersion)
 
 	// The strconv.Atoi error changed in go 1.8, 1.7 is still being tested/supported.
 	limitConversionErrorMessage := `strconv.Atoi: parsing "invalid": invalid syntax`
@@ -299,7 +299,7 @@ func TestProductListWithPagination(t *testing.T) {
 
 		requestParams := &product.GetProductsAPIReq{}
 		apiResp := &product.GetProductsAPIResp{}
-		err := cli.Call(context.Background(), requestParams, apiResp)
+		err := client.GetClient().Call(context.Background(), requestParams, apiResp)
 		if c.expectedErr != nil || err != nil {
 			if err.Error() != c.expectedErr.Error() {
 				t.Errorf(

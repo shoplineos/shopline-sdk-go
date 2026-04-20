@@ -6,7 +6,6 @@ import (
 	"fmt"
 	"github.com/jarcoal/httpmock"
 	"github.com/shoplineos/shopline-sdk-go/client"
-	"github.com/shoplineos/shopline-sdk-go/rest/admin/test"
 	order2 "github.com/shoplineos/shopline-sdk-go/rest/admin/v20260301/order"
 	"net/http"
 	"reflect"
@@ -15,13 +14,13 @@ import (
 )
 
 func TestOrderList(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	httpmock.RegisterResponder("GET",
 		fmt.Sprintf("https://%s.myshopline.com/%s/%s/orders.json", cli.StoreHandle, cli.PathPrefix, cli.ApiVersion),
-		httpmock.NewBytesResponder(200, test.LoadTestDataV2("", "../test/order/orders.json")))
+		httpmock.NewBytesResponder(200, client.LoadTestDataV2("", "../test/order/orders.json")))
 
 	apiReq := &order2.GetOrdersAPIReq{}
 	apiResp := &order2.GetOrdersAPIResp{}
@@ -40,8 +39,8 @@ func TestOrderList(t *testing.T) {
 }
 
 func TestOrderListOptions(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
 	params := map[string]string{
 		"fields": "id,name",
 		"limit":  "250",
@@ -49,12 +48,12 @@ func TestOrderListOptions(t *testing.T) {
 		"status": "any",
 	}
 
-	cli := test.GetClient()
+	cli := client.GetClient()
 	httpmock.RegisterResponderWithQuery(
 		"GET",
 		fmt.Sprintf("https://%s.myshopline.com/%s/%s/orders.json", cli.StoreHandle, cli.PathPrefix, cli.ApiVersion),
 		params,
-		httpmock.NewBytesResponder(200, test.LoadTestDataFromCurrentDir("../test/order/orders.json")))
+		httpmock.NewBytesResponder(200, client.LoadTestDataFromCurrentDir("../test/order/orders.json")))
 
 	apiReq := &order2.GetOrdersAPIReq{
 		Limit:  "250",
@@ -77,10 +76,10 @@ func TestOrderListOptions(t *testing.T) {
 }
 
 func TestOrderListAll(t *testing.T) {
-	test.Setup()
-	defer test.Teardown()
+	client.Setup()
+	defer client.Teardown()
 
-	cli := test.GetClient()
+	cli := client.GetClient()
 	listURL := fmt.Sprintf("https://%s.myshopline.com/%s/%s/orders.json", cli.StoreHandle, cli.PathPrefix, cli.ApiVersion)
 
 	cases := []struct {
@@ -201,10 +200,10 @@ func TestOrderListAll(t *testing.T) {
 }
 
 func TestOrderListWithPagination(t *testing.T) {
-	test.Setup()
-	defer test.Teardown()
+	client.Setup()
+	defer client.Teardown()
 
-	cli := test.GetClient()
+	cli := client.GetClient()
 	listURL := fmt.Sprintf("https://%s.myshopline.com/%s/%s/orders.json", cli.StoreHandle, cli.PathPrefix, cli.ApiVersion)
 
 	// The strconv.Atoi error changed in go 1.8, 1.7 is still being tested/supported.
@@ -325,10 +324,10 @@ func TestOrderListWithPagination(t *testing.T) {
 }
 
 func TestOrderListError(t *testing.T) {
-	test.Setup()
-	defer test.Teardown()
+	client.Setup()
+	defer client.Teardown()
 
-	cli := test.GetClient()
+	cli := client.GetClient()
 	httpmock.RegisterResponder("GET",
 		fmt.Sprintf("https://%s.myshopline.com/%s/%s/orders.json", cli.StoreHandle, cli.PathPrefix, cli.ApiVersion),
 		httpmock.NewStringResponder(500, ""))

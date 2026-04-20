@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"github.com/jarcoal/httpmock"
 	"github.com/shoplineos/shopline-sdk-go/client"
-	"github.com/shoplineos/shopline-sdk-go/rest/admin/test"
 	metafield2 "github.com/shoplineos/shopline-sdk-go/rest/admin/v20260301/metafield"
 	"github.com/stretchr/testify/assert"
 	"testing"
@@ -14,9 +13,9 @@ import (
 // 中文：https://developer.shopline.com/zh-hans-cn/docs/admin-rest-api/shopline-metafields/metafield-definition/create-a-metafield-definition?version=v20251201
 // En：https://developer.shopline.com/docs/admin-rest-api/shopline-metafields/metafield-definition/create-a-metafield-definition?version=v20251201
 func TestCreateMetafieldDefinition(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	httpmock.RegisterResponder("POST",
 		fmt.Sprintf("https://%s.myshopline.com/%s/%s/metafield_definition.json", cli.StoreHandle, cli.PathPrefix, ApiVersion),
@@ -53,9 +52,9 @@ func TestCreateMetafieldDefinition(t *testing.T) {
 // 中文：https://developer.shopline.com/zh-hans-cn/docs/admin-rest-api/shopline-metafields/metafield-definition/update-a-metafield-definition?version=v20251201
 // En：https://developer.shopline.com/docs/admin-rest-api/shopline-metafields/metafield-definition/update-a-metafield-definition?version=v20251201
 func TestUpdateMetafieldDefinition(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	httpmock.RegisterResponder("PUT",
 		fmt.Sprintf("https://%s.myshopline.com/%s/%s/metafield_definition.json", cli.StoreHandle, cli.PathPrefix, ApiVersion),
@@ -91,9 +90,9 @@ func TestUpdateMetafieldDefinition(t *testing.T) {
 // 中文：https://developer.shopline.com/zh-hans-cn/docs/admin-rest-api/shopline-metafields/metafield-definition/get-a-metafield-definition?version=v20251201
 // En：https://developer.shopline.com/docs/admin-rest-api/shopline-metafields/metafield-definition/get-a-metafield-definition?version=v20251201
 func TestGetMetafieldDefinition(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	httpmock.RegisterResponder("GET",
 		fmt.Sprintf("https://%s.myshopline.com/%s/%s/metafield_definition.json", cli.StoreHandle, cli.PathPrefix, ApiVersion),
@@ -122,13 +121,13 @@ func TestGetMetafieldDefinition(t *testing.T) {
 // 中文：https://developer.shopline.com/zh-hans-cn/docs/admin-rest-api/shopline-metafields/metafield-definition/get-metafield-definitions?version=v20251201
 // En：https://developer.shopline.com/docs/admin-rest-api/shopline-metafields/metafield-definition/get-metafield-definitions?version=v20251201
 func TestListMetafieldDefinitions(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	httpmock.RegisterResponder("GET",
 		fmt.Sprintf("https://%s.myshopline.com/%s/%s/metafield_definitions.json?owner_resource=product", cli.StoreHandle, cli.PathPrefix, ApiVersion),
-		httpmock.NewBytesResponder(200, test.LoadTestDataV2("", "./metafield/metafield_definitions.json")))
+		httpmock.NewBytesResponder(200, client.LoadTestDataV2("", "./metafield/metafield_definitions.json")))
 
 	req := &metafield2.GetMetafieldDefinitionsAPIReq{
 		OwnerResource: "product",
@@ -157,13 +156,13 @@ func TestListMetafieldDefinitions(t *testing.T) {
 // 中文：https://developer.shopline.com/zh-hans-cn/docs/admin-rest-api/shopline-metafields/metafield-definition/get-metafield-definitions?version=v20251201
 // En：https://developer.shopline.com/docs/admin-rest-api/shopline-metafields/metafield-definition/get-metafield-definitions?version=v20251201
 func TestListAllMetafieldDefinitions(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	httpmock.RegisterResponder("GET",
 		fmt.Sprintf("https://%s.myshopline.com/%s/%s/metafield_definitions.json?owner_resource=product", cli.StoreHandle, cli.PathPrefix, ApiVersion),
-		httpmock.NewBytesResponder(200, test.LoadTestDataV2("", "./metafield/metafield_definitions.json")))
+		httpmock.NewBytesResponder(200, client.LoadTestDataV2("", "./metafield/metafield_definitions.json")))
 
 	req := &metafield2.GetMetafieldDefinitionsAPIReq{
 		OwnerResource: "product",
@@ -196,9 +195,9 @@ func TestListAllMetafieldDefinitions(t *testing.T) {
 // 中文：https://developer.shopline.com/zh-hans-cn/docs/admin-rest-api/shopline-metafields/metafield-definition/delete-a-metafield-definition?version=v20251201
 // En：https://developer.shopline.com/docs/admin-rest-api/shopline-metafields/metafield-definition/delete-a-metafield-definition?version=v20251201
 func TestDeleteMetafieldDefinition(t *testing.T) {
-	test.SetupWithVersion(ApiVersion)
-	defer test.Teardown()
-	cli := test.GetClient()
+	client.SetupWithVersion(ApiVersion)
+	defer client.Teardown()
+	cli := client.GetClient()
 
 	httpmock.RegisterResponder("DELETE",
 		fmt.Sprintf("https://%s.myshopline.com/%s/%s/metafield_definition.json?id=1", cli.StoreHandle, cli.PathPrefix, ApiVersion),

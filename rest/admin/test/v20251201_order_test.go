@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"github.com/jarcoal/httpmock"
+	"github.com/shoplineos/shopline-sdk-go/client"
 	order3 "github.com/shoplineos/shopline-sdk-go/rest/admin/v20251201/order"
 	"github.com/stretchr/testify/assert"
 	"strings"
@@ -11,11 +12,11 @@ import (
 )
 
 func TestOrderCreate(t *testing.T) {
-	setup()
-	defer teardown()
+	client.Setup()
+	defer client.Teardown()
 
 	httpmock.RegisterResponder("POST",
-		fmt.Sprintf("https://%s.myshopline.com/%s/%s/orders.json", cli.StoreHandle, cli.PathPrefix, cli.ApiVersion),
+		fmt.Sprintf("https://%s.myshopline.com/%s/%s/orders.json", client.GetClient().StoreHandle, client.GetClient().PathPrefix, client.GetClient().ApiVersion),
 		httpmock.NewStringResponder(200, `{"order":{"id": "1"}}`))
 
 	order := order3.CreateAnOrderAPIReqOrder{
@@ -32,7 +33,7 @@ func TestOrderCreate(t *testing.T) {
 	}
 
 	apiResp := &order3.CreateAnOrderAPIResp{}
-	err := cli.Call(context.Background(), apiReq, apiResp)
+	err := client.GetClient().Call(context.Background(), apiReq, apiResp)
 	if err != nil {
 		t.Errorf("Order.Create returned error: %v", err)
 	}
@@ -44,16 +45,16 @@ func TestOrderCreate(t *testing.T) {
 }
 
 func TestGetOrders(t *testing.T) {
-	setup()
-	defer teardown()
+	client.Setup()
+	defer client.Teardown()
 
 	httpmock.RegisterResponder("GET",
-		fmt.Sprintf("https://%s.myshopline.com/%s/%s/orders.json", cli.StoreHandle, cli.PathPrefix, cli.ApiVersion),
-		httpmock.NewBytesResponder(200, LoadTestDataV2("", "order/orders.json")))
+		fmt.Sprintf("https://%s.myshopline.com/%s/%s/orders.json", client.GetClient().StoreHandle, client.GetClient().PathPrefix, client.GetClient().ApiVersion),
+		httpmock.NewBytesResponder(200, client.LoadTestDataV2("", "order/orders.json")))
 
 	apiReq := &order3.GetOrdersAPIReq{}
 	apiResp := &order3.GetOrdersAPIResp{}
-	err := cli.Call(context.Background(), apiReq, apiResp)
+	err := client.GetClient().Call(context.Background(), apiReq, apiResp)
 
 	if err != nil {
 		t.Errorf("GetOrders error: %v", err)
@@ -106,18 +107,18 @@ func orderTestsForListOrdersAPI(t *testing.T, order order3.GetOrdersAPIRespOrder
 }
 
 func TestListAttributionInfos(t *testing.T) {
-	setup()
-	defer teardown()
+	client.Setup()
+	defer client.Teardown()
 
 	httpmock.RegisterResponder("POST",
-		fmt.Sprintf("https://%s.myshopline.com/%s/%s/orders/order_attribution_info.json", cli.StoreHandle, cli.PathPrefix, cli.ApiVersion),
-		httpmock.NewBytesResponder(200, LoadTestDataV2("", "order/order_attribution_info.json")))
+		fmt.Sprintf("https://%s.myshopline.com/%s/%s/orders/order_attribution_info.json", client.GetClient().StoreHandle, client.GetClient().PathPrefix, client.GetClient().ApiVersion),
+		httpmock.NewBytesResponder(200, client.LoadTestDataV2("", "order/order_attribution_info.json")))
 
 	apiReq := &order3.GetOrderAttributionInBulkAPIReq{
 		Orders: []string{"1"},
 	}
 	apiResp := &order3.GetOrderAttributionInBulkAPIResp{}
-	err := cli.Call(context.Background(), apiReq, apiResp)
+	err := client.GetClient().Call(context.Background(), apiReq, apiResp)
 	if err != nil {
 		t.Errorf("Order.ListAttributionInfos error: %v", err)
 	}
