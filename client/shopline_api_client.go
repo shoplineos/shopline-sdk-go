@@ -383,7 +383,7 @@ func (c *Client) executeHttpRequest(request *ShopLineRequest, httpReq *http.Requ
 	log.Printf("Execute request finished！status: %d\n", resp.StatusCode)
 
 	// Build response
-	shopLineResp, err := buildShopLineResponse(httpReq.Method, request, resp, resource)
+	shopLineResp, err := buildShopLineResponse(request, resp, resource)
 	if err != nil {
 		return shopLineResp, err
 	}
@@ -523,7 +523,7 @@ func buildBodyJsonString(bodyParams []byte) (string, error) {
 }
 
 // Build SHOPLINE response
-func buildShopLineResponse(method string, request *ShopLineRequest, httpResp *http.Response, resource interface{}) (*ShopLineResponse, error) {
+func buildShopLineResponse(request *ShopLineRequest, httpResp *http.Response, resource interface{}) (*ShopLineResponse, error) {
 	shopLineResp := &ShopLineResponse{}
 	shopLineResp.StatusCode = httpResp.StatusCode
 
@@ -538,12 +538,9 @@ func buildShopLineResponse(method string, request *ShopLineRequest, httpResp *ht
 		return shopLineResp, err
 	}
 
-	if !isDeleteSuccess(method, httpResp.StatusCode) && !request.NotDecodeBody() { // delete method will return empty body
-		// decode http body on success
-		if err := json.NewDecoder(httpResp.Body).Decode(&resource); err != nil {
-			//respData := &map[string]any{}
-			//json.NewDecoder(httpResp.Body).Decode(respData)
-			//log.Printf("Failed to parse json response body, statusCode: %d, body: %v, err: %v\n", httpResp.StatusCode, resource, err)
+	if !request.NotDecodeBody() {
+		// decode http body on success; io.EOF means empty body, which is valid for some APIs
+		if err := json.NewDecoder(httpResp.Body).Decode(&resource); err != nil && err != io.EOF {
 			bodyBytes, _ := io.ReadAll(httpResp.Body)
 			body := string(bodyBytes)
 			log.Printf("Use json decoder to decode response body failed, statusCode: %d, body: %v, err: %v\n", httpResp.StatusCode, body, err)
@@ -562,10 +559,6 @@ func buildShopLineResponse(method string, request *ShopLineRequest, httpResp *ht
 
 	setCommonAPIRespData(shopLineResp)
 	return shopLineResp, nil
-}
-
-func isDeleteSuccess(method string, statusCode int) bool {
-	return MethodDelete == method && statusCode == http.StatusOK
 }
 
 // set common data to api response data
