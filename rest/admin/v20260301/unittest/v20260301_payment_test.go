@@ -41,7 +41,7 @@ func TestListStorePayouts(t *testing.T) {
 	//end_time=2025-09-30T00:00:00+08:00&limit=1&start_time=2025-04-30T00:00:00+08:00
 	//httpmock.RegisterResponder("GET", fmt.Sprintf("https://%s.myshopline.com/%s/%s/payments/store/payouts.json?limit=1", cli.StoreHandle, cli.PathPrefix, cli.ApiVersion),
 	httpmock.RegisterResponder("GET", "https://zwapptest.myshopline.com/admin/openapi/v20260301/payments/store/payouts.json?end_time=2025-09-30T00%3A00%3A00%2B08%3A00&limit=1&start_time=2025-04-30T00%3A00%3A00%2B08%3A00",
-		httpmock.NewBytesResponder(200, client.LoadTestDataV2("", "../test/payment/payouts.json")))
+		httpmock.NewBytesResponder(200, client.LoadTestDataV2("", "../../test/payment/payouts.json")))
 
 	apiReq := &payment2.GetPayoutsAPIReq{
 		Limit: "1",
@@ -70,7 +70,7 @@ func TestListStoreBalanceTransactions(t *testing.T) {
 	defer client.Teardown()
 	cli := client.GetClient()
 	httpmock.RegisterResponder("GET", fmt.Sprintf("https://%s.myshopline.com/%s/%s/payments/store/balance_transactions.json", cli.StoreHandle, cli.PathPrefix, cli.ApiVersion),
-		httpmock.NewBytesResponder(200, client.LoadTestDataV2("", "../test/payment/balance_transactions.json")))
+		httpmock.NewBytesResponder(200, client.LoadTestDataV2("", "../../test/payment/balance_transactions.json")))
 
 	apiReq := &payment2.BalanceTransactionsAPIReq{
 		Limit:        "1",
@@ -102,7 +102,7 @@ func TestGetStorePayouts(t *testing.T) {
 	// https://zwapptest.myshopline.com/admin/openapi/v20251201/payments/store/payouts.json?end_time=2025-05-30&limit=2&payout_transaction_no=2222&start_time=2025-04-30
 	//httpmock.RegisterResponder("GET", fmt.Sprintf("https://%s.myshopline.com/%s/%s/payments/store/payout.json?end_time=2025-05-30&limit=2&payout_transaction_no=2222&start_time=2025-04-30", cli.StoreHandle, cli.PathPrefix, cli.ApiVersion),
 	httpmock.RegisterResponder("GET", "https://zwapptest.myshopline.com/admin/openapi/v20260301/payments/store/payouts.json?end_time=2025-05-30&limit=2&payout_transaction_no=2222&start_time=2025-04-30",
-		httpmock.NewBytesResponder(200, client.LoadTestDataV2("", "../test/payment/payouts.json")))
+		httpmock.NewBytesResponder(200, client.LoadTestDataV2("", "../../test/payment/payouts.json")))
 
 	apiReq := &payment2.GetPayoutsAPIReq{
 		PayoutTransactionNo: "2222",
@@ -133,7 +133,7 @@ func TestListStoreTransactions(t *testing.T) {
 	defer client.Teardown()
 	cli := client.GetClient()
 	httpmock.RegisterResponder("GET", fmt.Sprintf("https://%s.myshopline.com/%s/%s/payments/store/transactions.json", cli.StoreHandle, cli.PathPrefix, cli.ApiVersion),
-		httpmock.NewBytesResponder(200, client.LoadTestDataV2("", "../test/payment/transactions.json")))
+		httpmock.NewBytesResponder(200, client.LoadTestDataV2("", "../../test/payment/transactions.json")))
 
 	apiReq := &payment2.QueryStoreTransactionRecordsAPIReq{
 		Limit:   "1",

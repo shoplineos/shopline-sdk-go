@@ -17,7 +17,7 @@ func TestGetStore(t *testing.T) {
 
 	httpmock.RegisterResponder("GET",
 		fmt.Sprintf("https://%s.myshopline.com/%s/%s/merchants/shop.json", cli.StoreHandle, cli.PathPrefix, cli.ApiVersion),
-		httpmock.NewBytesResponder(200, client.LoadTestDataV2("", "../test/store/store.json")))
+		httpmock.NewBytesResponder(200, client.LoadTestDataV2("", "../../test/store/store.json")))
 
 	apiReq := &store2.QueryStoreInformationAPIReq{}
 	apiResp := &store2.QueryStoreInformationAPIResp{}
@@ -62,7 +62,7 @@ func TestGetStaff(t *testing.T) {
 
 	httpmock.RegisterResponder("GET",
 		fmt.Sprintf("https://%s.myshopline.com/%s/%s/store/staff/1.json", cli.StoreHandle, cli.PathPrefix, cli.ApiVersion),
-		httpmock.NewBytesResponder(200, client.LoadTestDataV2("", "../test/store/store_staff.json")))
+		httpmock.NewBytesResponder(200, client.LoadTestDataV2("", "../../test/store/store_staff.json")))
 
 	apiReq := &store2.GetAStaffMemberAPIReq{
 		Uid: "1",
@@ -84,7 +84,7 @@ func TestListStaffs(t *testing.T) {
 
 	httpmock.RegisterResponder("GET",
 		fmt.Sprintf("https://%s.myshopline.com/%s/%s/store/list/staff.json", cli.StoreHandle, cli.PathPrefix, cli.ApiVersion),
-		httpmock.NewBytesResponder(200, client.LoadTestDataV2("", "../test/store/staffs.json")))
+		httpmock.NewBytesResponder(200, client.LoadTestDataV2("", "../../test/store/staffs.json")))
 
 	apiReq := &store2.GetAllStoreStaffMembersAPIReq{
 		Limit: "1",
@@ -111,7 +111,7 @@ func TestGetOperationLog(t *testing.T) {
 
 	httpmock.RegisterResponder("GET",
 		fmt.Sprintf("https://%s.myshopline.com/%s/%s/store/operation_logs/1.json", cli.StoreHandle, cli.PathPrefix, cli.ApiVersion),
-		httpmock.NewBytesResponder(200, client.LoadTestDataV2("", "../test/store/log.json")))
+		httpmock.NewBytesResponder(200, client.LoadTestDataV2("", "../../test/store/log.json")))
 
 	apiReq := &store2.GetAStoreOperationLogAPIReq{
 		Id: "1",
@@ -134,7 +134,7 @@ func TestListOperationLogs(t *testing.T) {
 
 	httpmock.RegisterResponder("GET",
 		fmt.Sprintf("https://%s.myshopline.com/%s/%s/store/operation_logs.json", cli.StoreHandle, cli.PathPrefix, cli.ApiVersion),
-		httpmock.NewBytesResponder(200, client.LoadTestDataV2("", "../test/store/logs.json")))
+		httpmock.NewBytesResponder(200, client.LoadTestDataV2("", "../../test/store/logs.json")))
 
 	apiReq := &store2.GetStoreOperationLogsAPIReq{
 		CreatedAtMin: "2025-09-22T14:48:44-04:00",
@@ -184,7 +184,7 @@ func TestListSubscriptions(t *testing.T) {
 
 	httpmock.RegisterResponder("GET",
 		fmt.Sprintf("https://%s.myshopline.com/%s/%s/store/subscription", cli.StoreHandle, cli.PathPrefix, cli.ApiVersion),
-		httpmock.NewBytesResponder(200, client.LoadTestDataV2("", "../test/store/subscriptions.json")))
+		httpmock.NewBytesResponder(200, client.LoadTestDataV2("", "../../test/store/subscriptions.json")))
 
 	apiReq := &store2.GetActiveStorePlansAPIReq{}
 	apiResp := &store2.GetActiveStorePlansAPIResp{}

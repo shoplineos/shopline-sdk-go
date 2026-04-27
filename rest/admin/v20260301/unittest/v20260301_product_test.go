@@ -17,7 +17,7 @@ func TestProductCreate(t *testing.T) {
 	cli := client.GetClient()
 
 	httpmock.RegisterResponder("POST", fmt.Sprintf("https://%s.myshopline.com/%s/%s/products/products.json", cli.StoreHandle, cli.PathPrefix, cli.ApiVersion),
-		httpmock.NewBytesResponder(200, client.LoadTestDataV2("", "../test/product/product.json")))
+		httpmock.NewBytesResponder(200, client.LoadTestDataV2("", "../../test/product/product.json")))
 
 	p := product.CreateAProductAPIReqProduct{
 		Title:    "Hello shopline Freestyle 111",
@@ -50,7 +50,7 @@ func TestProductUpdate(t *testing.T) {
 
 	cli := client.GetClient()
 	httpmock.RegisterResponder("PUT", fmt.Sprintf("https://%s.myshopline.com/%s/%s/products/111.json", cli.StoreHandle, cli.PathPrefix, cli.ApiVersion),
-		httpmock.NewBytesResponder(200, client.LoadTestDataV2("", "../test/product/product.json")))
+		httpmock.NewBytesResponder(200, client.LoadTestDataV2("", "../../test/product/product.json")))
 
 	p := product.UpdateAProductAPIReqProduct{
 		Title: "Test Product",
@@ -213,7 +213,7 @@ func TestGetProductDetail(t *testing.T) {
 	cli := client.GetClient()
 
 	httpmock.RegisterResponder("GET", fmt.Sprintf("https://%s.myshopline.com/%s/%s/products/111.json", cli.StoreHandle, cli.PathPrefix, cli.ApiVersion),
-		httpmock.NewBytesResponder(200, client.LoadTestDataV2("", "../test/product/product.json")))
+		httpmock.NewBytesResponder(200, client.LoadTestDataV2("", "../../test/product/product.json")))
 
 	apiReq := &product.GetAProductAPIReq{
 		ProductId: "111",

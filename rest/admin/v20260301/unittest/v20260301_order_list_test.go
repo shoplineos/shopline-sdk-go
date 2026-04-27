@@ -20,7 +20,7 @@ func TestOrderList(t *testing.T) {
 
 	httpmock.RegisterResponder("GET",
 		fmt.Sprintf("https://%s.myshopline.com/%s/%s/orders.json", cli.StoreHandle, cli.PathPrefix, cli.ApiVersion),
-		httpmock.NewBytesResponder(200, client.LoadTestDataV2("", "../test/order/orders.json")))
+		httpmock.NewBytesResponder(200, client.LoadTestDataV2("", "../../test/order/orders.json")))
 
 	apiReq := &order2.GetOrdersAPIReq{}
 	apiResp := &order2.GetOrdersAPIResp{}
@@ -53,7 +53,7 @@ func TestOrderListOptions(t *testing.T) {
 		"GET",
 		fmt.Sprintf("https://%s.myshopline.com/%s/%s/orders.json", cli.StoreHandle, cli.PathPrefix, cli.ApiVersion),
 		params,
-		httpmock.NewBytesResponder(200, client.LoadTestDataFromCurrentDir("../test/order/orders.json")))
+		httpmock.NewBytesResponder(200, client.LoadTestDataFromCurrentDir("../../test/order/orders.json")))
 
 	apiReq := &order2.GetOrdersAPIReq{
 		Limit:  "250",
