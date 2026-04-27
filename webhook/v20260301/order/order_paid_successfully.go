@@ -619,7 +619,7 @@ type OrderPaidSuccessfullyEvent struct {
 
 	/*
 	   Buyer's Email
-	   Example: hok@shoplineapp.com
+	   Example: hok@shopline.com
 	*/
 	Email string `json:"email,omitempty" url:"-"`
 
@@ -811,7 +811,7 @@ type OrderPaidSuccessfullyEvent struct {
 
 	/*
 	   Order status page URL
-	   Example: https://shoptest.myshoplinestg.com/trade/thank_you?mainOrderMark=xxx&mainOrderSeq=200565776406008509
+	   Example: https://shoptest.myshopline.com/trade/thank_you?mainOrderMark=xxx&mainOrderSeq=200565776406008509
 	*/
 	OrderStatusUrl string `json:"order_status_url,omitempty" url:"-"`
 

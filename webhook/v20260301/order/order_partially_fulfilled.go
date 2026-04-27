@@ -213,7 +213,7 @@ type OrderPartiallyFulfilledEvent struct {
 
 	/*
 	   Buyer's email.
-	   Example: hok@shoplineapp.com
+	   Example: hok@shopline.com
 	*/
 	Email string `json:"email,omitempty" url:"-"`
 

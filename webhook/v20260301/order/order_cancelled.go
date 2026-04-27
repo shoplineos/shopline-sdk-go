@@ -488,7 +488,7 @@ type OrderCancelledEvent struct {
 
 	/*
 	   Order status page URL.
-	   Example: https://shoptest.myshoplinestg.com/trade/thank_you?mainOrderMark=xxx&mainOrderSeq=200565776406008509
+	   Example: https://shoptest.myshopline.com/trade/thank_you?mainOrderMark=xxx&mainOrderSeq=200565776406008509
 	*/
 	OrderStatusUrl string `json:"order_status_url,omitempty" url:"-"`
 

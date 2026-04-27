@@ -61,7 +61,7 @@ type StoreUpdatedEvent struct {
 
 	/*
 	   The merchant's email address for customer communication.
-	   Example: bar@shoplineapp.com
+	   Example: bar@shopline.com
 	*/
 	CustomerEmail string `json:"customer_email,omitempty" url:"-"`
 
@@ -74,7 +74,7 @@ type StoreUpdatedEvent struct {
 
 	/*
 	   The merchant's email address used for communication with SHOPLINE.
-	   Example: foo@shoplineapp.com
+	   Example: foo@shopline.com
 	*/
 	Email string `json:"email,omitempty" url:"-"`
 

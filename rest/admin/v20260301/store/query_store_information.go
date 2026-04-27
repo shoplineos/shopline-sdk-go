@@ -33,7 +33,7 @@ type QueryStoreInformationAPIResp struct {
 	client.BaseAPIResponse
 	/*
 	   Response data.
-	   Example: map[biz_store_status:1 created_at:2023-04-12T22:59:52+08:00 currency:USD customer_email:bar@shopline.com domain:handle.myshopline.com email:foo@shoplineapp.com iana_timezone:Asia/Shanghai id:1.631700219512e+12 language:en location_country_code:CN merchant_id:4216472541 name:Shopline sales_channels:[map[channel_handle:web]] standard_logo:https://d2w9suv6wak03e.cloudfront.net/image/store/3100111249/1624603774370/32c8ea2e39ad480fa7a94d36ce013f25.png?w=102&h=113 updated_at:2021-09-16T13:03:48+08:00]
+	   Example: map[biz_store_status:1 created_at:2023-04-12T22:59:52+08:00 currency:USD customer_email:bar@shopline.com domain:handle.myshopline.com email:foo@shopline.com iana_timezone:Asia/Shanghai id:1.631700219512e+12 language:en location_country_code:CN merchant_id:4216472541 name:Shopline sales_channels:[map[channel_handle:web]] standard_logo:https://d2w9suv6wak03e.cloudfront.net/image/store/3100111249/1624603774370/32c8ea2e39ad480fa7a94d36ce013f25.png?w=102&h=113 updated_at:2021-09-16T13:03:48+08:00]
 	*/
 	Data QueryStoreInformationAPIRespData `json:"data,omitempty" url:"-"`
 }
@@ -120,7 +120,7 @@ type QueryStoreInformationAPIRespData struct {
 
 	/*
 	   The merchant's email address used for communication with SHOPLINE.
-	   Example: foo@shoplineapp.com
+	   Example: foo@shopline.com
 	*/
 	Email string `json:"email,omitempty" url:"-"`
 
